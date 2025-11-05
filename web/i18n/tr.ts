@@ -84,6 +84,7 @@ const tr: Record<string, string> = {
   'login.submit': 'Giriş Yap',
   'login.quickLogin': 'Test Amaçlı Hızlı Giriş',
   'login.asAhmet': 'Ahmet Olarak Giriş Yap',
+  'login.asAdmin': 'Admin Olarak Giriş Yap',
   'login.errorMissing': 'Kullanıcı adı zorunludur.',
 
   'tasks.form.title': 'Görev Başlığı',

@@ -13,7 +13,7 @@ const en: Record<string, string> = {
 
   'status.completed': 'Completed',
   'status.inProgress': 'In Progress',
-  'status.overdue': 'Overdue',
+  'status.overdue': 'Over Due',
   'status.todo': 'To Do',
 
   'btn.newLayout': 'New Layout',
@@ -24,6 +24,7 @@ const en: Record<string, string> = {
   'btn.newUser': 'New User',
   'btn.resetPassword': 'Reset Password',
   'btn.createUser': 'Create User',
+  'btn.createTask': 'Create Task',
   'btn.completeTask': 'Complete Task',
   'btn.logout': 'Logout',
   'btn.newTask': 'New Task',
@@ -49,6 +50,13 @@ const en: Record<string, string> = {
   'forms.card.secret': 'Secret Code',
   'forms.card.uid': 'UID',
   'forms.card.manualNote': 'Keep the card ID unique for future references.',
+  'forms.or': 'OR',
+  'forms.user.name': 'Full Name',
+  'forms.user.username': 'Username',
+  'forms.user.email': 'Email (Optional)',
+  'forms.user.avatarUrl': 'Avatar URL',
+  'forms.user.password': 'Password (Optional)',
+  'forms.user.passwordNote': 'If left empty, no password will be set.',
 
   'cards.title': 'NFC Cards',
   'cards.table.cardId': 'Card ID',
@@ -99,6 +107,7 @@ const en: Record<string, string> = {
 
   'layouts.title': 'Layouts & Locations',
   'layouts.preview.empty': 'No background image set for this layout.',
+  'layouts.selectLabel': 'Select Layout',
 
   'users.title': 'Users',
   'users.table.emailEmpty': 'No email provided',
@@ -108,7 +117,18 @@ const en: Record<string, string> = {
   'dashboard.definedLocations': 'Defined Locations',
   'dashboard.userCount': 'User Count',
   'dashboard.nfcCardCount': 'NFC Card Count',
+  'dashboard.taskStatusChart': 'Task Status Distribution',
   'kanban.allUsers': 'All Users',
+
+  'tasks.form.repeatInterval.hours': 'every hour',
+  'tasks.form.repeatInterval.days': 'every day',
+  'userView.welcome': 'Welcome',
+  'userView.noActiveTasks': 'No active tasks assigned.',
+  'userView.wellDone': 'Well done!',
+  'userView.recentCompleted': 'Recent Completed Tasks',
+  'userView.noCompletedTasks': 'No completed tasks yet.',
+  'userView.scanNfc': 'Scan NFC',
+
   'tasks.title': 'Tasks (List View)',
   'tasks.viewMode.list': 'List',
   'tasks.viewMode.table': 'Table',
