@@ -1,16 +1,10 @@
 import React, { useState, useMemo, FC, useCallback, useRef, useEffect } from 'react';
 import { translations } from './i18n';
+import { supabase } from './supabaseClient';
 import layout1Img from './layout1.jpg';
 import layout2Img from './layout2.jpg';
 import { Page, TaskStatus, User, NfcCard, Location, Task, Layout, Attachment } from './types';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-
-// --- API helpers & parsers ---
-const api = async <T,>(path: string, init?: RequestInit): Promise<T> => {
-  const res = await fetch(path, { headers: { 'Content-Type': 'application/json' }, ...init });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
-};
 
 const parseTask = (raw: any): Task => ({
   ...raw,
@@ -219,7 +213,6 @@ const KanbanPage: FC<{
     onViewAttachments: (task: Task) => void;
 }> = ({ tasks, users, locations, setTasks, onEditTask, onViewAttachments }) => {
     const { t } = useTranslation();
-    const [recentlyMoved, setRecentlyMoved] = useState<string | null>(null);
     const [selectedUserId, setSelectedUserId] = useState('all');
     const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
 
@@ -231,10 +224,6 @@ const KanbanPage: FC<{
     }, [tasks, selectedUserId]);
 
     const handleTaskDrop = (taskId: string, newStatus: TaskStatus) => {
-        setRecentlyMoved(taskId);
-        setTimeout(() => {
-            setRecentlyMoved(null);
-        }, 500);
         setTasks(currentTasks => {
             const taskIndex = currentTasks.findIndex(t => t.id === taskId);
             if (taskIndex === -1) return currentTasks;
@@ -286,13 +275,19 @@ const KanbanPage: FC<{
                 draggable
                 onDragStart={(e) => {
                     e.dataTransfer.effectAllowed = 'move';
+                    // Make the ghost image transparent
+                    const ghost = e.currentTarget.cloneNode(true) as HTMLElement;
+                    ghost.style.opacity = '0';
+                    document.body.appendChild(ghost);
+                    e.dataTransfer.setDragImage(ghost, 0, 0);
+                    setTimeout(() => document.body.removeChild(ghost), 0);
                     setDraggedTaskId(task.id);
                 }}
                 onDragEnd={() => setDraggedTaskId(null)}
                 onClick={() => onEditTask(task)}
                 className={`bg-gray-800 p-3 rounded-lg shadow-md mb-3 cursor-pointer active:cursor-grabbing transition-all duration-300 ease-in-out 
                     ${isOverdue ? 'border-l-4 border-red-500' : ''} 
-                    ${draggedTaskId === task.id ? 'transform scale-105 shadow-2xl bg-gray-700' : ''}
+                    ${draggedTaskId === task.id ? 'transform scale-105 -rotate-3 shadow-2xl bg-gray-700' : ''}
                     ${recentlyMoved === task.id ? 'animate-fade-in' : ''}`}
             >
                 <p className="font-semibold text-white mb-2">{task.title}</p>
@@ -337,7 +332,7 @@ const KanbanPage: FC<{
                     <span className="text-sm font-mono px-2 py-0.5 rounded-full bg-gray-700">{tasksInColumn.length}</span>
                 </h3>
                 <div className="space-y-3 h-[calc(100vh-200px)] overflow-y-auto pr-1">
-                    {tasksInColumn.map(task => <TaskCard key={task.id} task={task} />)}
+                    {tasksInColumn.map(task => <div key={task.id} className={draggedTaskId === task.id ? 'opacity-20' : ''}><TaskCard task={task} /></div>)}
                 </div>
             </div>
         );
@@ -358,7 +353,7 @@ const KanbanPage: FC<{
                     </select>
                 </div>
             </div>
-            <div className="flex-1 flex space-x-4 overflow-x-auto pb-4">
+            <div className="flex-1 flex space-x-4 overflow-x-auto pb-4 -mb-4">
                 <KanbanColumn status={TaskStatus.ToDo} title={t('status.todo')} color="text-yellow-400" />
                 <KanbanColumn status={TaskStatus.InProgress} title={t('status.inProgress')} color="text-blue-400" />
                 <KanbanColumn status={TaskStatus.Completed} title={t('status.completed')} color="text-green-400" />
@@ -371,62 +366,17 @@ const TasksPage: FC<{
     tasks: Task[];
     users: User[];
     locations: Location[];
-    setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
-    currentUser: User;
     onNewTask: () => void;
     onEditTask: (task: Task) => void;
     onViewAttachments: (task: Task) => void;
-}> = ({ tasks, users, locations, setTasks, currentUser, onNewTask, onEditTask, onViewAttachments }) => {
+}> = ({ tasks, users, locations, onNewTask, onEditTask, onViewAttachments }) => {
     const { t } = useTranslation();
     const now = new Date();
-    const [viewMode, setViewMode] = useState<'list' | 'table'>('list');
 
     const inProgressTasks = tasks.filter(t => t.status === TaskStatus.InProgress);
     const overdueTasks = tasks.filter(t => t.status === TaskStatus.ToDo && t.dueDate < now);
     const todoTasks = tasks.filter(t => t.status === TaskStatus.ToDo && t.dueDate >= now).sort((a,b) => a.dueDate.getTime() - b.dueDate.getTime());
     const completedTasks = tasks.filter(t => t.status === TaskStatus.Completed).sort((a, b) => (b.lastCompletedAt?.getTime() || 0) - (a.lastCompletedAt?.getTime() || 0));
-
-    const handleCompleteTask = (taskId: string) => {
-        setTasks(currentTasks => {
-            const taskIndex = currentTasks.findIndex(t => t.id === taskId);
-            if (taskIndex === -1) return currentTasks;
-
-            const taskToUpdate = currentTasks[taskIndex];
-            if (taskToUpdate.status === TaskStatus.Completed) return currentTasks;
-
-            let updatedTask: Task = { ...taskToUpdate, status: TaskStatus.Completed, lastCompletedAt: new Date() };
-            let tasksToReturn = [...currentTasks];
-
-            if (taskToUpdate.repeat) {
-                const now = new Date();
-                let newDueDate = new Date();
-                if(taskToUpdate.repeat.unit === 'days') {
-                    newDueDate.setDate(now.getDate() + taskToUpdate.repeat.frequency);
-                } else {
-                    newDueDate.setHours(now.getHours() + taskToUpdate.repeat.frequency);
-                }
-
-                const repeatedTask: Task = {
-                    ...taskToUpdate,
-                    id: `t_${Date.now()}`,
-                    status: TaskStatus.ToDo,
-                    createdAt: now,
-                    dueDate: newDueDate,
-                    lastCompletedAt: undefined,
-                };
-                tasksToReturn.push(repeatedTask);
-            }
-
-            tasksToReturn[taskIndex] = updatedTask;
-            return tasksToReturn;
-        });
-    };
-
-    const handleDeleteTask = (taskId: string) => {
-        if (window.confirm(t('tasks.actions.confirmDelete'))) {
-            setTasks(currentTasks => currentTasks.filter(t => t.id !== taskId));
-        }
-    };
 
     const TaskItem: FC<{ task: Task }> = ({ task }) => {
         const user = users.find(u => u.id === task.userId);
@@ -498,338 +448,20 @@ const TasksPage: FC<{
         );
     };
 
-    const CompactTableView: FC = () => {
-        const timeFormatter = new Intl.DateTimeFormat('tr-TR', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' });
-        const [sortColumn, setSortColumn] = useState<'status' | 'title' | 'description' | 'location' | 'user' | 'created' | 'due' | 'repeat' | 'attachments'>('status');
-        const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-        const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-
-        const handleSort = (column: typeof sortColumn) => {
-            if (sortColumn === column) {
-                setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-            } else {
-                setSortColumn(column);
-                setSortDirection('asc');
-            }
-        };
-
-        const allTasksSorted = useMemo(() => {
-            return [...tasks].sort((a, b) => {
-                let compareResult = 0;
-
-                switch (sortColumn) {
-                    case 'status':
-                        const statusPriority = { [TaskStatus.InProgress]: 0, [TaskStatus.ToDo]: 1, [TaskStatus.Completed]: 2 };
-                        compareResult = statusPriority[a.status] - statusPriority[b.status];
-                        break;
-                    case 'title':
-                        compareResult = a.title.localeCompare(b.title);
-                        break;
-                    case 'description':
-                        compareResult = a.description.localeCompare(b.description);
-                        break;
-                    case 'location':
-                        const locA = locations.find(l => l.id === a.locationId)?.name || '';
-                        const locB = locations.find(l => l.id === b.locationId)?.name || '';
-                        compareResult = locA.localeCompare(locB);
-                        break;
-                    case 'user':
-                        const userA = users.find(u => u.id === a.userId)?.name || '';
-                        const userB = users.find(u => u.id === b.userId)?.name || '';
-                        compareResult = userA.localeCompare(userB);
-                        break;
-                    case 'created':
-                        compareResult = a.createdAt.getTime() - b.createdAt.getTime();
-                        break;
-                    case 'due':
-                        compareResult = a.dueDate.getTime() - b.dueDate.getTime();
-                        break;
-                    case 'repeat':
-                        const repeatA = a.repeat ? 1 : 0;
-                        const repeatB = b.repeat ? 1 : 0;
-                        compareResult = repeatA - repeatB;
-                        break;
-                    case 'attachments':
-                        compareResult = a.attachments.length - b.attachments.length;
-                        break;
-                }
-
-                return sortDirection === 'asc' ? compareResult : -compareResult;
-            });
-        }, [tasks, sortColumn, sortDirection]);
-
-        const getStatusColor = (task: Task) => {
-            if (task.status === TaskStatus.Completed) return 'text-green-400';
-            if (task.status === TaskStatus.InProgress) return 'text-blue-400';
-            if (task.dueDate < now) return 'text-red-400';
-            return 'text-yellow-400';
-        };
-
-        const SortableHeader: FC<{ column: typeof sortColumn; children: React.ReactNode; align?: 'left' | 'center' }> = ({ column, children, align = 'left' }) => (
-            <th
-                className={`px-2 py-1.5 ${align === 'center' ? 'text-center' : 'text-left'} font-semibold cursor-pointer hover:bg-gray-700/50 transition-colors select-none`}
-                onClick={() => handleSort(column)}
-            >
-                <div className={`flex items-center gap-1 ${align === 'center' ? 'justify-center' : 'justify-start'}`}>
-                    {children}
-                    {sortColumn === column && (
-                        <span className="text-cyan-400">
-                            {sortDirection === 'asc' ? '↑' : '↓'}
-                        </span>
-                    )}
-                </div>
-            </th>
-        );
-
-        return (
-            <div className="flex gap-4">
-                <div className="flex-1 overflow-x-auto">
-                    <table className="w-full text-sm">
-                        <thead className="bg-gray-800 text-gray-300 sticky top-0">
-                            <tr className="border-b border-gray-700">
-                                <SortableHeader column="status">{t('tasks.table.status')}</SortableHeader>
-                                <SortableHeader column="title">{t('tasks.table.task')}</SortableHeader>
-                                <SortableHeader column="description">{t('tasks.table.description')}</SortableHeader>
-                                <SortableHeader column="location">{t('tasks.table.location')}</SortableHeader>
-                                <SortableHeader column="user">{t('tasks.table.user')}</SortableHeader>
-                                <SortableHeader column="created">{t('tasks.table.created')}</SortableHeader>
-                                <SortableHeader column="due">{t('tasks.table.due')}</SortableHeader>
-                                <SortableHeader column="repeat" align="center">{t('tasks.table.repeat')}</SortableHeader>
-                                <SortableHeader column="attachments" align="center">{t('tasks.table.attachments')}</SortableHeader>
-                                <th className="px-2 py-1.5 text-center font-semibold">{t('tasks.table.actions')}</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-gray-300">
-                            {allTasksSorted.map(task => {
-                                const user = users.find(u => u.id === task.userId);
-                                const location = locations.find(l => l.id === task.locationId);
-                                const isSelected = selectedTask?.id === task.id;
-                                return (
-                                    <tr
-                                        key={task.id}
-                                        onClick={() => setSelectedTask(task)}
-                                        className={`border-b border-gray-800 transition-colors h-8 cursor-pointer ${
-                                            isSelected
-                                                ? 'bg-blue-900/40 hover:bg-blue-900/50'
-                                                : 'hover:bg-blue-900/20'
-                                        }`}
-                                    >
-                                    <td className="px-2 py-0.5">
-                                        <span className={`text-xs font-semibold ${getStatusColor(task)}`}>
-                                            {task.status === TaskStatus.Completed ? '✓' : task.status === TaskStatus.InProgress ? '●' : task.dueDate < now ? '!' : '○'}
-                                        </span>
-                                    </td>
-                                    <td className="px-2 py-0.5 font-medium text-white truncate max-w-xs">{task.title}</td>
-                                    <td className="px-2 py-0.5 text-gray-400 truncate max-w-xs text-xs">{task.description}</td>
-                                    <td className="px-2 py-0.5 text-xs">{location?.name || '-'}</td>
-                                    <td className="px-2 py-0.5">
-                                        {user && (
-                                            <div className="flex items-center gap-1">
-                                                <img src={user.avatarUrl} alt={user.name} className="w-4 h-4 rounded-full" />
-                                                <span className="text-xs truncate max-w-[100px]">{user.name}</span>
-                                            </div>
-                                        )}
-                                    </td>
-                                    <td className="px-2 py-0.5 text-xs font-mono">{timeFormatter.format(task.createdAt)}</td>
-                                    <td className="px-2 py-0.5 text-xs font-mono">
-                                        {task.status === TaskStatus.Completed && task.lastCompletedAt
-                                            ? timeFormatter.format(task.lastCompletedAt)
-                                            : timeFormatter.format(task.dueDate)
-                                        }
-                                    </td>
-                                    <td className="px-2 py-0.5 text-center">
-                                        {task.repeat && <span className="text-cyan-400 text-xs">↻</span>}
-                                    </td>
-                                    <td className="px-2 py-0.5 text-center">
-                                        {task.attachments.length > 0 && (
-                                            <button
-                                                onClick={(e) => { e.stopPropagation(); onViewAttachments(task); }}
-                                                className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold"
-                                            >
-                                                {task.attachments.length}
-                                            </button>
-                                        )}
-                                    </td>
-                                    <td className="px-2 py-0.5 text-center">
-                                        <div className="flex items-center justify-center gap-1">
-                                            {task.status !== TaskStatus.Completed && (
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleCompleteTask(task.id);
-                                                        if (selectedTask?.id === task.id) {
-                                                            setSelectedTask(null);
-                                                        }
-                                                    }}
-                                                    className="bg-green-600 hover:bg-green-700 text-white text-xs px-2 py-0.5 rounded transition-colors"
-                                                    title={t('tasks.actions.complete')}
-                                                >
-                                                    ✓
-                                                </button>
-                                            )}
-                                            <button
-                                                onClick={(e) => { e.stopPropagation(); onEditTask(task); }}
-                                                className="text-blue-400 hover:text-blue-300 text-xs px-1"
-                                                title="Düzenle"
-                                            >
-                                                ✏️
-                                            </button>
-                                            {currentUser.id === 'admin' && (
-                                                <button
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        handleDeleteTask(task.id);
-                                                        if (selectedTask?.id === task.id) {
-                                                            setSelectedTask(null);
-                                                        }
-                                                    }}
-                                                    className="text-red-400 hover:text-red-300 text-xs px-1"
-                                                    title={t('tasks.actions.delete')}
-                                                >
-                                                    🗑️
-                                                </button>
-                                            )}
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
-            </div>
-
-            {selectedTask && (
-                <div className="w-96 bg-gray-800 rounded-lg p-4 shadow-lg sticky top-0 h-fit">
-                    <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg font-bold text-white">{selectedTask.title}</h3>
-                        <button
-                            onClick={() => setSelectedTask(null)}
-                            className="text-gray-400 hover:text-white text-xl"
-                        >
-                            ×
-                        </button>
-                    </div>
-
-                    <div className="space-y-3 text-sm">
-                        <div>
-                            <label className="text-gray-400 text-xs">{t('tasks.form.description')}</label>
-                            <p className="text-white mt-1">{selectedTask.description}</p>
-                        </div>
-
-                        <div>
-                            <label className="text-gray-400 text-xs">Durum</label>
-                            <div className="mt-1">
-                                <DynamicTaskStatusLabel task={selectedTask} />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="text-gray-400 text-xs">{t('tasks.form.location')}</label>
-                            <p className="text-white mt-1">{locations.find(l => l.id === selectedTask.locationId)?.name || '-'}</p>
-                        </div>
-
-                        <div>
-                            <label className="text-gray-400 text-xs">{t('tasks.form.assignee')}</label>
-                            <div className="flex items-center gap-2 mt-1">
-                                {users.find(u => u.id === selectedTask.userId) && (
-                                    <>
-                                        <img
-                                            src={users.find(u => u.id === selectedTask.userId)?.avatarUrl}
-                                            alt=""
-                                            className="w-6 h-6 rounded-full"
-                                        />
-                                        <span className="text-white">{users.find(u => u.id === selectedTask.userId)?.name}</span>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="text-gray-400 text-xs">{t('tasks.table.created')}</label>
-                            <p className="text-white mt-1">{timeFormatter.format(selectedTask.createdAt)}</p>
-                        </div>
-
-                        <div>
-                            <label className="text-gray-400 text-xs">{t('tasks.table.due')}</label>
-                            <p className="text-white mt-1">{timeFormatter.format(selectedTask.dueDate)}</p>
-                        </div>
-
-                        {selectedTask.repeat && (
-                            <div>
-                                <label className="text-gray-400 text-xs">{t('tasks.table.repeat')}</label>
-                                <p className="text-cyan-400 mt-1">
-                                    {selectedTask.repeat.frequency} {selectedTask.repeat.unit === 'days' ? 'günde' : 'saatte'} bir
-                                </p>
-                            </div>
-                        )}
-
-                        {selectedTask.attachments.length > 0 && (
-                            <div>
-                                <label className="text-gray-400 text-xs">{t('tasks.table.attachments')}</label>
-                                <p className="text-cyan-400 mt-1 cursor-pointer hover:text-cyan-300" onClick={() => onViewAttachments(selectedTask)}>
-                                    {selectedTask.attachments.length} dosya
-                                </p>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="flex flex-col gap-2 mt-6">
-                        <div className="flex gap-2">
-                            {selectedTask.status !== TaskStatus.Completed && (
-                                <button
-                                    onClick={() => { handleCompleteTask(selectedTask.id); setSelectedTask(null); }}
-                                    className="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
-                                >
-                                    {t('tasks.actions.complete')}
-                                </button>
-                            )}
-                            <button
-                                onClick={() => onEditTask(selectedTask)}
-                                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
-                            >
-                                Düzenle
-                            </button>
-                        </div>
-                        {currentUser.id === 'admin' && (
-                            <button
-                                onClick={() => { handleDeleteTask(selectedTask.id); setSelectedTask(null); }}
-                                className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
-                            >
-                                {t('tasks.actions.delete')}
-                            </button>
-                        )}
-                    </div>
-                </div>
-            )}
-        </div>
-        );
-    };
-
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold text-white">{t('tasks.title')}</h1>
-                <div className="flex items-center gap-4">
-                    <label className="flex items-center cursor-pointer">
-                        <span className="mr-3 text-white text-sm font-medium">{t('tasks.viewMode.list')}</span>
-                        <div className="relative">
-                            <input
-                                type="checkbox"
-                                className="sr-only"
-                                checked={viewMode === 'table'}
-                                onChange={() => setViewMode(viewMode === 'list' ? 'table' : 'list')}
-                            />
-                            <div className="block w-14 h-8 rounded-full bg-gray-600"></div>
-                            <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform ${viewMode === 'table' ? 'transform translate-x-full bg-green-400' : ''}`}></div>
-                        </div>
-                        <span className="ml-3 text-white text-sm font-medium">{t('tasks.viewMode.table')}</span>
-                    </label>
-                    <button onClick={onNewTask} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center space-x-2 transition-colors">
-                        <Icons.Plus />
-                        <span>{t('btn.newTask')}</span>
-                    </button>
-                </div>
+                <button onClick={onNewTask} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg inline-flex items-center space-x-2 transition-colors">
+                    <Icons.Plus />
+                    <span>{t('btn.newTask')}</span>
+                </button>
             </div>
+            
+            <TaskSection title={t('tasks.inProgress')} tasks={inProgressTasks} badgeColor="bg-blue-500/30 text-blue-300" />
+            <TaskSection title={t('tasks.overdue')} tasks={overdueTasks} badgeColor="bg-red-500/30 text-red-300" />
+            <TaskSection title={t('tasks.todo')} tasks={todoTasks} badgeColor="bg-yellow-500/30 text-yellow-300" />
+            <TaskSection title={t('tasks.completed')} tasks={completedTasks} badgeColor="bg-green-500/30 text-green-300" />
 
             {tasks.length === 0 && (
                 <div className="text-center py-16 text-gray-500">
@@ -837,17 +469,6 @@ const TasksPage: FC<{
                     <p className="mt-2">{t('tasks.noTasks.description')}</p>
                 </div>
             )}
-
-            {tasks.length > 0 && viewMode === 'list' && (
-                <>
-                    <TaskSection title={t('tasks.inProgress')} tasks={inProgressTasks} badgeColor="bg-blue-500/30 text-blue-300" />
-                    <TaskSection title={t('tasks.overdue')} tasks={overdueTasks} badgeColor="bg-red-500/30 text-red-300" />
-                    <TaskSection title={t('tasks.todo')} tasks={todoTasks} badgeColor="bg-yellow-500/30 text-yellow-300" />
-                    <TaskSection title={t('tasks.completed')} tasks={completedTasks} badgeColor="bg-green-500/30 text-green-300" />
-                </>
-            )}
-
-            {tasks.length > 0 && viewMode === 'table' && <CompactTableView />}
         </div>
     );
 };
@@ -1078,15 +699,17 @@ const LayoutsPage: FC<{
         <div>
             <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
                 <h1 className="text-3xl font-bold text-white">{t('layouts.title')}</h1>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center space-x-4">
+                     <span className={`text-sm ${isPlacementMode ? 'text-blue-400' : 'text-gray-400'}`}>
+                        {isPlacementMode ? t('layouts.placementMode.on') : t('layouts.placementMode.off')}
+                    </span>
                     <label htmlFor="placementToggle" className="flex items-center cursor-pointer">
-                        <span className="mr-3 text-white text-sm font-medium">{t('layouts.placementMode.off')}</span>
+                        <span className="mr-3 text-white font-medium">{t('layouts.placementMode.label')}</span>
                         <div className="relative">
                             <input type="checkbox" id="placementToggle" className="sr-only" checked={isPlacementMode} onChange={() => setIsPlacementMode(!isPlacementMode)} disabled={!selectedLayoutId} />
                             <div className={`block w-14 h-8 rounded-full ${!selectedLayoutId ? 'bg-gray-700' : 'bg-gray-600'}`}></div>
-                            <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform ${isPlacementMode ? 'transform translate-x-full bg-green-400' : ''}`}></div>
+                            <div className={`dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform ${isPlacementMode ? 'transform translate-x-full bg-blue-400' : ''}`}></div>
                         </div>
-                        <span className="ml-3 text-white text-sm font-medium">{t('layouts.placementMode.on')}</span>
                     </label>
                 </div>
             </div>
@@ -2150,6 +1773,7 @@ const App: FC = () => {
     const [taskDueDate, setTaskDueDate] = useState('');
     const [taskRepeatUnit, setTaskRepeatUnit] = useState<'none' | 'hours' | 'days'>('none');
     const [taskRepeatFrequency, setTaskRepeatFrequency] = useState<number>(1);
+    const [taskAttachmentFiles, setTaskAttachmentFiles] = useState<File[]>([]);
     const [taskAttachments, setTaskAttachments] = useState<Attachment[]>([]);
     
     const attachmentInputRef = useRef<HTMLInputElement>(null);
@@ -2158,17 +1782,31 @@ const App: FC = () => {
     useEffect(() => {
         const load = async () => {
             try {
-                const [u, lcs, cds, tks, lys] = await Promise.all([
-                    api<User[]>('/api/users'),
-                    api<Location[]>('/api/locations'),
-                    api<NfcCard[]>('/api/cards'),
-                    api<any[]>('/api/tasks'),
-                    api<Layout[]>('/api/layouts').catch(() => [] as Layout[]),
+                const fetchWith = async (tableName: string) => {
+                    const { data, error } = await supabase.from(tableName).select('*');
+                    if (error) throw error;
+                    return data;
+                };
+
+                const [usersData, locationsData, cardsData, tasksData, layoutsData, attachmentsData] = await Promise.all([
+                    fetchWith('users'),
+                    fetchWith('locations'),
+                    fetchWith('cards'),
+                    fetchWith('tasks'),
+                    fetchWith('layouts'),
+                    fetchWith('attachments'),
                 ]);
-                setUsers(u);
-                setLocations(lcs);
-                setNfcCards(cds);
-                setTasks(tks.map(parseTask));
+
+                const tasksWithAttachments = (tasksData as any[]).map(task => {
+                    const attachments = (attachmentsData as any[]).filter(att => att.taskId === task.id);
+                    return { ...task, attachments };
+                });
+
+                setUsers(usersData as User[]);
+                setLocations(locationsData as Location[]);
+                setNfcCards(cardsData as NfcCard[]);
+                setTasks(tasksWithAttachments.map(parseTask));
+
                 const mappedLayouts = lys.map(l => {
                     if (l.id === 'layout1') return { ...l, imageUrl: layout1Img };
                     if (l.id === 'layout2') return { ...l, imageUrl: layout2Img };
@@ -2200,36 +1838,20 @@ const App: FC = () => {
         };
     }, []);
 
-
-    const fileToBase64 = (file: File): Promise<string> => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = error => reject(error);
-        });
-    };
-
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
         if (!files) return;
-
-        const newAttachments: Attachment[] = [];
-        for (const file of Array.from(files)) {
-            const fileUrl = await fileToBase64(file);
-            newAttachments.push({
-                id: `att_${Date.now()}_${Math.random()}`,
-                name: file.name,
-                type: file.type,
-                size: file.size,
-                url: fileUrl,
-            });
-        }
-        setTaskAttachments(prev => [...prev, ...newAttachments]);
+        setTaskAttachmentFiles(prev => [...prev, ...Array.from(files)]);
     };
 
-    const removeAttachment = (id: string) => {
-        setTaskAttachments(prev => prev.filter(att => att.id !== id));
+    const removeAttachment = async (attachmentToRemove: Attachment) => {
+        if (activeModalTask && activeModalTask !== 'new') {
+            const { error } = await supabase.storage.from('task-attachments').remove([`${activeModalTask.id}/${attachmentToRemove.name}`]);
+            if (error) {
+                console.error("Error deleting file from storage", error);
+            }
+        }
+        setTaskAttachments(prev => prev.filter(att => att.id !== attachmentToRemove.id));
     };
 
     const resetTaskModal = () => {
@@ -2244,6 +1866,7 @@ const App: FC = () => {
         setTaskRepeatUnit('none');
         setTaskRepeatFrequency(1);
         setTaskAttachments([]);
+        setTaskAttachmentFiles([]);
     };
 
     const openNewTaskModal = () => {
@@ -2260,6 +1883,7 @@ const App: FC = () => {
         setTaskRepeatUnit(task.repeat?.unit || 'none');
         setTaskRepeatFrequency(task.repeat?.frequency || 1);
         setTaskAttachments(task.attachments || []);
+        setTaskAttachmentFiles([]);
         setActiveModalTask(task);
     };
 
@@ -2269,46 +1893,75 @@ const App: FC = () => {
             return;
         }
 
-        const taskData = {
-            title: taskTitle,
-            description: taskDescription,
-            locationId: taskLocationId,
-            userId: taskUserId,
-            dueDate: new Date(taskDueDate),
-            // attachments local only for now
-            repeat: taskRepeatUnit !== 'none' 
-                ? { unit: taskRepeatUnit, frequency: taskRepeatFrequency } 
-                : null,
-        };
-
         try {
+            let savedTask: Task;
+
             if (activeModalTask === 'new') {
-                const created = await api<any>('/api/tasks', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        ...taskData,
-                        status: TaskStatus.ToDo,
-                        // send ISO string for dueDate
-                        dueDate: new Date(taskData.dueDate).toISOString(),
-                    })
-                });
-                const parsed = parseTask(created);
-                // keep any locally added attachments in UI
-                parsed.attachments = taskAttachments;
-                setTasks(prev => [parsed, ...prev]);
+                const { data, error } = await supabase.from('tasks').insert({
+                    title: taskTitle,
+                    description: taskDescription,
+                    locationId: taskLocationId,
+                    userId: taskUserId,
+                    dueDate: new Date(taskDueDate).toISOString(),
+                    status: TaskStatus.ToDo,
+                    repeat_unit: taskRepeatUnit !== 'none' ? taskRepeatUnit : null,
+                    repeat_frequency: taskRepeatUnit !== 'none' ? taskRepeatFrequency : null,
+                    createdAt: new Date().toISOString(),
+                }).select().single();
+                if (error) throw error;
+                savedTask = parseTask(data);
+                setTasks(prev => [savedTask, ...prev]);
             } else if (activeModalTask) {
-                const updated = await api<any>(`/api/tasks/${activeModalTask.id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                        ...taskData,
-                        status: activeModalTask.status,
-                        dueDate: new Date(taskData.dueDate).toISOString(),
-                    })
-                });
-                const parsed = parseTask(updated);
-                parsed.attachments = taskAttachments;
-                setTasks(prev => prev.map(t => t.id === parsed.id ? parsed : t));
+                const { data, error } = await supabase.from('tasks').update({
+                    title: taskTitle,
+                    description: taskDescription,
+                    locationId: taskLocationId,
+                    userId: taskUserId,
+                    dueDate: new Date(taskDueDate).toISOString(),
+                    repeat_unit: taskRepeatUnit !== 'none' ? taskRepeatUnit : null,
+                    repeat_frequency: taskRepeatUnit !== 'none' ? taskRepeatFrequency : null,
+                }).eq('id', activeModalTask.id).select().single();
+                if (error) throw error;
+                savedTask = parseTask(data);
+                setTasks(prev => prev.map(t => t.id === savedTask.id ? savedTask : t));
+            } else {
+                throw new Error("Task modal is in an invalid state.");
             }
+
+            // Upload new files
+            const newlyAddedAttachments: Attachment[] = [];
+            for (const file of taskAttachmentFiles) {
+                const filePath = `${savedTask.id}/${file.name}`;
+                const { error: uploadError } = await supabase.storage
+                    .from('task-attachments') // Your bucket name
+                    .upload(filePath, file, { upsert: true });
+
+                if (uploadError) {
+                    console.error('File upload error:', uploadError);
+                    continue;
+                }
+
+                const { data: { publicUrl } } = supabase.storage.from('task-attachments').getPublicUrl(filePath);
+
+                const { data: metaData, error: metaError } = await supabase.from('attachments').insert({
+                    taskId: savedTask.id,
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    url: publicUrl,
+                }).select().single();
+
+                if (metaError) console.error('Attachment metadata save error:', metaError);
+                else if (metaData) {
+                    newlyAddedAttachments.push(metaData as Attachment);
+                }
+            }
+
+            if (newlyAddedAttachments.length > 0 || taskAttachmentFiles.length > 0) {
+                 const finalAttachments = [...taskAttachments, ...newlyAddedAttachments];
+                 setTasks(prev => prev.map(t => t.id === savedTask.id ? { ...savedTask, attachments: finalAttachments } : t));
+            }
+
         } catch (e) {
             console.error('Task save failed', e);
             alert('Görev kaydedilemedi.');
@@ -2332,7 +1985,7 @@ const App: FC = () => {
             case 'board':
                 return <KanbanPage tasks={tasks} users={users} locations={locations} setTasks={setTasks} onEditTask={openEditTaskModal} onViewAttachments={setViewingAttachmentsTask} />;
             case 'tasks':
-                return <TasksPage tasks={tasks} users={users} locations={locations} setTasks={setTasks} currentUser={currentUser as User} onNewTask={openNewTaskModal} onEditTask={openEditTaskModal} onViewAttachments={setViewingAttachmentsTask} />;
+                return <TasksPage tasks={tasks} users={users} locations={locations} onNewTask={openNewTaskModal} onEditTask={openEditTaskModal} onViewAttachments={setViewingAttachmentsTask} />;
             case 'layouts':
                 return <LayoutsPage 
                     locations={locations} 
@@ -2533,13 +2186,13 @@ const App: FC = () => {
                          </div>
                          {taskAttachments.length > 0 && (
                             <div className="mt-3 space-y-2">
-                                {taskAttachments.map(att => (
+                                {[...taskAttachments, ...taskAttachmentFiles.map(f => ({id: f.name, name: f.name, size: f.size, type: f.type, url: ''}))].map(att => (
                                     <div key={att.id} className="bg-gray-700 p-2 rounded-lg flex justify-between items-center text-sm">
                                         <div className="flex-1 min-w-0">
                                             <p className="text-white truncate" title={att.name}>{att.name}</p>
                                             <p className="text-xs text-gray-400">{(att.size / 1024).toFixed(2)} KB</p>
                                         </div>
-                                        <button onClick={() => removeAttachment(att.id)} className="text-red-500 hover:text-red-400 ml-2 p-1">
+                                        <button onClick={() => 'url' in att ? removeAttachment(att) : setTaskAttachmentFiles(f => f.filter(file => file.name !== att.name))} className="text-red-500 hover:text-red-400 ml-2 p-1">
                                             <Icons.Trash/>
                                         </button>
                                     </div>
