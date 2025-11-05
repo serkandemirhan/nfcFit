@@ -13,6 +13,7 @@ const normalizeTask = (row: any) => ({
   lastCompletedAt: row.lastCompletedAt ?? row.lastcompletedat ?? null,
   completionNotes: row.completionNotes ?? row.completionnotes ?? null,
   repeat: row.repeat_frequency && row.repeat_unit ? { frequency: row.repeat_frequency, unit: row.repeat_unit } : null,
+  active: row.active ?? true,
   attachments: [],
 });
 
@@ -58,6 +59,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
         createdat: now,
         duedate: dueIso,
         nextdueat: nextDueAt,
+        active: true,
         ...repeatDb,
       })
       .select('*')
@@ -68,7 +70,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
   if (req.method === 'PUT') {
     const body = await readJson(req);
-    const { id, title, description, status, locationId, userId, dueDate, repeat, nextDueAt } = body || {};
+    const { id, title, description, status, locationId, userId, dueDate, repeat, active, nextDueAt } = body || {};
     if (!id) return err(res, 400, 'Task id is required');
 
     const repeatDb = repeat !== undefined ? toDbRepeat(repeat) : null;
@@ -85,6 +87,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       update.repeat_frequency = repeatDb.repeat_frequency;
       update.repeat_unit = repeatDb.repeat_unit;
     }
+    if (active !== undefined) update.active = active;
     if (nextDueAt !== undefined || hasRepeat || repeat === null) {
       update.nextdueat = hasRepeat
         ? (nextDueAt ? new Date(nextDueAt).toISOString() : (dueDate ? new Date(dueDate).toISOString() : null))

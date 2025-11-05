@@ -13,6 +13,7 @@ const normalizeTask = (row: any) => ({
   lastCompletedAt: row.lastCompletedAt ?? row.lastcompletedat ?? null,
   completionNotes: row.completionNotes ?? row.completionnotes ?? null,
   repeat: row.repeat_frequency && row.repeat_unit ? { frequency: row.repeat_frequency, unit: row.repeat_unit } : null,
+  active: row.active ?? true,
   attachments: [],
 });
 
@@ -57,8 +58,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
   if (isRepeating) {
     update.status = task.status ?? 'Devam Ediyor';
+    update.active = true;
   } else {
     update.status = 'Tamamlandı';
+    update.active = false;
   }
 
   const { error: updateError, data: updatedTask } = await supabase

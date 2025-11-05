@@ -1,6 +1,10 @@
 -- Migration script to add missing columns to tasks table
 -- Run this in your Supabase SQL Editor (Dashboard > SQL Editor)
 
+-- Add active column (whether task is active or archived)
+ALTER TABLE tasks
+ADD COLUMN IF NOT EXISTS active boolean NOT NULL DEFAULT true;
+
 -- Add nextdueat column (for repeating tasks)
 ALTER TABLE tasks
 ADD COLUMN IF NOT EXISTS nextdueat timestamptz;

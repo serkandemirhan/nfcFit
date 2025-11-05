@@ -13,6 +13,7 @@ const normalizeTask = (row: any) => ({
   lastCompletedAt: row.lastCompletedAt ?? row.lastcompletedat ?? null,
   completionNotes: row.completionNotes ?? row.completionnotes ?? null,
   repeat: row.repeat_frequency && row.repeat_unit ? { frequency: row.repeat_frequency, unit: row.repeat_unit } : null,
+  active: row.active ?? true,
   attachments: [],
 });
 
@@ -37,7 +38,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
   if (req.method === 'PUT') {
     const body = await readJson(req);
-    const { title, description, status, locationId, userId, dueDate, repeat, nextDueAt } = body || {};
+    const { title, description, status, locationId, userId, dueDate, repeat, active, nextDueAt } = body || {};
     const repeatDb = repeat !== undefined ? toDbRepeat(repeat) : null;
 
     const update: Record<string, any> = {};
@@ -51,6 +52,7 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
       update.repeat_frequency = repeatDb.repeat_frequency;
       update.repeat_unit = repeatDb.repeat_unit;
     }
+    if (active !== undefined) update.active = active;
     if (nextDueAt !== undefined || repeat !== undefined) {
       update.nextdueat = nextDueAt ? new Date(nextDueAt).toISOString() : null;
     }
