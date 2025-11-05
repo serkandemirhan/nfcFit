@@ -504,7 +504,7 @@ const App: FC = () => {
                                 {t('tasks.form.addAttachment')}
                             </button>
                          </div>
-                         {taskAttachments.length > 0 && (
+                         {(taskAttachments.length > 0 || taskAttachmentFiles.length > 0) && (
                             <div className="mt-3 space-y-2">
                                 {[...taskAttachments, ...taskAttachmentFiles.map(f => ({id: f.name, name: f.name, size: f.size, type: f.type, url: ''}))].map(att => (
                                     <div key={att.id} className="bg-gray-700 p-2 rounded-lg flex justify-between items-center text-sm">

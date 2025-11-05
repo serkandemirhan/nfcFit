@@ -13,6 +13,7 @@ export const UsersPage: FC<{ users: User[], setUsers: React.Dispatch<React.SetSt
     const [email, setEmail] = useState('');
     const [avatarUrl, setAvatarUrl] = useState('');
     const [password, setPassword] = useState('');
+    const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
     const [isResetModalOpen, setIsResetModalOpen] = useState(false);
     const [resetUserId, setResetUserId] = useState<string | null>(null);
@@ -28,6 +29,7 @@ export const UsersPage: FC<{ users: User[], setUsers: React.Dispatch<React.SetSt
         setUsername('');
         setEmail('');
         setAvatarUrl(`https://picsum.photos/seed/${Date.now()}/100/100`);
+        setAvatarFile(null);
         setIsUserModalOpen(true);
     };
 
@@ -37,17 +39,40 @@ export const UsersPage: FC<{ users: User[], setUsers: React.Dispatch<React.SetSt
             return;
         }
         try {
-            // Supabase auth user creation would go here in a real app
-            const { data: created, error } = await supabase.from('users').insert({
+            // Bu kısım idealde bir Supabase Edge Function içinde yapılmalıdır.
+            // 1. Kullanıcıyı oluştur (henüz avatar URL'i olmadan)
+            const newUserId = `user_${Date.now()}`;
+            const { data: createdUser, error: createError } = await supabase.from('users').insert({
+                id: newUserId,
                 name,
                 username,
                 email: email || undefined,
-                avatarUrl,
+                avatarurl: `https://picsum.photos/seed/${newUserId}/100/100`, // Geçici avatar
             }).select().single();
 
-            if (error) throw error;
+            if (createError) throw createError;
 
-            setUsers(prevUsers => [...prevUsers, created as User]);
+            let finalUser = createdUser as User;
+
+            // 2. Eğer yeni bir avatar dosyası seçildiyse, onu yükle
+            if (avatarFile) {
+                const fileExt = avatarFile.name.split('.').pop();
+                const filePath = `${newUserId}/avatar.${fileExt}`;
+                
+                const { error: uploadError } = await supabase.storage
+                    .from('avatar')
+                    .upload(filePath, avatarFile, { upsert: true });
+
+                if (uploadError) throw uploadError;
+
+                // 3. Yüklenen dosyanın URL'ini al ve kullanıcıyı güncelle
+                const { data: { publicUrl } } = supabase.storage.from('avatar').getPublicUrl(filePath);
+                const { data: updatedUser, error: updateError } = await supabase.from('users').update({ avatarurl: publicUrl }).eq('id', newUserId).select().single();
+                if (updateError) throw updateError;
+                finalUser = updatedUser as User;
+            }
+
+            setUsers(prevUsers => [...prevUsers, finalUser]);
             setIsUserModalOpen(false);
             setPassword('');
         } catch (e: any) {
@@ -56,6 +81,15 @@ export const UsersPage: FC<{ users: User[], setUsers: React.Dispatch<React.SetSt
         }
     };
 
+    const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setAvatarFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => setAvatarUrl(reader.result as string);
+            reader.readAsDataURL(file);
+        }
+    };
     const openResetModal = (userId: string) => {
         setResetUserId(userId);
         setNewPassword('');

@@ -3,6 +3,8 @@ import { useTranslation } from '../i18n/context';
 import { NfcCard, Location } from '../types';
 import { Icons } from '../components/Icons';
 import { Modal } from '../components/Modal';
+import { supabase } from '../supabaseClient';
+
 
 export const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: React.Dispatch<React.SetStateAction<NfcCard[]>> }> = ({ cards, locations, setNfcCards }) => {
     const { t } = useTranslation();
@@ -33,7 +35,7 @@ export const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCard
         setIsCardModalOpen(true);
     };
 
-    const handleSaveCard = () => {
+    const handleSaveCard = async () => {
         if (!cardId || !secretCode) {
             alert('Kart ID ve Özel Kod alanları zorunludur.');
             return;
@@ -42,9 +44,16 @@ export const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCard
             alert('Bu Kart ID zaten mevcut.');
             return;
         }
-        const newCard: NfcCard = { id: cardId, secretCode, assignedLocationId: null };
-        setNfcCards(prevCards => [...prevCards, newCard]);
-        setIsCardModalOpen(false);
+        try {
+            const newCard: Omit<NfcCard, 'assignedLocationId'> = { id: cardId, secretcode: secretCode };
+            const { data, error } = await supabase.from('cards').insert(newCard).select().single();
+            if (error) throw error;
+            setNfcCards(prevCards => [...prevCards, data as NfcCard]);
+            setIsCardModalOpen(false);
+        } catch (e: any) {
+            console.error("Kart kaydedilemedi:", e);
+            alert(`Kart kaydedilemedi: ${e.message}`);
+        }
     };
 
     const findLocationName = (locationId: string | null) => {
@@ -171,7 +180,7 @@ export const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCard
         }
     };
 
-    const handleSaveScannedCard = () => {
+    const handleSaveScannedCard = async () => {
         if (!scannedCardId || !scannedSecretCode) {
             alert('Kart ID ve taranan kod olmadan kaydedilemez.');
             return;
@@ -180,9 +189,16 @@ export const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCard
             alert('Bu Kart ID zaten mevcut.');
             return;
         }
-        const newCard: NfcCard = { id: scannedCardId, secretCode: scannedSecretCode, uid: scannedUid || undefined, assignedLocationId: null };
-        setNfcCards(prevCards => [...prevCards, newCard]);
-        closeScanModal();
+        try {
+            const newCard: Omit<NfcCard, 'assignedLocationId'> = { id: scannedCardId, secretcode: scannedSecretCode, uid: scannedUid || undefined };
+            const { data, error } = await supabase.from('cards').insert(newCard).select().single();
+            if (error) throw error;
+            setNfcCards(prevCards => [...prevCards, data as NfcCard]);
+            closeScanModal();
+        } catch (e: any) {
+            console.error("Taranan kart kaydedilemedi:", e);
+            alert(`Taranan kart kaydedilemedi: ${e.message}`);
+        }
     };
 
     const ScanLogDisplay = () => (
