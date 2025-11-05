@@ -100,7 +100,7 @@ export const KanbanPage: FC<{
                         )}
                     </div>
                     <span className="font-mono">
-                        {task.dueDate && !isNaN(task.dueDate.getTime()) ? timeFormatter.format(task.dueDate) : '---'}
+                        {task.dueDate && !isNaN(new Date(task.dueDate).getTime()) ? timeFormatter.format(new Date(task.dueDate)) : '---'}
                     </span>
                 </div>
             </div>

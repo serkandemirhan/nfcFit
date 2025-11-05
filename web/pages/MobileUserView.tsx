@@ -40,7 +40,7 @@ export const MobileUserView: FC<{
     const handleCompleteTask = async (taskId: string, notes: string) => {
         try {
             // This would be a call to a Supabase Edge Function to handle completion logic securely
-            const { data, error } = await supabase.from('tasks').update({ status: TaskStatus.Completed, lastCompletedAt: new Date().toISOString(), completionNotes: notes }).eq('id', taskId).select().single();
+            const { data, error } = await supabase.from('tasks').update({ status: TaskStatus.Completed, lastcompletedat: new Date().toISOString(), completionnotes: notes }).eq('id', taskId).select().single();
             if (error) throw error;
 
             // Simplified logic, a real app would refetch or handle repeated tasks
