@@ -128,7 +128,7 @@ export const UsersPage: FC<{ users: User[], setUsers: React.Dispatch<React.SetSt
                 <ul className="divide-y divide-gray-700">
                     {sortedUsers.map(user => (
                          <li key={user.id} className="p-4 flex items-center space-x-4 hover:bg-gray-700/50">
-                            <img className="h-12 w-12 rounded-full object-cover" src={user.avatarUrl} alt={user.name} />
+                            <img className="h-12 w-12 rounded-full object-cover" src={user.avatarurl} alt={user.name} />
                             <div className="flex-1">
                                 <p className="text-md font-semibold text-white">{user.name}</p>
                                 <p className="text-sm text-gray-400 font-mono">@{user.username}</p>

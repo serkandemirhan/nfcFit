@@ -19,7 +19,7 @@ export const KanbanPage: FC<{
         if (selectedUserId === 'all') {
             return tasks;
         }
-        return tasks.filter(task => task.userId === selectedUserId);
+        return tasks.filter(task => task.userid === selectedUserId);
     }, [tasks, selectedUserId]);
 
     const handleTaskDrop = (taskId: string, newStatus: TaskStatus) => {
@@ -35,7 +35,7 @@ export const KanbanPage: FC<{
             let tasksToReturn = [...currentTasks];
 
             if (newStatus === TaskStatus.Completed) {
-                updatedTask.lastCompletedAt = new Date();
+                updatedTask.lastcompletedat = new Date();
                 
                 if (taskToUpdate.repeat) {
                     const now = new Date();
@@ -50,9 +50,9 @@ export const KanbanPage: FC<{
                         ...taskToUpdate,
                         id: `t_${Date.now()}`,
                         status: TaskStatus.ToDo,
-                        createdAt: now,
-                        dueDate: newDueDate,
-                        lastCompletedAt: undefined,
+                        createdat: now,
+                        duedate: newDueDate,
+                        lastcompletedat: undefined,
                     };
                     tasksToReturn.push(repeatedTask);
                 }
@@ -64,9 +64,9 @@ export const KanbanPage: FC<{
     };
 
     const TaskCard: FC<{ task: Task }> = ({ task }) => {
-        const user = users.find(u => u.id === task.userId);
-        const location = locations.find(l => l.id === task.locationId);
-        const isOverdue = task.status === TaskStatus.ToDo && task.dueDate < new Date();
+        const user = users.find(u => u.id === task.userid);
+        const location = locations.find(l => l.id === task.locationid);
+        const isOverdue = task.status === TaskStatus.ToDo && task.duedate < new Date();
         const timeFormatter = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short' });
 
         return (
@@ -90,7 +90,7 @@ export const KanbanPage: FC<{
                 <p className="font-semibold text-white mb-2">{task.title}</p>
                  <div className="flex justify-between items-center text-xs text-gray-400">
                     <div className="flex items-center space-x-2">
-                        {user && <img src={user.avatarUrl} alt={user.name} className="w-5 h-5 rounded-full" title={user.name} />}
+                        {user && <img src={user.avatarurl} alt={user.name} className="w-5 h-5 rounded-full" title={user.name} />}
                         <span>{location?.name.substring(0, 15) || 'Bilinmeyen'}</span>
                          {task.attachments && task.attachments.length > 0 && (
                             <button onClick={(e) => { e.stopPropagation(); onViewAttachments(task); }} className="flex items-center space-x-1 text-cyan-400 hover:text-cyan-300">
@@ -100,7 +100,7 @@ export const KanbanPage: FC<{
                         )}
                     </div>
                     <span className="font-mono">
-                        {task.dueDate && !isNaN(new Date(task.dueDate).getTime()) ? timeFormatter.format(new Date(task.dueDate)) : '---'}
+                        {task.duedate && !isNaN(new Date(task.duedate).getTime()) ? timeFormatter.format(new Date(task.duedate)) : '---'}
                     </span>
                 </div>
             </div>
@@ -109,7 +109,7 @@ export const KanbanPage: FC<{
 
     const KanbanColumn: FC<{ status: TaskStatus, title: string, color: string }> = ({ status, title, color }) => {
         const [isDragOver, setIsDragOver] = useState(false);
-        const tasksInColumn = filteredTasks.filter(t => t.status === status).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
+        const tasksInColumn = filteredTasks.filter(t => t.status === status).sort((a, b) => a.duedate.getTime() - b.duedate.getTime());
 
         const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
             e.preventDefault();

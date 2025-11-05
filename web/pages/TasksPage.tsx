@@ -1,5 +1,6 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState, ReactNode } from 'react';
 import { useTranslation } from '../i18n/context';
+import { startOfWeek, endOfWeek, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns';
 import { Task, User, Location, TaskStatus } from '../types';
 import { Icons } from '../components/Icons';
 import { DynamicTaskStatusLabel } from '../components/DynamicTaskStatusLabel';
@@ -14,22 +15,73 @@ export const TasksPage: FC<{
 }> = ({ tasks, users, locations, onNewTask, onEditTask, onViewAttachments }) => {
 	const { t } = useTranslation();
     const now = new Date();
+    const today = new Date();
     const [viewMode, setViewMode] = useState<'list' | 'table'>('list');
+    const [groupBy, setGroupBy] = useState<'status' | 'location' | 'user' | 'none'>('status');
+    const [dateFilter, setDateFilter] = useState('all');
+    const [customDateRange, setCustomDateRange] = useState<{ start: Date | null, end: Date | null }>({ start: null, end: null });
 
-    const inProgressTasks = tasks.filter(t => t.status === TaskStatus.InProgress);
-    const overdueTasks = tasks.filter(t => t.status === TaskStatus.ToDo && t.dueDate < now);
-    const todoTasks = tasks.filter(t => t.status === TaskStatus.ToDo && t.dueDate >= now).sort((a,b) => a.dueDate.getTime() - b.dueDate.getTime());
-    const completedTasks = tasks.filter(t => t.status === TaskStatus.Completed).sort((a, b) => (b.lastCompletedAt?.getTime() || 0) - (a.lastCompletedAt?.getTime() || 0));
+    const filteredTasks = useMemo(() => {
+        let filtered = [...tasks];
 
+        if (dateFilter !== 'all') {
+            let interval: { start: Date, end: Date };
+
+            switch (dateFilter) {
+                case 'today':
+                    interval = { start: new Date(today.setHours(0, 0, 0, 0)), end: new Date(today.setHours(23, 59, 59, 999)) };
+                    break;
+                case 'this_week':
+                    interval = { start: startOfWeek(today, { weekStartsOn: 1 }), end: endOfWeek(today, { weekStartsOn: 1 }) };
+                    break;
+                case 'this_month':
+                    interval = { start: startOfMonth(today), end: endOfMonth(today) };
+                    break;
+                case 'custom':
+                    if (customDateRange.start && customDateRange.end) {
+                        interval = { start: customDateRange.start, end: new Date(customDateRange.end.setHours(23, 59, 59, 999)) };
+                    } else {
+                        return filtered; // Don't filter if custom range is incomplete
+                    }
+                    break;
+                default:
+                    return filtered;
+            }
+            filtered = filtered.filter(task => isWithinInterval(task.duedate, interval));
+        }
+
+        return filtered;
+    }, [tasks, dateFilter, customDateRange]);
+
+    const groupedTasks = useMemo(() => {
+        if (groupBy === 'none' || viewMode === 'table') {
+            return { 'all': filteredTasks };
+        }
+
+        return filteredTasks.reduce((acc, task) => {
+            let key: string;
+            if (groupBy === 'status') {
+                key = task.status;
+            } else if (groupBy === 'location') {
+                key = locations.find(l => l.id === task.locationid)?.name || t('tasks.info.unknownLocation');
+            } else { // user
+                key = users.find(u => u.id === task.userid)?.name || t('tasks.info.unassigned');
+            }
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(task);
+            return acc;
+        }, {} as Record<string, Task[]>);
+    }, [filteredTasks, groupBy, viewMode, locations, users, t]);
+    
     const TaskItem: FC<{ task: Task }> = ({ task }) => {
-        const user = users.find(u => u.id === task.userId);
-        const location = locations.find(l => l.id === task.locationId);
+        const user = users.find(u => u.id === task.userid);
+        const location = locations.find(l => l.id === task.locationid);
         const timeFormatter = new Intl.DateTimeFormat('tr-TR', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' });
 
         let borderColor = 'border-gray-700';
         if (task.status === TaskStatus.Completed) borderColor = 'border-green-500';
         else if (task.status === TaskStatus.InProgress) borderColor = 'border-blue-500';
-        else if (task.dueDate < now) borderColor = 'border-red-500';
+        else if (task.duedate < now) borderColor = 'border-red-500';
         else borderColor = 'border-yellow-500';
 
         return (
@@ -38,7 +90,7 @@ export const TasksPage: FC<{
                     <p className="font-bold text-white truncate">{task.title}</p>
                     <div className="text-sm text-gray-400 flex items-center flex-wrap gap-x-3 gap-y-1 mt-2">
                         <span className="inline-flex items-center gap-1.5"><Icons.Layouts /> {location?.name || 'Bilinmeyen'}</span>
-                        {user && <span className="inline-flex items-center gap-1.5"><img src={user.avatarUrl} alt={user.name} className="w-4 h-4 rounded-full"/> {user.name}</span>}
+                        {user && <span className="inline-flex items-center gap-1.5"><img src={user.avatarurl} alt={user.name} className="w-4 h-4 rounded-full" /> {user.name}</span>}
                     </div>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -56,8 +108,8 @@ export const TasksPage: FC<{
                     <div className="text-right flex-shrink-0 w-36">
                         <p className="text-sm text-gray-300 whitespace-nowrap">
                             {task.status === TaskStatus.Completed 
-                                ? (task.lastCompletedAt && !isNaN(new Date(task.lastCompletedAt).getTime()) ? `Tamamlandı: ${timeFormatter.format(new Date(task.lastCompletedAt))}` : 'Tamamlandı')
-                                : (task.dueDate && !isNaN(new Date(task.dueDate).getTime()) ? `Bitiş: ${timeFormatter.format(new Date(task.dueDate))}` : 'Bitiş tarihi yok')
+                                ? (task.lastcompletedat && !isNaN(new Date(task.lastcompletedat).getTime()) ? `Tamamlandı: ${timeFormatter.format(new Date(task.lastcompletedat))}` : 'Tamamlandı')
+                                : (task.duedate && !isNaN(new Date(task.duedate).getTime()) ? `Bitiş: ${timeFormatter.format(new Date(task.duedate))}` : 'Bitiş tarihi yok')
                             }
                         </p>
                        <div className="mt-1"><DynamicTaskStatusLabel task={task}/></div>
@@ -67,13 +119,13 @@ export const TasksPage: FC<{
         );
     };
 
-    const TaskSection: FC<{ title: string; tasks: Task[]; badgeColor: string }> = ({ title, tasks, badgeColor }) => {
+    const TaskSection: FC<{ title: ReactNode; tasks: Task[]; }> = ({ title, tasks }) => {
         if (tasks.length === 0) return null;
         return (
             <section className="mb-8">
                 <h2 className="text-xl font-semibold text-white mb-3 flex items-center">
                     {title}
-                    <span className={`ml-2 text-sm font-mono px-2 py-0.5 rounded-full ${badgeColor}`}>{tasks.length}</span>
+                    <span className="ml-2 text-sm font-mono px-2 py-0.5 rounded-full bg-gray-700">{tasks.length}</span>
                 </h2>
                 <ul className="space-y-3">
                     {tasks.map(task => <TaskItem key={task.id} task={task} />)}
@@ -97,7 +149,7 @@ export const TasksPage: FC<{
         };
 
         const allTasksSorted = useMemo(() => {
-            return [...tasks].sort((a, b) => {
+            return [...filteredTasks].sort((a, b) => {
                 let compareResult = 0;
 
                 switch (sortColumn) {
@@ -108,31 +160,35 @@ export const TasksPage: FC<{
                     case 'title': compareResult = a.title.localeCompare(b.title); break;
                     case 'description': compareResult = (a.description || '').localeCompare(b.description || ''); break;
                     case 'location':
-                        const locA = locations.find(l => l.id === a.locationId)?.name || '';
-                        const locB = locations.find(l => l.id === b.locationId)?.name || '';
+                        const locA = locations.find(l => l.id === a.locationid)?.name || '';
+                        const locB = locations.find(l => l.id === b.locationid)?.name || '';
                         compareResult = locA.localeCompare(locB);
                         break;
                     case 'user':
-                        const userA = users.find(u => u.id === a.userId)?.name;
-                        const userB = users.find(u => u.id === b.userId)?.name;
+                        const userA = users.find(u => u.id === a.userid)?.name;
+                        const userB = users.find(u => u.id === b.userid)?.name;
                         if (!userA) return 1;
                         if (!userB) return -1;
                         compareResult = userA.localeCompare(userB);
                         break;
-                    case 'created': compareResult = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(); break;
-                    case 'due': compareResult = new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime(); break;
-                    case 'repeat': compareResult = (a.repeat ? 1 : 0) - (b.repeat ? 1 : 0); break;
+                    case 'created': 
+                        compareResult = (a.createdat ? new Date(a.createdat).getTime() : 0) - (b.createdat ? new Date(b.createdat).getTime() : 0); 
+                        break;
+                    case 'due': 
+                        compareResult = (a.duedate ? new Date(a.duedate).getTime() : 0) - (b.duedate ? new Date(b.duedate).getTime() : 0); 
+                        break;
+                    case 'repeat': compareResult = (a.repeat_unit ? 1 : 0) - (b.repeat_unit ? 1 : 0); break;
                     case 'attachments': compareResult = (a.attachments?.length || 0) - (b.attachments?.length || 0); break;
                 }
 
                 return sortDirection === 'asc' ? compareResult : -compareResult;
             });
-        }, [tasks, sortColumn, sortDirection]);
+        }, [filteredTasks, sortColumn, sortDirection]);
 
         const getStatusColor = (task: Task) => {
             if (task.status === TaskStatus.Completed) return 'text-green-400';
             if (task.status === TaskStatus.InProgress) return 'text-blue-400';
-            if (new Date(task.dueDate) < now) return 'text-red-400';
+            if (new Date(task.duedate) < now) return 'text-red-400';
             return 'text-yellow-400';
         };
 
@@ -162,25 +218,25 @@ export const TasksPage: FC<{
                 </thead>
                 <tbody className="text-gray-300">
                     {allTasksSorted.map(task => {
-                        const user = users.find(u => u.id === task.userId);
-                        const location = locations.find(l => l.id === task.locationId);
+                        const user = users.find(u => u.id === task.userid);
+                        const location = locations.find(l => l.id === task.locationid);
                         return (
                             <tr key={task.id} onClick={() => onEditTask(task)} className="border-b border-gray-700/50 hover:bg-gray-700/50 cursor-pointer transition-colors h-8">
-                                <td className="px-2 py-0.5"><span className={`text-xs font-semibold ${getStatusColor(task)}`}>{task.status === TaskStatus.Completed ? '✓' : task.status === TaskStatus.InProgress ? '●' : new Date(task.dueDate) < now ? '!' : '○'}</span></td>
+                                <td className="px-2 py-0.5"><span className={`text-xs font-semibold ${getStatusColor(task)}`}>{task.status === TaskStatus.Completed ? '✓' : task.status === TaskStatus.InProgress ? '●' : new Date(task.duedate) < now ? '!' : '○'}</span></td>
                                 <td className="px-2 py-0.5 font-medium text-white truncate max-w-xs">{task.title}</td>
                                 <td className="px-2 py-0.5 text-gray-400 truncate max-w-xs text-xs">{task.description}</td>
                                 <td className="px-2 py-0.5 text-xs">{location?.name || '-'}</td>
-                                <td className="px-2 py-0.5">{user && (<div className="flex items-center gap-1"><img src={user.avatarUrl} alt={user.name} className="w-4 h-4 rounded-full" /><span className="text-xs truncate max-w-[100px]">{user.name}</span></div>)}</td>
+                                <td className="px-2 py-0.5">{user && (<div className="flex items-center gap-1"><img src={user.avatarurl} alt={user.name} className="w-4 h-4 rounded-full" /><span className="text-xs truncate max-w-[100px]">{user.name}</span></div>)}</td>
                                 <td className="px-2 py-0.5 text-xs font-mono">
-                                    {task.createdAt && !isNaN(new Date(task.createdAt).getTime()) ? timeFormatter.format(new Date(task.createdAt)) : '-'}
+                                    {task.createdat && !isNaN(new Date(task.createdat).getTime()) ? timeFormatter.format(new Date(task.createdat)) : '-'}
                                 </td>
                                 <td className="px-2 py-0.5 text-xs font-mono">
                                     {task.status === TaskStatus.Completed
-                                        ? (task.lastCompletedAt && !isNaN(new Date(task.lastCompletedAt).getTime()) ? timeFormatter.format(new Date(task.lastCompletedAt)) : '-')
-                                        : (task.dueDate && !isNaN(new Date(task.dueDate).getTime()) ? timeFormatter.format(new Date(task.dueDate)) : '-')
+                                        ? (task.lastcompletedat && !isNaN(new Date(task.lastcompletedat).getTime()) ? timeFormatter.format(new Date(task.lastcompletedat)) : '-')
+                                        : (task.duedate && !isNaN(new Date(task.duedate).getTime()) ? timeFormatter.format(new Date(task.duedate)) : '-')
                                     }
                                 </td>
-                                <td className="px-2 py-0.5 text-center">{task.repeat && <span className="text-cyan-400 text-xs">↻</span>}</td>
+                                <td className="px-2 py-0.5 text-center">{task.repeat_unit && <span className="text-cyan-400 text-xs">↻</span>}</td>
                                 <td className="px-2 py-0.5 text-center">{task.attachments && task.attachments.length > 0 && (<button onClick={(e) => { e.stopPropagation(); onViewAttachments(task); }} className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold">{task.attachments.length}</button>)}</td>
                             </tr>
                         );
@@ -211,6 +267,45 @@ export const TasksPage: FC<{
                 </div>
 			</div>
 
+            <div className="bg-gray-800/50 p-4 rounded-lg mb-6 flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                    <label htmlFor="date-filter" className="text-sm font-medium text-gray-300">{t('tasks.filter.date')}:</label>
+                    <select id="date-filter" value={dateFilter} onChange={e => setDateFilter(e.target.value)} className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2">
+                        <option value="all">{t('tasks.filter.all')}</option>
+                        <option value="today">{t('tasks.filter.today')}</option>
+                        <option value="this_week">{t('tasks.filter.thisWeek')}</option>
+                        <option value="this_month">{t('tasks.filter.thisMonth')}</option>
+                        <option value="custom">{t('tasks.filter.custom')}</option>
+                    </select>
+                </div>
+                {dateFilter === 'custom' && (
+                    <div className="flex items-center gap-2">
+                        <input 
+                            type="date" 
+                            onChange={e => setCustomDateRange(prev => ({ ...prev, start: e.target.value ? new Date(e.target.value) : null }))}
+                            className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2"
+                        />
+                        <span className="text-gray-400">-</span>
+                        <input 
+                            type="date" 
+                            onChange={e => setCustomDateRange(prev => ({ ...prev, end: e.target.value ? new Date(e.target.value) : null }))}
+                            className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2"
+                        />
+                    </div>
+                )}
+                {viewMode === 'list' && (
+                    <div className="flex items-center gap-2">
+                        <label htmlFor="group-by" className="text-sm font-medium text-gray-300">{t('tasks.groupBy.label')}:</label>
+                        <select id="group-by" value={groupBy} onChange={e => setGroupBy(e.target.value as any)} className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg p-2">
+                            <option value="status">{t('tasks.groupBy.status')}</option>
+                            <option value="location">{t('tasks.groupBy.location')}</option>
+                            <option value="user">{t('tasks.groupBy.user')}</option>
+                            <option value="none">{t('tasks.groupBy.none')}</option>
+                        </select>
+                    </div>
+                )}
+			</div>
+
 			{tasks.length === 0 && (
 				<div className="text-center py-16 text-gray-500">
 					<h3 className="text-lg font-semibold">{t('tasks.noTasks.title')}</h3>
@@ -218,16 +313,15 @@ export const TasksPage: FC<{
 				</div>
 			)}
 
-            {tasks.length > 0 && viewMode === 'list' && (
+            {filteredTasks.length > 0 && viewMode === 'list' && (
                 <>
-                    <TaskSection title={t('tasks.inProgress')} tasks={inProgressTasks} badgeColor="bg-blue-500/30 text-blue-300" />
-                    <TaskSection title={t('tasks.overdue')} tasks={overdueTasks} badgeColor="bg-red-500/30 text-red-300" />
-                    <TaskSection title={t('tasks.todo')} tasks={todoTasks} badgeColor="bg-yellow-500/30 text-yellow-300" />
-                    <TaskSection title={t('tasks.completed')} tasks={completedTasks} badgeColor="bg-green-500/30 text-green-300" />
+                    {Object.entries(groupedTasks).map(([groupTitle, groupTasks]) => (
+                        <TaskSection key={groupTitle} title={groupTitle} tasks={groupTasks} />
+                    ))}
                 </>
             )}
 
-            {tasks.length > 0 && viewMode === 'table' && <CompactTableView />}
+            {filteredTasks.length > 0 && viewMode === 'table' && <CompactTableView />}
 		</div>
 	);
 };

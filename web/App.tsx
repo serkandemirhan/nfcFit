@@ -18,11 +18,11 @@ import { MobileUserView } from './pages/MobileUserView';
 
 const parseTask = (raw: any): Task => ({
   ...raw,
-  createdAt: new Date(raw.createdat),
-  dueDate: new Date(raw.duedate),
-  lastCompletedAt: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
-  locationId: raw.locationid,
-  userId: raw.userid,
+  createdat: new Date(raw.createdat),
+  duedate: new Date(raw.duedate),
+  lastcompletedat: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
+  locationid: raw.locationid,
+  userid: raw.userid,
 });
 
 type LoggedInUser = User | { id: 'admin'; name: 'Admin'; avatarUrl: string };
@@ -108,7 +108,7 @@ const App: FC = () => {
                 ]);
 
                 const tasksWithAttachments = (tasksData as any[]).map(task => {
-                    const attachments = (attachmentsData as any[]).filter(att => att.taskId === task.id);
+                    const attachments = (attachmentsData as any[]).filter(att => att.taskid === task.id);
                     return { ...task, attachments };
                 });
 
@@ -187,15 +187,15 @@ const App: FC = () => {
     const openEditTaskModal = (task: Task) => {
         setTaskTitle(task.title);
         setTaskDescription(task.description);
-        setTaskLocationId(task.locationId);
-        setTaskUserId(task.userId);
-        if (!task.dueDate || isNaN(task.dueDate.getTime())) {
+        setTaskLocationId(task.locationid);
+        setTaskUserId(task.userid);
+        if (!task.duedate || isNaN(task.duedate.getTime())) {
             const tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
             tomorrow.setHours(9, 0, 0, 0);
             setTaskDueDate(tomorrow.toISOString().slice(0, 16));
         } else {
-            setTaskDueDate(new Date(task.dueDate.getTime() - (task.dueDate.getTimezoneOffset() * 60000)).toISOString().slice(0, 16));
+            setTaskDueDate(new Date(task.duedate.getTime() - (task.duedate.getTimezoneOffset() * 60000)).toISOString().slice(0, 16));
         }
         setTaskRepeatUnit(task.repeat?.unit || 'none');
         setTaskRepeatFrequency(task.repeat?.frequency || 1);
@@ -262,7 +262,7 @@ const App: FC = () => {
                 const { data: { publicUrl } } = supabase.storage.from('task-attachments').getPublicUrl(filePath);
 
                 const { data: metaData, error: metaError } = await supabase.from('attachments').insert({
-                    taskId: savedTask.id,
+                    taskid: savedTask.id,
                     name: file.name,
                     type: file.type,
                     size: file.size,
@@ -360,7 +360,7 @@ const App: FC = () => {
                 <div className="px-4 py-3 border-t border-gray-700">
                      {currentUser && (
                         <div className="flex items-center space-x-3">
-                            <img src={currentUser.avatarUrl} alt={currentUser.name} className="w-10 h-10 rounded-full"/>
+                            <img src={(currentUser as User).avatarurl || (currentUser as any).avatarUrl} alt={currentUser.name} className="w-10 h-10 rounded-full"/>
                             <div>
                                 <p className="font-semibold text-white">{currentUser.name}</p>
                             </div>
@@ -402,7 +402,7 @@ const App: FC = () => {
                                 <div key={att.id} className="bg-gray-700 p-3 rounded-lg flex justify-between items-center">
                                     <div>
                                         <p className="text-white font-medium">{att.name}</p>
-                                        <p className="text-xs text-gray-400">{(att.size / 1024).toFixed(2)} KB - {att.type}</p>
+                                        <p className="text-xs text-gray-400">{att.size ? `${(att.size / 1024).toFixed(2)} KB` : ''} - {att.type}</p>
                                     </div>
                                     <a href={att.url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 font-semibold">Görüntüle</a>
                                 </div>
@@ -491,7 +491,7 @@ const App: FC = () => {
                                 id="completionNotes" 
                                 rows={3} 
                                 value={activeModalTask.completionNotes} 
-                                className="bg-gray-900 border border-gray-600 text-gray-400 text-sm rounded-lg block w-full p-2.5 cursor-not-allowed" 
+                                className="bg-gray-900 border border-gray-600 text-gray-400 text-sm rounded-lg block w-full p-2.5 cursor-not-allowed"
                                 readOnly 
                             />
                         </div>
@@ -510,7 +510,7 @@ const App: FC = () => {
                                     <div key={att.id} className="bg-gray-700 p-2 rounded-lg flex justify-between items-center text-sm">
                                         <div className="flex-1 min-w-0">
                                             <p className="text-white truncate" title={att.name}>{att.name}</p>
-                                            <p className="text-xs text-gray-400">{(att.size / 1024).toFixed(2)} KB</p>
+                                            <p className="text-xs text-gray-400">{att.size ? `${(att.size / 1024).toFixed(2)} KB` : ''}</p>
                                         </div>
                                         <button onClick={() => 'url' in att ? removeAttachment(att) : setTaskAttachmentFiles(f => f.filter(file => file.name !== att.name))} className="text-red-500 hover:text-red-400 ml-2 p-1">
                                             <Icons.Trash/>

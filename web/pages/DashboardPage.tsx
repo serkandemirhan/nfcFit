@@ -90,7 +90,7 @@ export const DashboardPage: FC<{ tasks: Task[], locations: Location[], users: Us
                              <li key={task.id} className="flex justify-between items-center bg-gray-700/50 p-3 rounded-md">
                                 <div>
                                     <p className="text-white font-medium">{task.title}</p>
-                                    <p className="text-sm text-gray-400">{locations.find(l => l.id === task.locationId)?.name || 'Bilinmeyen Nokta'}</p>
+                                    <p className="text-sm text-gray-400">{locations.find(l => l.id === task.locationid)?.name || 'Bilinmeyen Nokta'}</p>
                                 </div>
                                 <DynamicTaskStatusLabel task={task} />
                             </li>

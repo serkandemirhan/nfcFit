@@ -14,7 +14,8 @@ export interface User {
 
 export interface NfcCard {
   id: string;
-  secretCode: string;
+  secretcode: string;
+  alias: string;
   uid?: string; // Kartın değiştirilemez benzersiz kimliği
   assignedLocationId: string | null;
 }

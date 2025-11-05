@@ -8,9 +8,9 @@ import { supabase } from '../supabaseClient';
 
 const parseTask = (raw: any): Task => ({
     ...raw,
-    createdAt: new Date(raw.createdat),
-    dueDate: new Date(raw.duedate),
-    lastCompletedAt: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
+    createdat: new Date(raw.createdat),
+    duedate: new Date(raw.duedate),
+    lastcompletedat: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
 });
 
 export const MobileUserView: FC<{
@@ -23,8 +23,8 @@ export const MobileUserView: FC<{
     onViewAttachments: (task: Task) => void;
 }> = ({ currentUser, tasks, locations, nfcCards, setTasks, onLogout, onViewAttachments }) => {
     const { t } = useTranslation();
-    const myActiveTasks = useMemo(() => tasks.filter(t => t.userId === currentUser.id && t.status !== TaskStatus.Completed).sort((a,b) => a.dueDate.getTime() - b.dueDate.getTime()), [tasks, currentUser.id]);
-    const myCompletedTasks = useMemo(() => tasks.filter(t => t.userId === currentUser.id && t.status === TaskStatus.Completed).sort((a, b) => (b.lastCompletedAt?.getTime() || 0) - (a.lastCompletedAt?.getTime() || 0)).slice(0, 10), [tasks, currentUser.id]);
+    const myActiveTasks = useMemo(() => tasks.filter(t => t.userid === currentUser.id && t.status !== TaskStatus.Completed).sort((a,b) => a.duedate.getTime() - b.duedate.getTime()), [tasks, currentUser.id]);
+    const myCompletedTasks = useMemo(() => tasks.filter(t => t.userid === currentUser.id && t.status === TaskStatus.Completed).sort((a, b) => (b.lastcompletedat?.getTime() || 0) - (a.lastcompletedat?.getTime() || 0)).slice(0, 10), [tasks, currentUser.id]);
 
     const [isNfcModalOpen, setIsNfcModalOpen] = useState(false);
     const [scannedLocation, setScannedLocation] = useState<Location | null>(null);
@@ -98,12 +98,12 @@ export const MobileUserView: FC<{
                     if (record.data) {
                         try {
                             const secretCode = decoder.decode(record.data).trim();
-                            const foundCard = nfcCards.find(c => c.secretCode === secretCode && c.uid === scannedUid);
+                            const foundCard = nfcCards.find(c => c.secretcode === secretCode && c.uid === scannedUid);
 
-                            if (foundCard && foundCard.assignedLocationId) {
-                                const location = locations.find(l => l.id === foundCard.assignedLocationId);
+                            if (foundCard && foundCard.assignedlocationid) {
+                                const location = locations.find(l => l.id === foundCard.assignedlocationid);
                                 if (location) {
-                                    const userTasksAtLocation = tasks.filter(t => t.locationId === location.id && t.userId === currentUser.id && t.status !== TaskStatus.Completed);
+                                    const userTasksAtLocation = tasks.filter(t => t.locationid === location.id && t.userid === currentUser.id && t.status !== TaskStatus.Completed);
                                     setScannedLocation(location);
                                     setTasksForLocation(userTasksAtLocation);
                                     setNfcStatus('idle');
@@ -137,7 +137,7 @@ export const MobileUserView: FC<{
         <div className="min-h-screen bg-gray-900 text-gray-100 flex flex-col">
             <header className="bg-gray-800 p-4 shadow-md flex justify-between items-center">
                 <div className="flex items-center space-x-3">
-                    <img src={currentUser.avatarUrl} alt={currentUser.name} className="w-10 h-10 rounded-full" />
+                    <img src={currentUser.avatarurl} alt={currentUser.name} className="w-10 h-10 rounded-full" />
                     <div>
                         <p className="text-sm text-gray-400">{t('userView.welcome')}</p>
                         <h1 className="text-lg font-bold text-white">{currentUser.name}</h1>
@@ -153,11 +153,11 @@ export const MobileUserView: FC<{
                         {myActiveTasks.map(task => (
                             <li key={task.id} className="bg-gray-800 p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
                                 <div className="flex justify-between items-start">
-                                    <div className="flex-1 min-w-0"><p className="font-bold text-white break-words">{task.title}</p><p className="text-sm text-gray-400 mt-1">{locations.find(l => l.id === task.locationId)?.name}</p></div>
+                                    <div className="flex-1 min-w-0"><p className="font-bold text-white break-words">{task.title}</p><p className="text-sm text-gray-400 mt-1">{locations.find(l => l.id === task.locationid)?.name}</p></div>
                                     <div className="flex-shrink-0 ml-2"><DynamicTaskStatusLabel task={task} /></div>
                                 </div>
                                 <div className="flex items-center justify-between mt-2">
-                                     <p className="text-xs text-yellow-400">Bitiş: {timeFormatter.format(task.dueDate)}</p>
+                                     <p className="text-xs text-yellow-400">Bitiş: {timeFormatter.format(task.duedate)}</p>
                                       {task.attachments && task.attachments.length > 0 && (<button onClick={() => onViewAttachments(task)} className="flex items-center space-x-1 text-cyan-400 hover:text-cyan-300"><Icons.Attachment /><span className="text-xs">{task.attachments.length}</span></button>)}
                                 </div>
                             </li>
@@ -174,10 +174,10 @@ export const MobileUserView: FC<{
                             {myCompletedTasks.map(task => (
                                 <li key={task.id} className="bg-gray-800/70 p-4 rounded-lg shadow-sm border-l-4 border-green-500 opacity-80">
                                     <div className="flex justify-between items-start">
-                                        <div><p className="font-bold text-gray-300 line-through">{task.title}</p><p className="text-sm text-gray-500 mt-1">{locations.find(l => l.id === task.locationId)?.name}</p></div>
+                                        <div><p className="font-bold text-gray-300 line-through">{task.title}</p><p className="text-sm text-gray-500 mt-1">{locations.find(l => l.id === task.locationid)?.name}</p></div>
                                         <DynamicTaskStatusLabel task={task} />
                                     </div>
-                                    {task.lastCompletedAt && <p className="text-xs text-gray-400 mt-2">Tamamlandı: {timeFormatter.format(task.lastCompletedAt)}</p>}
+                                    {task.lastcompletedat && <p className="text-xs text-gray-400 mt-2">Tamamlandı: {timeFormatter.format(task.lastcompletedat)}</p>}
                                 </li>
                             ))}
                         </ul>

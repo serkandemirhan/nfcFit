@@ -33,11 +33,11 @@ export const LayoutsPage: FC<{
 
     const selectedLayout = useMemo(() => layouts.find(l => l.id === selectedLayoutId), [layouts, selectedLayoutId]);
     const filteredLocations = useMemo(() => locations.filter(loc => loc.layoutId === selectedLayoutId), [locations, selectedLayoutId]);
-    const unassignedCards = useMemo(() => cards.filter(c => c.assignedLocationId === null), [cards]);
+    const unassignedCards = useMemo(() => cards.filter(c => c.assignedlocationid == null), [cards]);
 
     const availableCardsForDropdown = useMemo(() => {
-        if (selectedLocation && selectedLocation.nfcCardId) {
-            const currentCard = cards.find(c => c.id === selectedLocation.nfcCardId);
+        if (selectedLocation && selectedLocation.nfccardid) {
+            const currentCard = cards.find(c => c.id === selectedLocation.nfccardid);
             return currentCard ? [currentCard, ...unassignedCards] : unassignedCards;
         }
         return unassignedCards;
@@ -60,7 +60,7 @@ export const LayoutsPage: FC<{
         setNewPointCoords(null);
         setSelectedLocation(location);
         setLocationName(location.name);
-        setAssignedCardId(location.nfcCardId || '');
+        setAssignedCardId(location.nfccardid || '');
         setIsLocationModalOpen(true);
     };
     
@@ -79,11 +79,11 @@ export const LayoutsPage: FC<{
         const handleCardUpdates = (oldCardId: string | null, newCardId: string | null, locationId: string) => {
              if (oldCardId && oldCardId !== newCardId) {
                 const oldCardIndex = updatedCards.findIndex(c => c.id === oldCardId);
-                if (oldCardIndex > -1) updatedCards[oldCardIndex] = { ...updatedCards[oldCardIndex], assignedLocationId: null };
+                if (oldCardIndex > -1) updatedCards[oldCardIndex] = { ...updatedCards[oldCardIndex], assignedlocationid: null };
             }
              if (newCardId) {
                  const newCardIndex = updatedCards.findIndex(c => c.id === newCardId);
-                 if (newCardIndex > -1) updatedCards[newCardIndex] = { ...updatedCards[newCardIndex], assignedLocationId: locationId };
+                 if (newCardIndex > -1) updatedCards[newCardIndex] = { ...updatedCards[newCardIndex], assignedlocationid: locationId };
             }
         }
         
@@ -91,15 +91,15 @@ export const LayoutsPage: FC<{
             const locIndex = updatedLocations.findIndex(l => l.id === selectedLocation.id);
             if (locIndex > -1) {
                 const originalLocation = updatedLocations[locIndex];
-                handleCardUpdates(originalLocation.nfcCardId, assignedCardId || null, selectedLocation.id);
-                updatedLocations[locIndex] = { ...originalLocation, name: locationName, nfcCardId: assignedCardId || null };
+                handleCardUpdates(originalLocation.nfccardid, assignedCardId || null, selectedLocation.id);
+                updatedLocations[locIndex] = { ...originalLocation, name: locationName, nfccardid: assignedCardId || null };
             }
         } else if (newPointCoords) {
             const newLocation: Location = {
                 id: `loc_${Date.now()}`,
                 name: locationName,
                 layoutId: selectedLayoutId,
-                nfcCardId: assignedCardId || null,
+                nfccardid: assignedCardId || null,
                 ...newPointCoords
             };
             updatedLocations.push(newLocation);
@@ -113,7 +113,7 @@ export const LayoutsPage: FC<{
 
     const handleDeleteLocation = () => {
         if (!selectedLocation) return;
-        const updatedCards = cards.map(card => card.id === selectedLocation.nfcCardId ? { ...card, assignedLocationId: null } : card);
+        const updatedCards = cards.map(card => card.id === selectedLocation.nfccardid ? { ...card, assignedlocationid: null } : card);
         const updatedLocations = locations.filter(loc => loc.id !== selectedLocation.id);
         setLocations(updatedLocations);
         setNfcCards(updatedCards);
@@ -156,9 +156,9 @@ export const LayoutsPage: FC<{
         if (!editingLayout || !window.confirm(`'${editingLayout.name}' yerleşimini silmek istediğinizden emin misiniz? Bu yerleşime ait tüm noktalar da silinecektir.`)) return;
         
         const locationsToDelete = locations.filter(l => l.layoutId === editingLayout.id);
-        const cardIdsToUnassign = locationsToDelete.map(l => l.nfcCardId).filter(Boolean);
+        const cardIdsToUnassign = locationsToDelete.map(l => l.nfccardid).filter(Boolean);
 
-        const updatedCards = cards.map(c => cardIdsToUnassign.includes(c.id as string) ? { ...c, assignedLocationId: null } : c);
+        const updatedCards = cards.map(c => cardIdsToUnassign.includes(c.id as string) ? { ...c, assignedlocationid: null } : c);
         const updatedLocations = locations.filter(l => l.layoutId !== editingLayout.id);
         const updatedLayouts = layouts.filter(l => l.id !== editingLayout.id);
 
@@ -261,7 +261,7 @@ export const LayoutsPage: FC<{
                         <div className={`w-6 h-6 bg-red-500 rounded-full border-2 border-white ring-4 ring-red-500/80 hover:ring-8 hover:ring-red-400/90 transition-all shadow-lg ${draggingMarker?.id === loc.id ? 'cursor-grabbing animate-pulse' : 'cursor-grab'}`}></div>
                          <div className="absolute bottom-full mb-2 w-max p-2 text-xs text-white bg-gray-900/80 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none transform -translate-x-1/2 left-1/2">
                             {loc.name}
-                            <div className="text-gray-400">{loc.nfcCardId || "Kart Yok"}</div>
+                            <div className="text-gray-400">{loc.nfccardid || "Kart Yok"}</div>
                         </div>
                     </div>
                 ))}
@@ -276,7 +276,7 @@ export const LayoutsPage: FC<{
                         <label htmlFor="nfcCard" className="block mb-2 text-sm font-medium text-gray-300">{t('forms.location.assignCard')}</label>
                         <select id="nfcCard" value={assignedCardId} onChange={(e) => setAssignedCardId(e.target.value)} className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                             <option value="">{t('forms.location.noCardAssigned')}</option>
-                            {availableCardsForDropdown.map(card => (<option key={card.id} value={card.id}>{card.id}</option>))}
+                            {availableCardsForDropdown.map(card => (<option key={card.id} value={card.id}>{card.alias || card.id}</option>))}
                         </select>
                     </div>
                     <div className="flex justify-between items-center pt-2">
