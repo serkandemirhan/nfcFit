@@ -1957,7 +1957,7 @@ const App: FC = () => {
                 }
             }
 
-            if (newlyAddedAttachments.length > 0 || taskAttachmentFiles.length > 0) {
+            if (newlyAddedAttachments.length > 0) {
                  const finalAttachments = [...taskAttachments, ...newlyAddedAttachments];
                  setTasks(prev => prev.map(t => t.id === savedTask.id ? { ...savedTask, attachments: finalAttachments } : t));
             }
