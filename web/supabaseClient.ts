@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-// BURADAKİ BİLGİLERİ KENDİ SUPABASE PROJENİZDEN ALDIĞINIZ BİLGİLERLE DEĞİŞTİRİN
-const supabaseUrl = 'https://your-project-id.supabase.co';
-const supabaseAnonKey = 'your-anon-key';
+// Ortam değişkenlerinden Supabase bilgilerini al
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
