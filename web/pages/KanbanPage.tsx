@@ -99,7 +99,9 @@ export const KanbanPage: FC<{
                             </button>
                         )}
                     </div>
-                    <span className="font-mono">{timeFormatter.format(task.dueDate)}</span>
+                    <span className="font-mono">
+                        {task.dueDate && !isNaN(task.dueDate.getTime()) ? timeFormatter.format(task.dueDate) : '---'}
+                    </span>
                 </div>
             </div>
         );
