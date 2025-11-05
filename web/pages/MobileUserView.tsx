@@ -8,9 +8,9 @@ import { supabase } from '../supabaseClient';
 
 const parseTask = (raw: any): Task => ({
     ...raw,
-    createdAt: new Date(raw.createdAt),
-    dueDate: new Date(raw.dueDate),
-    lastCompletedAt: raw.lastCompletedAt ? new Date(raw.lastCompletedAt) : undefined,
+    createdAt: new Date(raw.createdat),
+    dueDate: new Date(raw.duedate),
+    lastCompletedAt: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
 });
 
 export const MobileUserView: FC<{

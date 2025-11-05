@@ -215,6 +215,7 @@ const App: FC = () => {
 
             if (activeModalTask === 'new') {
                 const { data, error } = await supabase.from('tasks').insert({
+                    id: `task_${Date.now()}`,
                     title: taskTitle,
                     description: taskDescription,
                     locationid: taskLocationId,
