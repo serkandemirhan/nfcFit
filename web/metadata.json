@@ -1,0 +1,5 @@
+{
+  "name": "NFC Task Tracker",
+  "description": "A web application to manage locations, users, tasks, and NFC cards for a physical task verification system. Administrators can define points of interest, assign NFC cards to them, create tasks for specific locations, and manage users who perform these tasks.",
+  "requestFramePermissions": []
+}
