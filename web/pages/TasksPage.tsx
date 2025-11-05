@@ -113,8 +113,10 @@ export const TasksPage: FC<{
                         compareResult = locA.localeCompare(locB);
                         break;
                     case 'user':
-                        const userA = users.find(u => u.id === a.userId)?.name || '';
-                        const userB = users.find(u => u.id === b.userId)?.name || '';
+                        const userA = users.find(u => u.id === a.userId)?.name;
+                        const userB = users.find(u => u.id === b.userId)?.name;
+                        if (!userA) return 1;
+                        if (!userB) return -1;
                         compareResult = userA.localeCompare(userB);
                         break;
                     case 'created': compareResult = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(); break;
@@ -169,8 +171,15 @@ export const TasksPage: FC<{
                                 <td className="px-2 py-0.5 text-gray-400 truncate max-w-xs text-xs">{task.description}</td>
                                 <td className="px-2 py-0.5 text-xs">{location?.name || '-'}</td>
                                 <td className="px-2 py-0.5">{user && (<div className="flex items-center gap-1"><img src={user.avatarUrl} alt={user.name} className="w-4 h-4 rounded-full" /><span className="text-xs truncate max-w-[100px]">{user.name}</span></div>)}</td>
-                                <td className="px-2 py-0.5 text-xs font-mono">{timeFormatter.format(new Date(task.createdAt))}</td>
-                                <td className="px-2 py-0.5 text-xs font-mono">{task.status === TaskStatus.Completed && task.lastCompletedAt ? timeFormatter.format(new Date(task.lastCompletedAt)) : timeFormatter.format(new Date(task.dueDate))}</td>
+                                <td className="px-2 py-0.5 text-xs font-mono">
+                                    {task.createdAt && !isNaN(new Date(task.createdAt).getTime()) ? timeFormatter.format(new Date(task.createdAt)) : '-'}
+                                </td>
+                                <td className="px-2 py-0.5 text-xs font-mono">
+                                    {task.status === TaskStatus.Completed
+                                        ? (task.lastCompletedAt && !isNaN(new Date(task.lastCompletedAt).getTime()) ? timeFormatter.format(new Date(task.lastCompletedAt)) : '-')
+                                        : (task.dueDate && !isNaN(new Date(task.dueDate).getTime()) ? timeFormatter.format(new Date(task.dueDate)) : '-')
+                                    }
+                                </td>
                                 <td className="px-2 py-0.5 text-center">{task.repeat && <span className="text-cyan-400 text-xs">↻</span>}</td>
                                 <td className="px-2 py-0.5 text-center">{task.attachments && task.attachments.length > 0 && (<button onClick={(e) => { e.stopPropagation(); onViewAttachments(task); }} className="text-cyan-400 hover:text-cyan-300 text-xs font-semibold">{task.attachments.length}</button>)}</td>
                             </tr>

@@ -187,7 +187,14 @@ const App: FC = () => {
         setTaskDescription(task.description);
         setTaskLocationId(task.locationId);
         setTaskUserId(task.userId);
-        setTaskDueDate(new Date(task.dueDate.getTime() - (task.dueDate.getTimezoneOffset() * 60000)).toISOString().slice(0, 16));
+        if (!task.dueDate || isNaN(task.dueDate.getTime())) {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(9, 0, 0, 0);
+            setTaskDueDate(tomorrow.toISOString().slice(0, 16));
+        } else {
+            setTaskDueDate(new Date(task.dueDate.getTime() - (task.dueDate.getTimezoneOffset() * 60000)).toISOString().slice(0, 16));
+        }
         setTaskRepeatUnit(task.repeat?.unit || 'none');
         setTaskRepeatFrequency(task.repeat?.frequency || 1);
         setTaskAttachments(task.attachments || []);
@@ -214,7 +221,7 @@ const App: FC = () => {
                     status: TaskStatus.ToDo,
                     repeat_unit: taskRepeatUnit !== 'none' ? taskRepeatUnit : null,
                     repeat_frequency: taskRepeatUnit !== 'none' ? taskRepeatFrequency : null,
-                    createdAt: new Date().toISOString(),
+                    created_at: new Date().toISOString(),
                 }).select().single();
                 if (error) throw error;
                 savedTask = parseTask(data);
@@ -537,6 +544,5 @@ const App: FC = () => {
         </div>
     );
 };
-
 
 export default AppWithContext;
