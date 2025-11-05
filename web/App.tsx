@@ -215,9 +215,9 @@ const App: FC = () => {
                 const { data, error } = await supabase.from('tasks').insert({
                     title: taskTitle,
                     description: taskDescription,
-                    locationId: taskLocationId,
-                    userId: taskUserId,
-                    dueDate: new Date(taskDueDate).toISOString(),
+                    location_id: taskLocationId,
+                    user_id: taskUserId,
+                    due_date: new Date(taskDueDate).toISOString(),
                     status: TaskStatus.ToDo,
                     repeat_unit: taskRepeatUnit !== 'none' ? taskRepeatUnit : null,
                     repeat_frequency: taskRepeatUnit !== 'none' ? taskRepeatFrequency : null,
@@ -230,9 +230,9 @@ const App: FC = () => {
                 const { data, error } = await supabase.from('tasks').update({
                     title: taskTitle,
                     description: taskDescription,
-                    locationId: taskLocationId,
-                    userId: taskUserId,
-                    dueDate: new Date(taskDueDate).toISOString(),
+                    location_id: taskLocationId,
+                    user_id: taskUserId,
+                    due_date: new Date(taskDueDate).toISOString(),
                     repeat_unit: taskRepeatUnit !== 'none' ? taskRepeatUnit : null,
                     repeat_frequency: taskRepeatUnit !== 'none' ? taskRepeatFrequency : null,
                 }).eq('id', activeModalTask.id).select().single();
