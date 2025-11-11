@@ -11,6 +11,9 @@ export const DynamicTaskStatusLabel: FC<{ task: Task }> = ({ task }) => {
     if (task.status === TaskStatus.Completed) {
         statusText = t('status.completed');
         styles = 'bg-green-500/20 text-green-400';
+    } else if (task.status === TaskStatus.Canceled) {
+        statusText = t('status.canceled');
+        styles = 'bg-gray-500/30 text-gray-200';
     } else if (task.status === TaskStatus.InProgress) {
         statusText = t('status.inProgress');
         styles = 'bg-blue-500/20 text-blue-400';

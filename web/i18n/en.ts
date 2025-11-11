@@ -15,6 +15,7 @@ const en: Record<string, string> = {
   'status.inProgress': 'In Progress',
   'status.overdue': 'Over Due',
   'status.todo': 'To Do',
+  'status.canceled': 'Canceled',
 
   'btn.newLayout': 'New Layout',
   'btn.editLayout': 'Edit Layout',

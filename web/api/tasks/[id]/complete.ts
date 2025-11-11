@@ -1,10 +1,12 @@
 import { getSupabase, readJson, ok, err, ApiRequest, ApiResponse, ensureOriginAllowed } from '../../_supabase.js';
+import { TaskStatus } from '../../../types';
+import { normalizeStatus } from '../../../lib/status';
 
 const normalizeTask = (row: any) => ({
   id: row.id,
   title: row.title,
   description: row.description,
-  status: row.status,
+  status: normalizeStatus(row.status),
   locationId: row.locationId ?? row.locationid,
   userId: row.userId ?? row.userid,
   createdAt: row.createdAt ?? row.createdat,
@@ -57,10 +59,10 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
   };
 
   if (isRepeating) {
-    update.status = task.status ?? 'Devam Ediyor';
+    update.status = TaskStatus.InProgress;
     update.active = true;
   } else {
-    update.status = 'Tamamlandı';
+    update.status = TaskStatus.Completed;
     update.active = false;
   }
 

@@ -5,6 +5,7 @@ import { supabase } from './supabaseClient';
 import layout1Img from './layout1.jpg';
 import layout2Img from './layout2.jpg';
 import { Page, TaskStatus, User, NfcCard, Location, Task, Layout, Attachment } from './types';
+import { normalizeStatus } from './lib/status';
 import { Icons } from './components/Icons';
 import { Modal } from './components/Modal';
 import { DashboardPage } from './pages/DashboardPage';
@@ -15,6 +16,7 @@ import { UsersPage } from './pages/UsersPage';
 import { CardsPage } from './pages/CardsPage';
 import { LoginPage } from './pages/LoginPage';
 import { MobileUserView } from './pages/MobileUserView';
+import { fallbackCards } from './data/fallbackCards';
 
 const parseTask = (raw: any): Task => ({
   ...raw,
@@ -23,6 +25,7 @@ const parseTask = (raw: any): Task => ({
   lastcompletedat: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
   locationid: raw.locationid,
   userid: raw.userid,
+  status: normalizeStatus(raw.status),
 });
 
 type LoggedInUser = User | { id: 'admin'; name: 'Admin'; avatarUrl: string };
@@ -92,19 +95,23 @@ const App: FC = () => {
     useEffect(() => {
         const load = async () => {
             try {
-                const fetchWith = async (tableName: string) => {
+                const fetchWith = async <T extends unknown>(tableName: string, fallback?: T[]): Promise<T[]> => {
                     const { data, error } = await supabase.from(tableName).select('*');
-                    if (error) throw error;
-                    return data;
+                    if (error) {
+                        console.warn(`${tableName} verisi alınamadı:`, error.message);
+                        if (fallback) return fallback;
+                        throw error;
+                    }
+                    return data as T[];
                 };
 
                 const [usersData, locationsData, cardsData, tasksData, layoutsData, attachmentsData] = await Promise.all([
-                    fetchWith('users'),
-                    fetchWith('locations'),
-                    fetchWith('cards'),
-                    fetchWith('tasks'),
-                    fetchWith('layouts'),
-                    fetchWith('attachments'),
+                    fetchWith<User>('users'),
+                    fetchWith<Location>('locations'),
+                    fetchWith<NfcCard>('cards', fallbackCards),
+                    fetchWith<Task>('tasks'),
+                    fetchWith<Layout>('layouts'),
+                    fetchWith<Attachment>('attachments'),
                 ]);
 
                 const tasksWithAttachments = (tasksData as any[]).map(task => {
@@ -318,7 +325,7 @@ const App: FC = () => {
             case 'users':
                 return <UsersPage users={users} setUsers={setUsers} />;
             case 'cards':
-                return <CardsPage cards={nfcCards} locations={locations} setNfcCards={setNfcCards} />;
+                return <CardsPage cards={nfcCards} locations={locations} setNfcCards={setNfcCards} setLocations={setLocations} />;
             default:
                 return <DashboardPage tasks={tasks} locations={locations} users={users} cards={nfcCards} />;
         }

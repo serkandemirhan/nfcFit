@@ -1,10 +1,12 @@
 import { getSupabase, readJson, ok, err, ApiRequest, ApiResponse, ensureOriginAllowed } from '../_supabase.js';
+import { TaskStatus } from '../../types';
+import { normalizeStatus } from '../../lib/status';
 
 const normalizeTask = (row: any) => ({
   id: row.id,
   title: row.title,
   description: row.description,
-  status: row.status,
+  status: normalizeStatus(row.status),
   locationId: row.locationId ?? row.locationid,
   userId: row.userId ?? row.userid,
   createdAt: row.createdAt ?? row.createdat,
@@ -45,7 +47,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     const repeatDb = toDbRepeat(repeat);
     const hasRepeat = !!(repeatDb.repeat_frequency && repeatDb.repeat_unit);
     const nextDueAt = hasRepeat ? dueIso : null;
-    const statusToSave = status ?? (hasRepeat ? 'Devam Ediyor' : 'Yapılacak');
+    const defaultStatus = hasRepeat ? TaskStatus.InProgress : TaskStatus.ToDo;
+    const statusToSave = normalizeStatus(status ?? defaultStatus, defaultStatus);
 
     const { data, error } = await supabase
       .from('tasks')
@@ -79,7 +82,9 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
 
     if (title !== undefined) update.title = title;
     if (description !== undefined) update.description = description;
-    if (status !== undefined) update.status = status;
+    if (status !== undefined) {
+      update.status = normalizeStatus(status, TaskStatus.ToDo);
+    }
     if (locationId !== undefined) update.locationid = locationId;
     if (userId !== undefined) update.userid = userId;
     if (dueDate) update.duedate = new Date(dueDate).toISOString();

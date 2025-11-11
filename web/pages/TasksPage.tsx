@@ -154,7 +154,7 @@ export const TasksPage: FC<{
 
                 switch (sortColumn) {
                     case 'status':
-                        const statusPriority = { [TaskStatus.InProgress]: 0, [TaskStatus.ToDo]: 1, [TaskStatus.Completed]: 2 };
+                        const statusPriority = { [TaskStatus.InProgress]: 0, [TaskStatus.ToDo]: 1, [TaskStatus.Completed]: 2, [TaskStatus.Canceled]: 3 };
                         compareResult = statusPriority[a.status] - statusPriority[b.status];
                         break;
                     case 'title': compareResult = a.title.localeCompare(b.title); break;
@@ -187,6 +187,7 @@ export const TasksPage: FC<{
 
         const getStatusColor = (task: Task) => {
             if (task.status === TaskStatus.Completed) return 'text-green-400';
+            if (task.status === TaskStatus.Canceled) return 'text-gray-400';
             if (task.status === TaskStatus.InProgress) return 'text-blue-400';
             if (new Date(task.duedate) < now) return 'text-red-400';
             return 'text-yellow-400';
@@ -222,7 +223,17 @@ export const TasksPage: FC<{
                         const location = locations.find(l => l.id === task.locationid);
                         return (
                             <tr key={task.id} onClick={() => onEditTask(task)} className="border-b border-gray-700/50 hover:bg-gray-700/50 cursor-pointer transition-colors h-8">
-                                <td className="px-2 py-0.5"><span className={`text-xs font-semibold ${getStatusColor(task)}`}>{task.status === TaskStatus.Completed ? '✓' : task.status === TaskStatus.InProgress ? '●' : new Date(task.duedate) < now ? '!' : '○'}</span></td>
+                                <td className="px-2 py-0.5"><span className={`text-xs font-semibold ${getStatusColor(task)}`}>
+                                    {task.status === TaskStatus.Completed
+                                        ? '✓'
+                                        : task.status === TaskStatus.Canceled
+                                        ? '✕'
+                                        : task.status === TaskStatus.InProgress
+                                        ? '●'
+                                        : new Date(task.duedate) < now
+                                        ? '!'
+                                        : '○'}
+                                </span></td>
                                 <td className="px-2 py-0.5 font-medium text-white truncate max-w-xs">{task.title}</td>
                                 <td className="px-2 py-0.5 text-gray-400 truncate max-w-xs text-xs">{task.description}</td>
                                 <td className="px-2 py-0.5 text-xs">{location?.name || '-'}</td>

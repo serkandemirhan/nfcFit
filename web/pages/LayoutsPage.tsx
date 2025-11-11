@@ -2,6 +2,9 @@ import React, { FC, useState, useMemo, useRef, useEffect } from 'react';
 import { useTranslation } from '../i18n/context';
 import { Location, NfcCard, Layout } from '../types';
 import { Modal } from '../components/Modal';
+import { supabase } from '../supabaseClient';
+
+const LAYOUT_BUCKET = 'layout-images';
 
 export const LayoutsPage: FC<{
     locations: Location[];
@@ -30,6 +33,9 @@ export const LayoutsPage: FC<{
     const [assignedCardId, setAssignedCardId] = useState<string | ''>('');
     const [layoutName, setLayoutName] = useState('');
     const [layoutImageUrl, setLayoutImageUrl] = useState('');
+    const [draftLayoutId, setDraftLayoutId] = useState<string>('');
+    const [isUploadingImage, setIsUploadingImage] = useState(false);
+    const [uploadError, setUploadError] = useState<string>('');
 
     const selectedLayout = useMemo(() => layouts.find(l => l.id === selectedLayoutId), [layouts, selectedLayoutId]);
     const filteredLocations = useMemo(() => locations.filter(loc => loc.layoutId === selectedLayoutId), [locations, selectedLayoutId]);
@@ -122,8 +128,11 @@ export const LayoutsPage: FC<{
 
     const openNewLayoutModal = () => {
         setEditingLayout(null);
+        const newId = `layout_${Date.now()}`;
+        setEditingLayout(null);
         setLayoutName('');
         setLayoutImageUrl('');
+        setDraftLayoutId(newId);
         setIsLayoutModalOpen(true);
     };
 
@@ -132,16 +141,18 @@ export const LayoutsPage: FC<{
         setEditingLayout(selectedLayout);
         setLayoutName(selectedLayout.name);
         setLayoutImageUrl(selectedLayout.imageUrl);
+        setDraftLayoutId(selectedLayout.id);
         setIsLayoutModalOpen(true);
     };
 
     const handleSaveLayout = () => {
+        const targetId = editingLayout?.id ?? draftLayoutId || `layout_${Date.now()}`;
         if (editingLayout) {
             const updatedLayouts = layouts.map(l => l.id === editingLayout.id ? { ...l, name: layoutName, imageUrl: layoutImageUrl } : l);
             setLayouts(updatedLayouts);
         } else {
             const newLayout: Layout = {
-                id: `layout_${Date.now()}`,
+                id: targetId,
                 name: layoutName,
                 imageUrl: layoutImageUrl,
             };
@@ -149,6 +160,7 @@ export const LayoutsPage: FC<{
             setLayouts(updatedLayouts);
             setSelectedLayoutId(newLayout.id);
         }
+        setDraftLayoutId('');
         setIsLayoutModalOpen(false);
     };
 
@@ -172,18 +184,33 @@ export const LayoutsPage: FC<{
         setIsLayoutModalOpen(false);
     };
     
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            if (!file.type.startsWith('image/')) {
-                alert('Lütfen bir resim dosyası seçin.');
-                return;
-            }
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setLayoutImageUrl(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+        if (!file) return;
+        if (!file.type.startsWith('image/')) {
+            alert('Lütfen bir resim dosyası seçin.');
+            return;
+        }
+        const layoutId = editingLayout?.id ?? draftLayoutId || `layout_${Date.now()}`;
+        if (!draftLayoutId && !editingLayout) {
+            setDraftLayoutId(layoutId);
+        }
+        const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+        const objectPath = `layouts/${layoutId}.${extension}`;
+        setIsUploadingImage(true);
+        setUploadError('');
+        try {
+            const { error } = await supabase.storage
+                .from(LAYOUT_BUCKET)
+                .upload(objectPath, file, { cacheControl: '3600', upsert: true, contentType: file.type });
+            if (error) throw error;
+            const { data } = supabase.storage.from(LAYOUT_BUCKET).getPublicUrl(objectPath);
+            setLayoutImageUrl(data.publicUrl);
+        } catch (err: any) {
+            console.error('Layout image upload failed', err);
+            setUploadError('Resim yüklenemedi. Bucket izinlerini kontrol edin.');
+        } finally {
+            setIsUploadingImage(false);
         }
     };
 
@@ -304,6 +331,8 @@ export const LayoutsPage: FC<{
                     <div>
                         <label htmlFor="layoutImageFile" className="block mb-2 text-sm font-medium text-gray-300">{t('forms.layout.upload')}</label>
                         <input type="file" id="layoutImageFile" accept="image/*" onChange={handleImageUpload} className="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-600 file:text-gray-200 hover:file:bg-gray-500 cursor-pointer" />
+                        {isUploadingImage && <p className="text-xs text-blue-300 mt-2">Resim yükleniyor...</p>}
+                        {uploadError && <p className="text-xs text-red-400 mt-2">{uploadError}</p>}
                     </div>
                     {layoutImageUrl && (
                         <div>

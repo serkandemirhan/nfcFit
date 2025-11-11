@@ -122,7 +122,7 @@ class AttachmentORM(Base):
 
 
 # --- Pydantic models (response/request) ---
-TaskStatus = Literal['Yapılacak', 'Devam Ediyor', 'Tamamlandı']
+TaskStatus = Literal['not_started', 'in_progress', 'completed', 'canceled']
 
 
 class Repeat(BaseModel):
@@ -234,7 +234,7 @@ def seed_if_empty(db: Session):
         id="t1",
         title="Giriş kapısı kontrolü",
         description="Depo A giriş kapısının kilitli olduğundan emin ol.",
-        status="Tamamlandı",
+        status="completed",
         locationId="loc1",
         userId="u1",
         createdAt=now - timedelta(days=2),
@@ -248,7 +248,7 @@ def seed_if_empty(db: Session):
         id="t2",
         title="Makine yağı seviyesi kontrolü",
         description="Üretim hattındaki 2 numaralı makinenin yağ seviyesini kontrol et.",
-        status="Devam Ediyor",
+        status="in_progress",
         locationId="loc2",
         userId="u2",
         createdAt=now - timedelta(hours=2),
@@ -260,7 +260,7 @@ def seed_if_empty(db: Session):
         id="t3",
         title="Mutfak temizliği",
         description="Ofis mutfağındaki kahve makinesini temizle.",
-        status="Yapılacak",
+        status="not_started",
         locationId="loc3",
         userId="u3",
         createdAt=now - timedelta(hours=1),
@@ -483,7 +483,7 @@ def complete_task(task_id: str, payload: TaskCompleteRequest, db: Session = Depe
         raise HTTPException(status_code=404, detail="Task not found")
 
     now = datetime.now()
-    row.status = 'Tamamlandı'
+    row.status = 'completed'
     row.lastCompletedAt = now
     if payload.notes is not None:
         row.completionNotes = payload.notes or None
@@ -499,7 +499,7 @@ def complete_task(task_id: str, payload: TaskCompleteRequest, db: Session = Depe
             id=new_id,
             title=row.title,
             description=row.description,
-            status='Yapılacak',
+            status='not_started',
             locationId=row.locationId,
             userId=row.userId,
             createdAt=now,

@@ -5,12 +5,14 @@ import { Icons } from '../components/Icons';
 import { Modal } from '../components/Modal';
 import { DynamicTaskStatusLabel } from '../components/DynamicTaskStatusLabel';
 import { supabase } from '../supabaseClient';
+import { normalizeStatus } from '../lib/status';
 
 const parseTask = (raw: any): Task => ({
     ...raw,
     createdat: new Date(raw.createdat),
     duedate: new Date(raw.duedate),
     lastcompletedat: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
+    status: normalizeStatus(raw.status),
 });
 
 export const MobileUserView: FC<{
@@ -23,7 +25,12 @@ export const MobileUserView: FC<{
     onViewAttachments: (task: Task) => void;
 }> = ({ currentUser, tasks, locations, nfcCards, setTasks, onLogout, onViewAttachments }) => {
     const { t } = useTranslation();
-    const myActiveTasks = useMemo(() => tasks.filter(t => t.userid === currentUser.id && t.status !== TaskStatus.Completed).sort((a,b) => a.duedate.getTime() - b.duedate.getTime()), [tasks, currentUser.id]);
+    const myActiveTasks = useMemo(
+        () => tasks
+            .filter(task => task.userid === currentUser.id && (task.active ?? true) && ![TaskStatus.Completed, TaskStatus.Canceled].includes(task.status))
+            .sort((a,b) => a.duedate.getTime() - b.duedate.getTime()),
+        [tasks, currentUser.id]
+    );
     const myCompletedTasks = useMemo(() => tasks.filter(t => t.userid === currentUser.id && t.status === TaskStatus.Completed).sort((a, b) => (b.lastcompletedat?.getTime() || 0) - (a.lastcompletedat?.getTime() || 0)).slice(0, 10), [tasks, currentUser.id]);
 
     const [isNfcModalOpen, setIsNfcModalOpen] = useState(false);
@@ -103,7 +110,13 @@ export const MobileUserView: FC<{
                             if (foundCard && foundCard.assignedlocationid) {
                                 const location = locations.find(l => l.id === foundCard.assignedlocationid);
                                 if (location) {
-                                    const userTasksAtLocation = tasks.filter(t => t.locationid === location.id && t.userid === currentUser.id && t.status !== TaskStatus.Completed);
+                                    const userTasksAtLocation = tasks.filter(
+                                        task =>
+                                            task.locationid === location.id &&
+                                            task.userid === currentUser.id &&
+                                            (task.active ?? true) &&
+                                            ![TaskStatus.Completed, TaskStatus.Canceled].includes(task.status)
+                                    );
                                     setScannedLocation(location);
                                     setTasksForLocation(userTasksAtLocation);
                                     setNfcStatus('idle');

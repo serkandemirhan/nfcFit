@@ -1,7 +1,8 @@
 export enum TaskStatus {
-  ToDo = 'Yapılacak',
-  InProgress = 'Devam Ediyor',
-  Completed = 'Tamamlandı',
+  ToDo = 'not_started',
+  InProgress = 'in_progress',
+  Completed = 'completed',
+  Canceled = 'canceled',
 }
 
 export interface User {
@@ -18,6 +19,8 @@ export interface NfcCard {
   alias: string;
   uid?: string; // Kartın değiştirilemez benzersiz kimliği
   assignedLocationId: string | null;
+  assignedlocationid?: string | null; // Supabase lower-case column mapping
+  active?: boolean;
 }
 
 export interface Layout {
@@ -31,6 +34,7 @@ export interface Location {
   name: string;
   layoutId: string;
   nfcCardId: string | null;
+  nfccardid?: string | null; // Supabase lower-case column mapping
   x: number; // Plan üzerindeki yüzde X konumu
   y: number; // Plan üzerindeki yüzde Y konumu
 }

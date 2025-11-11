@@ -106,7 +106,7 @@ begin
         't1',
         'Giriş kapısı kontrolü',
         'Depo A giriş kapısının kilitli olduğundan emin ol.',
-        'Devam Ediyor',
+        'in_progress',
         'loc1',
         'u1',
         now() - interval '2 days',
@@ -121,10 +121,10 @@ begin
   end if;
   if not exists (select 1 from tasks where id = 't2') then
     insert into tasks (id,title,description,status,locationId,userId,createdAt,dueDate,nextDueAt,repeat_frequency,repeat_unit,active)
-    values ('t2','Makine yağı seviyesi kontrolü','Üretim hattındaki 2 numaralı makinenin yağ seviyesini kontrol et.','Devam Ediyor','loc2','u2', now() - interval '2 hours', now() + interval '4 hours', now() + interval '4 hours', 1, 'days', true);
+    values ('t2','Makine yağı seviyesi kontrolü','Üretim hattındaki 2 numaralı makinenin yağ seviyesini kontrol et.','in_progress','loc2','u2', now() - interval '2 hours', now() + interval '4 hours', now() + interval '4 hours', 1, 'days', true);
   end if;
   if not exists (select 1 from tasks where id = 't3') then
     insert into tasks (id,title,description,status,locationId,userId,createdAt,dueDate,nextDueAt,active)
-    values ('t3','Mutfak temizliği','Ofis mutfağındaki kahve makinesini temizle.','Yapılacak','loc3','u3', now() - interval '1 hour', now() + interval '8 hours', null, true);
+    values ('t3','Mutfak temizliği','Ofis mutfağındaki kahve makinesini temizle.','not_started','loc3','u3', now() - interval '1 hour', now() + interval '8 hours', null, true);
   end if;
 end $$;

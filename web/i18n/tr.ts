@@ -15,6 +15,7 @@ const tr: Record<string, string> = {
   'status.inProgress': 'Devam Ediyor',
   'status.overdue': 'Zamanı Geçti',
   'status.todo': 'Yapılacak',
+  'status.canceled': 'İptal Edildi',
 
   'btn.newLayout': 'Yeni Yerleşim',
   'btn.editLayout': 'Yerleşimi Düzenle',
