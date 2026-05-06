@@ -1,14 +1,14 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Image, ImageSourcePropType, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
-import { useEffect, useState } from 'react';
+import { Image, ImageSourcePropType, LayoutChangeEvent, PanResponder, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { fetchLayoutById, fetchLocationsByLayout, updateLayout } from '@/lib/api';
+import { fetchLayoutById, fetchLocationsByLayout, Location, updateLayout, updateLocationPosition } from '@/lib/api';
 
 const localLayoutImages: Record<string, ImageSourcePropType> = {
   'layout1.jpg': require('@/assets/images/layout1.jpg'),
@@ -42,6 +42,9 @@ export default function LayoutDetailScreen() {
 
   const [editMode, setEditMode] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
+  const [mapSize, setMapSize] = useState({ width: 0, height: 0 });
+  const [draftPositions, setDraftPositions] = useState<Record<string, { x: number; y: number }>>({});
+  const dragStartRef = useRef<Record<string, { x: number; y: number }>>({});
 
   useEffect(() => {
     if (layoutQuery.data) {
@@ -56,6 +59,58 @@ export default function LayoutDetailScreen() {
       setEditMode(false);
     },
   });
+
+  const updatePosition = useMutation({
+    mutationFn: ({ locationId, x, y }: { locationId: string; x: number; y: number }) =>
+      updateLocationPosition(locationId, { x, y }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['layout-locations', id] });
+      queryClient.invalidateQueries({ queryKey: ['locations'] });
+    },
+  });
+
+  const handleMapLayout = (event: LayoutChangeEvent) => {
+    const { width, height } = event.nativeEvent.layout;
+    setMapSize({ width, height });
+  };
+
+  const getLocationPosition = (location: Location) =>
+    draftPositions[location.id] ?? { x: location.x ?? 0, y: location.y ?? 0 };
+
+  const createMarkerResponder = (location: Location) =>
+    PanResponder.create({
+        onStartShouldSetPanResponder: () => editMode,
+        onMoveShouldSetPanResponder: () => editMode,
+        onPanResponderGrant: () => {
+          dragStartRef.current[location.id] = getLocationPosition(location);
+          setDraftPositions((current) => ({
+            ...current,
+            [location.id]: dragStartRef.current[location.id],
+          }));
+        },
+        onPanResponderMove: (_event, gesture) => {
+          if (!mapSize.width || !mapSize.height) return;
+          const start = dragStartRef.current[location.id] ?? { x: location.x ?? 0, y: location.y ?? 0 };
+          const nextX = Math.max(0, Math.min(100, Math.round(start.x + (gesture.dx / mapSize.width) * 100)));
+          const nextY = Math.max(0, Math.min(100, Math.round(start.y + (gesture.dy / mapSize.height) * 100)));
+          setDraftPositions((current) => ({
+            ...current,
+            [location.id]: { x: nextX, y: nextY },
+          }));
+        },
+        onPanResponderRelease: (_event, gesture) => {
+          if (!mapSize.width || !mapSize.height) return;
+          const start = dragStartRef.current[location.id] ?? { x: location.x ?? 0, y: location.y ?? 0 };
+          const nextX = Math.max(0, Math.min(100, Math.round(start.x + (gesture.dx / mapSize.width) * 100)));
+          const nextY = Math.max(0, Math.min(100, Math.round(start.y + (gesture.dy / mapSize.height) * 100)));
+          delete dragStartRef.current[location.id];
+          setDraftPositions((current) => ({
+            ...current,
+            [location.id]: { x: nextX, y: nextY },
+          }));
+          updatePosition.mutate({ locationId: location.id, x: nextX, y: nextY });
+        },
+      });
 
   if (!id) {
     return (
@@ -123,29 +178,35 @@ export default function LayoutDetailScreen() {
             </View>
           ) : null}
           {imageSource ? (
-            <View style={styles.mapPreview}>
+            <View style={styles.mapPreview} onLayout={handleMapLayout}>
               <Image source={imageSource} style={styles.previewImage} resizeMode="cover" />
-              {locations.map((loc) => (
-                <View
-                  key={loc.id}
-                  pointerEvents="none"
-                  style={[
-                    styles.mapMarkerWrap,
-                    {
-                      left: `${Math.max(0, Math.min(100, loc.x ?? 0))}%`,
-                      top: `${Math.max(0, Math.min(100, loc.y ?? 0))}%`,
-                    },
-                  ]}>
-                  <View style={styles.mapMarker}>
-                    <Ionicons name="location" size={16} color="#fff" />
+              {locations.map((loc) => {
+                const position = getLocationPosition(loc);
+                const responder = createMarkerResponder(loc);
+                return (
+                  <View
+                    key={loc.id}
+                    {...responder.panHandlers}
+                    pointerEvents={editMode ? 'auto' : 'none'}
+                    style={[
+                      styles.mapMarkerWrap,
+                      editMode && styles.mapMarkerEditable,
+                      {
+                        left: `${Math.max(0, Math.min(100, position.x))}%`,
+                        top: `${Math.max(0, Math.min(100, position.y))}%`,
+                      },
+                    ]}>
+                    <View style={[styles.mapMarker, editMode && styles.mapMarkerEditing]}>
+                      <Ionicons name="location" size={16} color="#fff" />
+                    </View>
+                    <View style={styles.mapMarkerLabel}>
+                      <ThemedText numberOfLines={1} style={styles.mapMarkerLabelText}>
+                        {loc.name}
+                      </ThemedText>
+                    </View>
                   </View>
-                  <View style={styles.mapMarkerLabel}>
-                    <ThemedText numberOfLines={1} style={styles.mapMarkerLabelText}>
-                      {loc.name}
-                    </ThemedText>
-                  </View>
-                </View>
-              ))}
+                );
+              })}
             </View>
           ) : (
             <View style={[styles.mapPreview, styles.previewPlaceholder]}>
@@ -157,6 +218,11 @@ export default function LayoutDetailScreen() {
 
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
           <ThemedText style={styles.subtitle}>Noktalar</ThemedText>
+          {editMode ? (
+            <ThemedText style={{ color: surface.mutedText }}>
+              Noktaları plan üzerinde sürükleyerek konumlandırabilirsiniz.
+            </ThemedText>
+          ) : null}
           {locations.length === 0 ? (
             <ThemedText style={{ color: surface.mutedText }}>Bu yerleşimde kayıtlı nokta yok.</ThemedText>
           ) : (
@@ -165,7 +231,7 @@ export default function LayoutDetailScreen() {
                 <Ionicons name="radio-button-on-outline" size={16} color="#2563eb" />
                 <ThemedText style={styles.hotspotLabel}>{loc.name}</ThemedText>
                 <ThemedText style={[styles.hotspotCoords, { color: surface.mutedText }]}>
-                  x:{loc.x ?? '?'} · y:{loc.y ?? '?'}
+                  x:{getLocationPosition(loc).x ?? '?'} · y:{getLocationPosition(loc).y ?? '?'}
                 </ThemedText>
               </View>
             ))
@@ -306,6 +372,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 4,
     elevation: 4,
+  },
+  mapMarkerEditable: {
+    zIndex: 5,
+  },
+  mapMarkerEditing: {
+    backgroundColor: '#2563eb',
   },
   mapMarkerLabel: {
     marginTop: 4,

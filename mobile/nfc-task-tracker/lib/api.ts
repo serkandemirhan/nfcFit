@@ -280,6 +280,17 @@ export async function fetchLocationsByLayout(layoutId: string) {
   return (data ?? []) as Location[];
 }
 
+export async function updateLocationPosition(id: string, position: { x: number; y: number }) {
+  const { data, error } = await supabase
+    .from('locations')
+    .update(position)
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data as Location;
+}
+
 export async function updateLayout(id: string, payload: Partial<Pick<Layout, 'name' | 'imageurl'>>) {
   const { error } = await supabase.from('layouts').update(payload).eq('id', id);
   if (error) throw error;
