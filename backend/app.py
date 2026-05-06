@@ -9,7 +9,7 @@ from fastapi import Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, create_engine, inspect, text
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, String, Text, create_engine, inspect, text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Mapped, Session, declarative_base, mapped_column, sessionmaker
 
@@ -91,8 +91,10 @@ class NfcCardORM(Base):
     __tablename__ = "cards"
     id: Mapped[str] = mapped_column(String, primary_key=True)
     secretCode: Mapped[str] = mapped_column(String(255))
+    alias: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     uid: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     assignedLocationId: Mapped[Optional[str]] = mapped_column(String, ForeignKey("locations.id"), nullable=True)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)
 
 
 class TaskORM(Base):
@@ -168,8 +170,10 @@ class User(BaseModel):
 class NfcCard(BaseModel):
     id: str
     secretCode: str
+    alias: Optional[str] = None
     uid: Optional[str] = None
     assignedLocationId: Optional[str] = None
+    active: bool = True
 
     model_config = {"from_attributes": True}
 
@@ -208,11 +212,11 @@ def seed_if_empty(db: Session):
     db.add_all([l1, l2])
 
     # Cards FIRST (assignedLocationId NULL to avoid FK cycle)
-    c1 = NfcCardORM(id="NFC001", secretCode="a1b2c3d4", uid="04:6a:9c:8d:a8:67:80", assignedLocationId=None)
-    c2 = NfcCardORM(id="NFC002", secretCode="e5f6g7h8", uid="04:6a:9c:8d:a8:67:81", assignedLocationId=None)
-    c3 = NfcCardORM(id="NFC003", secretCode="i9j0k1l2", uid="04:6a:9c:8d:a8:67:82", assignedLocationId=None)
-    c4 = NfcCardORM(id="NFC004", secretCode="m3n4o5p6", uid="04:6a:9c:8d:a8:67:83", assignedLocationId=None)
-    c5 = NfcCardORM(id="NFC005", secretCode="q7r8s9t0", uid="04:6a:9c:8d:a8:67:84", assignedLocationId=None)
+    c1 = NfcCardORM(id="NFC001", secretCode="a1b2c3d4", alias="Giriş Kartı", uid="04:6a:9c:8d:a8:67:80", assignedLocationId=None, active=True)
+    c2 = NfcCardORM(id="NFC002", secretCode="e5f6g7h8", alias="CNC Kartı", uid="04:6a:9c:8d:a8:67:81", assignedLocationId=None, active=True)
+    c3 = NfcCardORM(id="NFC003", secretCode="i9j0k1l2", alias="Kalite Kartı", uid="04:6a:9c:8d:a8:67:82", assignedLocationId=None, active=True)
+    c4 = NfcCardORM(id="NFC004", secretCode="m3n4o5p6", alias="Yedek Kart 1", uid="04:6a:9c:8d:a8:67:83", assignedLocationId=None, active=True)
+    c5 = NfcCardORM(id="NFC005", secretCode="q7r8s9t0", alias="Yedek Kart 2", uid="04:6a:9c:8d:a8:67:84", assignedLocationId=None, active=True)
     db.add_all([c1, c2, c3, c4, c5])
     db.flush()
 
@@ -273,13 +277,23 @@ def seed_if_empty(db: Session):
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(engine)
-    # Ensure passwordHash column exists (for existing DBs without migrations)
+    # Ensure lightweight dev columns exist for existing DBs without migrations.
     try:
         insp = inspect(engine)
         cols = [c['name'] for c in insp.get_columns('users')]
         if 'passwordHash' not in cols:
             with engine.begin() as conn:
                 conn.execute(text('ALTER TABLE users ADD COLUMN "passwordHash" VARCHAR(255)'))
+    except Exception:
+        pass
+    try:
+        insp = inspect(engine)
+        card_cols = [c['name'] for c in insp.get_columns('cards')]
+        with engine.begin() as conn:
+            if 'alias' not in card_cols:
+                conn.execute(text('ALTER TABLE cards ADD COLUMN alias VARCHAR(255)'))
+            if 'active' not in card_cols:
+                conn.execute(text('ALTER TABLE cards ADD COLUMN active BOOLEAN DEFAULT TRUE'))
     except Exception:
         pass
     with SessionLocal() as db:
@@ -297,7 +311,7 @@ def orm_task_to_pydantic(db: Session, row: TaskORM) -> Task:
         id=row.id,
         title=row.title,
         description=row.description,
-        status=row.status,  # type: ignore[assignment]
+        status=normalize_task_status(row.status),  # type: ignore[assignment]
         locationId=row.locationId,
         userId=row.userId,
         createdAt=row.createdAt,
@@ -309,6 +323,39 @@ def orm_task_to_pydantic(db: Session, row: TaskORM) -> Task:
     )
 
 
+def normalize_task_status(value: Optional[str]) -> TaskStatus:
+    aliases = {
+        "not_started": "not_started",
+        "todo": "not_started",
+        "to do": "not_started",
+        "yapılacak": "not_started",
+        "yapilacak": "not_started",
+        "başlanmadı": "not_started",
+        "baslanmadi": "not_started",
+        "in_progress": "in_progress",
+        "in progress": "in_progress",
+        "devam ediyor": "in_progress",
+        "devamediyor": "in_progress",
+        "ongoing": "in_progress",
+        "completed": "completed",
+        "tamamlandı": "completed",
+        "tamamlandi": "completed",
+        "done": "completed",
+        "canceled": "canceled",
+        "cancelled": "canceled",
+        "iptal": "canceled",
+        "iptal edildi": "canceled",
+    }
+    return aliases.get((value or "").strip().lower(), "not_started")  # type: ignore[return-value]
+
+
+def payload_get(payload: dict, *keys: str, default=None):
+    for key in keys:
+        if key in payload:
+            return payload[key]
+    return default
+
+
 # --- API Endpoints ---
 @app.get("/api/users", response_model=List[User])
 def list_users(db: Session = Depends(get_db)):
@@ -316,6 +363,7 @@ def list_users(db: Session = Depends(get_db)):
 
 
 class UserUpsert(BaseModel):
+    id: Optional[str] = None
     name: str
     username: str
     email: Optional[str] = None
@@ -325,7 +373,7 @@ class UserUpsert(BaseModel):
 
 @app.post("/api/users", response_model=User, status_code=201)
 def create_user(payload: UserUpsert, db: Session = Depends(get_db)):
-    new_id = f"u-{uuid4().hex[:8]}"
+    new_id = payload.id or f"u-{uuid4().hex[:8]}"
     row = UserORM(
         id=new_id,
         name=payload.name,
@@ -388,14 +436,171 @@ def list_locations(db: Session = Depends(get_db)):
     return db.query(LocationORM).all()
 
 
+@app.post("/api/locations", response_model=Location, status_code=201)
+def create_location(payload: dict, db: Session = Depends(get_db)):
+    row = LocationORM(
+        id=payload_get(payload, "id", default=f"loc-{uuid4().hex[:8]}"),
+        name=payload_get(payload, "name", default=""),
+        layoutId=payload_get(payload, "layoutId", "layoutid"),
+        nfcCardId=payload_get(payload, "nfcCardId", "nfccardid"),
+        x=payload_get(payload, "x", default=0),
+        y=payload_get(payload, "y", default=0),
+    )
+    db.add(row)
+    db.commit()
+    db.refresh(row)
+    return row
+
+
+@app.put("/api/locations/{location_id}", response_model=Location)
+def update_location(location_id: str, payload: dict, db: Session = Depends(get_db)):
+    row = db.get(LocationORM, location_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Location not found")
+    if "name" in payload:
+        row.name = payload["name"]
+    if "layoutId" in payload or "layoutid" in payload:
+        row.layoutId = payload_get(payload, "layoutId", "layoutid")
+    if "nfcCardId" in payload or "nfccardid" in payload:
+        row.nfcCardId = payload_get(payload, "nfcCardId", "nfccardid")
+    if "x" in payload:
+        row.x = payload["x"]
+    if "y" in payload:
+        row.y = payload["y"]
+    db.commit()
+    db.refresh(row)
+    return row
+
+
+@app.delete("/api/locations/{location_id}", status_code=204)
+def delete_location(location_id: str, db: Session = Depends(get_db)):
+    row = db.get(LocationORM, location_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Location not found")
+    db.delete(row)
+    db.commit()
+    return None
+
+
 @app.get("/api/cards", response_model=List[NfcCard])
 def list_cards(db: Session = Depends(get_db)):
     return db.query(NfcCardORM).all()
 
 
+@app.post("/api/cards", response_model=NfcCard, status_code=201)
+def create_card(payload: dict, db: Session = Depends(get_db)):
+    new_id = payload_get(payload, "id")
+    if not new_id:
+        raise HTTPException(status_code=422, detail="Card id is required")
+    row = NfcCardORM(
+        id=new_id,
+        secretCode=payload_get(payload, "secretCode", "secretcode", default=f"manual_{uuid4().hex[:8]}"),
+        alias=payload_get(payload, "alias"),
+        uid=payload_get(payload, "uid"),
+        assignedLocationId=payload_get(payload, "assignedLocationId", "assignedlocationid"),
+        active=payload_get(payload, "active", default=True),
+    )
+    db.add(row)
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=409, detail="Card already exists")
+    db.refresh(row)
+    return row
+
+
+@app.put("/api/cards/{card_id}", response_model=NfcCard)
+def update_card(card_id: str, payload: dict, db: Session = Depends(get_db)):
+    row = db.get(NfcCardORM, card_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Card not found")
+    if "secretCode" in payload or "secretcode" in payload:
+        row.secretCode = payload_get(payload, "secretCode", "secretcode")
+    if "alias" in payload:
+        row.alias = payload["alias"]
+    if "uid" in payload:
+        row.uid = payload["uid"]
+    if "assignedLocationId" in payload or "assignedlocationid" in payload:
+        row.assignedLocationId = payload_get(payload, "assignedLocationId", "assignedlocationid")
+    if "active" in payload:
+        row.active = bool(payload["active"])
+    db.commit()
+    db.refresh(row)
+    return row
+
+
+@app.delete("/api/cards/{card_id}", status_code=204)
+def delete_card(card_id: str, db: Session = Depends(get_db)):
+    row = db.get(NfcCardORM, card_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Card not found")
+    db.delete(row)
+    db.commit()
+    return None
+
+
 @app.get("/api/layouts", response_model=List[Layout])
 def list_layouts(db: Session = Depends(get_db)):
     return db.query(LayoutORM).all()
+
+
+@app.post("/api/layouts", response_model=Layout, status_code=201)
+def create_layout(payload: dict, db: Session = Depends(get_db)):
+    row = LayoutORM(
+        id=payload_get(payload, "id", default=f"layout-{uuid4().hex[:8]}"),
+        name=payload_get(payload, "name", default=""),
+        imageUrl=payload_get(payload, "imageUrl", "imageurl", default=""),
+    )
+    db.add(row)
+    db.commit()
+    db.refresh(row)
+    return row
+
+
+@app.put("/api/layouts/{layout_id}", response_model=Layout)
+def update_layout(layout_id: str, payload: dict, db: Session = Depends(get_db)):
+    row = db.get(LayoutORM, layout_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Layout not found")
+    if "name" in payload:
+        row.name = payload["name"]
+    if "imageUrl" in payload or "imageurl" in payload:
+        row.imageUrl = payload_get(payload, "imageUrl", "imageurl")
+    db.commit()
+    db.refresh(row)
+    return row
+
+
+@app.delete("/api/layouts/{layout_id}", status_code=204)
+def delete_layout(layout_id: str, db: Session = Depends(get_db)):
+    row = db.get(LayoutORM, layout_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Layout not found")
+    db.delete(row)
+    db.commit()
+    return None
+
+
+@app.get("/api/attachments", response_model=List[Attachment])
+def list_attachments(db: Session = Depends(get_db)):
+    return db.query(AttachmentORM).all()
+
+
+@app.post("/api/attachments", response_model=Attachment, status_code=201)
+def create_attachment(payload: dict, db: Session = Depends(get_db)):
+    row = AttachmentORM(
+        id=payload_get(payload, "id", default=f"att-{uuid4().hex[:8]}"),
+        taskId=payload_get(payload, "taskId", "taskid"),
+        name=payload_get(payload, "name", default=""),
+        type=payload_get(payload, "type", default="application/octet-stream"),
+        size=payload_get(payload, "size", default=0),
+        url=payload_get(payload, "url", default=""),
+    )
+    db.add(row)
+    db.commit()
+    db.refresh(row)
+    return row
 
 
 @app.get("/api/tasks", response_model=List[Task])
@@ -444,18 +649,35 @@ def create_task(payload: TaskUpsert, db: Session = Depends(get_db)):
 
 
 @app.put("/api/tasks/{task_id}", response_model=Task)
-def update_task(task_id: str, payload: TaskUpsert, db: Session = Depends(get_db)):
+def update_task(task_id: str, payload: dict, db: Session = Depends(get_db)):
     row = db.get(TaskORM, task_id)
     if not row:
         raise HTTPException(status_code=404, detail="Task not found")
-    row.title = payload.title
-    row.description = payload.description
-    row.status = payload.status  # type: ignore[assignment]
-    row.locationId = payload.locationId
-    row.userId = payload.userId
-    row.dueDate = payload.dueDate
-    row.repeat_frequency = payload.repeat.frequency if payload.repeat else None
-    row.repeat_unit = payload.repeat.unit if payload.repeat else None
+    if "title" in payload:
+        row.title = payload["title"]
+    if "description" in payload:
+        row.description = payload["description"]
+    if "status" in payload:
+        row.status = normalize_task_status(payload["status"])
+    if "locationId" in payload or "locationid" in payload:
+        row.locationId = payload_get(payload, "locationId", "locationid")
+    if "userId" in payload or "userid" in payload:
+        row.userId = payload_get(payload, "userId", "userid")
+    if "dueDate" in payload or "duedate" in payload:
+        row.dueDate = datetime.fromisoformat(payload_get(payload, "dueDate", "duedate").replace("Z", "+00:00"))
+    if "lastCompletedAt" in payload or "lastcompletedat" in payload:
+        value = payload_get(payload, "lastCompletedAt", "lastcompletedat")
+        row.lastCompletedAt = datetime.fromisoformat(value.replace("Z", "+00:00")) if value else None
+    if "completionNotes" in payload or "completionnotes" in payload:
+        row.completionNotes = payload_get(payload, "completionNotes", "completionnotes")
+    if "repeat" in payload:
+        repeat = payload["repeat"]
+        row.repeat_frequency = repeat.get("frequency") if repeat else None
+        row.repeat_unit = repeat.get("unit") if repeat else None
+    if "repeat_frequency" in payload:
+        row.repeat_frequency = payload["repeat_frequency"]
+    if "repeat_unit" in payload:
+        row.repeat_unit = payload["repeat_unit"]
     db.commit()
     db.refresh(row)
     return orm_task_to_pydantic(db, row)

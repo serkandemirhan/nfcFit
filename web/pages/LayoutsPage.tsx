@@ -26,6 +26,11 @@ export const LayoutsPage: FC<{
     const [editingLayout, setEditingLayout] = useState<Layout | null>(null);
 
     const [draggingMarker, setDraggingMarker] = useState<Location | null>(null);
+    const latestDragPositionRef = useRef<{ id: string; x: number; y: number } | null>(null);
+    const dragStartPositionRef = useRef<{ id: string; x: number; y: number } | null>(null);
+    const [viewTransform, setViewTransform] = useState({ scale: 1, x: 0, y: 0 });
+    const [isPanning, setIsPanning] = useState(false);
+    const panStartRef = useRef<{ clientX: number; clientY: number; x: number; y: number } | null>(null);
 
     const mapRef = useRef<HTMLDivElement>(null);
 
@@ -40,6 +45,7 @@ export const LayoutsPage: FC<{
     const selectedLayout = useMemo(() => layouts.find(l => l.id === selectedLayoutId), [layouts, selectedLayoutId]);
     const filteredLocations = useMemo(() => locations.filter(loc => loc.layoutId === selectedLayoutId), [locations, selectedLayoutId]);
     const unassignedCards = useMemo(() => cards.filter(c => c.assignedlocationid == null), [cards]);
+    const isZoomed = viewTransform.scale > 1;
 
     const availableCardsForDropdown = useMemo(() => {
         if (selectedLocation && selectedLocation.nfccardid) {
@@ -49,11 +55,33 @@ export const LayoutsPage: FC<{
         return unassignedCards;
     }, [unassignedCards, selectedLocation, cards]);
 
-    const handleMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (!isPlacementMode || !mapRef.current || !selectedLayoutId) return;
+    const getMapPercentFromClient = (clientX: number, clientY: number) => {
+        if (!mapRef.current) return null;
         const rect = mapRef.current.getBoundingClientRect();
-        const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-        const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+        const contentX = (clientX - rect.left - viewTransform.x) / viewTransform.scale;
+        const contentY = (clientY - rect.top - viewTransform.y) / viewTransform.scale;
+        const x = Math.max(0, Math.min(100, Math.round((contentX / rect.width) * 100)));
+        const y = Math.max(0, Math.min(100, Math.round((contentY / rect.height) * 100)));
+        return { x, y };
+    };
+
+    const clampTransform = (scale: number, x: number, y: number) => {
+        if (!mapRef.current || scale <= 1) return { scale: 1, x: 0, y: 0 };
+        const rect = mapRef.current.getBoundingClientRect();
+        const minX = rect.width * (1 - scale);
+        const minY = rect.height * (1 - scale);
+        return {
+            scale,
+            x: Math.min(0, Math.max(minX, x)),
+            y: Math.min(0, Math.max(minY, y)),
+        };
+    };
+
+    const handleMapClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isPlacementMode || !selectedLayoutId || isPanning) return;
+        const coords = getMapPercentFromClient(e.clientX, e.clientY);
+        if (!coords) return;
+        const { x, y } = coords;
         setNewPointCoords({ x, y });
         setSelectedLocation(null);
         setLocationName('');
@@ -146,7 +174,7 @@ export const LayoutsPage: FC<{
     };
 
     const handleSaveLayout = () => {
-        const targetId = editingLayout?.id ?? draftLayoutId || `layout_${Date.now()}`;
+        const targetId = editingLayout?.id ?? (draftLayoutId || `layout_${Date.now()}`);
         if (editingLayout) {
             const updatedLayouts = layouts.map(l => l.id === editingLayout.id ? { ...l, name: layoutName, imageUrl: layoutImageUrl } : l);
             setLayouts(updatedLayouts);
@@ -191,7 +219,7 @@ export const LayoutsPage: FC<{
             alert('Lütfen bir resim dosyası seçin.');
             return;
         }
-        const layoutId = editingLayout?.id ?? draftLayoutId || `layout_${Date.now()}`;
+        const layoutId = editingLayout?.id ?? (draftLayoutId || `layout_${Date.now()}`);
         if (!draftLayoutId && !editingLayout) {
             setDraftLayoutId(layoutId);
         }
@@ -215,18 +243,28 @@ export const LayoutsPage: FC<{
     };
 
     const handleMarkerDragStart = (e: React.MouseEvent, location: Location) => {
-        e.preventDefault();
         e.stopPropagation();
+        latestDragPositionRef.current = { id: location.id, x: location.x, y: location.y };
+        dragStartPositionRef.current = { id: location.id, x: location.x, y: location.y };
         setDraggingMarker(location);
     };
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        if (!draggingMarker || !mapRef.current) return;
-        const rect = mapRef.current.getBoundingClientRect();
-        let x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-        let y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
-        x = Math.max(0, Math.min(100, x));
-        y = Math.max(0, Math.min(100, y));
+        if (isPanning && panStartRef.current) {
+            const panStart = panStartRef.current;
+            const deltaX = e.clientX - panStart.clientX;
+            const deltaY = e.clientY - panStart.clientY;
+            setViewTransform(current =>
+                clampTransform(current.scale, panStart.x + deltaX, panStart.y + deltaY)
+            );
+            return;
+        }
+
+        if (!draggingMarker) return;
+        const coords = getMapPercentFromClient(e.clientX, e.clientY);
+        if (!coords) return;
+        const { x, y } = coords;
+        latestDragPositionRef.current = { id: draggingMarker.id, x, y };
 
         setLocations(currentLocations =>
             currentLocations.map(loc =>
@@ -235,14 +273,70 @@ export const LayoutsPage: FC<{
         );
     };
 
-    const handleMouseUp = () => {
+    const handleMouseUp = async () => {
+        if (isPanning) {
+            setIsPanning(false);
+            panStartRef.current = null;
+            return;
+        }
+
+        const finalPosition = latestDragPositionRef.current;
+        const startPosition = dragStartPositionRef.current;
+        const markerId = draggingMarker?.id;
         setDraggingMarker(null);
+        latestDragPositionRef.current = null;
+        dragStartPositionRef.current = null;
+
+        if (!finalPosition || !markerId || finalPosition.id !== markerId) return;
+
+        if (startPosition?.x === finalPosition.x && startPosition?.y === finalPosition.y) return;
+
+        const { error } = await supabase
+            .from('locations')
+            .update({ x: finalPosition.x, y: finalPosition.y })
+            .eq('id', markerId);
+
+        if (error) {
+            console.error('Location position save failed', error);
+            alert('Nokta konumu kaydedilemedi.');
+            if (startPosition) {
+                setLocations(currentLocations =>
+                    currentLocations.map(loc =>
+                        loc.id === markerId ? { ...loc, x: startPosition.x, y: startPosition.y } : loc
+                    )
+                );
+            }
+        }
+    };
+
+    const handlePanStart = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!isZoomed || draggingMarker || isPlacementMode || e.button !== 0) return;
+        setIsPanning(true);
+        panStartRef.current = {
+            clientX: e.clientX,
+            clientY: e.clientY,
+            x: viewTransform.x,
+            y: viewTransform.y,
+        };
+    };
+
+    const zoomBy = (delta: number) => {
+        setViewTransform(current => {
+            const nextScale = Math.max(1, Math.min(4, current.scale + delta));
+            return clampTransform(nextScale, current.x, current.y);
+        });
+    };
+
+    const resetView = () => {
+        setViewTransform({ scale: 1, x: 0, y: 0 });
+        setIsPanning(false);
+        panStartRef.current = null;
     };
 
     useEffect(() => {
         const onMouseMove = (e: MouseEvent) => handleMouseMove(e as any);
         const onMouseUp = () => handleMouseUp();
-        if (draggingMarker) {
+        if (draggingMarker || isPanning) {
             document.addEventListener('mouseup', onMouseUp);
             document.addEventListener('mousemove', onMouseMove);
         }
@@ -250,7 +344,31 @@ export const LayoutsPage: FC<{
             document.removeEventListener('mouseup', onMouseUp);
             document.removeEventListener('mousemove', onMouseMove);
         };
-    }, [draggingMarker]);
+    }, [draggingMarker, isPanning]);
+
+    useEffect(() => {
+        const element = mapRef.current;
+        if (!element) return;
+
+        const onWheel = (e: WheelEvent) => {
+            const rect = element.getBoundingClientRect();
+            const pointerX = e.clientX - rect.left;
+            const pointerY = e.clientY - rect.top;
+
+            setViewTransform(current => {
+                const nextScale = Math.max(1, Math.min(4, current.scale + (e.deltaY < 0 ? 0.2 : -0.2)));
+                const scaleRatio = nextScale / current.scale;
+                return clampTransform(
+                    nextScale,
+                    nextScale === 1 ? 0 : pointerX - (pointerX - current.x) * scaleRatio,
+                    nextScale === 1 ? 0 : pointerY - (pointerY - current.y) * scaleRatio,
+                );
+            });
+        };
+
+        element.addEventListener('wheel', onWheel, { passive: false });
+        return () => element.removeEventListener('wheel', onWheel);
+    }, []);
 
     return (
         <div>
@@ -281,17 +399,46 @@ export const LayoutsPage: FC<{
                     <button onClick={openEditLayoutModal} disabled={!selectedLayout} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">{t('btn.editLayout')}</button>
                 </div>
             </div>
-            <div ref={mapRef} onClick={handleMapClick} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onMouseLeave={handleMouseUp} className={`relative bg-gray-800 rounded-lg shadow-lg aspect-video bg-cover bg-center overflow-hidden transition-all ${isPlacementMode ? 'cursor-crosshair' : 'cursor-default'} ${!selectedLayout?.imageUrl ? 'flex items-center justify-center' : ''}`} style={{ backgroundImage: `url('${selectedLayout?.imageUrl || ''}')` }}>
-                {!selectedLayout?.imageUrl && <p className="text-gray-400">{t('layouts.preview.empty')}</p>}
-                {filteredLocations.map(loc => (
-                    <div key={loc.id} className="absolute transform -translate-x-1/2 -translate-y-1/2 group" style={{ left: `${loc.x}%`, top: `${loc.y}%` }} onClick={(e) => { e.stopPropagation(); handleMarkerClick(loc); }} onMouseDown={(e) => handleMarkerDragStart(e, loc)}>
-                        <div className={`w-6 h-6 bg-red-500 rounded-full border-2 border-white ring-4 ring-red-500/80 hover:ring-8 hover:ring-red-400/90 transition-all shadow-lg ${draggingMarker?.id === loc.id ? 'cursor-grabbing animate-pulse' : 'cursor-grab'}`}></div>
-                         <div className="absolute bottom-full mb-2 w-max p-2 text-xs text-white bg-gray-900/80 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none transform -translate-x-1/2 left-1/2">
-                            {loc.name}
-                            <div className="text-gray-400">{loc.nfccardid || "Kart Yok"}</div>
-                        </div>
+            <div className="relative">
+                <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-md bg-gray-900/85 p-1 shadow-lg">
+                    <button type="button" onClick={() => zoomBy(-0.25)} disabled={viewTransform.scale <= 1} className="h-8 w-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-40" title="Uzaklaştır">-</button>
+                    <span className="w-14 text-center text-xs font-medium text-gray-200">{Math.round(viewTransform.scale * 100)}%</span>
+                    <button type="button" onClick={() => zoomBy(0.25)} disabled={viewTransform.scale >= 4} className="h-8 w-8 rounded bg-gray-700 text-white hover:bg-gray-600 disabled:opacity-40" title="Yakınlaştır">+</button>
+                    <button type="button" onClick={resetView} className="h-8 rounded bg-gray-700 px-2 text-xs font-medium text-white hover:bg-gray-600" title="Görünümü sıfırla">Reset</button>
+                </div>
+                <div
+                    ref={mapRef}
+                    onClick={handleMapClick}
+                    onMouseDown={handlePanStart}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
+                    className={`relative bg-gray-800 rounded-lg shadow-lg aspect-video overflow-hidden transition-all select-none ${isPlacementMode ? 'cursor-crosshair' : isPanning ? 'cursor-grabbing' : isZoomed ? 'cursor-grab' : 'cursor-default'}`}
+                >
+                    <div
+                        className="absolute inset-0 origin-top-left bg-cover bg-center"
+                        style={{
+                            backgroundImage: `url('${selectedLayout?.imageUrl || ''}')`,
+                            transform: `translate(${viewTransform.x}px, ${viewTransform.y}px) scale(${viewTransform.scale})`,
+                        }}
+                    >
+                        {!selectedLayout?.imageUrl && <p className="absolute inset-0 flex items-center justify-center text-gray-400">{t('layouts.preview.empty')}</p>}
+                        {filteredLocations.map(loc => (
+                            <div key={loc.id} className="absolute transform -translate-x-1/2 -translate-y-1/2 group" style={{ left: `${loc.x}%`, top: `${loc.y}%` }} onClick={(e) => { e.stopPropagation(); handleMarkerClick(loc); }} onMouseDown={(e) => handleMarkerDragStart(e, loc)}>
+                                <div className={`w-6 h-6 bg-red-500 rounded-full border-2 border-white ring-4 ring-red-500/80 hover:ring-8 hover:ring-red-400/90 transition-all shadow-lg ${draggingMarker?.id === loc.id ? 'cursor-grabbing animate-pulse' : 'cursor-grab'}`}></div>
+                                 <div className="absolute bottom-full mb-2 w-max p-2 text-xs text-white bg-gray-900/80 rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none transform -translate-x-1/2 left-1/2">
+                                    {loc.name}
+                                    <div className="text-gray-400">{loc.nfccardid || "Kart Yok"}</div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
+                {isZoomed && !isPlacementMode && (
+                    <div className="absolute bottom-3 left-3 rounded bg-gray-900/80 px-2 py-1 text-xs text-gray-300">
+                        Boş alanda sürükleyerek gez
+                    </div>
+                )}
             </div>
             <Modal isOpen={isLocationModalOpen} onClose={closeLocationModal} title={selectedLocation ? t('modals.location.editTitle') : t('modals.location.newTitle')}>
                  <div className="space-y-4">

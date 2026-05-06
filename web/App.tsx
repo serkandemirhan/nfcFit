@@ -18,15 +18,30 @@ import { LoginPage } from './pages/LoginPage';
 import { MobileUserView } from './pages/MobileUserView';
 import { fallbackCards } from './data/fallbackCards';
 
-const parseTask = (raw: any): Task => ({
-  ...raw,
-  createdat: new Date(raw.createdat),
-  duedate: new Date(raw.duedate),
-  lastcompletedat: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
-  locationid: raw.locationid,
-  userid: raw.userid,
-  status: normalizeStatus(raw.status),
-});
+const parseTask = (raw: any): Task => {
+  const createdAt = new Date(raw.createdAt ?? raw.createdat);
+  const dueDate = new Date(raw.dueDate ?? raw.duedate);
+  const lastCompletedAt = raw.lastCompletedAt ?? raw.lastcompletedat
+    ? new Date(raw.lastCompletedAt ?? raw.lastcompletedat)
+    : undefined;
+
+  return {
+    ...raw,
+    createdAt,
+    createdat: createdAt,
+    dueDate,
+    duedate: dueDate,
+    lastCompletedAt,
+    lastcompletedat: lastCompletedAt,
+    locationId: raw.locationId ?? raw.locationid,
+    locationid: raw.locationId ?? raw.locationid,
+    userId: raw.userId ?? raw.userid,
+    userid: raw.userId ?? raw.userid,
+    completionNotes: raw.completionNotes ?? raw.completionnotes,
+    completionnotes: raw.completionNotes ?? raw.completionnotes,
+    status: normalizeStatus(raw.status),
+  };
+};
 
 type LoggedInUser = User | { id: 'admin'; name: 'Admin'; avatarUrl: string };
 
