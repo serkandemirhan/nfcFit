@@ -123,9 +123,32 @@ export default function LayoutDetailScreen() {
             </View>
           ) : null}
           {imageSource ? (
-            <Image source={imageSource} style={styles.preview} resizeMode="cover" />
+            <View style={styles.mapPreview}>
+              <Image source={imageSource} style={styles.previewImage} resizeMode="cover" />
+              {locations.map((loc) => (
+                <View
+                  key={loc.id}
+                  pointerEvents="none"
+                  style={[
+                    styles.mapMarkerWrap,
+                    {
+                      left: `${Math.max(0, Math.min(100, loc.x ?? 0))}%`,
+                      top: `${Math.max(0, Math.min(100, loc.y ?? 0))}%`,
+                    },
+                  ]}>
+                  <View style={styles.mapMarker}>
+                    <Ionicons name="location" size={16} color="#fff" />
+                  </View>
+                  <View style={styles.mapMarkerLabel}>
+                    <ThemedText numberOfLines={1} style={styles.mapMarkerLabelText}>
+                      {loc.name}
+                    </ThemedText>
+                  </View>
+                </View>
+              ))}
+            </View>
           ) : (
-            <View style={[styles.preview, styles.previewPlaceholder]}>
+            <View style={[styles.mapPreview, styles.previewPlaceholder]}>
               <Ionicons name="image-outline" size={32} color={surface.mutedText} />
               <ThemedText style={{ color: surface.mutedText }}>Plan görüntüsü yok</ThemedText>
             </View>
@@ -252,10 +275,50 @@ const styles = StyleSheet.create({
   actionButtonLabelPrimary: {
     color: '#fff',
   },
-  preview: {
+  mapPreview: {
     width: '100%',
     height: 200,
     borderRadius: 16,
+    overflow: 'hidden',
+    position: 'relative',
+    backgroundColor: 'rgba(148,163,184,0.16)',
+  },
+  previewImage: {
+    width: '100%',
+    height: '100%',
+  },
+  mapMarkerWrap: {
+    position: 'absolute',
+    alignItems: 'center',
+    transform: [{ translateX: -18 }, { translateY: -34 }],
+    maxWidth: 120,
+  },
+  mapMarker: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#dc2626',
+    borderWidth: 2,
+    borderColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 4,
+  },
+  mapMarkerLabel: {
+    marginTop: 4,
+    maxWidth: 120,
+    borderRadius: 8,
+    backgroundColor: 'rgba(15,23,42,0.85)',
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+  },
+  mapMarkerLabelText: {
+    color: '#fff',
+    fontSize: 10,
+    fontWeight: '700',
   },
   previewPlaceholder: {
     backgroundColor: 'rgba(148,163,184,0.2)',
