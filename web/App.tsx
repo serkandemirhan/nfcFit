@@ -43,6 +43,26 @@ const parseTask = (raw: any): Task => {
   };
 };
 
+const parseCard = (raw: any): NfcCard => ({
+    ...raw,
+    assignedLocationId: raw.assignedLocationId ?? raw.assignedlocationid ?? null,
+    assignedlocationid: raw.assignedLocationId ?? raw.assignedlocationid ?? null,
+    alias: raw.alias ?? raw.id,
+    active: raw.active ?? true,
+});
+
+const parseLocation = (raw: any): Location => ({
+    ...raw,
+    layoutId: raw.layoutId ?? raw.layoutid,
+    nfcCardId: raw.nfcCardId ?? raw.nfccardid ?? null,
+    nfccardid: raw.nfcCardId ?? raw.nfccardid ?? null,
+});
+
+const parseLayout = (raw: any): Layout => ({
+    ...raw,
+    imageUrl: raw.imageUrl ?? raw.imageurl ?? '',
+});
+
 type LoggedInUser = User | { id: 'admin'; name: 'Admin'; avatarUrl: string };
 
 
@@ -135,11 +155,11 @@ const App: FC = () => {
                 });
 
                 setUsers(usersData as User[]);
-                setLocations(locationsData as Location[]);
-                setNfcCards(cardsData as NfcCard[]);
+                setLocations((locationsData as any[]).map(parseLocation));
+                setNfcCards((cardsData as any[]).map(parseCard));
                 setTasks(tasksWithAttachments.map(parseTask));
 
-                const mappedLayouts = (layoutsData as Layout[]).map(l => {
+                const mappedLayouts = (layoutsData as any[]).map(parseLayout).map(l => {
                     if (l.id === 'layout1') return { ...l, imageUrl: layout1Img };
                     if (l.id === 'layout2') return { ...l, imageUrl: layout2Img };
                     return l;

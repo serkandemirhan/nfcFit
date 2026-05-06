@@ -6,6 +6,18 @@ import { supabase } from '../supabaseClient';
 
 const LAYOUT_BUCKET = 'layout-images';
 
+const normalizeLocation = (row: any): Location => ({
+    ...row,
+    layoutId: row.layoutId ?? row.layoutid,
+    nfcCardId: row.nfcCardId ?? row.nfccardid ?? null,
+    nfccardid: row.nfcCardId ?? row.nfccardid ?? null,
+});
+
+const normalizeLayout = (row: any): Layout => ({
+    ...row,
+    imageUrl: row.imageUrl ?? row.imageurl ?? '',
+});
+
 export const LayoutsPage: FC<{
     locations: Location[];
     cards: NfcCard[];
@@ -65,6 +77,16 @@ export const LayoutsPage: FC<{
         return { x, y };
     };
 
+    useEffect(() => {
+        if (!selectedLayoutId && layouts[0]?.id) {
+            setSelectedLayoutId(layouts[0].id);
+            return;
+        }
+        if (selectedLayoutId && layouts.length > 0 && !layouts.some(layout => layout.id === selectedLayoutId)) {
+            setSelectedLayoutId(layouts[0].id);
+        }
+    }, [layouts, selectedLayoutId]);
+
     const clampTransform = (scale: number, x: number, y: number) => {
         if (!mapRef.current || scale <= 1) return { scale: 1, x: 0, y: 0 };
         const rect = mapRef.current.getBoundingClientRect();
@@ -104,13 +126,18 @@ export const LayoutsPage: FC<{
         setNewPointCoords(null);
     };
 
-    const handleSaveLocation = () => {
+    const handleSaveLocation = async () => {
         if(!selectedLayoutId) return;
+        const trimmedName = locationName.trim();
+        if (!trimmedName) {
+            alert('Konum adı zorunludur.');
+            return;
+        }
 
         let updatedLocations = [...locations];
         let updatedCards = [...cards];
 
-        const handleCardUpdates = (oldCardId: string | null, newCardId: string | null, locationId: string) => {
+        const handleLocalCardUpdates = (oldCardId: string | null, newCardId: string | null, locationId: string) => {
              if (oldCardId && oldCardId !== newCardId) {
                 const oldCardIndex = updatedCards.findIndex(c => c.id === oldCardId);
                 if (oldCardIndex > -1) updatedCards[oldCardIndex] = { ...updatedCards[oldCardIndex], assignedlocationid: null };
@@ -120,38 +147,104 @@ export const LayoutsPage: FC<{
                  if (newCardIndex > -1) updatedCards[newCardIndex] = { ...updatedCards[newCardIndex], assignedlocationid: locationId };
             }
         }
-        
-        if (selectedLocation) {
-            const locIndex = updatedLocations.findIndex(l => l.id === selectedLocation.id);
-            if (locIndex > -1) {
-                const originalLocation = updatedLocations[locIndex];
-                handleCardUpdates(originalLocation.nfccardid, assignedCardId || null, selectedLocation.id);
-                updatedLocations[locIndex] = { ...originalLocation, name: locationName, nfccardid: assignedCardId || null };
-            }
-        } else if (newPointCoords) {
-            const newLocation: Location = {
-                id: `loc_${Date.now()}`,
-                name: locationName,
-                layoutId: selectedLayoutId,
-                nfccardid: assignedCardId || null,
-                ...newPointCoords
-            };
-            updatedLocations.push(newLocation);
-            handleCardUpdates(null, assignedCardId || null, newLocation.id);
-        }
 
-        setLocations(updatedLocations);
-        setNfcCards(updatedCards);
-        closeLocationModal();
+        try {
+            if (selectedLocation) {
+                const locIndex = updatedLocations.findIndex(l => l.id === selectedLocation.id);
+                if (locIndex > -1) {
+                    const originalLocation = updatedLocations[locIndex];
+                    const nextCardId = assignedCardId || null;
+                    const { data, error } = await supabase
+                        .from('locations')
+                        .update({ name: trimmedName, nfccardid: nextCardId })
+                        .eq('id', selectedLocation.id)
+                        .select()
+                        .single();
+                    if (error) throw error;
+
+                    if (originalLocation.nfccardid && originalLocation.nfccardid !== nextCardId) {
+                        const { error: oldCardError } = await supabase
+                            .from('cards')
+                            .update({ assignedlocationid: null })
+                            .eq('id', originalLocation.nfccardid);
+                        if (oldCardError) throw oldCardError;
+                    }
+                    if (nextCardId) {
+                        const { error: newCardError } = await supabase
+                            .from('cards')
+                            .update({ assignedlocationid: selectedLocation.id })
+                            .eq('id', nextCardId);
+                        if (newCardError) throw newCardError;
+                    }
+
+                    handleLocalCardUpdates(originalLocation.nfccardid, nextCardId, selectedLocation.id);
+                    updatedLocations[locIndex] = normalizeLocation(data ?? { ...originalLocation, name: trimmedName, nfccardid: nextCardId });
+                }
+            } else if (newPointCoords) {
+                const newLocation: Location = {
+                    id: `loc_${Date.now()}`,
+                    name: trimmedName,
+                    layoutId: selectedLayoutId,
+                    nfccardid: assignedCardId || null,
+                    ...newPointCoords
+                };
+                const { data, error } = await supabase
+                    .from('locations')
+                    .insert({
+                        id: newLocation.id,
+                        name: newLocation.name,
+                        layoutid: newLocation.layoutId,
+                        nfccardid: newLocation.nfccardid,
+                        x: newLocation.x,
+                        y: newLocation.y,
+                    })
+                    .select()
+                    .single();
+                if (error) throw error;
+
+                const savedLocation = normalizeLocation(data ?? newLocation);
+                updatedLocations.push(savedLocation);
+                if (assignedCardId) {
+                    const { error: cardError } = await supabase
+                        .from('cards')
+                        .update({ assignedlocationid: savedLocation.id })
+                        .eq('id', assignedCardId);
+                    if (cardError) throw cardError;
+                }
+                handleLocalCardUpdates(null, assignedCardId || null, savedLocation.id);
+            }
+
+            setLocations(updatedLocations);
+            setNfcCards(updatedCards);
+            closeLocationModal();
+        } catch (err) {
+            console.error('Location save failed', err);
+            alert('Konum kaydedilemedi.');
+        }
     };
 
-    const handleDeleteLocation = () => {
+    const handleDeleteLocation = async () => {
         if (!selectedLocation) return;
-        const updatedCards = cards.map(card => card.id === selectedLocation.nfccardid ? { ...card, assignedlocationid: null } : card);
-        const updatedLocations = locations.filter(loc => loc.id !== selectedLocation.id);
-        setLocations(updatedLocations);
-        setNfcCards(updatedCards);
-        closeLocationModal();
+        try {
+            if (selectedLocation.nfccardid) {
+                const { error: cardError } = await supabase
+                    .from('cards')
+                    .update({ assignedlocationid: null })
+                    .eq('id', selectedLocation.nfccardid);
+                if (cardError) throw cardError;
+            }
+            const { error } = await supabase.from('locations').delete().eq('id', selectedLocation.id);
+            if (error) throw error;
+
+            const updatedCards = cards.map(card => card.id === selectedLocation.nfccardid ? { ...card, assignedlocationid: null } : card);
+            const updatedLocations = locations.filter(loc => loc.id !== selectedLocation.id);
+            setLocations(updatedLocations);
+            setNfcCards(updatedCards);
+            closeLocationModal();
+        } catch (err) {
+            console.error('Location delete failed', err);
+            alert('Konum silinemedi.');
+        }
     };
 
     const openNewLayoutModal = () => {
@@ -173,43 +266,78 @@ export const LayoutsPage: FC<{
         setIsLayoutModalOpen(true);
     };
 
-    const handleSaveLayout = () => {
+    const handleSaveLayout = async () => {
         const targetId = editingLayout?.id ?? (draftLayoutId || `layout_${Date.now()}`);
-        if (editingLayout) {
-            const updatedLayouts = layouts.map(l => l.id === editingLayout.id ? { ...l, name: layoutName, imageUrl: layoutImageUrl } : l);
-            setLayouts(updatedLayouts);
-        } else {
-            const newLayout: Layout = {
-                id: targetId,
-                name: layoutName,
-                imageUrl: layoutImageUrl,
-            };
-            const updatedLayouts = [...layouts, newLayout];
-            setLayouts(updatedLayouts);
-            setSelectedLayoutId(newLayout.id);
+        const trimmedName = layoutName.trim();
+        if (!trimmedName) {
+            alert('Yerleşim adı zorunludur.');
+            return;
         }
-        setDraftLayoutId('');
-        setIsLayoutModalOpen(false);
+
+        try {
+            if (editingLayout) {
+                const { data, error } = await supabase
+                    .from('layouts')
+                    .update({ name: trimmedName, imageurl: layoutImageUrl })
+                    .eq('id', editingLayout.id)
+                    .select()
+                    .single();
+                if (error) throw error;
+                const savedLayout = normalizeLayout(data ?? { ...editingLayout, name: trimmedName, imageUrl: layoutImageUrl });
+                const updatedLayouts = layouts.map(l => l.id === editingLayout.id ? savedLayout : l);
+                setLayouts(updatedLayouts);
+            } else {
+                const { data, error } = await supabase
+                    .from('layouts')
+                    .insert({ id: targetId, name: trimmedName, imageurl: layoutImageUrl })
+                    .select()
+                    .single();
+                if (error) throw error;
+                const newLayout = normalizeLayout(data ?? { id: targetId, name: trimmedName, imageUrl: layoutImageUrl });
+                const updatedLayouts = [...layouts, newLayout];
+                setLayouts(updatedLayouts);
+                setSelectedLayoutId(newLayout.id);
+            }
+            setDraftLayoutId('');
+            setIsLayoutModalOpen(false);
+        } catch (err) {
+            console.error('Layout save failed', err);
+            alert('Yerleşim kaydedilemedi.');
+        }
     };
 
-    const handleDeleteLayout = () => {
+    const handleDeleteLayout = async () => {
         if (!editingLayout || !window.confirm(`'${editingLayout.name}' yerleşimini silmek istediğinizden emin misiniz? Bu yerleşime ait tüm noktalar da silinecektir.`)) return;
         
         const locationsToDelete = locations.filter(l => l.layoutId === editingLayout.id);
         const cardIdsToUnassign = locationsToDelete.map(l => l.nfccardid).filter(Boolean);
+        try {
+            if (cardIdsToUnassign.length > 0) {
+                const { error: cardError } = await supabase
+                    .from('cards')
+                    .update({ assignedlocationid: null })
+                    .in('id', cardIdsToUnassign);
+                if (cardError) throw cardError;
+            }
+            const { error } = await supabase.from('layouts').delete().eq('id', editingLayout.id);
+            if (error) throw error;
 
-        const updatedCards = cards.map(c => cardIdsToUnassign.includes(c.id as string) ? { ...c, assignedlocationid: null } : c);
-        const updatedLocations = locations.filter(l => l.layoutId !== editingLayout.id);
-        const updatedLayouts = layouts.filter(l => l.id !== editingLayout.id);
+            const updatedCards = cards.map(c => cardIdsToUnassign.includes(c.id as string) ? { ...c, assignedlocationid: null } : c);
+            const updatedLocations = locations.filter(l => l.layoutId !== editingLayout.id);
+            const updatedLayouts = layouts.filter(l => l.id !== editingLayout.id);
 
-        setNfcCards(updatedCards);
-        setLocations(updatedLocations);
-        setLayouts(updatedLayouts);
-        
-        if(selectedLayoutId === editingLayout.id) {
-            setSelectedLayoutId(updatedLayouts[0]?.id || null);
+            setNfcCards(updatedCards);
+            setLocations(updatedLocations);
+            setLayouts(updatedLayouts);
+            
+            if(selectedLayoutId === editingLayout.id) {
+                setSelectedLayoutId(updatedLayouts[0]?.id || null);
+            }
+            setIsLayoutModalOpen(false);
+        } catch (err) {
+            console.error('Layout delete failed', err);
+            alert('Yerleşim silinemedi.');
         }
-        setIsLayoutModalOpen(false);
     };
     
     const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
