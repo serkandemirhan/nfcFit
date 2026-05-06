@@ -21,6 +21,12 @@ export interface NfcCard {
   assignedLocationId: string | null;
   assignedlocationid?: string | null; // Supabase lower-case column mapping
   active?: boolean;
+  lifecycle_status?: 'pending' | 'active' | 'lost' | 'revoked' | 'damaged';
+  security_mode?: 'static_uid' | 'static_ndef' | 'rolling_token' | 'ntag424_sun' | 'desfire' | 'mifare_ultralight_aes';
+  ndef_payload?: string | null;
+  read_counter?: number;
+  lastscannedat?: string | null;
+  lastverifiedat?: string | null;
 }
 
 export interface Layout {

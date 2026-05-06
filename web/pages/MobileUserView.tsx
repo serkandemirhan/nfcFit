@@ -39,19 +39,29 @@ export const MobileUserView: FC<{
     const [nfcStatus, setNfcStatus] = useState<'idle' | 'scanning' | 'error' | 'unsupported'>('idle');
     const [nfcError, setNfcError] = useState('');
     const [completionNotes, setCompletionNotes] = useState<{ [key: string]: string }>({});
+    const [scannedProof, setScannedProof] = useState<{ uid: string; secretcode: string | null } | null>(null);
     const nfcAbortController = useRef<AbortController | null>(null);
 
     const isInIframe = useMemo(() => { try { return window.self !== window.top; } catch (e) { return true; } }, []);
     const handleOpenInNewTab = () => window.open(window.location.href, '_blank', 'noopener,noreferrer');
 
     const handleCompleteTask = async (taskId: string, notes: string) => {
+        if (!scannedProof) {
+            alert('NFC doğrulaması bulunamadı. Lütfen kartı tekrar okutun.');
+            return;
+        }
         try {
-            // This would be a call to a Supabase Edge Function to handle completion logic securely
-            const { data, error } = await supabase.from('tasks').update({ status: TaskStatus.Completed, lastcompletedat: new Date().toISOString(), completionnotes: notes }).eq('id', taskId).select().single();
+            const { data, error } = await supabase.rpc('complete_task_from_nfc', {
+                p_task_id: taskId,
+                p_uid: scannedProof.uid,
+                p_secretcode: scannedProof.secretcode,
+                p_userid: currentUser.id,
+                p_notes: notes,
+            });
             if (error) throw error;
 
-            // Simplified logic, a real app would refetch or handle repeated tasks
-            setTasks(prev => prev.map(t => t.id === taskId ? parseTask(data) : t));
+            const updatedTask = Array.isArray(data) ? data[0] : data;
+            setTasks(prev => prev.map(t => t.id === taskId ? parseTask(updatedTask) : t));
             setCompletionNotes(prev => ({ ...prev, [taskId]: '' }));
         } catch (e) {
             console.error('Complete failed', e);
@@ -68,6 +78,7 @@ export const MobileUserView: FC<{
         }
         setIsNfcModalOpen(false);
         setNfcStatus('idle');
+        setScannedProof(null);
     };
 
     const startNfcScan = async () => {
@@ -89,6 +100,7 @@ export const MobileUserView: FC<{
         setScannedLocation(null);
         setTasksForLocation([]);
         setCompletionNotes({});
+        setScannedProof(null);
         setIsNfcModalOpen(true);
 
         try {
@@ -96,7 +108,7 @@ export const MobileUserView: FC<{
             // @ts-ignore
             const reader = new NDEFReader();
             
-            reader.onreading = (event: any) => {
+            reader.onreading = async (event: any) => {
                 const decoder = new TextDecoder();
                 const scannedUid = event.serialNumber;
                 let foundMatch = false;
@@ -105,25 +117,35 @@ export const MobileUserView: FC<{
                     if (record.data) {
                         try {
                             const secretCode = decoder.decode(record.data).trim();
-                            const foundCard = nfcCards.find(c => c.secretcode === secretCode && c.uid === scannedUid);
+                            const { data, error } = await supabase.rpc('verify_nfc_scan', {
+                                p_uid: scannedUid,
+                                p_secretcode: secretCode,
+                                p_userid: currentUser.id,
+                            });
+                            if (error) throw error;
 
-                            if (foundCard && foundCard.assignedlocationid) {
-                                const location = locations.find(l => l.id === foundCard.assignedlocationid);
-                                if (location) {
-                                    const userTasksAtLocation = tasks.filter(
-                                        task =>
-                                            task.locationid === location.id &&
-                                            task.userid === currentUser.id &&
-                                            (task.active ?? true) &&
-                                            ![TaskStatus.Completed, TaskStatus.Canceled].includes(task.status)
-                                    );
-                                    setScannedLocation(location);
-                                    setTasksForLocation(userTasksAtLocation);
-                                    setNfcStatus('idle');
-                                    foundMatch = true;
-                                    nfcAbortController.current?.abort();
-                                    return;
-                                }
+                            const verifiedTasks = data ?? [];
+                            if (verifiedTasks.length > 0) {
+                                const first = verifiedTasks[0];
+                                const location = locations.find(l => l.id === first.location_id) ?? {
+                                    id: first.location_id,
+                                    name: first.location_name,
+                                    layoutId: '',
+                                    layoutid: '',
+                                    nfcCardId: first.card_id,
+                                    nfccardid: first.card_id,
+                                    x: 0,
+                                    y: 0,
+                                } as Location;
+                                const verifiedTaskIds = new Set(verifiedTasks.map((task: any) => task.task_id));
+                                const userTasksAtLocation = tasks.filter(task => verifiedTaskIds.has(task.id));
+                                setScannedProof({ uid: scannedUid, secretcode: secretCode });
+                                setScannedLocation(location);
+                                setTasksForLocation(userTasksAtLocation);
+                                setNfcStatus('idle');
+                                foundMatch = true;
+                                nfcAbortController.current?.abort();
+                                return;
                             }
                         } catch (e) { console.error("Kullanıcı görünümünde veri okuma hatası:", e); }
                     }

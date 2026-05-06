@@ -24,6 +24,12 @@ const normalizeFromBackend = (table: string, value: any): any => {
         assignedlocationid: value.assignedLocationId ?? value.assignedlocationid ?? null,
         assignedLocationId: value.assignedLocationId ?? value.assignedlocationid ?? null,
         active: value.active ?? true,
+        lifecycle_status: value.lifecycle_status ?? 'active',
+        security_mode: value.security_mode ?? 'static_uid',
+        ndef_payload: value.ndef_payload ?? null,
+        read_counter: value.read_counter ?? 0,
+        lastscannedat: value.lastscannedat ?? null,
+        lastverifiedat: value.lastverifiedat ?? null,
       };
     case 'locations':
       return {
@@ -61,6 +67,9 @@ const normalizeToBackend = (table: string, payload: any): any => {
   if (table === 'cards') {
     data.secretCode = data.secretCode ?? data.secretcode;
     data.assignedLocationId = data.assignedLocationId ?? data.assignedlocationid;
+    data.lifecycle_status = data.lifecycle_status ?? 'active';
+    data.security_mode = data.security_mode ?? 'static_uid';
+    data.ndef_payload = data.ndef_payload ?? null;
   }
   if (table === 'locations') {
     data.layoutId = data.layoutId ?? data.layoutid;

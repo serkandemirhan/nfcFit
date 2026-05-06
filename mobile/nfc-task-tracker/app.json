@@ -2,6 +2,7 @@
   "expo": {
     "name": "nfc-task-tracker",
     "slug": "nfc-task-tracker",
+    "owner": "sdemirhan",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -9,12 +10,21 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "bundleIdentifier": "com.serkandemirhan.nfctasktracker",
       "supportsTablet": true,
+      "entitlements": {
+        "com.apple.developer.nfc.readersession.formats": [
+          "TAG",
+          "TAG"
+        ]
+      },
       "infoPlist": {
-        "NFCReaderUsageDescription": "This app uses NFC to scan task tracking cards and manage locations."
+        "NFCReaderUsageDescription": "This app uses NFC to scan task tracking cards and manage locations.",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
+      "package": "com.serkandemirhan.nfctasktracker",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -49,6 +59,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1ff2ba3c-ac09-4e50-a0f2-27e5a9ca524c"
+      }
     }
   }
 }

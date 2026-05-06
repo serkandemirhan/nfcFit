@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  ActivityIndicator,
   Alert,
   Modal,
   Platform,
@@ -19,7 +20,8 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { createCard } from '@/lib/api';
+import { useAuth } from '@/hooks/use-auth';
+import { completeTaskFromNfc, createCard, NfcScanTask, verifyNfcScan } from '@/lib/api';
 import { nfcManager, NFCTag } from '@/lib/nfc-manager';
 
 type ScanState = 'idle' | 'scanning' | 'success' | 'error';
@@ -29,6 +31,7 @@ export default function NFCScreen() {
   const colorScheme = useColorScheme();
   const surface = getSurfaceColors(colorScheme);
   const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   const [nfcSupported, setNfcSupported] = useState<boolean | null>(null);
   const [nfcEnabled, setNfcEnabled] = useState<boolean | null>(null);
@@ -39,6 +42,9 @@ export default function NFCScreen() {
   const [showManualModal, setShowManualModal] = useState(false);
   const [manualUid, setManualUid] = useState('');
   const [manualName, setManualName] = useState('');
+  const [matchedTasks, setMatchedTasks] = useState<NfcScanTask[]>([]);
+  const [completionNotes, setCompletionNotes] = useState<Record<string, string>>({});
+  const [lastVerifiedTag, setLastVerifiedTag] = useState<NFCTag | null>(null);
 
   useEffect(() => {
     checkNFCStatus();
@@ -76,6 +82,29 @@ export default function NFCScreen() {
     },
   });
 
+  const completeTaskMutation = useMutation({
+    mutationFn: (task: NfcScanTask) => {
+      if (!lastVerifiedTag) {
+        throw new Error('No verified NFC tag is available');
+      }
+      return completeTaskFromNfc({
+        taskId: task.task_id,
+        uid: lastVerifiedTag.id,
+        secretcode: lastVerifiedTag.textPayload,
+        userid: user?.id === 'admin' ? null : user?.id,
+        notes: completionNotes[task.task_id] ?? null,
+      });
+    },
+    onSuccess: (_data, completedTask) => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      setMatchedTasks((current) => current.filter((task) => task.task_id !== completedTask.task_id));
+      Alert.alert('Success', 'Task completed from NFC scan');
+    },
+    onError: (error) => {
+      Alert.alert(t('common.error'), error instanceof Error ? error.message : t('tasks.errors.unknownError'));
+    },
+  });
+
   const startScan = async () => {
     if (!nfcEnabled) {
       Alert.alert(
@@ -99,8 +128,24 @@ export default function NFCScreen() {
 
       if (tag) {
         setScannedTag(tag);
+        setLastVerifiedTag(tag);
+        const tasks = await verifyNfcScan({
+          uid: tag.id,
+          secretcode: tag.textPayload,
+          userid: user?.id === 'admin' ? null : user?.id,
+        });
+        setMatchedTasks(tasks);
         setScanState('success');
-        setShowNameModal(true);
+        if (tasks.length === 0) {
+          Alert.alert(
+            t('nfc.scanSuccess'),
+            'Card was read, but no active task matched this card and user. You can save it as a new card if it is not registered.',
+            [
+              { text: t('cards.addCard'), onPress: () => setShowNameModal(true) },
+              { text: t('common.close'), style: 'cancel' },
+            ]
+          );
+        }
       } else {
         setScanState('error');
         Alert.alert(t('common.error'), t('nfc.scanError'));
@@ -119,6 +164,9 @@ export default function NFCScreen() {
 
   const resetScan = () => {
     setScannedTag(null);
+    setLastVerifiedTag(null);
+    setMatchedTasks([]);
+    setCompletionNotes({});
     setCardName('');
     setScanState('idle');
     setShowNameModal(false);
@@ -256,6 +304,52 @@ export default function NFCScreen() {
         </View>
 
         {/* Info Cards */}
+        {matchedTasks.length > 0 && (
+          <View style={[styles.card, { backgroundColor: surface.card, borderColor: surface.border }]}>
+            <View style={styles.resultHeader}>
+              <Ionicons name="checkmark-circle-outline" size={24} color="#10b981" />
+              <View style={styles.headerText}>
+                <ThemedText type="subtitle">{matchedTasks[0].location_name}</ThemedText>
+                <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
+                  {matchedTasks[0].card_alias || matchedTasks[0].card_id} · {matchedTasks.length} active task(s)
+                </ThemedText>
+              </View>
+            </View>
+
+            {matchedTasks.map((task) => (
+              <View key={task.task_id} style={[styles.taskResult, { borderColor: surface.border }]}>
+                <ThemedText style={styles.taskTitle}>{task.title}</ThemedText>
+                {task.description ? (
+                  <ThemedText style={[styles.hint, { color: surface.mutedText }]}>{task.description}</ThemedText>
+                ) : null}
+                <TextInput
+                  style={[styles.input, { borderColor: surface.border, color: surface.text }]}
+                  placeholder="Completion notes"
+                  placeholderTextColor={surface.mutedText}
+                  value={completionNotes[task.task_id] ?? ''}
+                  onChangeText={(text) => setCompletionNotes((current) => ({ ...current, [task.task_id]: text }))}
+                  multiline
+                />
+                <TouchableOpacity
+                  style={[styles.button, styles.completeButton]}
+                  onPress={() => completeTaskMutation.mutate(task)}
+                  disabled={completeTaskMutation.isPending}
+                  activeOpacity={0.7}
+                >
+                  {completeTaskMutation.isPending ? (
+                    <ActivityIndicator color="#fff" />
+                  ) : (
+                    <>
+                      <Ionicons name="checkmark-done-outline" size={20} color="#fff" />
+                      <ThemedText style={styles.buttonText}>Complete with NFC</ThemedText>
+                    </>
+                  )}
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        )}
+
         <View style={styles.infoGrid}>
           <InfoCard
             icon="card-outline"
@@ -599,6 +693,23 @@ const styles = StyleSheet.create({
   },
   inputGroup: {
     gap: 8,
+  },
+  resultHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  taskResult: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: 12,
+    gap: 10,
+  },
+  taskTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  completeButton: {
+    backgroundColor: '#16a34a',
   },
   label: {
     fontSize: 14,

@@ -6,6 +6,7 @@ export type NFCTag = {
   type: string;
   techTypes: string[];
   ndefMessage?: any[];
+  textPayload?: string | null;
 };
 
 export class NFCManagerService {
@@ -80,6 +81,7 @@ export class NFCManagerService {
         type: tag.type || 'unknown',
         techTypes: tag.techTypes || [],
         ndefMessage: tag.ndefMessage,
+        textPayload: this.getTextPayload(tag.ndefMessage),
       };
 
       return nfcTag;
@@ -137,6 +139,26 @@ export class NFCManagerService {
 
     // Fallback to a generated ID based on other properties
     return `nfc_${Date.now()}`;
+  }
+
+  private getTextPayload(ndefMessage?: any[]): string | null {
+    if (!ndefMessage?.length) return null;
+
+    for (const record of ndefMessage) {
+      try {
+        if (record?.type && String.fromCharCode(...record.type) === 'T' && record.payload) {
+          return Ndef.text.decodePayload(record.payload).trim();
+        }
+        if (record?.payload) {
+          const decoded = Ndef.text.decodePayload(record.payload).trim();
+          if (decoded) return decoded;
+        }
+      } catch {
+        continue;
+      }
+    }
+
+    return null;
   }
 
   private bytesToHexString(bytes: number[] | Uint8Array): string {

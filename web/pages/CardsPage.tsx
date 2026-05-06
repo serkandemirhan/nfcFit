@@ -23,6 +23,9 @@ interface CardFormState {
     alias: string;
     uid: string;
     locationId: string;
+    lifecycleStatus: string;
+    securityMode: string;
+    ndefPayload: string;
     active: boolean;
 }
 
@@ -37,6 +40,9 @@ const defaultFormState: CardFormState = {
     alias: '',
     uid: '',
     locationId: '',
+    lifecycleStatus: 'active',
+    securityMode: 'static_uid',
+    ndefPayload: '',
     active: true,
 };
 
@@ -101,7 +107,7 @@ export const CardsPage: FC<{
     const stats = useMemo(() => {
         const total = cards.length;
         const free = cards.filter(card => !getLocationId(card)).length;
-        const inactive = cards.filter(card => (card as any).active === false).length;
+        const inactive = cards.filter(card => (card as any).active === false || (card as any).lifecycle_status !== 'active').length;
         return { total, free, inactive };
     }, [cards]);
 
@@ -116,7 +122,7 @@ export const CardsPage: FC<{
             .map(card => {
                 const locationId = getLocationId(card);
                 const locationName = locationId ? (locationMap.get(locationId)?.name ?? 'Bilinmeyen') : 'Atanmamış';
-                const active = (card as any).active ?? true;
+                const active = ((card as any).active ?? true) && ((card as any).lifecycle_status ?? 'active') === 'active';
                 const status: StatusKey = !active ? 'inactive' : locationId ? 'assigned' : 'free';
                 return { ...card, status, locationName, assignedlocationid: locationId };
             })
@@ -300,6 +306,9 @@ export const CardsPage: FC<{
             alias: card.alias,
             uid: card.uid || '',
             locationId: getLocationId(card) || '',
+            lifecycleStatus: (card as any).lifecycle_status ?? 'active',
+            securityMode: (card as any).security_mode ?? 'static_uid',
+            ndefPayload: (card as any).ndef_payload ?? '',
             active: (card as any).active ?? true,
         });
         setIsFormOpen(true);
@@ -334,6 +343,9 @@ export const CardsPage: FC<{
             alias: formState.alias.trim(),
             uid: formState.uid.trim() || null,
             assignedlocationid: formState.locationId || null,
+            lifecycle_status: formState.lifecycleStatus,
+            security_mode: formState.securityMode,
+            ndef_payload: formState.ndefPayload.trim() || null,
             active: formState.active,
         };
 
@@ -452,6 +464,8 @@ export const CardsPage: FC<{
         const isActive = (card as any).active !== false;
         const locationText = isActive ? (locationId ? card.locationName : 'Atanmamış') : 'Pasif kart';
         const uidText = isActive ? card.uid || '—' : '—';
+        const securityText = (card as any).security_mode || 'static_uid';
+        const lifecycleText = (card as any).lifecycle_status || 'active';
 
         return (
             <div
@@ -482,6 +496,14 @@ export const CardsPage: FC<{
                     <div className="flex items-center gap-2">
                         <span className="text-gray-400 text-xs uppercase tracking-wide">UID</span>
                         <span className="font-mono text-sm text-gray-200">{uidText}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-gray-400 text-xs uppercase tracking-wide">Güvenlik</span>
+                        <span className="font-mono text-xs text-gray-200">{securityText}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-gray-400 text-xs uppercase tracking-wide">Yaşam</span>
+                        <span className="font-mono text-xs text-gray-200">{lifecycleText}</span>
                     </div>
                 </div>
                 <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-700/70">
@@ -798,6 +820,45 @@ export const CardsPage: FC<{
                                 </option>
                             ))}
                         </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm text-gray-300 mb-1">Kart Yaşam Durumu</label>
+                        <select
+                            value={formState.lifecycleStatus}
+                            onChange={e => handleFormChange('lifecycleStatus', e.target.value)}
+                            className="w-full bg-gray-900 border border-gray-700 rounded-xl p-2 text-white"
+                        >
+                            <option value="pending">Pending</option>
+                            <option value="active">Active</option>
+                            <option value="lost">Lost</option>
+                            <option value="revoked">Revoked</option>
+                            <option value="damaged">Damaged</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm text-gray-300 mb-1">Güvenlik Modu</label>
+                        <select
+                            value={formState.securityMode}
+                            onChange={e => handleFormChange('securityMode', e.target.value)}
+                            className="w-full bg-gray-900 border border-gray-700 rounded-xl p-2 text-white"
+                        >
+                            <option value="static_uid">ISO 14443-3A UID / Static UID</option>
+                            <option value="static_ndef">Static NDEF Secret</option>
+                            <option value="rolling_token">Rolling Token</option>
+                            <option value="mifare_ultralight_aes">MIFARE Ultralight AES</option>
+                            <option value="ntag424_sun">NTAG 424 DNA SUN</option>
+                            <option value="desfire">MIFARE DESFire</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm text-gray-300 mb-1">NDEF Payload / Token</label>
+                        <input
+                            type="text"
+                            value={formState.ndefPayload}
+                            onChange={e => handleFormChange('ndefPayload', e.target.value)}
+                            placeholder="Optional token written to the card"
+                            className="w-full bg-gray-900 border border-gray-700 rounded-xl p-2 text-white font-mono"
+                        />
                     </div>
                     <label className="flex items-center gap-2 text-sm text-gray-300">
                         <input

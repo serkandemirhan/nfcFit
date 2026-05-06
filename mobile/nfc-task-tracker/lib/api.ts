@@ -103,6 +103,19 @@ export type TaskTag = {
   tagid: string;
 };
 
+export type NfcScanTask = {
+  task_id: string;
+  title: string;
+  description?: string | null;
+  status: TaskStatus;
+  due_date?: string | null;
+  location_id: string;
+  location_name: string;
+  card_id: string;
+  card_alias?: string | null;
+  security_mode?: string | null;
+};
+
 const STATUS_ALIASES: Record<string, TaskStatus> = {
   not_started: 'not_started',
   'not started': 'not_started',
@@ -181,6 +194,38 @@ export async function verifyTag(tagText: string) {
   const { data, error } = await supabase.rpc('verify_tag', { tag_text: tagText });
   if (error) throw error;
   return (data ?? []) as { task_id: string; allowed: boolean }[];
+}
+
+export async function verifyNfcScan(payload: {
+  uid: string;
+  secretcode?: string | null;
+  userid?: string | null;
+}) {
+  const { data, error } = await supabase.rpc('verify_nfc_scan', {
+    p_uid: payload.uid,
+    p_secretcode: payload.secretcode ?? null,
+    p_userid: payload.userid ?? null,
+  });
+  if (error) throw error;
+  return (data ?? []) as NfcScanTask[];
+}
+
+export async function completeTaskFromNfc(payload: {
+  taskId: string;
+  uid: string;
+  secretcode?: string | null;
+  userid?: string | null;
+  notes?: string | null;
+}) {
+  const { data, error } = await supabase.rpc('complete_task_from_nfc', {
+    p_task_id: payload.taskId,
+    p_uid: payload.uid,
+    p_secretcode: payload.secretcode ?? null,
+    p_userid: payload.userid ?? null,
+    p_notes: payload.notes ?? null,
+  });
+  if (error) throw error;
+  return ((data ?? []) as Task[]).map(mapTask);
 }
 
 export async function fetchCards() {

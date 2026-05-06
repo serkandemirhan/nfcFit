@@ -49,6 +49,12 @@ const parseCard = (raw: any): NfcCard => ({
     assignedlocationid: raw.assignedLocationId ?? raw.assignedlocationid ?? null,
     alias: raw.alias ?? raw.id,
     active: raw.active ?? true,
+    lifecycle_status: raw.lifecycle_status ?? 'active',
+    security_mode: raw.security_mode ?? 'static_uid',
+    ndef_payload: raw.ndef_payload ?? null,
+    read_counter: raw.read_counter ?? 0,
+    lastscannedat: raw.lastscannedat ?? null,
+    lastverifiedat: raw.lastverifiedat ?? null,
 });
 
 const parseLocation = (raw: any): Location => ({
