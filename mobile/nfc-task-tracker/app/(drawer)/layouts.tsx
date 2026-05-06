@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useQuery } from '@tanstack/react-query';
-import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Alert, Image, ImageSourcePropType, Pressable, RefreshControl, ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useLayoutEffect, useMemo } from 'react';
 import { router, useNavigation } from 'expo-router';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +12,18 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Layout, fetchLayouts, fetchLocations } from '@/lib/api';
 
 type LayoutSummary = Layout & { hotspotCount: number; assignedCards: number };
+
+const localLayoutImages: Record<string, ImageSourcePropType> = {
+  'layout1.jpg': require('@/assets/images/layout1.jpg'),
+  'layout2.jpg': require('@/assets/images/layout2.jpg'),
+};
+
+function resolveLayoutImageSource(imageUrl?: string | null): ImageSourcePropType | null {
+  if (!imageUrl) return null;
+  if (localLayoutImages[imageUrl]) return localLayoutImages[imageUrl];
+  if (/^https?:\/\//i.test(imageUrl)) return { uri: imageUrl };
+  return null;
+}
 
 export default function LayoutsScreen() {
   const { t } = useTranslation();
@@ -110,6 +122,8 @@ function LayoutCard({
   surface: ReturnType<typeof getSurfaceColors>;
   onPress: () => void;
 }) {
+  const imageSource = resolveLayoutImageSource(layout.imageurl);
+
   return (
     <Pressable
       onPress={onPress}
@@ -129,6 +143,9 @@ function LayoutCard({
         </View>
         <Ionicons name="map-outline" size={20} color="#2563eb" />
       </View>
+      {imageSource ? (
+        <Image source={imageSource} style={styles.layoutPreview} resizeMode="cover" />
+      ) : null}
       <View style={styles.layoutActions}>
         <LayoutAction icon="add-circle-outline" label="Yeni Nokta" />
         <LayoutAction icon="resize-outline" label="Planı Güncelle" />
@@ -206,6 +223,12 @@ const styles = StyleSheet.create({
   layoutSubtitle: {
     fontSize: 13,
     color: '#6b7280',
+  },
+  layoutPreview: {
+    width: '100%',
+    height: 120,
+    borderRadius: 14,
+    backgroundColor: 'rgba(148,163,184,0.16)',
   },
   layoutActions: {
     flexDirection: 'row',

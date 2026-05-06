@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Image, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
+import { Image, ImageSourcePropType, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
 import { useEffect, useState } from 'react';
 
 import { ThemedText } from '@/components/themed-text';
@@ -9,6 +9,18 @@ import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { fetchLayoutById, fetchLocationsByLayout, updateLayout } from '@/lib/api';
+
+const localLayoutImages: Record<string, ImageSourcePropType> = {
+  'layout1.jpg': require('@/assets/images/layout1.jpg'),
+  'layout2.jpg': require('@/assets/images/layout2.jpg'),
+};
+
+function resolveLayoutImageSource(imageUrl?: string | null): ImageSourcePropType | null {
+  if (!imageUrl) return null;
+  if (localLayoutImages[imageUrl]) return localLayoutImages[imageUrl];
+  if (/^https?:\/\//i.test(imageUrl)) return { uri: imageUrl };
+  return null;
+}
 
 export default function LayoutDetailScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
@@ -72,6 +84,8 @@ export default function LayoutDetailScreen() {
     );
   }
 
+  const imageSource = resolveLayoutImageSource(layout.imageurl);
+
   return (
     <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
@@ -108,8 +122,8 @@ export default function LayoutDetailScreen() {
               </View>
             </View>
           ) : null}
-          {layout.imageurl ? (
-            <Image source={{ uri: layout.imageurl }} style={styles.preview} resizeMode="cover" />
+          {imageSource ? (
+            <Image source={imageSource} style={styles.preview} resizeMode="cover" />
           ) : (
             <View style={[styles.preview, styles.previewPlaceholder]}>
               <Ionicons name="image-outline" size={32} color={surface.mutedText} />
