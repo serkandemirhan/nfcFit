@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { router, useNavigation } from 'expo-router';
-import { Alert, FlatList, Pressable, RefreshControl, StyleSheet, View, TouchableOpacity } from 'react-native';
+import { Alert, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -412,6 +412,32 @@ const styles = StyleSheet.create({
     gap: 10,
     paddingHorizontal: 4,
     paddingBottom: 8,
+  },
+  tagFilterScrollView: {
+    marginBottom: 8,
+  },
+  tagFilterRow: {
+    gap: 8,
+    paddingHorizontal: 4,
+    paddingVertical: 4,
+  },
+  tagFilterChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 999,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+  },
+  tagFilterChipText: {
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  tagDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
   },
   listContent: {
     paddingBottom: 16,
