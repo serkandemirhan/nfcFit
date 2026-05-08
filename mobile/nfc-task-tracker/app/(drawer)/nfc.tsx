@@ -4,7 +4,6 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  ActivityIndicator,
   Alert,
   Modal,
   Platform,
@@ -16,12 +15,13 @@ import {
   View,
 } from 'react-native';
 
+import { AppBottomNav, bottomNavHeight } from '@/components/app-bottom-nav';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useAuth } from '@/hooks/use-auth';
-import { completeTaskFromNfc, createCard, NfcScanTask, verifyNfcScan } from '@/lib/api';
+import { createCard, ExerciseLogResult, logExerciseFromNfc } from '@/lib/api';
 import { nfcManager, NFCTag } from '@/lib/nfc-manager';
 
 type ScanState = 'idle' | 'scanning' | 'success' | 'error';
@@ -42,8 +42,7 @@ export default function NFCScreen() {
   const [showManualModal, setShowManualModal] = useState(false);
   const [manualUid, setManualUid] = useState('');
   const [manualName, setManualName] = useState('');
-  const [matchedTasks, setMatchedTasks] = useState<NfcScanTask[]>([]);
-  const [completionNotes, setCompletionNotes] = useState<Record<string, string>>({});
+  const [loggedExercise, setLoggedExercise] = useState<ExerciseLogResult | null>(null);
   const [lastVerifiedTag, setLastVerifiedTag] = useState<NFCTag | null>(null);
 
   useEffect(() => {
@@ -61,7 +60,7 @@ export default function NFCScreen() {
   };
 
   const createCardMutation = useMutation({
-    mutationFn: (data: { uid: string; alias?: string }) => createCard(data),
+    mutationFn: (data: { uid: string; alias?: string; ndefPayload?: string | null; assignedUserId?: string | null }) => createCard(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cards'] });
       Alert.alert(
@@ -76,29 +75,6 @@ export default function NFCScreen() {
         ]
       );
       resetScan();
-    },
-    onError: (error) => {
-      Alert.alert(t('common.error'), error instanceof Error ? error.message : t('tasks.errors.unknownError'));
-    },
-  });
-
-  const completeTaskMutation = useMutation({
-    mutationFn: (task: NfcScanTask) => {
-      if (!lastVerifiedTag) {
-        throw new Error('No verified NFC tag is available');
-      }
-      return completeTaskFromNfc({
-        taskId: task.task_id,
-        uid: lastVerifiedTag.id,
-        secretcode: lastVerifiedTag.textPayload,
-        userid: user?.id === 'admin' ? null : user?.id,
-        notes: completionNotes[task.task_id] ?? null,
-      });
-    },
-    onSuccess: (_data, completedTask) => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      setMatchedTasks((current) => current.filter((task) => task.task_id !== completedTask.task_id));
-      Alert.alert('Success', 'Task completed from NFC scan');
     },
     onError: (error) => {
       Alert.alert(t('common.error'), error instanceof Error ? error.message : t('tasks.errors.unknownError'));
@@ -129,20 +105,41 @@ export default function NFCScreen() {
       if (tag) {
         setScannedTag(tag);
         setLastVerifiedTag(tag);
-        const tasks = await verifyNfcScan({
+        const result = await logExerciseFromNfc({
           uid: tag.id,
-          secretcode: tag.textPayload,
-          userid: user?.id === 'admin' ? null : user?.id,
+          ndefPayload: tag.textPayload,
+          userId: user?.id ?? 'u1',
         });
-        setMatchedTasks(tasks);
+        setLoggedExercise(result);
         setScanState('success');
-        if (tasks.length === 0) {
+        queryClient.invalidateQueries({ queryKey: ['exercise_logs'] });
+        queryClient.invalidateQueries({ queryKey: ['wellness_logs'] });
+        queryClient.invalidateQueries({ queryKey: ['daily_goal_progress'] });
+        queryClient.invalidateQueries({ queryKey: ['cards'] });
+
+        if (result?.result === 'logged' || result?.result === 'wellness_logged') {
+          return;
+        } else if (result?.result === 'new_tag') {
+          Alert.alert('Yeni kart eklendi', 'Bu NFC tag hesabına eklendi. Kartlar ekranından fitness veya wellness aksiyonuna bağlayabilirsin.', [
+            { text: 'Kartlar', onPress: () => { resetScan(); router.push('/(drawer)/cards' as never); } },
+            { text: t('common.close'), style: 'cancel', onPress: resetScan },
+          ]);
+        } else if (result?.result === 'unassigned_tag') {
+          Alert.alert('Kart hazır', 'Bu tag henüz bir aksiyona bağlı değil. Kartlar ekranından bağlayabilirsin.', [
+            { text: 'Kartlar', onPress: () => { resetScan(); router.push('/(drawer)/cards' as never); } },
+            { text: t('common.close'), style: 'cancel', onPress: resetScan },
+          ]);
+        } else if (result?.result === 'inactive_tag') {
+          Alert.alert(t('common.error'), t('nfc.inactiveExerciseTag'), [{ text: t('common.close'), onPress: resetScan }]);
+        } else if (result?.result === 'user_mismatch') {
+          Alert.alert(t('common.error'), t('nfc.userMismatch'), [{ text: t('common.close'), onPress: resetScan }]);
+        } else {
           Alert.alert(
             t('nfc.scanSuccess'),
-            'Card was read, but no active task matched this card and user. You can save it as a new card if it is not registered.',
+            t('nfc.noExerciseTagMatch'),
             [
               { text: t('cards.addCard'), onPress: () => setShowNameModal(true) },
-              { text: t('common.close'), style: 'cancel' },
+              { text: t('common.close'), style: 'cancel', onPress: resetScan },
             ]
           );
         }
@@ -165,8 +162,7 @@ export default function NFCScreen() {
   const resetScan = () => {
     setScannedTag(null);
     setLastVerifiedTag(null);
-    setMatchedTasks([]);
-    setCompletionNotes({});
+    setLoggedExercise(null);
     setCardName('');
     setScanState('idle');
     setShowNameModal(false);
@@ -177,7 +173,9 @@ export default function NFCScreen() {
 
     createCardMutation.mutate({
       uid: scannedTag.id,
+      ndefPayload: scannedTag.textPayload,
       alias: cardName.trim() || undefined,
+      assignedUserId: user?.id ?? 'u1',
     });
 
     setShowNameModal(false);
@@ -192,6 +190,7 @@ export default function NFCScreen() {
     createCardMutation.mutate({
       uid: manualUid.trim(),
       alias: manualName.trim() || undefined,
+      assignedUserId: user?.id ?? 'u1',
     });
 
     setManualUid('');
@@ -238,15 +237,20 @@ export default function NFCScreen() {
     <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
         {/* Header */}
-        <View style={[styles.card, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <View style={styles.headerRow}>
-            <Ionicons name="radio-outline" size={32} color="#2563eb" />
-            <View style={styles.headerText}>
-              <ThemedText type="subtitle">{t('nfc.title')}</ThemedText>
-              <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
-                {nfcEnabled ? t('nfc.instructions') : t('nfc.nfcDisabled')}
-              </ThemedText>
-            </View>
+        <View style={styles.scanHero}>
+          <ThemedText style={styles.scanTitle}>Hold your phone{'\n'}near the NFC tag</ThemedText>
+          <ThemedText style={styles.scanStateText}>{scanState === 'scanning' ? 'Scanning...' : 'Ready to scan'}</ThemedText>
+          <View style={styles.radarWrap}>
+            <View style={styles.radarRingOuter} />
+            <View style={styles.radarRingMiddle} />
+            <View style={styles.radarRingInner} />
+            <TouchableOpacity
+              style={styles.radarButton}
+              onPress={startScan}
+              disabled={!nfcEnabled || scanState === 'scanning'}
+              activeOpacity={0.75}>
+              <Ionicons name="radio" size={66} color="#fff" />
+            </TouchableOpacity>
           </View>
 
           {!nfcEnabled && (
@@ -262,14 +266,14 @@ export default function NFCScreen() {
         </View>
 
         {/* Scan Status */}
-        {scanState !== 'idle' && (
+        {scanState === 'error' && (
           <View style={[styles.card, { backgroundColor: surface.card, borderColor: surface.border }]}>
             <ScanStatus state={scanState} surfaceMuted={surface.mutedText} />
           </View>
         )}
 
         {/* Action Buttons */}
-        <View style={styles.actionsRow}>
+        {scanState !== 'success' && <View style={styles.actionsRow}>
           {scanState === 'idle' ? (
             <>
               <TouchableOpacity
@@ -301,52 +305,41 @@ export default function NFCScreen() {
               <ThemedText style={styles.buttonText}>{t('common.cancel')}</ThemedText>
             </TouchableOpacity>
           )}
-        </View>
+        </View>}
 
         {/* Info Cards */}
-        {matchedTasks.length > 0 && (
-          <View style={[styles.card, { backgroundColor: surface.card, borderColor: surface.border }]}>
-            <View style={styles.resultHeader}>
-              <Ionicons name="checkmark-circle-outline" size={24} color="#10b981" />
-              <View style={styles.headerText}>
-                <ThemedText type="subtitle">{matchedTasks[0].location_name}</ThemedText>
-                <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
-                  {matchedTasks[0].card_alias || matchedTasks[0].card_id} · {matchedTasks.length} active task(s)
-                </ThemedText>
-              </View>
+        {(loggedExercise?.result === 'logged' || loggedExercise?.result === 'wellness_logged') && (
+          <View style={[styles.successCard, { backgroundColor: surface.card, borderColor: surface.border }]}>
+            <View style={styles.confettiDots}>
+              {Array.from({ length: 18 }).map((_, index) => <View key={index} style={[styles.dot, dotStyle(index)]} />)}
             </View>
-
-            {matchedTasks.map((task) => (
-              <View key={task.task_id} style={[styles.taskResult, { borderColor: surface.border }]}>
-                <ThemedText style={styles.taskTitle}>{task.title}</ThemedText>
-                {task.description ? (
-                  <ThemedText style={[styles.hint, { color: surface.mutedText }]}>{task.description}</ThemedText>
-                ) : null}
-                <TextInput
-                  style={[styles.input, { borderColor: surface.border, color: surface.text }]}
-                  placeholder="Completion notes"
-                  placeholderTextColor={surface.mutedText}
-                  value={completionNotes[task.task_id] ?? ''}
-                  onChangeText={(text) => setCompletionNotes((current) => ({ ...current, [task.task_id]: text }))}
-                  multiline
-                />
-                <TouchableOpacity
-                  style={[styles.button, styles.completeButton]}
-                  onPress={() => completeTaskMutation.mutate(task)}
-                  disabled={completeTaskMutation.isPending}
-                  activeOpacity={0.7}
-                >
-                  {completeTaskMutation.isPending ? (
-                    <ActivityIndicator color="#fff" />
-                  ) : (
-                    <>
-                      <Ionicons name="checkmark-done-outline" size={20} color="#fff" />
-                      <ThemedText style={styles.buttonText}>Complete with NFC</ThemedText>
-                    </>
-                  )}
-                </TouchableOpacity>
-              </View>
-            ))}
+            <View style={styles.successCircle}>
+              <Ionicons name="checkmark" size={58} color="#fff" />
+            </View>
+            <ThemedText style={styles.successTitle}>Great!</ThemedText>
+            <ThemedText style={styles.successExercise}>
+              +{formatQuantity(loggedExercise.quantity, loggedExercise.unit)} {loggedExercise.result === 'wellness_logged' ? loggedExercise.wellness_name : loggedExercise.exercise_name ?? t('nfc.exercise')}
+            </ThemedText>
+            <ThemedText style={styles.successTitleSmall}>added</ThemedText>
+            <View style={[styles.taskResult, { borderColor: surface.border }]}>
+              <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
+                {loggedExercise.result === 'wellness_logged' ? 'Logged' : 'Calories Burned'}
+              </ThemedText>
+              <ThemedText style={styles.taskTitle}>
+                {loggedExercise.result === 'wellness_logged'
+                  ? formatQuantity(loggedExercise.quantity, loggedExercise.unit)
+                  : `${loggedExercise.calorie_estimate ?? 0} kcal`}
+              </ThemedText>
+              <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
+                {loggedExercise.result === 'wellness_logged' ? 'Total Today' : 'Total Today'}
+              </ThemedText>
+            </View>
+            <TouchableOpacity style={[styles.actionButton, styles.primaryButton]} onPress={() => router.push(loggedExercise.result === 'wellness_logged' ? '/(drawer)/wellness' as never : '/(drawer)/fitness' as never)}>
+              <ThemedText style={styles.buttonText}>{loggedExercise.result === 'wellness_logged' ? 'View Wellness' : 'View Workout'}</ThemedText>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.actionButton, styles.secondaryButton, { borderColor: surface.border }]} onPress={resetScan}>
+              <ThemedText style={styles.secondaryButtonText}>Done</ThemedText>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -364,6 +357,7 @@ export default function NFCScreen() {
           />
         </View>
       </ScrollView>
+      <AppBottomNav />
 
       {/* Name Input Modal */}
       <Modal
@@ -372,11 +366,11 @@ export default function NFCScreen() {
         animationType="fade"
         onRequestClose={() => setShowNameModal(false)}
       >
-        <Pressable style={styles.modalOverlay} onPress={() => setShowNameModal(false)}>
+        <Pressable style={styles.modalOverlay} onPress={() => { setShowNameModal(false); resetScan(); }}>
           <Pressable style={styles.modalContent} onPress={(e) => e.stopPropagation()}>
             <View style={styles.modalHeader}>
               <ThemedText type="subtitle">{t('cards.cardName')}</ThemedText>
-              <TouchableOpacity onPress={() => setShowNameModal(false)}>
+              <TouchableOpacity onPress={() => { setShowNameModal(false); resetScan(); }}>
                 <Ionicons name="close" size={24} color="#666" />
               </TouchableOpacity>
             </View>
@@ -406,7 +400,7 @@ export default function NFCScreen() {
             <View style={styles.modalActions}>
               <TouchableOpacity
                 style={[styles.modalButton, styles.cancelButton]}
-                onPress={() => setShowNameModal(false)}
+                onPress={() => { setShowNameModal(false); resetScan(); }}
               >
                 <ThemedText style={styles.cancelButtonText}>{t('common.cancel')}</ThemedText>
               </TouchableOpacity>
@@ -555,13 +549,25 @@ function InfoCard({
   );
 }
 
+function formatQuantity(quantity?: number | null, unit?: string | null) {
+  const value = quantity ?? 0;
+  if (unit === 'seconds') return `${value} sec`;
+  if (unit === 'minutes') return `${value} min`;
+  if (unit === 'meters') return `${value} m`;
+  if (unit === 'ml') return `${value} ml`;
+  if (unit === 'cups') return `${value} cup`;
+  if (unit === 'count') return `${value}`;
+  return `${value} reps`;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   content: {
-    padding: 16,
-    gap: 16,
+    padding: 14,
+    paddingBottom: bottomNavHeight + 24,
+    gap: 12,
   },
   centered: {
     flex: 1,
@@ -572,9 +578,112 @@ const styles = StyleSheet.create({
   },
   card: {
     borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 12,
+    padding: 14,
+    gap: 12,
+  },
+  scanHero: {
     borderRadius: 16,
-    padding: 16,
+    padding: 18,
+    minHeight: 360,
+    justifyContent: 'center',
+    alignItems: 'center',
     gap: 16,
+  },
+  scanTitle: {
+    fontSize: 18,
+    lineHeight: 22,
+    fontWeight: '900',
+    textAlign: 'center',
+  },
+  scanStateText: {
+    color: '#35D353',
+    fontSize: 13,
+    fontWeight: '800',
+  },
+  radarWrap: {
+    width: 250,
+    height: 250,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  radarRingOuter: {
+    position: 'absolute',
+    width: 238,
+    height: 238,
+    borderRadius: 119,
+    borderWidth: 1,
+    borderColor: 'rgba(53,211,83,0.18)',
+  },
+  radarRingMiddle: {
+    position: 'absolute',
+    width: 188,
+    height: 188,
+    borderRadius: 94,
+    borderWidth: 1,
+    borderColor: 'rgba(53,211,83,0.26)',
+  },
+  radarRingInner: {
+    position: 'absolute',
+    width: 136,
+    height: 136,
+    borderRadius: 68,
+    borderWidth: 1,
+    borderColor: 'rgba(53,211,83,0.36)',
+  },
+  radarButton: {
+    width: 116,
+    height: 116,
+    borderRadius: 58,
+    backgroundColor: '#35D353',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#35D353',
+    shadowOpacity: 0.4,
+    shadowRadius: 18,
+    elevation: 10,
+  },
+  successCard: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 14,
+    padding: 18,
+    gap: 12,
+    alignItems: 'center',
+  },
+  successCircle: {
+    width: 104,
+    height: 104,
+    borderRadius: 52,
+    backgroundColor: '#35D353',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  successTitle: {
+    fontSize: 22,
+    fontWeight: '900',
+  },
+  successTitleSmall: {
+    fontSize: 18,
+    fontWeight: '800',
+  },
+  successExercise: {
+    color: '#35D353',
+    fontSize: 22,
+    fontWeight: '900',
+    textAlign: 'center',
+  },
+  confettiDots: {
+    position: 'absolute',
+    top: 8,
+    left: 0,
+    right: 0,
+    height: 120,
+  },
+  dot: {
+    position: 'absolute',
+    width: 5,
+    height: 5,
+    borderRadius: 3,
   },
   headerRow: {
     flexDirection: 'row',
@@ -602,11 +711,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    paddingVertical: 16,
+    paddingVertical: 14,
     borderRadius: 12,
   },
   primaryButton: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#35D353',
   },
   secondaryButton: {
     backgroundColor: 'transparent',
@@ -744,3 +853,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#2563eb',
   },
 });
+
+function dotStyle(index: number) {
+  const colors = ['#35D353', '#4AA3FF', '#F59E0B', '#9B5CE5', '#EF4444'];
+  return {
+    left: 22 + ((index * 37) % 280),
+    top: 8 + ((index * 23) % 96),
+    backgroundColor: colors[index % colors.length],
+  };
+}

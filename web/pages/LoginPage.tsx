@@ -1,73 +1,98 @@
 import React, { FC, useState } from 'react';
-import { useTranslation } from '../i18n/context';
 import { User } from '../types';
+import { BrandMark, BrowserFrame } from '../components/web-ui';
 
 type LoggedInUser = User | { id: 'admin'; name: 'Admin'; avatarUrl: string };
 
-export const LoginPage: FC<{ onLoginSuccess: (user: LoggedInUser) => void, users: User[] }> = ({ onLoginSuccess, users }) => {
-    const { t } = useTranslation();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+export const LoginPage: FC<{ onLoginSuccess: (user: LoggedInUser) => void; users: User[] }> = ({ onLoginSuccess, users }) => {
+  const [email, setEmail] = useState('serkan@example.com');
+  const [password, setPassword] = useState('1234');
+  const [error, setError] = useState('');
 
-    const handleLogin = (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
+  const handleLogin = (event: React.FormEvent) => {
+    event.preventDefault();
+    setError('');
+    const user = users.find(item => item.email === email || item.username === email) ?? users[0];
+    if (user && password.length > 0) {
+      onLoginSuccess(user);
+      return;
+    }
+    setError('Email veya sifre hatali.');
+  };
 
-        if (username === 'admin' && password === '123456') {
-            onLoginSuccess({ id: 'admin', name: 'Admin', avatarUrl: 'https://i.imgur.com/k73bB6w.png' });
-            return;
-        }
-
-        const foundUser = users.find(u => u.username === username);
-        if (foundUser && password === '123456') { // NOTE: Insecure, for demo only
-            onLoginSuccess(foundUser);
-            return;
-        }
-
-        setError('Kullanıcı adı veya şifre hatalı.');
-    };
-
-    const handleQuickLogin = (userType: 'admin' | 'user') => {
-        if (userType === 'admin') {
-            onLoginSuccess({ id: 'admin', name: 'Admin', avatarUrl: 'https://i.imgur.com/k73bB6w.png' });
-        } else {
-            const testUser = users.find(u => u.username !== 'admin');
-            if (testUser) {
-                onLoginSuccess(testUser);
-            } else {
-                setError('Test kullanıcısı bulunamadı.');
-            }
-        }
-    };
-
-    return (
-        <div className="min-h-screen bg-gray-900 flex flex-col justify-center items-center p-4">
-            <div className="w-full max-w-md">
-                <form onSubmit={handleLogin} className="bg-gray-800 shadow-2xl rounded-lg px-8 pt-6 pb-8 mb-4">
-                    <div className="mb-6 text-center">
-                         <div className="inline-flex items-center justify-center space-x-3 mb-4">
-                            <svg className="w-10 h-10 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-                            <h1 className="text-white text-2xl font-bold">{t('app.title')}</h1>
-                        </div>
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="username">{t('login.username')}</label>
-                        <input className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" id="username" type="text" placeholder={t('login.usernamePlaceholder')} autoComplete="username" value={username} onChange={e => setUsername(e.target.value)} />
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="password">{t('login.password')}</label>
-                        <input className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" id="password" type="password" placeholder="******************" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} />
-                    </div>
-                    {error && <p className="text-red-500 text-xs italic mb-4 text-center">{error}</p>}
-                    <div className="flex items-center justify-between"><button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors" type="submit">{t('login.submit')}</button></div>
-                    <div className="relative flex pt-8 pb-4 items-center"><div className="flex-grow border-t border-gray-700"></div><span className="flex-shrink mx-4 text-gray-500 text-xs">{t('login.quickLogin')}</span><div className="flex-grow border-t border-gray-700"></div></div>
-                     <div className="flex items-center justify-center space-x-2">
-                         <button type="button" onClick={() => handleQuickLogin('user')} className="w-full bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors text-sm">{t('login.asUser')}</button>
-                         <button type="button" onClick={() => handleQuickLogin('admin')} className="w-full bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition-colors text-sm">{t('login.asAdmin')}</button>
-                    </div>
-                </form>
-            </div>
+  return (
+    <div className="min-h-screen bg-[#020b14] px-5 py-8 text-white">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-7 text-center">
+          <h1 className="text-5xl font-black tracking-tight">
+            NFCFit <span className="text-green-400">MVP</span> <span className="text-sky-400">Web UI</span>
+          </h1>
+          <p className="mt-3 text-sm text-slate-300">Fitness • Wellness • Health • NFC Powered • Habit Tracking</p>
         </div>
-    );
+
+        <BrowserFrame>
+          <div className="grid min-h-[520px] grid-cols-1 md:grid-cols-[1.1fr_0.9fr]">
+            <div className="relative overflow-hidden border-b border-white/10 bg-[#061523] p-8 md:border-b-0 md:border-r">
+              <div className="absolute inset-0 opacity-50" style={{ background: 'radial-gradient(circle at 35% 45%, rgba(34,197,94,0.24), transparent 28%), radial-gradient(circle at 15% 80%, rgba(14,165,233,0.18), transparent 26%)' }} />
+              <div className="relative flex h-full flex-col items-center justify-center text-center">
+                <BrandMark />
+                <p className="mt-5 text-lg font-bold">Tap. Track. Improve.</p>
+                <p className="mt-3 max-w-xs text-sm leading-6 text-slate-300">
+                  Track your workouts, habits and wellness with a tap.
+                </p>
+                <div className="relative mt-10 grid h-36 w-36 place-items-center rounded-full border border-green-400/20 bg-green-400/10">
+                  <div className="absolute h-28 w-28 rounded-full border border-green-400/30" />
+                  <div className="grid h-20 w-20 place-items-center rounded-full bg-green-500 text-3xl font-black shadow-xl shadow-green-500/30">N</div>
+                </div>
+                <div className="mt-10 grid w-full max-w-lg grid-cols-2 gap-3 text-left">
+                  {['NFC Powered', 'Habit Tracking', 'Fitness Goals', 'Wellness Logs'].map(item => (
+                    <div key={item} className="rounded-xl border border-white/10 bg-white/[0.045] p-3">
+                      <p className="text-sm font-bold text-white">{item}</p>
+                      <p className="mt-1 text-xs text-slate-400">Simple daily tracking</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <form onSubmit={handleLogin} className="flex flex-col justify-center p-8">
+              <div className="mx-auto w-full max-w-sm">
+                <h2 className="text-2xl font-black">Welcome back</h2>
+                <p className="mt-1 text-sm text-slate-400">Log in to your NFCFit account</p>
+
+                <label className="mt-8 block text-xs font-semibold text-slate-300">Email</label>
+                <input
+                  value={email}
+                  onChange={event => setEmail(event.target.value)}
+                  type="email"
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm text-white outline-none focus:border-green-400"
+                  placeholder="you@example.com"
+                />
+
+                <label className="mt-5 block text-xs font-semibold text-slate-300">Password</label>
+                <input
+                  value={password}
+                  onChange={event => setPassword(event.target.value)}
+                  type="password"
+                  className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm text-white outline-none focus:border-green-400"
+                  placeholder="Enter your password"
+                />
+
+                <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
+                  <label className="flex items-center gap-2"><input type="checkbox" className="accent-green-500" /> Remember me</label>
+                  <button type="button" className="text-sky-300">Forgot password?</button>
+                </div>
+
+                {error && <p className="mt-4 text-sm text-red-300">{error}</p>}
+
+                <button className="mt-6 w-full rounded-xl bg-green-500 py-3 text-sm font-black text-[#04120a] transition hover:bg-green-400">
+                  Log In
+                </button>
+              </div>
+            </form>
+          </div>
+        </BrowserFrame>
+      </div>
+    </div>
+  );
 };

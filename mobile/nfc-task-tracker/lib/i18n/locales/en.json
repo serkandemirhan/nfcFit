@@ -1,4 +1,7 @@
 {
+  "app": {
+    "title": "NFCFit"
+  },
   "common": {
     "loading": "Loading…",
     "error": "Error",
@@ -21,10 +24,10 @@
     "saving": "Saving…"
   },
   "navigation": {
-    "tasks": "Tasks",
+    "tasks": "Today",
     "nfc": "NFC Scanner",
-    "cards": "Cards",
-    "layouts": "Layouts",
+    "cards": "Exercise Tags",
+    "layouts": "Workout Areas",
     "users": "Users"
   },
   "tasks": {
@@ -77,34 +80,41 @@
   },
   "nfc": {
     "title": "NFC Scanner",
-    "description": "This section will host the NFC reader workflow",
-    "instructions": "Hold an NFC card near the back of your phone",
+    "description": "Scan a fitness tag to log an exercise",
+    "instructions": "Hold an exercise NFC tag near the back of your phone",
     "scanning": "Scanning...",
-    "scanSuccess": "Card read successfully",
-    "scanError": "Failed to read card",
+    "scanSuccess": "Tag read successfully",
+    "scanError": "Failed to read tag",
     "noNfcSupport": "Your device doesn't support NFC",
     "nfcDisabled": "NFC is disabled. Please enable it in settings",
-    "readCard": "Read Card",
-    "writeCard": "Write to Card",
-    "cardId": "Card ID",
-    "cardType": "Card Type"
+    "readCard": "Scan NFC",
+    "writeCard": "Write to Tag",
+    "cardId": "Tag ID",
+    "cardType": "Tag Type",
+    "exercise": "exercise",
+    "exerciseLogged": "Exercise logged",
+    "logged": "logged",
+    "noExerciseTagMatch": "This NFC tag is not linked to an active exercise tag. You can save it as a starter push-up tag and edit it later.",
+    "inactiveExerciseTag": "This exercise tag is inactive.",
+    "userMismatch": "This exercise tag is assigned to another user."
   },
   "cards": {
-    "title": "NFC Cards",
-    "noCards": "No cards yet",
-    "addCard": "Add New Card",
-    "editCard": "Edit Card",
-    "deleteCard": "Delete Card",
-    "deleteConfirm": "Are you sure you want to delete this card?",
-    "cardName": "Card Name",
-    "cardId": "Card ID",
-    "linkedLayout": "Linked Layout",
+    "title": "Exercise Tags",
+    "noCards": "No exercise tags yet",
+    "addCard": "Add Exercise Tag",
+    "editCard": "Edit Exercise Tag",
+    "deleteCard": "Delete Exercise Tag",
+    "deleteConfirm": "Are you sure you want to delete this exercise tag?",
+    "cardName": "Tag Name",
+    "cardId": "Tag ID",
+    "linkedLayout": "Workout Area",
     "noLayout": "No layout",
     "createdAt": "Created At",
     "lastScanned": "Last Scanned",
     "neverScanned": "Never scanned",
     "scanCount": "Scan Count",
     "active": "Active",
+    "available": "Unassigned",
     "inactive": "Inactive",
     "errors": {
       "nameRequired": "Card name is required.",

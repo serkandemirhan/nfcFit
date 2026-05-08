@@ -9,9 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useLayoutEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from 'expo-router';
+import { useMemo } from 'react';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -20,9 +18,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AppUser, deleteUserById, fetchUsers, updateUserPassword } from '@/lib/api';
 
 export default function UsersScreen() {
-  const { t } = useTranslation();
   const surface = getSurfaceColors(useColorScheme());
-  const navigation = useNavigation();
   const queryClient = useQueryClient();
   const usersQuery = useQuery({ queryKey: ['users'], queryFn: fetchUsers });
   const resetPasswordMutation = useMutation({
@@ -50,21 +46,6 @@ export default function UsersScreen() {
   const onRefresh = () => usersQuery.refetch();
 
   const totalUsers = useMemo(() => (usersQuery.data ?? []).length, [usersQuery.data]);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={styles.headerAction}
-          onPress={() => Alert.alert('Yeni Kullanıcı', 'Bu özellik yakında eklenecektir.')}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="add-circle-outline" size={20} color="#2563eb" />
-          <ThemedText style={styles.headerActionLabel}>{t('users.addUser')}</ThemedText>
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation, t]);
 
   if (usersQuery.isLoading) {
     return (
@@ -244,21 +225,6 @@ const styles = StyleSheet.create({
   },
   summaryText: {
     fontSize: 14,
-    fontWeight: '600',
-  },
-  headerAction: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#2563eb',
-    marginRight: 8,
-  },
-  headerActionLabel: {
-    color: '#2563eb',
     fontWeight: '600',
   },
   userRow: {

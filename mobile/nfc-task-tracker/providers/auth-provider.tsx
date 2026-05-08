@@ -4,34 +4,29 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import { AppUser } from '@/lib/api';
 import { supabase } from '@/lib/supabase';
 
-type AdminUser = {
-  id: 'admin';
-  name: string;
-  avatarurl?: string | null;
-  role: 'admin';
-};
-
-export type AuthenticatedUser = (AppUser & { role?: 'user' }) | AdminUser;
+export type AuthenticatedUser = AppUser & { role?: 'user' };
 
 type AuthContextValue = {
   user: AuthenticatedUser | null;
   loading: boolean;
   isSubmitting: boolean;
   error: string | null;
-  login: (username: string, password: string) => Promise<void>;
-  quickLogin: (type: 'admin' | 'first-user') => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
+  quickLogin: (type?: 'first-user') => Promise<void>;
   logout: () => Promise<void>;
 };
 
-const STORAGE_KEY = 'nfc-task-tracker.auth.user';
+const SINGLE_USER_ID = 'u1';
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-const adminUser: AdminUser = {
-  id: 'admin',
-  name: 'Admin',
-  avatarurl: 'https://i.imgur.com/k73bB6w.png',
-  role: 'admin',
+const fallbackUser: AuthenticatedUser = {
+  id: SINGLE_USER_ID,
+  name: 'Serkan',
+  username: 'serkan',
+  email: 'serkan@example.com',
+  avatarurl: 'https://i.pravatar.cc/150?u=serkan',
+  role: 'user',
 };
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -42,32 +37,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const bootstrap = async () => {
-      try {
-        const stored = await AsyncStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          setUser(JSON.parse(stored));
-        }
-      } finally {
-        setLoading(false);
-      }
+      setLoading(false);
     };
     void bootstrap();
   }, []);
 
   const persistUser = useCallback(async (value: AuthenticatedUser | null) => {
-    if (value) {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(value));
-    } else {
-      await AsyncStorage.removeItem(STORAGE_KEY);
-    }
+    if (value) await AsyncStorage.setItem('nfcfit.single-user', JSON.stringify(value));
   }, []);
 
-  const login = useCallback(async (username: string, password: string) => {
-    const trimmedUsername = username.trim();
+  const login = useCallback(async (email: string, password: string) => {
+    const trimmedEmail = email.trim().toLowerCase();
     const trimmedPassword = password.trim();
 
-    if (!trimmedUsername || !trimmedPassword) {
-      setError('Kullanıcı adı ve şifre gereklidir.');
+    if (!trimmedEmail || !trimmedPassword) {
+      setError('Email ve şifre gereklidir.');
       throw new Error('Missing credentials');
     }
 
@@ -75,27 +59,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setError(null);
 
     try {
-      if (trimmedUsername.toLowerCase() === 'admin' && trimmedPassword === '123456') {
-        setUser(adminUser);
-        await persistUser(adminUser);
-        return;
-      }
-
       const { data, error: fetchError } = await supabase
         .from('users')
         .select('*')
-        .eq('username', trimmedUsername)
+        .eq('email', trimmedEmail)
         .maybeSingle();
 
       if (fetchError || !data) {
         throw new Error('Kullanıcı bulunamadı.');
       }
 
-      if (trimmedPassword !== '123456') {
+      if (trimmedPassword !== (data.passwordhash ?? '1234')) {
         throw new Error('Şifre hatalı.');
       }
 
-      const normalized: AuthenticatedUser = { ...data, role: 'user' };
+      const normalized: AuthenticatedUser = { ...(data ?? fallbackUser), role: 'user' };
       setUser(normalized);
       await persistUser(normalized);
     } catch (err) {
@@ -107,27 +85,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [persistUser]);
 
-  const quickLogin = useCallback(async (type: 'admin' | 'first-user') => {
-    if (type === 'admin') {
-      setUser(adminUser);
-      await persistUser(adminUser);
-      return;
-    }
-
-    const { data } = await supabase.from('users').select('*').limit(1).maybeSingle();
-
-    if (data) {
-      const normalized: AuthenticatedUser = { ...data, role: 'user' };
-      setUser(normalized);
-      await persistUser(normalized);
-    } else {
-      setError('Test kullanıcısı bulunamadı.');
-    }
+  const quickLogin = useCallback(async () => {
+    const { data } = await supabase.from('users').select('*').eq('id', SINGLE_USER_ID).maybeSingle();
+    const normalized: AuthenticatedUser = { ...(data ?? fallbackUser), role: 'user' };
+    setUser(normalized);
+    await persistUser(normalized);
   }, [persistUser]);
 
   const logout = useCallback(async () => {
     setUser(null);
-    await persistUser(null);
   }, [persistUser]);
 
   const value = useMemo<AuthContextValue>(

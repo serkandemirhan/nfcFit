@@ -1,589 +1,307 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { router, useNavigation } from 'expo-router';
-import { Alert, FlatList, Pressable, RefreshControl, ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { useLayoutEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { router } from 'expo-router';
+import { Pressable, RefreshControl, ScrollView, StyleSheet, TextInput, View } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
 
+import { AppBottomNav, bottomNavHeight } from '@/components/app-bottom-nav';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { getActionColors, getStatusBadgeColors, getSurfaceColors } from '@/constants/tasks';
+import { getSurfaceColors } from '@/constants/tasks';
+import { useAuth } from '@/hooks/use-auth';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import {
-  Task,
-  TaskStatus,
-  fetchTasks,
-  fetchUsers,
-  updateTaskStatus,
-  fetchTags,
-  fetchAllTaskTags,
-} from '@/lib/api';
+import { ExerciseType, fetchDailyGoalProgress, fetchExerciseLogs, fetchExerciseTypes, fetchUserExercises, fetchWellnessLogs, fetchWellnessGoals, updateDailyGoal } from '@/lib/api';
 
-type StatusAction = {
-  label: string;
-  target: TaskStatus;
-  visible: (task: Task) => boolean;
-  icon: keyof typeof Ionicons.glyphMap;
-};
-
-const STATUS_ACTIONS: StatusAction[] = [
-  {
-    label: 'Start',
-    target: 'in_progress',
-    icon: 'play-outline',
-    visible: (task) => task.status === 'not_started',
-  },
-  {
-    label: 'Done',
-    target: 'completed',
-    icon: 'checkmark-done-outline',
-    visible: (task) => task.status !== 'completed',
-  },
-];
-
-type SurfacePalette = ReturnType<typeof getSurfaceColors>;
-type ActionPalette = ReturnType<typeof getActionColors>;
-
-export default function TasksScreen() {
+export default function TodayScreen() {
+  const surface = getSurfaceColors(useColorScheme());
+  const { user } = useAuth();
   const queryClient = useQueryClient();
-  const colorScheme = useColorScheme();
-  const { t } = useTranslation();
-  const navigation = useNavigation();
-  const surface = getSurfaceColors(colorScheme);
-  const actionColors = getActionColors(colorScheme);
-  const tasksQuery = useQuery({ queryKey: ['tasks'], queryFn: fetchTasks });
-  const usersQuery = useQuery({ queryKey: ['users'], queryFn: fetchUsers });
-  const tagsQuery = useQuery({ queryKey: ['tags'], queryFn: fetchTags });
-  const taskTagsQuery = useQuery({ queryKey: ['task_tags'], queryFn: fetchAllTaskTags });
-  const [filter, setFilter] = useState<'active' | 'completed'>('active');
-  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
-  const tasks = tasksQuery.data ?? [];
-  const users = usersQuery.data ?? [];
-  const tags = tagsQuery.data ?? [];
-  const taskTags = taskTagsQuery.data ?? [];
+  const userId = user?.id ?? 'u1';
+  const logsQuery = useQuery({ queryKey: ['exercise_logs', userId], queryFn: () => fetchExerciseLogs(userId) });
+  const goalsQuery = useQuery({ queryKey: ['daily_goal_progress', userId], queryFn: () => fetchDailyGoalProgress(userId) });
+  const exerciseTypesQuery = useQuery({ queryKey: ['exercise_types'], queryFn: fetchExerciseTypes });
+  const userExercisesQuery = useQuery({ queryKey: ['user_exercises', userId], queryFn: () => fetchUserExercises(userId) });
+  const wellnessLogsQuery = useQuery({ queryKey: ['wellness_logs', userId], queryFn: () => fetchWellnessLogs(userId) });
+  const wellnessGoalsQuery = useQuery({ queryKey: ['wellness_goals', userId], queryFn: () => fetchWellnessGoals(userId) });
+  const [goalDrafts, setGoalDrafts] = useState<Record<string, string>>({});
+  const [tab, setTab] = useState<'overview' | 'fitness' | 'wellness'>('overview');
 
-  // Create a map of user IDs to user names
-  const usersMap = new Map(
-    users.map((user) => [user.id, user.name || user.username || user.email || user.id])
+  const logs = logsQuery.data ?? [];
+  const goals = goalsQuery.data ?? [];
+  const selectedExerciseIds = useMemo(
+    () => new Set((userExercisesQuery.data ?? []).filter((item) => item.active !== false).map((item) => item.exercise_type_id)),
+    [userExercisesQuery.data]
   );
+  const selectedExercises = useMemo(
+    () => (exerciseTypesQuery.data ?? []).filter((exercise) => selectedExerciseIds.has(exercise.id)),
+    [exerciseTypesQuery.data, selectedExerciseIds]
+  );
+  const todayLogs = logs.filter((log) => isToday(log.createdat));
+  const totalQuantity = todayLogs.reduce((sum, log) => sum + Number(log.quantity ?? 0), 0);
+  const totalCalories = todayLogs.reduce((sum, log) => sum + Number(log.calorie_estimate ?? 0), 0);
+  const todayWellnessLogs = (wellnessLogsQuery.data ?? []).filter((log) => isToday(log.createdat));
+  const waterTotal = todayWellnessLogs
+    .filter((log) => log.wellness_type_id === 'water')
+    .reduce((sum, log) => sum + Number(log.quantity ?? 0), 0);
+  const wellnessDone = todayWellnessLogs.length;
+  const lastTag = todayLogs.find((log) => log.source === 'nfc') ?? logs.find((log) => log.source === 'nfc');
+  const refreshing = logsQuery.isRefetching || goalsQuery.isRefetching || exerciseTypesQuery.isRefetching || userExercisesQuery.isRefetching || wellnessLogsQuery.isRefetching || wellnessGoalsQuery.isRefetching;
 
-  // Helper function to normalize status (support both Turkish and English)
-  const isActiveTask = (task: Task) => {
-    const status = task.status.toLowerCase();
-    return (
-      status === 'not_started' ||
-      status === 'yapılacak' ||
-      status === 'in_progress' ||
-      status === 'devam ediyor'
-    );
-  };
-
-  const isCompletedTask = (task: Task) => {
-    const status = task.status.toLowerCase();
-    return status === 'completed' || status === 'tamamlandı';
-  };
-
-  // Filter tasks based on status (support both Turkish and English)
-  let filteredTasks =
-    filter === 'completed'
-      ? tasks.filter((task) => isCompletedTask(task))
-      : tasks.filter((task) => isActiveTask(task));
-
-  // Filter by selected tags if any are selected
-  if (selectedTagIds.length > 0) {
-    filteredTasks = filteredTasks.filter((task) => {
-      const taskTagIds = taskTags.filter((tt) => tt.taskid === task.id).map((tt) => tt.tagid);
-      // Task must have at least one of the selected tags
-      return selectedTagIds.some((tagId) => taskTagIds.includes(tagId));
+  useEffect(() => {
+    setGoalDrafts((prev) => {
+      const next = { ...prev };
+      selectedExercises.forEach((exercise) => {
+        const goal = goals.find((item) => item.exercise_type_id === exercise.id);
+        if (next[exercise.id] == null) next[exercise.id] = goal?.target_quantity ? String(Number(goal.target_quantity)) : '';
+      });
+      return next;
     });
-  }
+  }, [goals, selectedExercises]);
 
-  const updateStatus = useMutation({
-    mutationFn: ({ id, status }: { id: string; status: TaskStatus }) => updateTaskStatus(id, status),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['tasks'] }),
-    onError: (err: unknown) => Alert.alert(t('tasks.errors.updateFailed'), err instanceof Error ? err.message : t('tasks.errors.unknownError')),
+  const goalMutation = useMutation({
+    mutationFn: ({ exercise, target }: { exercise: ExerciseType; target: number }) =>
+      updateDailyGoal({ userId, exerciseTypeId: exercise.id, targetQuantity: target, unit: exercise.unit }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['daily_goal_progress', userId] });
+    },
   });
 
-  const onActionPress = (task: Task, status: TaskStatus) => {
-    updateStatus.mutate({ id: task.id, status });
+  const onRefresh = () => {
+    logsQuery.refetch();
+    goalsQuery.refetch();
+    exerciseTypesQuery.refetch();
+    userExercisesQuery.refetch();
+    wellnessLogsQuery.refetch();
+    wellnessGoalsQuery.refetch();
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={styles.headerAction}
-          onPress={() => router.push('/(drawer)/create-task')}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="add-circle-outline" size={20} color="#2563eb" />
-          <ThemedText style={styles.headerActionLabel}>{t('tasks.createTask')}</ThemedText>
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation, t]);
-
-  if (tasksQuery.isLoading) {
-    return (
-      <ThemedView style={styles.centered}>
-        <ThemedText>{t('common.loading')}</ThemedText>
-      </ThemedView>
-    );
-  }
-
-  if (tasksQuery.error) {
-    return (
-      <ThemedView style={styles.centered}>
-        <ThemedText type="subtitle">{t('tasks.errors.loadFailed')}</ThemedText>
-        <ThemedText onPress={() => tasksQuery.refetch()} style={styles.retry}>
-          {t('common.retry')}
-        </ThemedText>
-      </ThemedView>
-    );
-  }
-
   return (
-    <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
-      <View style={styles.filterRow}>
-        <FilterChip
-          label={t('tasks.active')}
-          count={tasks.filter((task) => isActiveTask(task)).length}
-          active={filter === 'active'}
-          onPress={() => setFilter('active')}
-        />
-        <FilterChip
-          label={t('tasks.completed')}
-          count={tasks.filter((task) => isCompletedTask(task)).length}
-          active={filter === 'completed'}
-          onPress={() => setFilter('completed')}
-        />
-      </View>
-      {tags.length > 0 && (
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.tagFilterRow}
-          style={styles.tagFilterScrollView}>
-          <Pressable
-            style={[
-              styles.tagFilterChip,
-              {
-                backgroundColor:
-                  selectedTagIds.length === 0 ? 'rgba(37,99,235,0.1)' : 'rgba(148,163,184,0.1)',
-                borderColor: selectedTagIds.length === 0 ? '#2563eb' : 'rgba(148,163,184,0.4)',
-              },
-            ]}
-            onPress={() => setSelectedTagIds([])}>
-            <ThemedText
-              style={[
-                styles.tagFilterChipText,
-                { color: selectedTagIds.length === 0 ? '#2563eb' : surface.mutedText },
-              ]}>
-              Tümü
-            </ThemedText>
-          </Pressable>
-          {tags.map((tag) => {
-            const isSelected = selectedTagIds.includes(tag.id);
+    <ThemedView style={[styles.container, { backgroundColor: surface.background }]}> 
+      <ScrollView
+        contentContainerStyle={styles.content}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
+        <View style={styles.header}>
+          <ThemedText style={styles.eyebrow}>Good Morning, {user?.name ?? 'Serkan'} 👋</ThemedText>
+          <ThemedText style={styles.title}>Bugün</ThemedText>
+        </View>
+
+        <View style={[styles.tabs, { backgroundColor: surface.card, borderColor: surface.border }]}>
+          {(['overview', 'fitness', 'wellness'] as const).map((value) => (
+            <Pressable key={value} onPress={() => setTab(value)} style={[styles.tabButton, tab === value && styles.tabButtonActive]}>
+              <ThemedText style={[styles.tabText, tab === value && styles.tabTextActive]}>
+                {value === 'overview' ? 'Overview' : value === 'fitness' ? 'Fitness' : 'Wellness'}
+              </ThemedText>
+            </Pressable>
+          ))}
+        </View>
+
+        <ThemedText style={styles.blockLabel}>Today Summary</ThemedText>
+        <View style={styles.summaryGrid}>
+          <SummaryCard icon="flame" label="Workouts" value={`${Math.round(totalCalories)} kcal`} />
+          <SummaryCard icon="timer-outline" label="Active Time" value={`${todayLogs.length * 15} min`} />
+          <SummaryCard icon="walk" label="Steps" value={formatNumber(totalQuantity)} />
+          <SummaryCard icon="water" label="Water" value={`${formatNumber(waterTotal / 1000)} L`} />
+        </View>
+
+        <Pressable style={styles.scanButton} onPress={() => router.push('/(drawer)/nfc')}>
+          <Ionicons name="scan-outline" size={30} color="#fff" />
+          <ThemedText style={styles.scanButtonText}>NFC Tara</ThemedText>
+        </Pressable>
+
+        {(tab === 'overview' || tab === 'fitness') && <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}> 
+          <ThemedText style={styles.sectionTitle}>Günlük hedef ilerlemesi</ThemedText>
+          {selectedExercises.length === 0 ? (
+            <ThemedText style={[styles.emptyText, { color: surface.mutedText }]}>Önce Egzersizler ekranından egzersiz seç.</ThemedText>
+          ) : (
+            selectedExercises.map((exercise) => {
+              const goal = goals.find((item) => item.exercise_type_id === exercise.id);
+              const completed = Number(goal?.completed_quantity ?? todayLogs
+                .filter((log) => log.exercise_type_id === exercise.id)
+                .reduce((sum, log) => sum + Number(log.quantity ?? 0), 0));
+              const target = Number(goal?.target_quantity ?? 0);
+              const unit = goal?.unit ?? exercise.unit;
+              const progress = target > 0 ? Math.min(1, completed / target) : 0;
+              return (
+                <View key={exercise.id} style={styles.goalRow}>
+                  <View style={styles.goalHeader}>
+                    <ThemedText style={styles.goalName}>{exercise.name}</ThemedText>
+                    <ThemedText style={[styles.goalValue, { color: surface.mutedText }]}> 
+                      {target > 0 ? `${formatQuantity(completed, unit)} / ${formatQuantity(target, unit)}` : `${formatQuantity(completed, unit)} bugün`}
+                    </ThemedText>
+                  </View>
+                  <View style={styles.goalEditRow}>
+                    <TextInput
+                      value={goalDrafts[exercise.id] ?? ''}
+                      onChangeText={(value) => setGoalDrafts((prev) => ({ ...prev, [exercise.id]: value }))}
+                      keyboardType="numeric"
+                      placeholder="Hedef"
+                      placeholderTextColor={surface.mutedText}
+                      style={[styles.goalInput, { borderColor: surface.border, color: surface.text }]}
+                    />
+                    <Pressable
+                      style={[styles.goalSaveButton, goalMutation.isPending && styles.goalSaveButtonDisabled]}
+                      disabled={goalMutation.isPending || Number(goalDrafts[exercise.id]) <= 0}
+                      onPress={() => goalMutation.mutate({ exercise, target: Number(goalDrafts[exercise.id]) })}>
+                      <ThemedText style={styles.goalSaveText}>Kaydet</ThemedText>
+                    </Pressable>
+                  </View>
+                  <View style={styles.progressTrack}>
+                    <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
+                  </View>
+                </View>
+              );
+            })
+          )}
+        </View>}
+
+        {(tab === 'overview' || tab === 'wellness') && <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}> 
+          <ThemedText style={styles.sectionTitle}>Wellness ilerlemesi</ThemedText>
+          {(wellnessGoalsQuery.data ?? []).slice(0, 5).map((goal) => {
+            const completed = todayWellnessLogs
+              .filter((log) => log.wellness_type_id === goal.wellness_type_id)
+              .reduce((sum, log) => sum + Number(log.quantity ?? 0), 0);
+            const progress = goal.target_quantity > 0 ? Math.min(1, completed / Number(goal.target_quantity)) : 0;
             return (
-              <Pressable
-                key={tag.id}
-                style={[
-                  styles.tagFilterChip,
-                  {
-                    backgroundColor: isSelected ? tag.color || '#6B7280' : 'rgba(148,163,184,0.1)',
-                    borderColor: tag.color || '#6B7280',
-                  },
-                ]}
-                onPress={() => {
-                  setSelectedTagIds((prev) =>
-                    prev.includes(tag.id)
-                      ? prev.filter((id) => id !== tag.id)
-                      : [...prev, tag.id]
-                  );
-                }}>
-                <View style={[styles.tagDot, { backgroundColor: tag.color || '#6B7280' }]} />
-                <ThemedText
-                  style={[
-                    styles.tagFilterChipText,
-                    { color: isSelected ? '#FFFFFF' : surface.text },
-                  ]}>
-                  {tag.name}
-                </ThemedText>
-                {isSelected && <Ionicons name="checkmark" size={14} color="#FFFFFF" />}
-              </Pressable>
+              <View key={goal.wellness_type_id} style={styles.goalRow}>
+                <View style={styles.goalHeader}>
+                  <ThemedText style={styles.goalName}>{formatWellnessName(goal.wellness_type_id)}</ThemedText>
+                  <ThemedText style={[styles.goalValue, { color: surface.mutedText }]}>
+                    {formatWellnessQuantity(completed, goal.unit)} / {formatWellnessQuantity(goal.target_quantity, goal.unit)}
+                  </ThemedText>
+                </View>
+                <View style={styles.progressTrack}>
+                  <View style={[styles.progressFillPurple, { width: `${progress * 100}%` }]} />
+                </View>
+              </View>
             );
           })}
-        </ScrollView>
-      )}
-      <FlatList
-        data={filteredTasks}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={
-          filteredTasks.length === 0 ? styles.listEmpty : styles.listContent
-        }
-        refreshControl={
-          <RefreshControl refreshing={tasksQuery.isRefetching} onRefresh={tasksQuery.refetch} />
-        }
-        ListEmptyComponent={
-          <View style={styles.emptyState}>
-            <ThemedText type="subtitle">
-              {filter === 'completed' ? t('tasks.noCompletedTasks') : t('tasks.noActiveTasks')}
-            </ThemedText>
-          </View>
-        }
-        ListFooterComponent={<View style={{ height: 32 }} />}
-        renderItem={({ item }) => (
-          <TaskCard
-            key={item.id}
-            task={item}
-            surface={surface}
-            actionColors={actionColors}
-            isUpdatingStatus={updateStatus.isPending && updateStatus.variables?.id === item.id}
-            onActionPress={onActionPress}
-            usersMap={usersMap}
-          />
-        )}
-      />
+          {wellnessDone === 0 && <ThemedText style={[styles.emptyText, { color: surface.mutedText }]}>Bugün wellness kaydı yok.</ThemedText>}
+        </View>}
+
+        <View style={[styles.section, { backgroundColor: 'rgba(7,24,39,0.90)', borderColor: surface.border }]}> 
+          <ThemedText style={styles.sectionTitle}>Son okutulan NFC tag</ThemedText>
+          {lastTag ? (
+            <View style={styles.lastTagRow}>
+              <Ionicons name="radio-outline" size={22} color="#2563eb" />
+              <View style={{ flex: 1 }}>
+                <ThemedText style={styles.lastTagTitle}>{lastTag.exercise_name}</ThemedText>
+                <ThemedText style={[styles.lastTagMeta, { color: surface.mutedText }]}> 
+                  {formatQuantity(lastTag.quantity, lastTag.unit)} · {formatTime(lastTag.createdat)}
+                </ThemedText>
+              </View>
+            </View>
+          ) : (
+            <ThemedText style={[styles.emptyText, { color: surface.mutedText }]}>Bugün NFC tag okutulmadı.</ThemedText>
+          )}
+        </View>
+
+        <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}> 
+          <ThemedText style={styles.sectionTitle}>Bugünkü aktiviteler</ThemedText>
+          {todayLogs.length === 0 ? (
+            <ThemedText style={[styles.emptyText, { color: surface.mutedText }]}>İlk egzersizi kaydetmek için NFC Tara.</ThemedText>
+          ) : (
+            todayLogs.slice(0, 5).map((log) => (
+              <View key={log.id} style={styles.activityRow}>
+                <ThemedText style={styles.activityTitle}>{formatQuantity(log.quantity, log.unit)} {log.exercise_name}</ThemedText>
+                <ThemedText style={[styles.activityMeta, { color: surface.mutedText }]}>{formatTime(log.createdat)} · {log.source === 'nfc' ? 'NFC Tag' : 'Manuel'}</ThemedText>
+              </View>
+            ))
+          )}
+        </View>
+      </ScrollView>
+      <AppBottomNav />
     </ThemedView>
   );
 }
 
-type TaskCardProps = {
-  task: Task;
-  surface: SurfacePalette;
-  actionColors: ActionPalette;
-  isUpdatingStatus: boolean;
-  onActionPress: (task: Task, status: TaskStatus) => void;
-  usersMap: Map<string, string>;
-};
-
-function TaskCard({
-  task,
-  surface,
-  actionColors,
-  isUpdatingStatus,
-  onActionPress,
-  usersMap,
-}: TaskCardProps) {
-  const { t } = useTranslation();
-  const description = task.description?.trim();
-  const dueString = formatDueDate(task.duedate ?? task.nextdueat);
-
+function SummaryCard({ icon, label, value }: { icon: keyof typeof Ionicons.glyphMap; label: string; value: string }) {
   return (
-    <Pressable
-      style={[
-        styles.taskCard,
-        {
-          backgroundColor: surface.card,
-          borderColor: surface.border,
-        },
-      ]}
-      onPress={() => router.push(`/(drawer)/task/${task.id}`)}>
-      <View style={styles.taskHeader}>
-        <ThemedText style={styles.taskTitle}>{task.title}</ThemedText>
-        <StatusBadge status={task.status} />
+    <View style={styles.summaryCard}>
+      <Ionicons name={icon} size={24} color={icon === 'water' ? '#4AA3FF' : icon === 'flame' ? '#F59E0B' : '#35D353'} />
+      <View>
+        <ThemedText style={styles.summaryLabel}>{label}</ThemedText>
+        <ThemedText style={styles.summaryValue}>{value}</ThemedText>
       </View>
-      {description ? (
-        <ThemedText style={[styles.taskDescription, { color: surface.mutedText }]}>
-          {description}
-        </ThemedText>
-      ) : null}
-      <View style={styles.metaRow}>
-        <View style={styles.metaItem}>
-          <Ionicons name="calendar-outline" size={16} color={surface.mutedText} />
-          <ThemedText style={[styles.metaValue, { color: surface.mutedText }]}>
-            {dueString}
-          </ThemedText>
-        </View>
-        {task.locationid ? (
-          <View style={styles.metaItem}>
-            <Ionicons name="pin-outline" size={16} color={surface.mutedText} />
-            <ThemedText
-              style={[styles.metaValue, { color: surface.mutedText }]}
-              numberOfLines={1}>
-              {task.locationid}
-            </ThemedText>
-          </View>
-        ) : null}
-        {task.userid ? (
-          <View style={styles.metaItem}>
-            <Ionicons name="person-outline" size={16} color={surface.mutedText} />
-            <ThemedText
-              style={[styles.metaValue, { color: surface.mutedText }]}
-              numberOfLines={1}>
-              {usersMap.get(task.userid) || task.userid}
-            </ThemedText>
-          </View>
-        ) : null}
-      </View>
-      <View style={styles.actionsRow}>
-        {STATUS_ACTIONS.filter((action) => action.visible(task)).map((action) => (
-          <TaskActionButton
-            key={action.target}
-            label={isUpdatingStatus ? 'Updating…' : action.label}
-            icon={action.icon}
-            disabled={isUpdatingStatus}
-            actionColors={actionColors}
-            surface={surface}
-            onPress={() => onActionPress(task, action.target)}
-          />
-        ))}
-      </View>
-    </Pressable>
-  );
-}
-
-type TaskActionButtonProps = {
-  label: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  disabled: boolean;
-  actionColors: ActionPalette;
-  surface: SurfacePalette;
-  onPress: () => void;
-};
-
-function TaskActionButton({
-  label,
-  icon,
-  disabled,
-  actionColors,
-  surface,
-  onPress,
-}: TaskActionButtonProps) {
-  return (
-    <Pressable
-      style={({ pressed }) => [
-        styles.actionButton,
-        {
-          backgroundColor: actionColors.background,
-          borderColor: surface.border,
-        },
-        pressed && styles.actionButtonPressed,
-        disabled && styles.actionButtonDisabled,
-      ]}
-      disabled={disabled}
-      onPress={onPress}>
-      <Ionicons name={icon} size={16} color={actionColors.text} />
-      <ThemedText style={[styles.actionButtonText, { color: actionColors.text }]}>{label}</ThemedText>
-    </Pressable>
-  );
-}
-
-function FilterChip({
-  label,
-  count,
-  active,
-  onPress,
-}: {
-  label: string;
-  count: number;
-  active: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      style={[styles.filterChip, active && styles.filterChipActive]}
-      onPress={onPress}>
-      <ThemedText style={[styles.filterChipLabel, active && styles.filterChipLabelActive]}>
-        {label} · {count}
-      </ThemedText>
-    </Pressable>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 12,
-    paddingTop: 12,
-  },
-  centered: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    gap: 8,
-  },
-  retry: {
-    color: '#0a7ea4',
-  },
-  filterRow: {
-    flexDirection: 'row',
-    gap: 10,
-    paddingHorizontal: 4,
-    paddingBottom: 8,
-  },
-  tagFilterScrollView: {
-    marginBottom: 8,
-  },
-  tagFilterRow: {
-    gap: 8,
-    paddingHorizontal: 4,
-    paddingVertical: 4,
-  },
-  tagFilterChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 999,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-  },
-  tagFilterChipText: {
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  tagDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-  },
-  listContent: {
-    paddingBottom: 16,
-    gap: 10,
-  },
-  listEmpty: {
-    flexGrow: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 40,
-    gap: 8,
-  },
-  emptyState: {
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 48,
-  },
-  taskCard: {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 14,
-    padding: 14,
-    gap: 10,
-  },
-  taskHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 12,
-  },
-  cardPressed: {
-    opacity: 0.95,
-  },
-  taskTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    flex: 1,
-  },
-  taskDescription: {
-    fontSize: 14,
-    lineHeight: 20,
-  },
-  metaRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  metaItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    flex: 1,
-  },
-  metaValue: {
-    fontSize: 13,
-  },
-  actionsRow: {
-    flexDirection: 'row',
-    gap: 8,
-    flexWrap: 'wrap',
-  },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 999,
-    minWidth: 120,
-    justifyContent: 'center',
-  },
-  actionButtonPressed: {
-    opacity: 0.85,
-  },
-  actionButtonDisabled: {
-    opacity: 0.5,
-  },
-  actionButtonText: {
-    fontWeight: '600',
-  },
-  statusPill: {
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 999,
-  },
-  statusPillText: {
-    fontSize: 12,
-    fontWeight: '600',
-    textTransform: 'capitalize',
-  },
-  filterChip: {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 999,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-  },
-  filterChipActive: {
-    backgroundColor: 'rgba(37,99,235,0.1)',
-    borderColor: '#2563eb',
-  },
-  filterChipLabel: {
-    fontSize: 13,
-    color: '#6b7280',
-  },
-  filterChipLabelActive: {
-    color: '#2563eb',
-    fontWeight: '600',
-  },
-  headerAction: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#2563eb',
-    marginRight: 8,
-  },
-  headerActionLabel: {
-    color: '#2563eb',
-    fontWeight: '600',
-  },
-});
-
-function StatusBadge({ status }: { status: TaskStatus }) {
-  const colorScheme = useColorScheme();
-  const { bg, text, label } = getStatusBadgeColors(status, colorScheme);
-  return (
-    <View style={[styles.statusPill, { backgroundColor: bg }]}>
-      <ThemedText style={[styles.statusPillText, { color: text }]}>{label}</ThemedText>
     </View>
   );
 }
 
-function formatDueDate(dateString?: string | null) {
-  if (!dateString) return 'No due date';
-  const date = new Date(dateString);
-  if (Number.isNaN(date.getTime())) return 'No due date';
-
-  const formatter = new Intl.DateTimeFormat('tr-TR', {
-    day: 'numeric',
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
-
-  return formatter.format(date);
+function isToday(value: string) {
+  const date = new Date(value);
+  const now = new Date();
+  return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
 }
+
+function formatQuantity(quantity?: number | null, unit?: string | null) {
+  const value = formatNumber(quantity ?? 0);
+  if (unit === 'seconds') return `${value} sn`;
+  if (unit === 'minutes') return `${value} dk`;
+  if (unit === 'meters') return `${value} m`;
+  return `${value} tekrar`;
+}
+
+function formatNumber(value: number) {
+  return Number(value).toLocaleString('tr-TR', { maximumFractionDigits: 1 });
+}
+
+function formatTime(value: string) {
+  return new Intl.DateTimeFormat('tr-TR', { hour: '2-digit', minute: '2-digit' }).format(new Date(value));
+}
+
+function formatWellnessName(id: string) {
+  if (id === 'water') return 'Water';
+  if (id === 'coffee') return 'Coffee';
+  if (id === 'meditation') return 'Meditation';
+  if (id === 'walk_break') return 'Walk Breaks';
+  if (id === 'vitamins') return 'Vitamins';
+  return id;
+}
+
+function formatWellnessQuantity(quantity?: number | null, unit?: string | null) {
+  const value = Number(quantity ?? 0).toLocaleString('tr-TR', { maximumFractionDigits: 1 });
+  if (unit === 'ml') return `${value} ml`;
+  if (unit === 'cups') return `${value} cups`;
+  if (unit === 'minutes') return `${value} min`;
+  return value;
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  content: { padding: 14, paddingBottom: bottomNavHeight + 24, gap: 14 },
+  header: { gap: 2 },
+  eyebrow: { color: '#F8FAFC', fontSize: 14, fontWeight: '800' },
+  title: { fontSize: 13, fontWeight: '700', color: '#8EA0B8' },
+  tabs: { flexDirection: 'row', borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 4 },
+  tabButton: { flex: 1, borderRadius: 9, paddingVertical: 9, alignItems: 'center' },
+  tabButtonActive: { backgroundColor: '#35D353' },
+  tabText: { fontSize: 12, fontWeight: '800', opacity: 0.7 },
+  tabTextActive: { color: '#fff', opacity: 1 },
+  blockLabel: { fontSize: 13, fontWeight: '900', marginTop: 2 },
+  summaryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  summaryCard: { width: '48.8%', borderRadius: 10, padding: 12, backgroundColor: 'rgba(11,31,50,0.92)', borderWidth: StyleSheet.hairlineWidth, borderColor: 'rgba(148,163,184,0.14)', flexDirection: 'row', alignItems: 'center', gap: 10 },
+  summaryValue: { fontSize: 17, fontWeight: '900' },
+  summaryLabel: { fontSize: 11, opacity: 0.7, marginBottom: 2 },
+  scanButton: { minHeight: 66, borderRadius: 14, backgroundColor: '#35D353', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 },
+  scanButtonText: { color: '#fff', fontSize: 20, fontWeight: '900' },
+  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 14, gap: 12 },
+  sectionTitle: { fontSize: 16, fontWeight: '800' },
+  emptyText: { fontSize: 13 },
+  goalRow: { gap: 7 },
+  goalHeader: { flexDirection: 'row', justifyContent: 'space-between', gap: 10 },
+  goalName: { fontWeight: '700' },
+  goalValue: { fontSize: 12, fontWeight: '700' },
+  goalEditRow: { flexDirection: 'row', gap: 8, alignItems: 'center' },
+  goalInput: { flex: 1, borderWidth: StyleSheet.hairlineWidth, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, fontWeight: '700' },
+  goalSaveButton: { borderRadius: 10, backgroundColor: '#2563eb', paddingHorizontal: 14, paddingVertical: 9 },
+  goalSaveButtonDisabled: { opacity: 0.5 },
+  goalSaveText: { color: '#fff', fontWeight: '800', fontSize: 12 },
+  progressTrack: { height: 8, borderRadius: 999, backgroundColor: 'rgba(148,163,184,0.22)', overflow: 'hidden' },
+  progressFill: { height: 8, borderRadius: 999, backgroundColor: '#35D353' },
+  progressFillPurple: { height: 8, borderRadius: 999, backgroundColor: '#8b5cf6' },
+  lastTagRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  lastTagTitle: { fontSize: 15, fontWeight: '800' },
+  lastTagMeta: { fontSize: 12 },
+  activityRow: { paddingVertical: 8, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: 'rgba(148,163,184,0.22)', gap: 2 },
+  activityTitle: { fontWeight: '800' },
+  activityMeta: { fontSize: 12 },
+});

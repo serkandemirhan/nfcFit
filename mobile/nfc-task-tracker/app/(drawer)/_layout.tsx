@@ -16,7 +16,7 @@ export default function DrawerLayout() {
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme];
   const { t } = useTranslation();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <Drawer
@@ -25,9 +25,11 @@ export default function DrawerLayout() {
         drawerActiveTintColor: theme.tint,
         drawerType: 'front',
         drawerStyle: { backgroundColor: theme.background },
-        sceneContainerStyle: { backgroundColor: theme.background },
+        sceneStyle: { backgroundColor: theme.background },
         drawerItemStyle: { borderRadius: 14, marginHorizontal: 12, marginVertical: 2 },
         drawerLabelStyle: { fontWeight: '600' },
+        headerLeft: () => null,
+        headerTitleAlign: 'center',
       }}
       drawerContent={(props) => (
         <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}>
@@ -37,7 +39,6 @@ export default function DrawerLayout() {
           </View>
           <ThemeToggle />
           <LanguageSection />
-          <LogoutSection onLogout={logout} label={t('settings.logout')} />
         </DrawerContentScrollView>
       )}>
       <Drawer.Screen
@@ -50,11 +51,29 @@ export default function DrawerLayout() {
         }}
       />
       <Drawer.Screen
+        name="fitness"
+        options={{
+          title: 'Fitness',
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="fitness-outline" size={size ?? 20} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
         name="nfc"
         options={{
           title: t('navigation.nfc'),
           drawerIcon: ({ color, size }) => (
             <Ionicons name="radio-outline" size={size ?? 20} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="wellness"
+        options={{
+          title: 'Wellness',
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="add-circle-outline" size={size ?? 20} color={color} />
           ),
         }}
       />
@@ -70,39 +89,60 @@ export default function DrawerLayout() {
       <Drawer.Screen
         name="layouts"
         options={{
-          title: t('navigation.layouts'),
-          drawerIcon: ({ color, size }) => (
-            <Ionicons name="grid-outline" size={size ?? 20} color={color} />
-          ),
+          drawerItemStyle: { display: 'none' },
         }}
       />
       <Drawer.Screen
         name="users"
         options={{
-          title: t('navigation.users'),
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="settings"
+        options={{
+          title: t('settings.title'),
           drawerIcon: ({ color, size }) => (
-            <Ionicons name="people-outline" size={size ?? 20} color={color} />
+            <Ionicons name="settings-outline" size={size ?? 20} color={color} />
           ),
+        }}
+      />
+      <Drawer.Screen
+        name="history"
+        options={{
+          title: 'Geçmiş',
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="time-outline" size={size ?? 20} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="new-tag"
+        options={{
+          drawerItemStyle: { display: 'none' },
         }}
       />
       <Drawer.Screen
         name="card/[id]"
         options={{
-          href: null,
-          drawerItemStyle: { display: 'none' },
-        }}
-      />
-      <Drawer.Screen
-        name="task/[id]"
-        options={{
-          href: null,
           drawerItemStyle: { display: 'none' },
         }}
       />
       <Drawer.Screen
         name="layout/[id]"
         options={{
-          href: null,
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="create-task"
+        options={{
+          drawerItemStyle: { display: 'none' },
+        }}
+      />
+      <Drawer.Screen
+        name="tags"
+        options={{
           drawerItemStyle: { display: 'none' },
         }}
       />
@@ -235,8 +275,6 @@ function UserSection({ user }: { user: AuthenticatedUser | null }) {
   if (!user) return null;
 
   const avatar = 'avatarurl' in user && user.avatarurl ? user.avatarurl : undefined;
-  const roleLabel = user.role === 'admin' ? 'Admin' : 'User';
-
   return (
     <View style={styles.userSection}>
       {avatar ? (
@@ -257,30 +295,8 @@ function UserSection({ user }: { user: AuthenticatedUser | null }) {
       )}
       <View>
         <ThemedText style={styles.userName}>{user.name ?? 'Kullanıcı'}</ThemedText>
-        <ThemedText style={styles.userCaption}>{roleLabel}</ThemedText>
+        <ThemedText style={styles.userCaption}>Tek kullanıcı</ThemedText>
       </View>
     </View>
-  );
-}
-
-function LogoutSection({ onLogout, label }: { onLogout: () => void | Promise<void>; label: string }) {
-  const { colorScheme } = useThemePreference();
-  const tint = Colors[colorScheme].tint;
-  return (
-    <Pressable
-      onPress={onLogout}
-      style={({ pressed }) => ({
-        marginHorizontal: 20,
-        marginTop: 24,
-        paddingVertical: 14,
-        borderRadius: 999,
-        borderWidth: StyleSheet.hairlineWidth,
-        borderColor: tint,
-        alignItems: 'center',
-        opacity: pressed ? 0.7 : 1,
-      })}
-    >
-      <ThemedText style={{ color: tint, fontWeight: '600' }}>{label}</ThemedText>
-    </Pressable>
   );
 }

@@ -63,10 +63,13 @@ export class NFCManagerService {
     }
 
     try {
-      // Request NFC technology
-      await NfcManager.requestTechnology(NfcTech.Ndef);
+      try {
+        await NfcManager.requestTechnology(NfcTech.Ndef);
+      } catch {
+        await NfcManager.cancelTechnologyRequest().catch(() => undefined);
+        await NfcManager.requestTechnology(NfcTech.NfcA);
+      }
 
-      // Get tag information
       const tag = await NfcManager.getTag();
 
       if (!tag) {

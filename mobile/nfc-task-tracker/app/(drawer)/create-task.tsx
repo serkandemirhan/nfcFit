@@ -14,6 +14,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import {
   TaskCreateInput,
   createTask,
+  fetchCards,
   fetchUsers,
   fetchLocations,
   fetchTags,
@@ -33,6 +34,8 @@ export default function CreateTaskScreen() {
     dueDate: '',
     userid: '',
     locationid: '',
+    cardid: '',
+    priority: 'normal' as 'low' | 'normal' | 'high' | 'urgent',
     repeat_unit: 'none' as
       | 'none'
       | 'daily'
@@ -55,10 +58,40 @@ export default function CreateTaskScreen() {
 
   const usersQuery = useQuery({ queryKey: ['users'], queryFn: fetchUsers });
   const locationsQuery = useQuery({ queryKey: ['locations'], queryFn: fetchLocations });
+  const cardsQuery = useQuery({ queryKey: ['cards'], queryFn: fetchCards });
   const tagsQuery = useQuery({ queryKey: ['tags'], queryFn: fetchTags });
   const users = usersQuery.data ?? [];
   const locations = locationsQuery.data ?? [];
+  const cards = cardsQuery.data ?? [];
   const tags = tagsQuery.data ?? [];
+
+  const applyTemplate = (template: 'daily' | 'cleaning' | 'maintenance') => {
+    const templates = {
+      daily: {
+        title: 'Günlük kontrol',
+        description: 'Alan kontrolünü tamamla ve sonucu notlara ekle.',
+        repeat_unit: 'daily' as const,
+        priority: 'normal' as const,
+      },
+      cleaning: {
+        title: 'Temizlik kontrolü',
+        description: 'Alanı temizle, eksik sarf malzemesi varsa bildir.',
+        repeat_unit: 'daily' as const,
+        priority: 'normal' as const,
+      },
+      maintenance: {
+        title: 'Bakım checklist',
+        description: 'Makine/alan bakım adımlarını kontrol et.',
+        repeat_unit: 'weekly' as const,
+        priority: 'high' as const,
+      },
+    }[template];
+
+    setForm((prev) => ({
+      ...prev,
+      ...templates,
+    }));
+  };
 
   const createTaskMutation = useMutation({
     mutationFn: async (payload: TaskCreateInput) => {
@@ -201,13 +234,19 @@ export default function CreateTaskScreen() {
           </Pressable>
         </View>
 
+        <View style={styles.templateRow}>
+          <TemplateChip label="Günlük kontrol" onPress={() => applyTemplate('daily')} />
+          <TemplateChip label="Temizlik" onPress={() => applyTemplate('cleaning')} />
+          <TemplateChip label="Bakım" onPress={() => applyTemplate('maintenance')} />
+        </View>
+
         {/* Form Card */}
         <View
           style={[
             styles.formCard,
             { backgroundColor: surface.card, borderColor: surface.border },
           ]}>
-          <ThemedText style={styles.pageTitle}>Yeni Görev Oluştur</ThemedText>
+          <ThemedText style={styles.pageTitle}>Yeni Görev</ThemedText>
 
           {/* Divider */}
           <View style={[styles.divider, { backgroundColor: surface.border }]} />
@@ -252,51 +291,76 @@ export default function CreateTaskScreen() {
               />
             </View>
 
-            {/* Due Date */}
-            <View style={styles.formGroup}>
-              <View style={styles.labelRow}>
-                <Ionicons name="calendar-outline" size={18} color="#2563EB" />
-                <ThemedText style={styles.labelText}>Bitiş Tarihi</ThemedText>
+            <View style={styles.compactRow}>
+              {/* Due Date */}
+              <View style={[styles.formGroup, styles.halfField]}>
+                <View style={styles.labelRow}>
+                  <Ionicons name="calendar-outline" size={16} color="#2563EB" />
+                  <ThemedText style={styles.labelText}>Tarih</ThemedText>
+                </View>
+                <Pressable
+                  style={[
+                    styles.input,
+                    styles.datePickerButton,
+                    { borderColor: surface.border, backgroundColor: surface.card },
+                  ]}
+                  onPress={() => {
+                    if (form.dueDate) {
+                      const existingDate = new Date(parseDateInput(form.dueDate) || new Date());
+                      setTempDate(existingDate);
+                    }
+                    setShowDatePicker(true);
+                  }}>
+                  <ThemedText
+                    style={{ color: form.dueDate ? surface.text : surface.mutedText, flex: 1 }}
+                    numberOfLines={1}>
+                    {form.dueDate || 'Seç'}
+                  </ThemedText>
+                </Pressable>
               </View>
-              <Pressable
-                style={[
-                  styles.input,
-                  styles.datePickerButton,
-                  { borderColor: surface.border, backgroundColor: surface.card },
-                ]}
-                onPress={() => {
-                  // Mevcut tarih varsa onu kullan, yoksa şu anki zamanı kullan
-                  if (form.dueDate) {
-                    const existingDate = new Date(parseDateInput(form.dueDate) || new Date());
-                    setTempDate(existingDate);
-                  }
-                  setShowDatePicker(true);
-                }}>
-                <Ionicons name="calendar" size={18} color={surface.mutedText} />
-                <ThemedText style={{ color: form.dueDate ? surface.text : surface.mutedText, flex: 1 }}>
-                  {form.dueDate || 'Tarih ve saat seçin'}
-                </ThemedText>
-                <Ionicons name="chevron-forward" size={18} color={surface.mutedText} />
-              </Pressable>
-              {showDatePicker && (
-                <>
-                  <DateTimePicker
-                    value={tempDate}
-                    mode="datetime"
-                    is24Hour={true}
-                    display="default"
-                    onChange={handleDateChange}
-                  />
-                  {Platform.OS === 'ios' && (
-                    <Pressable
-                      style={[styles.saveButton, { marginTop: 8 }]}
-                      onPress={() => setShowDatePicker(false)}>
-                      <ThemedText style={styles.saveButtonText}>Tamam</ThemedText>
-                    </Pressable>
-                  )}
-                </>
-              )}
+
+              <View style={[styles.formGroup, styles.halfField]}>
+                <View style={styles.labelRow}>
+                  <Ionicons name="flag-outline" size={16} color="#2563EB" />
+                  <ThemedText style={styles.labelText}>Öncelik</ThemedText>
+                </View>
+                <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
+                  <Picker
+                    selectedValue={form.priority}
+                    onValueChange={(value) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        priority: value as 'low' | 'normal' | 'high' | 'urgent',
+                      }))
+                    }
+                    style={styles.picker}>
+                    <Picker.Item label="Düşük" value="low" />
+                    <Picker.Item label="Normal" value="normal" />
+                    <Picker.Item label="Yüksek" value="high" />
+                    <Picker.Item label="Acil" value="urgent" />
+                  </Picker>
+                </View>
+              </View>
             </View>
+
+            {showDatePicker && (
+              <>
+                <DateTimePicker
+                  value={tempDate}
+                  mode="datetime"
+                  is24Hour={true}
+                  display="default"
+                  onChange={handleDateChange}
+                />
+                {Platform.OS === 'ios' && (
+                  <Pressable
+                    style={[styles.saveButton, { marginTop: 8 }]}
+                    onPress={() => setShowDatePicker(false)}>
+                    <ThemedText style={styles.saveButtonText}>Tamam</ThemedText>
+                  </Pressable>
+                )}
+              </>
+            )}
 
             {/* Assigned To */}
             <View style={styles.formGroup}>
@@ -321,22 +385,49 @@ export default function CreateTaskScreen() {
               </View>
             </View>
 
-            {/* Location */}
-            <View style={styles.formGroup}>
-              <View style={styles.labelRow}>
-                <Ionicons name="location-outline" size={18} color="#2563EB" />
-                <ThemedText style={styles.labelText}>Lokasyon</ThemedText>
+            <View style={styles.compactRow}>
+              {/* Location */}
+              <View style={[styles.formGroup, styles.halfField]}>
+                <View style={styles.labelRow}>
+                  <Ionicons name="location-outline" size={16} color="#2563EB" />
+                  <ThemedText style={styles.labelText}>Lokasyon</ThemedText>
+                </View>
+                <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
+                  <Picker
+                    selectedValue={form.locationid}
+                    onValueChange={(value) => setForm((prev) => ({ ...prev, locationid: value }))}
+                    style={styles.picker}>
+                    <Picker.Item label="Yok" value="" />
+                    {locations.map((location) => (
+                      <Picker.Item key={location.id} label={location.name} value={location.id} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
-              <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
-                <Picker
-                  selectedValue={form.locationid}
-                  onValueChange={(value) => setForm((prev) => ({ ...prev, locationid: value }))}
-                  style={styles.picker}>
-                  <Picker.Item label="Lokasyon Yok" value="" />
-                  {locations.map((location) => (
-                    <Picker.Item key={location.id} label={location.name} value={location.id} />
-                  ))}
-                </Picker>
+
+              <View style={[styles.formGroup, styles.halfField]}>
+                <View style={styles.labelRow}>
+                  <Ionicons name="card-outline" size={16} color="#2563EB" />
+                  <ThemedText style={styles.labelText}>NFC Kart</ThemedText>
+                </View>
+                <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
+                  <Picker
+                    selectedValue={form.cardid}
+                    onValueChange={(value) => {
+                      const card = cards.find((item) => item.id === value);
+                      setForm((prev) => ({
+                        ...prev,
+                        cardid: value,
+                        locationid: card?.assignedlocationid || prev.locationid,
+                      }));
+                    }}
+                    style={styles.picker}>
+                    <Picker.Item label="Yok" value="" />
+                    {cards.map((card) => (
+                      <Picker.Item key={card.id} label={card.alias || card.id} value={card.id} />
+                    ))}
+                  </Picker>
+                </View>
               </View>
             </View>
 
@@ -493,6 +584,14 @@ export default function CreateTaskScreen() {
   );
 }
 
+function TemplateChip({ label, onPress }: { label: string; onPress: () => void }) {
+  return (
+    <Pressable style={styles.templateChip} onPress={onPress}>
+      <ThemedText style={styles.templateChipText}>{label}</ThemedText>
+    </Pressable>
+  );
+}
+
 // Helper functions
 function formatDateForInput(dateStr: string | null): string {
   if (!dateStr) return '';
@@ -525,10 +624,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    padding: 16,
+    padding: 14,
   },
   header: {
-    marginBottom: 16,
+    marginBottom: 10,
   },
   backButton: {
     flexDirection: 'row',
@@ -537,45 +636,69 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   backButtonText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '500',
   },
+  templateRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 10,
+  },
+  templateChip: {
+    borderRadius: 999,
+    backgroundColor: 'rgba(37,99,235,0.1)',
+    paddingHorizontal: 11,
+    paddingVertical: 7,
+  },
+  templateChipText: {
+    color: '#2563eb',
+    fontSize: 12,
+    fontWeight: '800',
+  },
   formCard: {
-    padding: 16,
+    padding: 14,
     borderRadius: 12,
     borderWidth: 1,
-    gap: 16,
+    gap: 12,
   },
   pageTitle: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '800',
   },
   divider: {
     height: 1,
     opacity: 0.3,
   },
   formSection: {
-    gap: 20,
+    gap: 13,
   },
   formGroup: {
+    gap: 7,
+  },
+  compactRow: {
+    flexDirection: 'row',
     gap: 10,
+  },
+  halfField: {
+    flex: 1,
   },
   labelRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    marginBottom: 2,
+    gap: 6,
   },
   labelText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     color: '#374151',
   },
   input: {
     borderWidth: 1,
     borderRadius: 10,
-    padding: 14,
-    fontSize: 16,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 14,
   },
   datePickerButton: {
     flexDirection: 'row',
@@ -589,10 +712,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   picker: {
-    height: 50,
+    height: 44,
   },
   multilineInput: {
-    minHeight: 90,
+    minHeight: 76,
     textAlignVertical: 'top',
   },
   repeatFrequencyRow: {
@@ -619,11 +742,11 @@ const styles = StyleSheet.create({
   editActions: {
     flexDirection: 'row',
     gap: 12,
-    marginTop: 12,
+    marginTop: 4,
   },
   cancelButton: {
     flex: 1,
-    padding: 16,
+    padding: 13,
     borderRadius: 12,
     backgroundColor: '#F1F5F9',
     alignItems: 'center',
@@ -632,11 +755,11 @@ const styles = StyleSheet.create({
   cancelButtonText: {
     color: '#475569',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 14,
   },
   saveButton: {
     flex: 1,
-    padding: 16,
+    padding: 13,
     borderRadius: 12,
     backgroundColor: '#2563EB',
     alignItems: 'center',
@@ -645,7 +768,7 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: '#FFFFFF',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 14,
   },
   buttonPressed: {
     opacity: 0.7,
@@ -656,18 +779,18 @@ const styles = StyleSheet.create({
   tagsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
+    gap: 8,
   },
   tagChip: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    paddingVertical: 8,
-    paddingHorizontal: 14,
+    paddingVertical: 7,
+    paddingHorizontal: 11,
     borderRadius: 999,
   },
   tagChipText: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
   },
 });

@@ -5,15 +5,29 @@ import { Icons } from '../components/Icons';
 import { Modal } from '../components/Modal';
 import { DynamicTaskStatusLabel } from '../components/DynamicTaskStatusLabel';
 import { supabase } from '../supabaseClient';
-import { normalizeStatus } from '../lib/status';
 
-const parseTask = (raw: any): Task => ({
-    ...raw,
-    createdat: new Date(raw.createdat),
-    duedate: new Date(raw.duedate),
-    lastcompletedat: raw.lastcompletedat ? new Date(raw.lastcompletedat) : undefined,
-    status: normalizeStatus(raw.status),
-});
+const parseExerciseLogAsTask = (raw: any): Task => {
+    const createdAt = new Date(raw.createdat ?? new Date().toISOString());
+    return {
+        id: raw.log_id ?? raw.id,
+        title: `${raw.quantity ?? 0} ${formatUnit(raw.unit)} ${raw.exercise_name ?? 'Egzersiz'}`,
+        description: 'NFC tag ile kaydedildi',
+        status: TaskStatus.Completed,
+        locationId: raw.location_id ?? '',
+        locationid: raw.location_id ?? '',
+        userId: raw.user_id ?? '',
+        userid: raw.user_id ?? '',
+        createdAt,
+        createdat: createdAt,
+        dueDate: createdAt,
+        duedate: createdAt,
+        lastCompletedAt: createdAt,
+        lastcompletedat: createdAt,
+        attachments: [],
+        active: true,
+        repeat: null,
+    } as Task;
+};
 
 export const MobileUserView: FC<{
     currentUser: User;
@@ -35,42 +49,14 @@ export const MobileUserView: FC<{
 
     const [isNfcModalOpen, setIsNfcModalOpen] = useState(false);
     const [scannedLocation, setScannedLocation] = useState<Location | null>(null);
-    const [tasksForLocation, setTasksForLocation] = useState<Task[]>([]);
+    const [loggedExercise, setLoggedExercise] = useState<any | null>(null);
     const [nfcStatus, setNfcStatus] = useState<'idle' | 'scanning' | 'error' | 'unsupported'>('idle');
     const [nfcError, setNfcError] = useState('');
-    const [completionNotes, setCompletionNotes] = useState<{ [key: string]: string }>({});
-    const [scannedProof, setScannedProof] = useState<{ uid: string; secretcode: string | null } | null>(null);
     const nfcAbortController = useRef<AbortController | null>(null);
 
     const isInIframe = useMemo(() => { try { return window.self !== window.top; } catch (e) { return true; } }, []);
     const handleOpenInNewTab = () => window.open(window.location.href, '_blank', 'noopener,noreferrer');
 
-    const handleCompleteTask = async (taskId: string, notes: string) => {
-        if (!scannedProof) {
-            alert('NFC doğrulaması bulunamadı. Lütfen kartı tekrar okutun.');
-            return;
-        }
-        try {
-            const { data, error } = await supabase.rpc('complete_task_from_nfc', {
-                p_task_id: taskId,
-                p_uid: scannedProof.uid,
-                p_secretcode: scannedProof.secretcode,
-                p_userid: currentUser.id,
-                p_notes: notes,
-            });
-            if (error) throw error;
-
-            const updatedTask = Array.isArray(data) ? data[0] : data;
-            setTasks(prev => prev.map(t => t.id === taskId ? parseTask(updatedTask) : t));
-            setCompletionNotes(prev => ({ ...prev, [taskId]: '' }));
-        } catch (e) {
-            console.error('Complete failed', e);
-            alert('Görev tamamlanamadı.');
-        } finally {
-            closeNfcModal();
-        }
-    };
-    
     const closeNfcModal = () => {
         if (nfcAbortController.current) {
             nfcAbortController.current.abort();
@@ -78,7 +64,7 @@ export const MobileUserView: FC<{
         }
         setIsNfcModalOpen(false);
         setNfcStatus('idle');
-        setScannedProof(null);
+        setLoggedExercise(null);
     };
 
     const startNfcScan = async () => {
@@ -98,9 +84,7 @@ export const MobileUserView: FC<{
 
         setNfcStatus('scanning');
         setScannedLocation(null);
-        setTasksForLocation([]);
-        setCompletionNotes({});
-        setScannedProof(null);
+        setLoggedExercise(null);
         setIsNfcModalOpen(true);
 
         try {
@@ -111,49 +95,49 @@ export const MobileUserView: FC<{
             reader.onreading = async (event: any) => {
                 const decoder = new TextDecoder();
                 const scannedUid = event.serialNumber;
-                let foundMatch = false;
+                let ndefPayload: string | null = null;
 
                 for (const record of event.message.records) {
                     if (record.data) {
-                        try {
-                            const secretCode = decoder.decode(record.data).trim();
-                            const { data, error } = await supabase.rpc('verify_nfc_scan', {
-                                p_uid: scannedUid,
-                                p_secretcode: secretCode,
-                                p_userid: currentUser.id,
-                            });
-                            if (error) throw error;
-
-                            const verifiedTasks = data ?? [];
-                            if (verifiedTasks.length > 0) {
-                                const first = verifiedTasks[0];
-                                const location = locations.find(l => l.id === first.location_id) ?? {
-                                    id: first.location_id,
-                                    name: first.location_name,
-                                    layoutId: '',
-                                    layoutid: '',
-                                    nfcCardId: first.card_id,
-                                    nfccardid: first.card_id,
-                                    x: 0,
-                                    y: 0,
-                                } as Location;
-                                const verifiedTaskIds = new Set(verifiedTasks.map((task: any) => task.task_id));
-                                const userTasksAtLocation = tasks.filter(task => verifiedTaskIds.has(task.id));
-                                setScannedProof({ uid: scannedUid, secretcode: secretCode });
-                                setScannedLocation(location);
-                                setTasksForLocation(userTasksAtLocation);
-                                setNfcStatus('idle');
-                                foundMatch = true;
-                                nfcAbortController.current?.abort();
-                                return;
-                            }
-                        } catch (e) { console.error("Kullanıcı görünümünde veri okuma hatası:", e); }
+                        ndefPayload = decoder.decode(record.data).trim();
+                        break;
                     }
                 }
 
-                if (!foundMatch) {
-                     setNfcStatus('error');
-                     setNfcError('Geçerli bir NFC kartı okutulmadı. Kartın UID ve Özel Kodu sistemdekiyle eşleşmiyor veya kart bir noktaya atanmamış.');
+                try {
+                    const { data, error } = await supabase.rpc('log_exercise_from_nfc', {
+                        p_uid: scannedUid,
+                        p_ndef_payload: ndefPayload,
+                        p_user_id: currentUser.id,
+                    });
+                    if (error) throw error;
+
+                    const result = Array.isArray(data) ? data[0] : data;
+                    if (result?.result === 'logged') {
+                        const location = locations.find(l => l.id === result.location_id) ?? {
+                            id: result.location_id,
+                            name: result.location_name ?? 'Antrenman Alanı',
+                            layoutId: '',
+                            layoutid: '',
+                            nfcCardId: result.tag_id,
+                            nfccardid: result.tag_id,
+                            x: 0,
+                            y: 0,
+                        } as Location;
+                        setLoggedExercise(result);
+                        setScannedLocation(location);
+                        setTasks(prev => [parseExerciseLogAsTask({ ...result, user_id: currentUser.id }), ...prev]);
+                        setNfcStatus('idle');
+                        nfcAbortController.current?.abort();
+                        return;
+                    }
+
+                    setNfcStatus('error');
+                    setNfcError('Bu NFC tag aktif bir egzersiz tag’i ile eşleşmiyor veya kullanıcıya atanmadı.');
+                } catch (e) {
+                    console.error("Kullanıcı görünümünde veri okuma hatası:", e);
+                    setNfcStatus('error');
+                    setNfcError('Egzersiz kaydı oluşturulamadı.');
                 }
             };
             
@@ -230,26 +214,27 @@ export const MobileUserView: FC<{
             <Modal isOpen={isNfcModalOpen} onClose={closeNfcModal} title="NFC Tarama">
                 {nfcStatus === 'scanning' && <div className="text-center p-4"><div className="flex justify-center items-center mb-4"><div className="relative flex h-20 w-20"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span><span className="relative inline-flex rounded-full h-20 w-20 bg-blue-500 items-center justify-center"><Icons.Nfc /></span></div></div><p className="text-lg text-white">{t('cards.scan.instructions')}</p><button onClick={closeNfcModal} className="mt-6 text-gray-300 bg-gray-600 hover:bg-gray-500 font-medium rounded-lg text-sm px-5 py-2.5">{t('btn.cancel')}</button></div>}
                 {(nfcStatus === 'error' || nfcStatus === 'unsupported') && <div className="text-center p-4"><p className="text-lg text-red-400 mb-2">{t('cards.scan.errorTitle')}</p><p className="text-gray-300">{nfcError}</p><button onClick={closeNfcModal} className="mt-4 text-gray-300 bg-gray-600 hover:bg-gray-500 font-medium rounded-lg text-sm px-5 py-2.5">{t('btn.close')}</button></div>}
-                {scannedLocation && (
+                {scannedLocation && loggedExercise && (
                     <div>
                         <h3 className="text-lg font-bold text-blue-400 mb-3">{scannedLocation.name}</h3>
-                        {tasksForLocation.length > 0 ? (
-                            <ul className="space-y-3">
-                                {tasksForLocation.map(task => (
-                                    <li key={task.id} className="bg-gray-700 p-3 rounded-lg">
-                                        <p className="font-semibold text-white">{task.title}</p><p className="text-sm text-gray-300 my-2">{task.description}</p>
-                                        <div className="mt-3">
-                                            <label htmlFor={`notes-${task.id}`} className="block mb-1 text-xs font-medium text-gray-400">{t('tasks.form.completionNotes')}</label>
-                                            <textarea id={`notes-${task.id}`} rows={2} value={completionNotes[task.id] || ''} onChange={(e) => setCompletionNotes(prev => ({ ...prev, [task.id]: e.target.value }))} className="bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2" placeholder="Örn: Cihazda sızıntı tespit edildi." />
-                                        </div>
-                                        <button onClick={() => handleCompleteTask(task.id, completionNotes[task.id] || '')} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md transition-colors mt-3">{t('btn.completeTask')}</button>
-                                    </li>
-                                ))}
-                            </ul>
-                        ) : <p className="text-gray-400 text-center py-4">{t('userView.noTasksAtLocation')}</p>}
+                        <div className="bg-gray-700 p-3 rounded-lg">
+                            <p className="font-semibold text-white">{loggedExercise.exercise_name}</p>
+                            <p className="text-sm text-gray-300 my-2">
+                                {loggedExercise.quantity} {formatUnit(loggedExercise.unit)} kaydedildi
+                                {loggedExercise.calorie_estimate != null ? ` · ${loggedExercise.calorie_estimate} kcal` : ''}
+                            </p>
+                            <button onClick={closeNfcModal} className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md transition-colors mt-3">{t('btn.close')}</button>
+                        </div>
                     </div>
                 )}
             </Modal>
         </div>
     );
 };
+
+function formatUnit(unit?: string | null) {
+    if (unit === 'seconds') return 'sn';
+    if (unit === 'minutes') return 'dk';
+    if (unit === 'meters') return 'm';
+    return 'tekrar';
+}

@@ -1,0 +1,42 @@
+import { ExerciseType, UserExercise } from '../types';
+
+export const fallbackExerciseTypes: ExerciseType[] = [
+    { id: 'push_up', name: 'Şınav', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.32 },
+    { id: 'squat', name: 'Squat', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.30 },
+    { id: 'plank', name: 'Plank', category: 'core', unit: 'seconds', default_calorie_per_unit: 0.05 },
+    { id: 'sit_up', name: 'Mekik', category: 'core', unit: 'repetition', default_calorie_per_unit: 0.28 },
+    { id: 'walking', name: 'Yürüyüş', category: 'cardio', unit: 'meters', default_calorie_per_unit: 0.04 },
+    { id: 'pull_up', name: 'Barfiks', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.80 },
+    { id: 'lunge', name: 'Lunge', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.35 },
+    { id: 'burpee', name: 'Burpee', category: 'cardio', unit: 'repetition', default_calorie_per_unit: 1.20 },
+    { id: 'mountain_climber', name: 'Mountain Climber', category: 'cardio', unit: 'repetition', default_calorie_per_unit: 0.45 },
+    { id: 'jumping_jack', name: 'Jumping Jack', category: 'cardio', unit: 'repetition', default_calorie_per_unit: 0.25 },
+    { id: 'wall_sit', name: 'Wall Sit', category: 'strength', unit: 'seconds', default_calorie_per_unit: 0.06 },
+    { id: 'glute_bridge', name: 'Glute Bridge', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.22 },
+    { id: 'leg_raise', name: 'Leg Raise', category: 'core', unit: 'repetition', default_calorie_per_unit: 0.30 },
+    { id: 'side_plank', name: 'Side Plank', category: 'core', unit: 'seconds', default_calorie_per_unit: 0.05 },
+    { id: 'crunch', name: 'Crunch', category: 'core', unit: 'repetition', default_calorie_per_unit: 0.22 },
+    { id: 'running', name: 'Koşu', category: 'cardio', unit: 'meters', default_calorie_per_unit: 0.08 },
+    { id: 'cycling', name: 'Bisiklet', category: 'cardio', unit: 'meters', default_calorie_per_unit: 0.03 },
+    { id: 'jump_rope', name: 'İp Atlama', category: 'cardio', unit: 'seconds', default_calorie_per_unit: 0.14 },
+    { id: 'stretching', name: 'Esneme', category: 'mobility', unit: 'minutes', default_calorie_per_unit: 2.00 },
+    { id: 'mobility_flow', name: 'Mobilite Akışı', category: 'mobility', unit: 'minutes', default_calorie_per_unit: 2.50 },
+    { id: 'shoulder_rehab', name: 'Omuz Rehabilitasyon', category: 'rehab', unit: 'repetition', default_calorie_per_unit: 0.10 },
+    { id: 'knee_rehab', name: 'Diz Rehabilitasyon', category: 'rehab', unit: 'repetition', default_calorie_per_unit: 0.12 },
+    { id: 'bench_press', name: 'Bench Press', category: 'strength', unit: 'repetition', default_calorie_per_unit: 1.10 },
+    { id: 'deadlift', name: 'Deadlift', category: 'strength', unit: 'repetition', default_calorie_per_unit: 1.40 },
+    { id: 'shoulder_press', name: 'Shoulder Press', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.85 },
+    { id: 'bicep_curl', name: 'Biceps Curl', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.35 },
+    { id: 'tricep_dip', name: 'Triceps Dip', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.55 },
+    { id: 'lat_pulldown', name: 'Lat Pulldown', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.75 },
+    { id: 'leg_press', name: 'Leg Press', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.95 },
+    { id: 'calf_raise', name: 'Calf Raise', category: 'strength', unit: 'repetition', default_calorie_per_unit: 0.22 },
+    { id: 'russian_twist', name: 'Russian Twist', category: 'core', unit: 'repetition', default_calorie_per_unit: 0.25 },
+    { id: 'high_knees', name: 'High Knees', category: 'cardio', unit: 'seconds', default_calorie_per_unit: 0.12 },
+];
+
+export const fallbackUserExercises: UserExercise[] = [
+    { user_id: 'u1', exercise_type_id: 'push_up', active: true },
+    { user_id: 'u1', exercise_type_id: 'squat', active: true },
+    { user_id: 'u1', exercise_type_id: 'plank', active: true },
+];

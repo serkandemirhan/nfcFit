@@ -1,10 +1,10 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useQuery } from '@tanstack/react-query';
-import { Alert, Image, ImageSourcePropType, Pressable, RefreshControl, ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { useLayoutEffect, useMemo } from 'react';
-import { router, useNavigation } from 'expo-router';
-import { useTranslation } from 'react-i18next';
+import { Image, ImageSourcePropType, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
+import { useMemo } from 'react';
+import { router } from 'expo-router';
 
+import { AppBottomNav, bottomNavHeight } from '@/components/app-bottom-nav';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
@@ -26,9 +26,7 @@ function resolveLayoutImageSource(imageUrl?: string | null): ImageSourcePropType
 }
 
 export default function LayoutsScreen() {
-  const { t } = useTranslation();
   const surface = getSurfaceColors(useColorScheme());
-  const navigation = useNavigation();
   const layoutsQuery = useQuery({ queryKey: ['layouts'], queryFn: fetchLayouts });
   const locationsQuery = useQuery({ queryKey: ['locations'], queryFn: fetchLocations });
 
@@ -54,21 +52,6 @@ export default function LayoutsScreen() {
     });
   }, [layoutsQuery.data, locationsQuery.data]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          style={styles.headerAction}
-          onPress={() => Alert.alert('Yeni Yerleşim', 'Bu özellik yakında eklenecektir.')}
-          activeOpacity={0.7}
-        >
-          <Ionicons name="add-circle-outline" size={20} color="#2563eb" />
-          <ThemedText style={styles.headerActionLabel}>{t('layouts.addLayout')}</ThemedText>
-        </TouchableOpacity>
-      ),
-    });
-  }, [navigation, t]);
-
   if (layoutsQuery.isLoading || locationsQuery.isLoading) {
     return (
       <ThemedView style={styles.centered}>
@@ -93,12 +76,6 @@ export default function LayoutsScreen() {
       <ScrollView
         contentContainerStyle={styles.content}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-        <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <ThemedText style={[styles.subtitle, { color: surface.mutedText }]}>
-            Yerleşim planlarını oluşturup nokta ekleyin.
-          </ThemedText>
-        </View>
-
         {summaries.length === 0 ? (
           <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
             <ThemedText style={{ color: surface.mutedText }}>Henüz plan yüklenmemiş.</ThemedText>
@@ -109,6 +86,7 @@ export default function LayoutsScreen() {
           ))
         )}
       </ScrollView>
+      <AppBottomNav />
     </ThemedView>
   );
 }
@@ -146,20 +124,7 @@ function LayoutCard({
       {imageSource ? (
         <Image source={imageSource} style={styles.layoutPreview} resizeMode="cover" />
       ) : null}
-      <View style={styles.layoutActions}>
-        <LayoutAction icon="add-circle-outline" label="Yeni Nokta" />
-        <LayoutAction icon="resize-outline" label="Planı Güncelle" />
-      </View>
     </Pressable>
-  );
-}
-
-function LayoutAction({ icon, label }: { icon: keyof typeof Ionicons.glyphMap; label: string }) {
-  return (
-    <View style={styles.layoutAction}>
-      <Ionicons name={icon} size={16} color="#2563eb" />
-      <ThemedText style={styles.layoutActionText}>{label}</ThemedText>
-    </View>
   );
 }
 
@@ -178,7 +143,8 @@ const styles = StyleSheet.create({
     color: '#2563eb',
   },
   content: {
-    padding: 16,
+    padding: 14,
+    paddingBottom: bottomNavHeight + 24,
     gap: 12,
   },
   section: {
@@ -190,25 +156,10 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 13,
   },
-  headerAction: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#2563eb',
-    marginRight: 8,
-  },
-  headerActionLabel: {
-    color: '#2563eb',
-    fontWeight: '600',
-  },
   layoutCard: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 18,
-    padding: 16,
+    borderRadius: 12,
+    padding: 12,
     gap: 12,
   },
   layoutHeader: {
@@ -217,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   layoutName: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '700',
   },
   layoutSubtitle: {
@@ -226,25 +177,8 @@ const styles = StyleSheet.create({
   },
   layoutPreview: {
     width: '100%',
-    height: 120,
-    borderRadius: 14,
+    height: 132,
+    borderRadius: 10,
     backgroundColor: 'rgba(148,163,184,0.16)',
-  },
-  layoutActions: {
-    flexDirection: 'row',
-    gap: 12,
-    flexWrap: 'wrap',
-  },
-  layoutAction: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 999,
-    backgroundColor: 'rgba(37,99,235,0.08)',
-  },
-  layoutActionText: {
-    fontWeight: '600',
   },
 });

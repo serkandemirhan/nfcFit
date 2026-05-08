@@ -9,7 +9,7 @@ import tr from './locales/tr.json';
 i18n
   .use(initReactI18next)
   .init({
-    compatibilityJSON: 'v3',
+    compatibilityJSON: 'v4',
     resources: {
       en: { translation: en },
       tr: { translation: tr },

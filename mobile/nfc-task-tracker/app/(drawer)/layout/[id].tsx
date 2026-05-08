@@ -4,6 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Image, ImageSourcePropType, LayoutChangeEvent, PanResponder, ScrollView, StyleSheet, Switch, TextInput, View } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 
+import { AppBottomNav, bottomNavHeight } from '@/components/app-bottom-nav';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
@@ -144,39 +145,47 @@ export default function LayoutDetailScreen() {
   return (
     <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
-        <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <View style={styles.headerRow}>
-            <Ionicons name="arrow-back" size={22} color={surface.text} onPress={() => router.back()} />
-            <ThemedText style={styles.detailTitle}>{layout.name}</ThemedText>
-            <View style={{ width: 22 }} />
+        <View style={styles.headerRow}>
+          <Ionicons name="arrow-back" size={22} color={surface.text} onPress={() => router.back()} />
+          <View style={styles.titleBlock}>
+            <ThemedText style={styles.detailTitle} numberOfLines={1}>
+              {layout.name}
+            </ThemedText>
+            <ThemedText style={[styles.subtitle, { color: surface.mutedText }]}>
+              {locations.length} nokta
+            </ThemedText>
           </View>
-          <View style={styles.editRow}>
-            <ThemedText style={styles.subtitle}>Düzenleme modu</ThemedText>
+          <View style={styles.editToggle}>
+            <ThemedText style={[styles.editToggleLabel, { color: surface.mutedText }]}>Düzenle</ThemedText>
             <Switch value={editMode} onValueChange={setEditMode} />
           </View>
-          {editMode ? (
-            <View style={styles.formArea}>
-              <TextInput
-                style={[styles.input, { borderColor: surface.border, color: surface.text }]}
-                placeholder="Plan görseli URL"
-                placeholderTextColor={surface.mutedText}
-                value={imageUrl}
-                onChangeText={setImageUrl}
+        </View>
+
+        {editMode ? (
+          <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
+            <TextInput
+              style={[styles.input, { borderColor: surface.border, color: surface.text }]}
+              placeholder="Plan görseli URL"
+              placeholderTextColor={surface.mutedText}
+              value={imageUrl}
+              onChangeText={setImageUrl}
+            />
+            <View style={styles.editActions}>
+              <PressableText label="İptal" onPress={() => {
+                setEditMode(false);
+                setImageUrl(layout.imageurl ?? '');
+              }} />
+              <PressableText
+                label={updateImage.isPending ? 'Kaydediliyor…' : 'Kaydet'}
+                primary
+                disabled={updateImage.isPending}
+                onPress={() => updateImage.mutate(imageUrl)}
               />
-              <View style={styles.editActions}>
-                <PressableText label="İptal" onPress={() => {
-                  setEditMode(false);
-                  setImageUrl(layout.imageurl ?? '');
-                }} />
-                <PressableText
-                  label={updateImage.isPending ? 'Kaydediliyor…' : 'Kaydet'}
-                  primary
-                  disabled={updateImage.isPending}
-                  onPress={() => updateImage.mutate(imageUrl)}
-                />
-              </View>
             </View>
-          ) : null}
+          </View>
+        ) : null}
+
+        <View style={[styles.mapSection, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {imageSource ? (
             <View style={styles.mapPreview} onLayout={handleMapLayout}>
               <Image source={imageSource} style={styles.previewImage} resizeMode="cover" />
@@ -214,15 +223,14 @@ export default function LayoutDetailScreen() {
               <ThemedText style={{ color: surface.mutedText }}>Plan görüntüsü yok</ThemedText>
             </View>
           )}
+          {editMode ? (
+            <ThemedText style={[styles.mapHint, { color: surface.mutedText }]}>
+              Noktaları sürükleyerek yeni konumlarını kaydedebilirsiniz.
+            </ThemedText>
+          ) : null}
         </View>
 
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <ThemedText style={styles.subtitle}>Noktalar</ThemedText>
-          {editMode ? (
-            <ThemedText style={{ color: surface.mutedText }}>
-              Noktaları plan üzerinde sürükleyerek konumlandırabilirsiniz.
-            </ThemedText>
-          ) : null}
           {locations.length === 0 ? (
             <ThemedText style={{ color: surface.mutedText }}>Bu yerleşimde kayıtlı nokta yok.</ThemedText>
           ) : (
@@ -238,6 +246,7 @@ export default function LayoutDetailScreen() {
           )}
         </View>
       </ScrollView>
+      <AppBottomNav />
     </ThemedView>
   );
 }
@@ -277,8 +286,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    padding: 16,
-    gap: 16,
+    padding: 14,
+    paddingBottom: bottomNavHeight + 24,
+    gap: 12,
   },
   centered: {
     flex: 1,
@@ -289,30 +299,41 @@ const styles = StyleSheet.create({
   },
   section: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 18,
-    padding: 16,
+    borderRadius: 12,
+    padding: 12,
     gap: 12,
+  },
+  mapSection: {
+    borderWidth: StyleSheet.hairlineWidth,
+    borderRadius: 12,
+    padding: 8,
+    gap: 8,
   },
   headerRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    gap: 12,
+  },
+  titleBlock: {
+    flex: 1,
   },
   detailTitle: {
     fontSize: 18,
     fontWeight: '700',
   },
   subtitle: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 12,
+    fontWeight: '500',
   },
-  editRow: {
+  editToggle: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    gap: 6,
   },
-  formArea: {
-    gap: 10,
+  editToggleLabel: {
+    fontSize: 12,
+    fontWeight: '600',
   },
   input: {
     borderWidth: StyleSheet.hairlineWidth,
@@ -343,8 +364,8 @@ const styles = StyleSheet.create({
   },
   mapPreview: {
     width: '100%',
-    height: 200,
-    borderRadius: 16,
+    height: 240,
+    borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
     backgroundColor: 'rgba(148,163,184,0.16)',
@@ -360,9 +381,9 @@ const styles = StyleSheet.create({
     maxWidth: 120,
   },
   mapMarker: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
     backgroundColor: '#dc2626',
     borderWidth: 2,
     borderColor: '#fff',
@@ -380,7 +401,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2563eb',
   },
   mapMarkerLabel: {
-    marginTop: 4,
+    marginTop: 3,
     maxWidth: 120,
     borderRadius: 8,
     backgroundColor: 'rgba(15,23,42,0.85)',
@@ -391,6 +412,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 10,
     fontWeight: '700',
+  },
+  mapHint: {
+    fontSize: 12,
+    lineHeight: 17,
+    paddingHorizontal: 4,
   },
   previewPlaceholder: {
     backgroundColor: 'rgba(148,163,184,0.2)',

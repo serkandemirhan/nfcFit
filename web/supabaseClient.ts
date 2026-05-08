@@ -2,10 +2,11 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const useBackendInDev = import.meta.env.DEV && import.meta.env.VITE_USE_SUPABASE_IN_DEV !== 'true';
+const hasSupabaseConfig = Boolean(supabaseUrl && supabaseAnonKey);
+const useBackendInDev = import.meta.env.DEV && !hasSupabaseConfig && import.meta.env.VITE_USE_SUPABASE_IN_DEV !== 'true';
 
 type QueryResult<T = any> = { data: T | null; error: Error | null };
-type Operation = 'select' | 'insert' | 'update' | 'delete';
+type Operation = 'select' | 'insert' | 'upsert' | 'update' | 'delete';
 
 const endpointFor = (table: string, id?: string) => `/api/${table}${id ? `/${encodeURIComponent(id)}` : ''}`;
 
@@ -119,6 +120,12 @@ class BackendQuery {
     return this;
   }
 
+  upsert(payload: any) {
+    this.operation = 'upsert';
+    this.payload = Array.isArray(payload) ? payload[0] : payload;
+    return this;
+  }
+
   update(payload: any) {
     this.operation = 'update';
     this.payload = payload;
@@ -156,7 +163,7 @@ class BackendQuery {
   private async execute(): Promise<QueryResult> {
     try {
       const id = this.filters.id;
-      const method = this.operation === 'insert'
+      const method = this.operation === 'insert' || this.operation === 'upsert'
         ? 'POST'
         : this.operation === 'update'
           ? 'PUT'

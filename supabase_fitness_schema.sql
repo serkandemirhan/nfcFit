@@ -11,6 +11,10 @@ drop table if exists public.daily_goals cascade;
 drop table if exists public.exercise_logs cascade;
 drop table if exists public.exercise_tags cascade;
 drop table if exists public.locations cascade;
+drop table if exists public.wellness_logs cascade;
+drop table if exists public.wellness_goals cascade;
+drop table if exists public.wellness_types cascade;
+drop table if exists public.user_exercises cascade;
 drop table if exists public.exercise_types cascade;
 drop table if exists public.users cascade;
 
@@ -39,6 +43,14 @@ create table public.exercise_types (
   createdat timestamptz not null default now()
 );
 
+create table public.user_exercises (
+  user_id text not null references public.users(id) on delete cascade,
+  exercise_type_id text not null references public.exercise_types(id) on delete cascade,
+  active boolean not null default true,
+  createdat timestamptz not null default now(),
+  primary key (user_id, exercise_type_id)
+);
+
 create table public.locations (
   id text primary key,
   name text not null,
@@ -47,14 +59,46 @@ create table public.locations (
   createdat timestamptz not null default now()
 );
 
+create table public.wellness_types (
+  id text primary key,
+  name text not null,
+  category text not null check (category in ('hydration', 'nutrition', 'mindfulness', 'movement', 'supplement', 'other')),
+  unit text not null check (unit in ('ml', 'cups', 'minutes', 'count')),
+  icon text,
+  createdat timestamptz not null default now()
+);
+
+create table public.wellness_goals (
+  id uuid primary key default gen_random_uuid(),
+  user_id text not null references public.users(id) on delete cascade,
+  wellness_type_id text not null references public.wellness_types(id) on delete cascade,
+  target_quantity numeric(10,2) not null check (target_quantity > 0),
+  unit text not null check (unit in ('ml', 'cups', 'minutes', 'count')),
+  active boolean not null default true,
+  createdat timestamptz not null default now(),
+  unique (user_id, wellness_type_id)
+);
+
+create table public.wellness_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id text not null references public.users(id) on delete cascade,
+  wellness_type_id text not null references public.wellness_types(id) on delete restrict,
+  quantity numeric(10,2) not null check (quantity > 0),
+  unit text not null check (unit in ('ml', 'cups', 'minutes', 'count')),
+  source text not null default 'manual' check (source in ('nfc', 'manual', 'health_import')),
+  createdat timestamptz not null default now()
+);
+
 create table public.exercise_tags (
   id text primary key,
   nfc_uid text unique not null,
   ndef_payload text,
   name text not null,
-  exercise_type_id text not null references public.exercise_types(id) on delete restrict,
-  quantity numeric(10,2) not null check (quantity > 0),
-  unit text not null check (unit in ('repetition', 'seconds', 'minutes', 'meters')),
+  action_domain text not null default 'unassigned' check (action_domain in ('unassigned', 'fitness', 'wellness')),
+  exercise_type_id text references public.exercise_types(id) on delete restrict,
+  wellness_type_id text references public.wellness_types(id) on delete restrict,
+  quantity numeric(10,2) check (quantity is null or quantity > 0),
+  unit text check (unit is null or unit in ('repetition', 'seconds', 'minutes', 'meters', 'ml', 'cups', 'count')),
   calorie_estimate numeric(10,2),
   difficulty_level text check (difficulty_level is null or difficulty_level in ('easy', 'medium', 'hard')),
   location_id text references public.locations(id) on delete set null,
@@ -62,7 +106,24 @@ create table public.exercise_tags (
   is_active boolean not null default true,
   read_counter integer not null default 0,
   last_scanned_at timestamptz,
-  createdat timestamptz not null default now()
+  createdat timestamptz not null default now(),
+  check (
+    (action_domain = 'unassigned' and exercise_type_id is null and wellness_type_id is null)
+    or (
+      action_domain = 'fitness'
+      and exercise_type_id is not null
+      and wellness_type_id is null
+      and quantity is not null
+      and unit in ('repetition', 'seconds', 'minutes', 'meters')
+    )
+    or (
+      action_domain = 'wellness'
+      and wellness_type_id is not null
+      and exercise_type_id is null
+      and quantity is not null
+      and unit in ('ml', 'cups', 'minutes', 'count')
+    )
+  )
 );
 
 create table public.exercise_logs (
@@ -107,15 +168,18 @@ create table public.nfc_scan_events (
   ndef_payload text,
   user_id text references public.users(id) on delete set null,
   location_id text references public.locations(id) on delete set null,
-  result text not null check (result in ('logged', 'no_tag', 'inactive_tag', 'user_mismatch', 'error')),
+  result text not null check (result in ('logged', 'wellness_logged', 'no_tag', 'new_tag', 'unassigned_tag', 'inactive_tag', 'user_mismatch', 'error')),
   details jsonb not null default '{}'::jsonb,
   createdat timestamptz not null default now()
 );
 
 create index exercise_tags_nfc_uid_idx on public.exercise_tags(nfc_uid);
 create index exercise_tags_exercise_type_idx on public.exercise_tags(exercise_type_id);
+create index exercise_tags_wellness_type_idx on public.exercise_tags(wellness_type_id);
+create index user_exercises_user_idx on public.user_exercises(user_id);
 create index exercise_logs_user_created_idx on public.exercise_logs(user_id, createdat desc);
 create index exercise_logs_exercise_type_created_idx on public.exercise_logs(exercise_type_id, createdat desc);
+create index wellness_logs_user_created_idx on public.wellness_logs(user_id, createdat desc);
 create index daily_goals_user_idx on public.daily_goals(user_id);
 create index nfc_scan_events_created_idx on public.nfc_scan_events(createdat desc);
 
@@ -136,6 +200,10 @@ select
   ), 0), 0) as remaining_quantity
 from public.daily_goals dg
 join public.exercise_types et on et.id = dg.exercise_type_id
+join public.user_exercises ue
+  on ue.user_id = dg.user_id
+ and ue.exercise_type_id = dg.exercise_type_id
+ and ue.active is true
 left join public.exercise_logs el
   on el.user_id = dg.user_id
  and el.exercise_type_id = dg.exercise_type_id
@@ -151,8 +219,11 @@ create or replace function public.log_exercise_from_nfc(
 returns table (
   log_id uuid,
   tag_id text,
+  action_domain text,
   exercise_type_id text,
   exercise_name text,
+  wellness_type_id text,
+  wellness_name text,
   quantity numeric,
   unit text,
   calorie_estimate numeric,
@@ -166,8 +237,10 @@ as $$
 declare
   matched_tag public.exercise_tags%rowtype;
   matched_type public.exercise_types%rowtype;
+  matched_wellness public.wellness_types%rowtype;
   matched_location public.locations%rowtype;
   inserted_log public.exercise_logs%rowtype;
+  inserted_wellness_log public.wellness_logs%rowtype;
   computed_calories numeric(10,2);
   effective_user_id text;
 begin
@@ -179,23 +252,43 @@ begin
    limit 1;
 
   if matched_tag.id is null then
+    if p_user_id is not null then
+      insert into public.exercise_tags (id, nfc_uid, ndef_payload, name, action_domain, assigned_user_id, is_active)
+      values (
+        'TAG-' || upper(substr(replace(gen_random_uuid()::text, '-', ''), 1, 8)),
+        p_uid,
+        p_ndef_payload,
+        'Yeni NFC Tag',
+        'unassigned',
+        p_user_id,
+        true
+      )
+      returning * into matched_tag;
+
+      insert into public.nfc_scan_events (tag_id, nfc_uid, ndef_payload, user_id, result)
+      values (matched_tag.id, p_uid, p_ndef_payload, p_user_id, 'new_tag');
+
+      return query select null::uuid, matched_tag.id, matched_tag.action_domain, null::text, null::text, null::text, null::text, null::numeric, null::text, null::numeric, null::text, null::text, 'new_tag'::text;
+      return;
+    end if;
+
     insert into public.nfc_scan_events (nfc_uid, ndef_payload, user_id, result)
     values (p_uid, p_ndef_payload, p_user_id, 'no_tag');
-    return query select null::uuid, null::text, null::text, null::text, null::numeric, null::text, null::numeric, null::text, null::text, 'no_tag'::text;
+    return query select null::uuid, null::text, null::text, null::text, null::text, null::text, null::text, null::numeric, null::text, null::numeric, null::text, null::text, 'no_tag'::text;
     return;
   end if;
 
   if matched_tag.is_active is not true then
     insert into public.nfc_scan_events (tag_id, nfc_uid, ndef_payload, user_id, location_id, result)
     values (matched_tag.id, p_uid, p_ndef_payload, p_user_id, matched_tag.location_id, 'inactive_tag');
-    return query select null::uuid, matched_tag.id, matched_tag.exercise_type_id, null::text, matched_tag.quantity, matched_tag.unit, null::numeric, matched_tag.location_id, null::text, 'inactive_tag'::text;
+    return query select null::uuid, matched_tag.id, matched_tag.action_domain, matched_tag.exercise_type_id, null::text, matched_tag.wellness_type_id, null::text, matched_tag.quantity, matched_tag.unit, null::numeric, matched_tag.location_id, null::text, 'inactive_tag'::text;
     return;
   end if;
 
   if matched_tag.assigned_user_id is not null and p_user_id is not null and matched_tag.assigned_user_id <> p_user_id then
     insert into public.nfc_scan_events (tag_id, nfc_uid, ndef_payload, user_id, location_id, result)
     values (matched_tag.id, p_uid, p_ndef_payload, p_user_id, matched_tag.location_id, 'user_mismatch');
-    return query select null::uuid, matched_tag.id, matched_tag.exercise_type_id, null::text, matched_tag.quantity, matched_tag.unit, null::numeric, matched_tag.location_id, null::text, 'user_mismatch'::text;
+    return query select null::uuid, matched_tag.id, matched_tag.action_domain, matched_tag.exercise_type_id, null::text, matched_tag.wellness_type_id, null::text, matched_tag.quantity, matched_tag.unit, null::numeric, matched_tag.location_id, null::text, 'user_mismatch'::text;
     return;
   end if;
 
@@ -203,7 +296,67 @@ begin
   if effective_user_id is null then
     insert into public.nfc_scan_events (tag_id, nfc_uid, ndef_payload, user_id, location_id, result, details)
     values (matched_tag.id, p_uid, p_ndef_payload, p_user_id, matched_tag.location_id, 'error', '{"reason": "missing_user"}'::jsonb);
-    return query select null::uuid, matched_tag.id, matched_tag.exercise_type_id, null::text, matched_tag.quantity, matched_tag.unit, null::numeric, matched_tag.location_id, null::text, 'error'::text;
+    return query select null::uuid, matched_tag.id, matched_tag.action_domain, matched_tag.exercise_type_id, null::text, matched_tag.wellness_type_id, null::text, matched_tag.quantity, matched_tag.unit, null::numeric, matched_tag.location_id, null::text, 'error'::text;
+    return;
+  end if;
+
+  if matched_tag.action_domain = 'unassigned' then
+    update public.exercise_tags
+       set read_counter = read_counter + 1,
+           last_scanned_at = p_logged_at
+     where id = matched_tag.id;
+
+    insert into public.nfc_scan_events (tag_id, nfc_uid, ndef_payload, user_id, location_id, result)
+    values (matched_tag.id, p_uid, p_ndef_payload, effective_user_id, matched_tag.location_id, 'unassigned_tag');
+
+    return query select null::uuid, matched_tag.id, matched_tag.action_domain, null::text, null::text, null::text, null::text, null::numeric, null::text, null::numeric, matched_tag.location_id, null::text, 'unassigned_tag'::text;
+    return;
+  end if;
+
+  if matched_tag.action_domain = 'wellness' then
+    select * into matched_wellness from public.wellness_types where id = matched_tag.wellness_type_id;
+
+    insert into public.wellness_logs (
+      user_id,
+      wellness_type_id,
+      quantity,
+      unit,
+      source,
+      createdat
+    )
+    values (
+      effective_user_id,
+      matched_tag.wellness_type_id,
+      matched_tag.quantity,
+      matched_tag.unit,
+      'nfc',
+      p_logged_at
+    )
+    returning * into inserted_wellness_log;
+
+    update public.exercise_tags
+       set read_counter = read_counter + 1,
+           last_scanned_at = p_logged_at
+     where id = matched_tag.id;
+
+    insert into public.nfc_scan_events (tag_id, nfc_uid, ndef_payload, user_id, location_id, result)
+    values (matched_tag.id, p_uid, p_ndef_payload, effective_user_id, matched_tag.location_id, 'wellness_logged');
+
+    return query
+    select
+      inserted_wellness_log.id,
+      matched_tag.id,
+      matched_tag.action_domain,
+      null::text,
+      null::text,
+      matched_wellness.id,
+      matched_wellness.name,
+      inserted_wellness_log.quantity,
+      inserted_wellness_log.unit,
+      0::numeric,
+      matched_tag.location_id,
+      null::text,
+      'wellness_logged'::text;
     return;
   end if;
 
@@ -248,8 +401,11 @@ begin
   select
     inserted_log.id,
     matched_tag.id,
+    matched_tag.action_domain,
     matched_type.id,
     matched_type.name,
+    null::text,
+    null::text,
     inserted_log.quantity,
     inserted_log.unit,
     inserted_log.calorie_estimate,
@@ -265,11 +421,68 @@ values
 
 insert into public.exercise_types (id, name, category, unit, default_calorie_per_unit)
 values
-  ('push_up', 'Push-up', 'strength', 'repetition', 0.32),
+  ('push_up', 'Şınav', 'strength', 'repetition', 0.32),
   ('squat', 'Squat', 'strength', 'repetition', 0.30),
   ('plank', 'Plank', 'core', 'seconds', 0.05),
-  ('sit_up', 'Sit-up', 'core', 'repetition', 0.28),
-  ('walking', 'Walking', 'cardio', 'meters', 0.04);
+  ('sit_up', 'Mekik', 'core', 'repetition', 0.28),
+  ('walking', 'Yürüyüş', 'cardio', 'meters', 0.04),
+  ('pull_up', 'Barfiks', 'strength', 'repetition', 0.80),
+  ('lunge', 'Lunge', 'strength', 'repetition', 0.35),
+  ('burpee', 'Burpee', 'cardio', 'repetition', 1.20),
+  ('mountain_climber', 'Mountain Climber', 'cardio', 'repetition', 0.45),
+  ('jumping_jack', 'Jumping Jack', 'cardio', 'repetition', 0.25),
+  ('wall_sit', 'Wall Sit', 'strength', 'seconds', 0.06),
+  ('glute_bridge', 'Glute Bridge', 'strength', 'repetition', 0.22),
+  ('leg_raise', 'Leg Raise', 'core', 'repetition', 0.30),
+  ('side_plank', 'Side Plank', 'core', 'seconds', 0.05),
+  ('crunch', 'Crunch', 'core', 'repetition', 0.22),
+  ('running', 'Koşu', 'cardio', 'meters', 0.08),
+  ('cycling', 'Bisiklet', 'cardio', 'meters', 0.03),
+  ('jump_rope', 'İp Atlama', 'cardio', 'seconds', 0.14),
+  ('stretching', 'Esneme', 'mobility', 'minutes', 2.00),
+  ('mobility_flow', 'Mobilite Akışı', 'mobility', 'minutes', 2.50),
+  ('shoulder_rehab', 'Omuz Rehabilitasyon', 'rehab', 'repetition', 0.10),
+  ('knee_rehab', 'Diz Rehabilitasyon', 'rehab', 'repetition', 0.12),
+  ('bench_press', 'Bench Press', 'strength', 'repetition', 1.10),
+  ('deadlift', 'Deadlift', 'strength', 'repetition', 1.40),
+  ('shoulder_press', 'Shoulder Press', 'strength', 'repetition', 0.85),
+  ('bicep_curl', 'Biceps Curl', 'strength', 'repetition', 0.35),
+  ('tricep_dip', 'Triceps Dip', 'strength', 'repetition', 0.55),
+  ('lat_pulldown', 'Lat Pulldown', 'strength', 'repetition', 0.75),
+  ('leg_press', 'Leg Press', 'strength', 'repetition', 0.95),
+  ('calf_raise', 'Calf Raise', 'strength', 'repetition', 0.22),
+  ('russian_twist', 'Russian Twist', 'core', 'repetition', 0.25),
+  ('high_knees', 'High Knees', 'cardio', 'seconds', 0.12);
+
+insert into public.user_exercises (user_id, exercise_type_id)
+values
+  ('u1', 'push_up'),
+  ('u1', 'squat'),
+  ('u1', 'plank');
+
+insert into public.wellness_types (id, name, category, unit, icon)
+values
+  ('water', 'Water', 'hydration', 'ml', 'water-outline'),
+  ('coffee', 'Coffee', 'nutrition', 'cups', 'cafe-outline'),
+  ('meditation', 'Meditation', 'mindfulness', 'minutes', 'leaf-outline'),
+  ('walk_break', 'Walk Breaks', 'movement', 'count', 'walk-outline'),
+  ('vitamins', 'Vitamins', 'supplement', 'count', 'shield-checkmark-outline');
+
+insert into public.wellness_goals (user_id, wellness_type_id, target_quantity, unit)
+values
+  ('u1', 'water', 3000, 'ml'),
+  ('u1', 'coffee', 3, 'cups'),
+  ('u1', 'meditation', 15, 'minutes'),
+  ('u1', 'walk_break', 6, 'count'),
+  ('u1', 'vitamins', 1, 'count');
+
+insert into public.wellness_logs (user_id, wellness_type_id, quantity, unit, source, createdat)
+values
+  ('u1', 'water', 1800, 'ml', 'manual', now() - interval '2 hours'),
+  ('u1', 'coffee', 2, 'cups', 'manual', now() - interval '4 hours'),
+  ('u1', 'meditation', 10, 'minutes', 'manual', now() - interval '3 hours'),
+  ('u1', 'walk_break', 3, 'count', 'manual', now() - interval '1 hour'),
+  ('u1', 'vitamins', 1, 'count', 'manual', now() - interval '5 hours');
 
 insert into public.locations (id, name, type, description)
 values
@@ -278,13 +491,14 @@ values
   ('park', 'Park', 'park', 'Outdoor training area'),
   ('office', 'Office', 'office', 'Office wellness area');
 
-insert into public.exercise_tags (id, nfc_uid, ndef_payload, name, exercise_type_id, quantity, unit, calorie_estimate, difficulty_level, location_id, assigned_user_id)
+insert into public.exercise_tags (id, nfc_uid, ndef_payload, name, action_domain, exercise_type_id, wellness_type_id, quantity, unit, calorie_estimate, difficulty_level, location_id, assigned_user_id)
 values
-  ('TAG-001', '04:6a:9c:8d:a8:67:80', 'pushup-10', 'Push-up Tag', 'push_up', 10, 'repetition', 3.2, 'medium', 'home', 'u1'),
-  ('TAG-002', '04:6a:9c:8d:a8:67:81', 'squat-20', 'Squat Tag', 'squat', 20, 'repetition', 6.0, 'medium', 'home', 'u1'),
-  ('TAG-003', '04:6a:9c:8d:a8:67:82', 'plank-60', 'Plank Tag', 'plank', 60, 'seconds', 3.0, 'hard', 'home', 'u1'),
-  ('TAG-004', '04:6a:9c:8d:a8:67:83', 'situp-10', 'Sit-up Tag', 'sit_up', 10, 'repetition', 2.8, 'medium', 'gym', 'u1'),
-  ('TAG-005', '04:6a:9c:8d:a8:67:84', 'walk-500', 'Walking Tag', 'walking', 500, 'meters', 20.0, 'easy', 'park', 'u1');
+  ('TAG-001', '04:6a:9c:8d:a8:67:80', 'pushup-10', 'Push-up Tag', 'fitness', 'push_up', null, 10, 'repetition', 3.2, 'medium', 'home', 'u1'),
+  ('TAG-002', '04:6a:9c:8d:a8:67:81', 'squat-20', 'Squat Tag', 'fitness', 'squat', null, 20, 'repetition', 6.0, 'medium', 'home', 'u1'),
+  ('TAG-003', '04:6a:9c:8d:a8:67:82', 'plank-60', 'Plank Tag', 'fitness', 'plank', null, 60, 'seconds', 3.0, 'hard', 'home', 'u1'),
+  ('TAG-004', '04:6a:9c:8d:a8:67:83', 'situp-10', 'Sit-up Tag', 'fitness', 'sit_up', null, 10, 'repetition', 2.8, 'medium', 'gym', 'u1'),
+  ('TAG-005', '04:6a:9c:8d:a8:67:84', 'walk-500', 'Walking Tag', 'fitness', 'walking', null, 500, 'meters', 20.0, 'easy', 'park', 'u1'),
+  ('TAG-006', '04:6a:9c:8d:a8:67:85', 'water-500', 'Water Tag', 'wellness', null, 'water', 500, 'ml', null, 'easy', 'home', 'u1');
 
 insert into public.daily_goals (user_id, exercise_type_id, target_quantity, unit)
 values

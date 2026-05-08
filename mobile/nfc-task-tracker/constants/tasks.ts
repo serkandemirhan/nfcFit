@@ -39,13 +39,17 @@ export function getStatusBadgeColors(status: TaskStatus, scheme?: ColorSchemeNam
 }
 
 export function getSurfaceColors(scheme?: ColorSchemeName | null) {
-  const isDark = resolveScheme(scheme) === 'dark';
   return {
-    background: isDark ? '#0B0D13' : '#F7F8FC',
-    card: isDark ? '#171C28' : '#FFFFFF',
-    border: isDark ? '#242B3B' : '#E3E8F5',
-    mutedText: isDark ? '#98A0B7' : '#5C637A',
-    text: isDark ? '#ECEFF7' : '#0F172A',
+    background: '#030B16',
+    card: '#071827',
+    cardRaised: '#0B1F32',
+    border: 'rgba(148,163,184,0.20)',
+    mutedText: '#8EA0B8',
+    text: '#F8FAFC',
+    green: '#35D353',
+    purple: '#9B5CE5',
+    blue: '#4AA3FF',
+    amber: '#F59E0B',
   };
 }
 

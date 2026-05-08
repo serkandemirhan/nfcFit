@@ -1,4 +1,7 @@
 {
+  "app": {
+    "title": "NFCFit"
+  },
   "common": {
     "loading": "Yükleniyor…",
     "error": "Hata",
@@ -21,10 +24,10 @@
     "saving": "Kaydediliyor…"
   },
   "navigation": {
-    "tasks": "Görevler",
+    "tasks": "Bugün",
     "nfc": "NFC Tarayıcı",
-    "cards": "Kartlar",
-    "layouts": "Yerleşimler",
+    "cards": "Spor Tag'leri",
+    "layouts": "Antrenman Alanları",
     "users": "Kullanıcılar"
   },
   "tasks": {
@@ -77,34 +80,41 @@
   },
   "nfc": {
     "title": "NFC Tarayıcı",
-    "description": "Bu bölüm NFC okuyucu iş akışını barındıracak",
-    "instructions": "Bir NFC kartı telefonunuzun arkasına yaklaştırın",
+    "description": "Egzersiz kaydetmek için fitness tag'i okutun",
+    "instructions": "Egzersiz NFC tag'ini telefonunuzun arkasına yaklaştırın",
     "scanning": "Taranıyor...",
-    "scanSuccess": "Kart başarıyla okundu",
-    "scanError": "Kart okunamadı",
+    "scanSuccess": "Tag başarıyla okundu",
+    "scanError": "Tag okunamadı",
     "noNfcSupport": "Cihazınız NFC desteklemiyor",
     "nfcDisabled": "NFC kapalı. Lütfen ayarlardan açın",
-    "readCard": "Kart Oku",
-    "writeCard": "Karta Yaz",
-    "cardId": "Kart ID",
-    "cardType": "Kart Tipi"
+    "readCard": "NFC Tara",
+    "writeCard": "Tag'e Yaz",
+    "cardId": "Tag ID",
+    "cardType": "Tag Tipi",
+    "exercise": "egzersiz",
+    "exerciseLogged": "Egzersiz kaydedildi",
+    "logged": "kaydedildi",
+    "noExerciseTagMatch": "Bu NFC tag aktif bir egzersiz tag'i ile eşleşmiyor. Başlangıç için push-up tag'i olarak kaydedip sonra düzenleyebilirsiniz.",
+    "inactiveExerciseTag": "Bu egzersiz tag'i pasif.",
+    "userMismatch": "Bu egzersiz tag'i başka bir kullanıcıya atanmış."
   },
   "cards": {
-    "title": "NFC Kartları",
-    "noCards": "Henüz kart yok",
-    "addCard": "Yeni Kart Ekle",
-    "editCard": "Kartı Düzenle",
-    "deleteCard": "Kartı Sil",
-    "deleteConfirm": "Bu kartı silmek istediğinizden emin misiniz?",
-    "cardName": "Kart Adı",
-    "cardId": "Kart ID",
-    "linkedLayout": "Bağlı Yerleşim",
+    "title": "Spor Tag'leri",
+    "noCards": "Henüz spor tag'i yok",
+    "addCard": "Spor Tag'i Ekle",
+    "editCard": "Spor Tag'ini Düzenle",
+    "deleteCard": "Spor Tag'ini Sil",
+    "deleteConfirm": "Bu spor tag'ini silmek istediğinizden emin misiniz?",
+    "cardName": "Tag Adı",
+    "cardId": "Tag ID",
+    "linkedLayout": "Antrenman Alanı",
     "noLayout": "Yerleşim yok",
     "createdAt": "Oluşturulma Tarihi",
     "lastScanned": "Son Tarama",
     "neverScanned": "Hiç taranmadı",
     "scanCount": "Tarama Sayısı",
     "active": "Aktif",
+    "available": "Atanmamış",
     "inactive": "Pasif",
     "errors": {
       "nameRequired": "Kart adı zorunludur.",

@@ -60,12 +60,36 @@ export type Card = {
   id: string;
   secretcode?: string | null;
   uid?: string | null;
+  nfc_uid?: string | null;
+  ndef_payload?: string | null;
   assignedlocationid?: string | null;
+  location_id?: string | null;
   alias?: string | null;
+  name?: string | null;
   createdat?: string | null;
   assigneduserid?: string | null;
+  assigned_user_id?: string | null;
   assignedtaskid?: string | null;
+  lifecycle_status?: CardLifecycleStatus | null;
+  security_mode?: string | null;
+  read_counter?: number | null;
+  lastscannedat?: string | null;
+  last_scanned_at?: string | null;
+  lastverifiedat?: string | null;
+  active?: boolean | null;
+  is_active?: boolean | null;
+  action_domain?: TagActionDomain | null;
+  exercise_type_id?: string | null;
+  exercise_name?: string | null;
+  wellness_type_id?: string | null;
+  wellness_name?: string | null;
+  quantity?: number | null;
+  unit?: TagUnit | null;
+  calorie_estimate?: number | null;
+  difficulty_level?: string | null;
 };
+
+export type CardLifecycleStatus = 'pending' | 'active' | 'lost' | 'revoked' | 'damaged';
 
 export type Layout = {
   id: string;
@@ -103,17 +127,91 @@ export type TaskTag = {
   tagid: string;
 };
 
-export type NfcScanTask = {
-  task_id: string;
-  title: string;
-  description?: string | null;
-  status: TaskStatus;
-  due_date?: string | null;
-  location_id: string;
-  location_name: string;
-  card_id: string;
-  card_alias?: string | null;
-  security_mode?: string | null;
+export type ExerciseUnit = 'repetition' | 'seconds' | 'minutes' | 'meters';
+export type WellnessUnit = 'ml' | 'cups' | 'minutes' | 'count';
+export type TagUnit = ExerciseUnit | WellnessUnit;
+export type TagActionDomain = 'unassigned' | 'fitness' | 'wellness';
+
+export type ExerciseType = {
+  id: string;
+  name: string;
+  category: 'strength' | 'core' | 'cardio' | 'mobility' | 'rehab' | 'other';
+  unit: ExerciseUnit;
+  default_calorie_per_unit?: number | null;
+};
+
+export type ExerciseLogResult = {
+  log_id: string | null;
+  tag_id: string | null;
+  action_domain: TagActionDomain | null;
+  exercise_type_id: string | null;
+  exercise_name: string | null;
+  wellness_type_id: string | null;
+  wellness_name: string | null;
+  quantity: number | null;
+  unit: TagUnit | null;
+  calorie_estimate: number | null;
+  location_id: string | null;
+  location_name: string | null;
+  result: 'logged' | 'wellness_logged' | 'no_tag' | 'new_tag' | 'unassigned_tag' | 'inactive_tag' | 'user_mismatch' | 'error';
+};
+
+export type ExerciseLog = {
+  id: string;
+  user_id: string;
+  tag_id?: string | null;
+  exercise_type_id: string;
+  exercise_name?: string | null;
+  quantity: number;
+  unit: ExerciseUnit;
+  calorie_estimate?: number | null;
+  source: 'nfc' | 'manual' | 'health_import';
+  location_id?: string | null;
+  createdat: string;
+};
+
+export type DailyGoalProgress = {
+  user_id: string;
+  exercise_type_id: string;
+  exercise_name: string;
+  target_quantity: number;
+  unit: ExerciseUnit;
+  completed_quantity: number;
+  remaining_quantity: number;
+};
+
+export type UserExercise = {
+  user_id: string;
+  exercise_type_id: string;
+  active: boolean;
+  createdat?: string | null;
+};
+
+export type WellnessType = {
+  id: string;
+  name: string;
+  category: 'hydration' | 'nutrition' | 'mindfulness' | 'movement' | 'supplement' | 'other';
+  unit: WellnessUnit;
+  icon?: string | null;
+};
+
+export type WellnessGoal = {
+  user_id: string;
+  wellness_type_id: string;
+  target_quantity: number;
+  unit: WellnessUnit;
+  active: boolean;
+};
+
+export type WellnessLog = {
+  id: string;
+  user_id: string;
+  wellness_type_id: string;
+  wellness_name?: string | null;
+  quantity: number;
+  unit: WellnessUnit;
+  source: 'nfc' | 'manual' | 'health_import';
+  createdat: string;
 };
 
 const STATUS_ALIASES: Record<string, TaskStatus> = {
@@ -196,63 +294,339 @@ export async function verifyTag(tagText: string) {
   return (data ?? []) as { task_id: string; allowed: boolean }[];
 }
 
-export async function verifyNfcScan(payload: {
+export async function logExerciseFromNfc(payload: {
   uid: string;
-  secretcode?: string | null;
-  userid?: string | null;
+  ndefPayload?: string | null;
+  userId?: string | null;
+  loggedAt?: string | null;
 }) {
-  const { data, error } = await supabase.rpc('verify_nfc_scan', {
+  const { data, error } = await supabase.rpc('log_exercise_from_nfc', {
     p_uid: payload.uid,
-    p_secretcode: payload.secretcode ?? null,
-    p_userid: payload.userid ?? null,
+    p_ndef_payload: payload.ndefPayload ?? null,
+    p_user_id: payload.userId ?? null,
+    p_logged_at: payload.loggedAt ?? new Date().toISOString(),
   });
   if (error) throw error;
-  return (data ?? []) as NfcScanTask[];
+  return ((data ?? []) as ExerciseLogResult[])[0] ?? null;
 }
 
-export async function completeTaskFromNfc(payload: {
-  taskId: string;
-  uid: string;
-  secretcode?: string | null;
-  userid?: string | null;
-  notes?: string | null;
-}) {
-  const { data, error } = await supabase.rpc('complete_task_from_nfc', {
-    p_task_id: payload.taskId,
-    p_uid: payload.uid,
-    p_secretcode: payload.secretcode ?? null,
-    p_userid: payload.userid ?? null,
-    p_notes: payload.notes ?? null,
-  });
+export async function fetchExerciseTypes() {
+  const { data, error } = await supabase.from('exercise_types').select('*').order('name', { ascending: true });
   if (error) throw error;
-  return ((data ?? []) as Task[]).map(mapTask);
+  return (data ?? []) as ExerciseType[];
+}
+
+export async function fetchExerciseLogs(userId = 'u1') {
+  const { data, error } = await supabase
+    .from('exercise_logs')
+    .select('*, exercise_types(name)')
+    .eq('user_id', userId)
+    .order('createdat', { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((row: any) => ({
+    ...row,
+    exercise_name: row.exercise_types?.name ?? row.exercise_name ?? row.exercise_type_id,
+  })) as ExerciseLog[];
+}
+
+export async function fetchDailyGoalProgress(userId = 'u1') {
+  const { data, error } = await supabase
+    .from('daily_goal_progress')
+    .select('*')
+    .eq('user_id', userId);
+  if (error) throw error;
+  return (data ?? []) as DailyGoalProgress[];
+}
+
+export async function fetchUserExercises(userId = 'u1') {
+  const { data, error } = await supabase
+    .from('user_exercises')
+    .select('*')
+    .eq('user_id', userId);
+  if (error) throw error;
+  return (data ?? []) as UserExercise[];
+}
+
+export async function updateDailyGoal(payload: {
+  userId: string;
+  exerciseTypeId: string;
+  targetQuantity: number;
+  unit: ExerciseUnit;
+}) {
+  const { error } = await supabase.from('daily_goals').upsert(
+    {
+      user_id: payload.userId,
+      exercise_type_id: payload.exerciseTypeId,
+      target_quantity: payload.targetQuantity,
+      unit: payload.unit,
+      active: true,
+    },
+    { onConflict: 'user_id,exercise_type_id' }
+  );
+  if (error) throw error;
+}
+
+export async function fetchWellnessTypes() {
+  const { data, error } = await supabase.from('wellness_types').select('*').order('name', { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as WellnessType[];
+}
+
+export async function fetchWellnessGoals(userId = 'u1') {
+  const { data, error } = await supabase
+    .from('wellness_goals')
+    .select('*')
+    .eq('user_id', userId)
+    .eq('active', true);
+  if (error) throw error;
+  return (data ?? []) as WellnessGoal[];
+}
+
+export async function fetchWellnessLogs(userId = 'u1') {
+  const { data, error } = await supabase
+    .from('wellness_logs')
+    .select('*, wellness_types(name)')
+    .eq('user_id', userId)
+    .order('createdat', { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((row: any) => ({
+    ...row,
+    wellness_name: row.wellness_types?.name ?? row.wellness_name ?? row.wellness_type_id,
+  })) as WellnessLog[];
+}
+
+export async function createWellnessLog(payload: {
+  userId: string;
+  wellnessTypeId: string;
+  quantity: number;
+  unit: WellnessUnit;
+  source?: 'nfc' | 'manual' | 'health_import';
+}) {
+  const { data, error } = await supabase
+    .from('wellness_logs')
+    .insert({
+      user_id: payload.userId,
+      wellness_type_id: payload.wellnessTypeId,
+      quantity: payload.quantity,
+      unit: payload.unit,
+      source: payload.source ?? 'manual',
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return data as WellnessLog;
+}
+
+export async function createExerciseTag(payload: {
+  name: string;
+  nfcUid: string;
+  ndefPayload?: string | null;
+  exerciseTypeId: string;
+  quantity: number;
+  unit: ExerciseUnit;
+  calorieEstimate?: number | null;
+  isActive: boolean;
+  locationId?: string | null;
+  assignedUserId?: string | null;
+}) {
+  const tagId = generateUUID();
+  const { data, error } = await supabase
+    .from('exercise_tags')
+    .insert({
+      id: tagId,
+      name: payload.name,
+      nfc_uid: payload.nfcUid,
+      ndef_payload: payload.ndefPayload ?? null,
+      action_domain: 'fitness',
+      exercise_type_id: payload.exerciseTypeId,
+      wellness_type_id: null,
+      quantity: payload.quantity,
+      unit: payload.unit,
+      calorie_estimate: payload.calorieEstimate ?? null,
+      is_active: payload.isActive,
+      location_id: payload.locationId ?? null,
+      assigned_user_id: payload.assignedUserId ?? 'u1',
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
 }
 
 export async function fetchCards() {
-  const { data, error } = await supabase.from('cards').select('*').order('alias', { ascending: true });
+  const { data, error } = await supabase
+    .from('exercise_tags')
+    .select('*, exercise_types(name), wellness_types(name)')
+    .order('name', { ascending: true });
   if (error) throw error;
-  return (data ?? []) as Card[];
+  return (data ?? []).map((row: any) => ({
+    ...row,
+    uid: row.nfc_uid,
+    alias: row.name,
+    assignedlocationid: row.location_id,
+    active: row.is_active,
+    lifecycle_status: row.is_active === false ? 'revoked' : row.action_domain === 'unassigned' ? 'pending' : 'active',
+    exercise_name: row.exercise_types?.name ?? null,
+    wellness_name: row.wellness_types?.name ?? null,
+  })) as Card[];
 }
 
 export async function fetchCardById(id: string) {
-  const { data, error } = await supabase.from('cards').select('*').eq('id', id).maybeSingle();
+  const { data, error } = await supabase
+    .from('exercise_tags')
+    .select('*, exercise_types(name), wellness_types(name)')
+    .eq('id', id)
+    .maybeSingle();
   if (error) throw error;
-  return data as Card | null;
+  if (!data) return null;
+  return {
+    ...data,
+    uid: data.nfc_uid,
+    alias: data.name,
+    assignedlocationid: data.location_id,
+    active: data.is_active,
+    lifecycle_status: data.is_active === false ? 'revoked' : (data as any).action_domain === 'unassigned' ? 'pending' : 'active',
+    exercise_name: (data as any).exercise_types?.name ?? null,
+    wellness_name: (data as any).wellness_types?.name ?? null,
+  } as Card;
 }
 
-export async function createCard(payload: { uid: string; alias?: string; secretcode?: string }) {
-  const { data, error } = await supabase.from('cards').insert(payload).select().single();
+export async function createCard(payload: {
+  uid: string;
+  alias?: string;
+  secretcode?: string;
+  ndefPayload?: string | null;
+  assignedUserId?: string | null;
+}) {
+  const tagId = generateUUID();
+  const { data, error } = await supabase
+    .from('exercise_tags')
+    .insert({
+      id: tagId,
+      nfc_uid: payload.uid,
+      ndef_payload: payload.ndefPayload ?? null,
+      name: payload.alias || 'Yeni NFC Tag',
+      action_domain: 'unassigned',
+      exercise_type_id: null,
+      wellness_type_id: null,
+      quantity: null,
+      unit: null,
+      is_active: true,
+      assigned_user_id: payload.assignedUserId ?? 'u1',
+    })
+    .select()
+    .single();
   if (error) throw error;
-  return data as Card;
+  return {
+    ...data,
+    uid: data.nfc_uid,
+    alias: data.name,
+    assignedlocationid: data.location_id,
+    active: data.is_active,
+    action_domain: data.action_domain,
+  } as Card;
 }
 
-export async function updateCard(id: string, payload: Partial<Pick<Card, 'alias' | 'assignedlocationid'>>) {
-  const { error } = await supabase.from('cards').update(payload).eq('id', id);
+export async function updateCardAction(payload: {
+  id: string;
+  name?: string | null;
+  actionDomain: TagActionDomain;
+  exerciseTypeId?: string | null;
+  wellnessTypeId?: string | null;
+  quantity?: number | null;
+  unit?: TagUnit | null;
+  calorieEstimate?: number | null;
+  isActive?: boolean | null;
+}) {
+  const updatePayload =
+    payload.actionDomain === 'fitness'
+      ? {
+          name: payload.name,
+          action_domain: 'fitness',
+          exercise_type_id: payload.exerciseTypeId,
+          wellness_type_id: null,
+          quantity: payload.quantity,
+          unit: payload.unit,
+          calorie_estimate: payload.calorieEstimate ?? null,
+          is_active: payload.isActive ?? true,
+        }
+      : payload.actionDomain === 'wellness'
+        ? {
+            name: payload.name,
+            action_domain: 'wellness',
+            exercise_type_id: null,
+            wellness_type_id: payload.wellnessTypeId,
+            quantity: payload.quantity,
+            unit: payload.unit,
+            calorie_estimate: null,
+            is_active: payload.isActive ?? true,
+          }
+        : {
+            name: payload.name,
+            action_domain: 'unassigned',
+            exercise_type_id: null,
+            wellness_type_id: null,
+            quantity: null,
+            unit: null,
+            calorie_estimate: null,
+            is_active: payload.isActive ?? true,
+          };
+
+  const { data, error } = await supabase
+    .from('exercise_tags')
+    .update(updatePayload)
+    .eq('id', payload.id)
+    .select('*, exercise_types(name), wellness_types(name)')
+    .single();
   if (error) throw error;
+  return {
+    ...data,
+    uid: data.nfc_uid,
+    alias: data.name,
+    active: data.is_active,
+    lifecycle_status: data.is_active === false ? 'revoked' : data.action_domain === 'unassigned' ? 'pending' : 'active',
+    exercise_name: (data as any).exercise_types?.name ?? null,
+    wellness_name: (data as any).wellness_types?.name ?? null,
+  } as Card;
+}
+
+export async function updateCard(
+  id: string,
+  payload: Partial<Pick<Card, 'alias' | 'assignedlocationid' | 'lifecycle_status' | 'active'>>
+) {
+  const { error } = await supabase
+    .from('exercise_tags')
+    .update({
+      name: payload.alias,
+      location_id: payload.assignedlocationid,
+      is_active: payload.active,
+    })
+    .eq('id', id);
+  if (error) throw error;
+}
+
+export async function assignCardToLocation(payload: {
+  cardId: string;
+  alias?: string | null;
+  nextLocationId?: string | null;
+  previousLocationId?: string | null;
+  lifecycleStatus?: CardLifecycleStatus | null;
+}) {
+  const nextLocationId = payload.nextLocationId || null;
+  const nextLifecycleStatus = nextLocationId ? 'active' : payload.lifecycleStatus ?? 'pending';
+  const { error: cardError } = await supabase
+    .from('exercise_tags')
+    .update({
+      name: payload.alias,
+      location_id: nextLocationId,
+      is_active: nextLifecycleStatus === 'active' || nextLifecycleStatus === 'pending',
+    })
+    .eq('id', payload.cardId);
+  if (cardError) throw cardError;
 }
 
 export async function deleteCard(id: string) {
-  const { error } = await supabase.from('cards').delete().eq('id', id);
+  const { error } = await supabase.from('exercise_tags').delete().eq('id', id);
   if (error) throw error;
 }
 
