@@ -43,7 +43,6 @@ export default function NFCScreen() {
   const [manualUid, setManualUid] = useState('');
   const [manualName, setManualName] = useState('');
   const [loggedExercise, setLoggedExercise] = useState<ExerciseLogResult | null>(null);
-  const [lastVerifiedTag, setLastVerifiedTag] = useState<NFCTag | null>(null);
 
   useEffect(() => {
     checkNFCStatus();
@@ -104,11 +103,10 @@ export default function NFCScreen() {
 
       if (tag) {
         setScannedTag(tag);
-        setLastVerifiedTag(tag);
         const result = await logExerciseFromNfc({
           uid: tag.id,
           ndefPayload: tag.textPayload,
-          userId: user?.id ?? 'u1',
+          userId: user?.id ?? '',
         });
         setLoggedExercise(result);
         setScanState('success');
@@ -161,7 +159,6 @@ export default function NFCScreen() {
 
   const resetScan = () => {
     setScannedTag(null);
-    setLastVerifiedTag(null);
     setLoggedExercise(null);
     setCardName('');
     setScanState('idle');
@@ -175,7 +172,7 @@ export default function NFCScreen() {
       uid: scannedTag.id,
       ndefPayload: scannedTag.textPayload,
       alias: cardName.trim() || undefined,
-      assignedUserId: user?.id ?? 'u1',
+      assignedUserId: user?.id ?? '',
     });
 
     setShowNameModal(false);
@@ -190,7 +187,7 @@ export default function NFCScreen() {
     createCardMutation.mutate({
       uid: manualUid.trim(),
       alias: manualName.trim() || undefined,
-      assignedUserId: user?.id ?? 'u1',
+      assignedUserId: user?.id ?? '',
     });
 
     setManualUid('');
@@ -210,7 +207,7 @@ export default function NFCScreen() {
           </ThemedText>
 
           <TouchableOpacity
-            style={[styles.button, { backgroundColor: '#2563eb' }]}
+            style={[styles.button, { backgroundColor: surface.green }]}
             onPress={() => setShowManualModal(true)}
             activeOpacity={0.7}
           >
@@ -239,23 +236,23 @@ export default function NFCScreen() {
         {/* Header */}
         <View style={styles.scanHero}>
           <ThemedText style={styles.scanTitle}>Hold your phone{'\n'}near the NFC tag</ThemedText>
-          <ThemedText style={styles.scanStateText}>{scanState === 'scanning' ? 'Scanning...' : 'Ready to scan'}</ThemedText>
+          <ThemedText style={[styles.scanStateText, { color: surface.green }]}>{scanState === 'scanning' ? 'Scanning...' : 'Ready to scan'}</ThemedText>
           <View style={styles.radarWrap}>
             <View style={styles.radarRingOuter} />
             <View style={styles.radarRingMiddle} />
             <View style={styles.radarRingInner} />
             <TouchableOpacity
-              style={styles.radarButton}
+              style={[styles.radarButton, { backgroundColor: surface.green }]}
               onPress={startScan}
               disabled={!nfcEnabled || scanState === 'scanning'}
               activeOpacity={0.75}>
-              <Ionicons name="radio" size={66} color="#fff" />
+              <Ionicons name="radio" size={48} color="#fff" />
             </TouchableOpacity>
           </View>
 
           {!nfcEnabled && (
             <TouchableOpacity
-              style={[styles.button, { backgroundColor: '#f59e0b' }]}
+              style={[styles.button, { backgroundColor: surface.green }]}
               onPress={() => nfcManager.openSettings()}
               activeOpacity={0.7}
             >
@@ -268,7 +265,7 @@ export default function NFCScreen() {
         {/* Scan Status */}
         {scanState === 'error' && (
           <View style={[styles.card, { backgroundColor: surface.card, borderColor: surface.border }]}>
-            <ScanStatus state={scanState} surfaceMuted={surface.mutedText} />
+            <ScanStatus state={scanState} surfaceMuted={surface.mutedText} accent={surface.green} />
           </View>
         )}
 
@@ -277,7 +274,7 @@ export default function NFCScreen() {
           {scanState === 'idle' ? (
             <>
               <TouchableOpacity
-                style={[styles.actionButton, styles.primaryButton]}
+                style={[styles.actionButton, { backgroundColor: surface.green }]}
                 onPress={startScan}
                 disabled={!nfcEnabled}
                 activeOpacity={0.7}
@@ -291,7 +288,7 @@ export default function NFCScreen() {
                 onPress={() => setShowManualModal(true)}
                 activeOpacity={0.7}
               >
-                <Ionicons name="create-outline" size={24} color="#2563eb" />
+                <Ionicons name="create-outline" size={22} color={surface.green} />
                 <ThemedText style={styles.secondaryButtonText}>Manual</ThemedText>
               </TouchableOpacity>
             </>
@@ -313,11 +310,11 @@ export default function NFCScreen() {
             <View style={styles.confettiDots}>
               {Array.from({ length: 18 }).map((_, index) => <View key={index} style={[styles.dot, dotStyle(index)]} />)}
             </View>
-            <View style={styles.successCircle}>
+            <View style={[styles.successCircle, { backgroundColor: surface.green }]}>
               <Ionicons name="checkmark" size={58} color="#fff" />
             </View>
             <ThemedText style={styles.successTitle}>Great!</ThemedText>
-            <ThemedText style={styles.successExercise}>
+            <ThemedText style={[styles.successExercise, { color: surface.green }]}>
               +{formatQuantity(loggedExercise.quantity, loggedExercise.unit)} {loggedExercise.result === 'wellness_logged' ? loggedExercise.wellness_name : loggedExercise.exercise_name ?? t('nfc.exercise')}
             </ThemedText>
             <ThemedText style={styles.successTitleSmall}>added</ThemedText>
@@ -334,7 +331,7 @@ export default function NFCScreen() {
                 {loggedExercise.result === 'wellness_logged' ? 'Total Today' : 'Total Today'}
               </ThemedText>
             </View>
-            <TouchableOpacity style={[styles.actionButton, styles.primaryButton]} onPress={() => router.push(loggedExercise.result === 'wellness_logged' ? '/(drawer)/wellness' as never : '/(drawer)/fitness' as never)}>
+            <TouchableOpacity style={[styles.actionButton, { backgroundColor: surface.green }]} onPress={() => router.push(loggedExercise.result === 'wellness_logged' ? '/(drawer)/wellness' as never : '/(drawer)/fitness' as never)}>
               <ThemedText style={styles.buttonText}>{loggedExercise.result === 'wellness_logged' ? 'View Wellness' : 'View Workout'}</ThemedText>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.actionButton, styles.secondaryButton, { borderColor: surface.border }]} onPress={resetScan}>
@@ -367,16 +364,16 @@ export default function NFCScreen() {
         onRequestClose={() => setShowNameModal(false)}
       >
         <Pressable style={styles.modalOverlay} onPress={() => { setShowNameModal(false); resetScan(); }}>
-          <Pressable style={styles.modalContent} onPress={(e) => e.stopPropagation()}>
+          <Pressable style={[styles.modalContent, { backgroundColor: surface.card }]} onPress={(e) => e.stopPropagation()}>
             <View style={styles.modalHeader}>
               <ThemedText type="subtitle">{t('cards.cardName')}</ThemedText>
               <TouchableOpacity onPress={() => { setShowNameModal(false); resetScan(); }}>
-                <Ionicons name="close" size={24} color="#666" />
+                <Ionicons name="close" size={24} color={surface.mutedText} />
               </TouchableOpacity>
             </View>
 
             {scannedTag && (
-              <View style={styles.tagInfo}>
+              <View style={[styles.tagInfo, { backgroundColor: surface.cardRaised }]}>
                 <ThemedText style={styles.label}>{t('nfc.cardId')}</ThemedText>
                 <ThemedText style={styles.tagId}>{scannedTag.id}</ThemedText>
                 <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
@@ -399,14 +396,14 @@ export default function NFCScreen() {
 
             <View style={styles.modalActions}>
               <TouchableOpacity
-                style={[styles.modalButton, styles.cancelButton]}
+                style={[styles.modalButton, { backgroundColor: surface.cardRaised }]}
                 onPress={() => { setShowNameModal(false); resetScan(); }}
               >
                 <ThemedText style={styles.cancelButtonText}>{t('common.cancel')}</ThemedText>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.modalButton, styles.saveButton]}
+                style={[styles.modalButton, { backgroundColor: surface.green }]}
                 onPress={saveCard}
                 disabled={createCardMutation.isPending}
               >
@@ -427,11 +424,11 @@ export default function NFCScreen() {
         onRequestClose={() => setShowManualModal(false)}
       >
         <Pressable style={styles.modalOverlay} onPress={() => setShowManualModal(false)}>
-          <Pressable style={styles.modalContent} onPress={(e) => e.stopPropagation()}>
+          <Pressable style={[styles.modalContent, { backgroundColor: surface.card }]} onPress={(e) => e.stopPropagation()}>
             <View style={styles.modalHeader}>
               <ThemedText type="subtitle">{t('cards.addCard')} (Manual)</ThemedText>
               <TouchableOpacity onPress={() => setShowManualModal(false)}>
-                <Ionicons name="close" size={24} color="#666" />
+                <Ionicons name="close" size={24} color={surface.mutedText} />
               </TouchableOpacity>
             </View>
 
@@ -461,14 +458,14 @@ export default function NFCScreen() {
 
             <View style={styles.modalActions}>
               <TouchableOpacity
-                style={[styles.modalButton, styles.cancelButton]}
+                style={[styles.modalButton, { backgroundColor: surface.cardRaised }]}
                 onPress={() => setShowManualModal(false)}
               >
                 <ThemedText style={styles.cancelButtonText}>{t('common.cancel')}</ThemedText>
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={[styles.modalButton, styles.saveButton]}
+                style={[styles.modalButton, { backgroundColor: surface.green }]}
                 onPress={saveManualCard}
                 disabled={createCardMutation.isPending}
               >
@@ -484,13 +481,13 @@ export default function NFCScreen() {
   );
 }
 
-function ScanStatus({ state, surfaceMuted }: { state: ScanState; surfaceMuted: string }) {
+function ScanStatus({ state, surfaceMuted, accent }: { state: ScanState; surfaceMuted: string; accent: string }) {
   const { t } = useTranslation();
 
   if (state === 'scanning') {
     return (
       <View style={styles.scanningIndicator}>
-        <Ionicons name="radio" size={48} color="#2563eb" />
+        <Ionicons name="radio" size={48} color={accent} />
         <ThemedText type="subtitle">{t('nfc.scanning')}</ThemedText>
         <ThemedText style={[styles.hint, { color: surfaceMuted }]}>
           {t('nfc.instructions')}
@@ -502,7 +499,7 @@ function ScanStatus({ state, surfaceMuted }: { state: ScanState; surfaceMuted: s
   if (state === 'success') {
     return (
       <View style={styles.scanningIndicator}>
-        <Ionicons name="checkmark-circle" size={48} color="#10b981" />
+        <Ionicons name="checkmark-circle" size={48} color={accent} />
         <ThemedText type="subtitle">{t('nfc.scanSuccess')}</ThemedText>
       </View>
     );
@@ -540,7 +537,7 @@ function InfoCard({
       disabled={!onPress}
       activeOpacity={onPress ? 0.7 : 1}
     >
-      <Ionicons name={icon} size={32} color="#2563eb" />
+      <Ionicons name={icon} size={32} color={surface.green} />
       <ThemedText style={styles.infoTitle}>{title}</ThemedText>
       <ThemedText style={[styles.infoDescription, { color: surface.mutedText }]} numberOfLines={2}>
         {description}
@@ -585,7 +582,7 @@ const styles = StyleSheet.create({
   scanHero: {
     borderRadius: 16,
     padding: 18,
-    minHeight: 360,
+    minHeight: 320,
     justifyContent: 'center',
     alignItems: 'center',
     gap: 16,
@@ -597,48 +594,45 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   scanStateText: {
-    color: '#35D353',
     fontSize: 13,
     fontWeight: '800',
   },
   radarWrap: {
-    width: 250,
-    height: 250,
+    width: 210,
+    height: 210,
     alignItems: 'center',
     justifyContent: 'center',
   },
   radarRingOuter: {
     position: 'absolute',
-    width: 238,
-    height: 238,
-    borderRadius: 119,
+    width: 202,
+    height: 202,
+    borderRadius: 101,
     borderWidth: 1,
     borderColor: 'rgba(53,211,83,0.18)',
   },
   radarRingMiddle: {
     position: 'absolute',
-    width: 188,
-    height: 188,
-    borderRadius: 94,
+    width: 158,
+    height: 158,
+    borderRadius: 79,
     borderWidth: 1,
     borderColor: 'rgba(53,211,83,0.26)',
   },
   radarRingInner: {
     position: 'absolute',
-    width: 136,
-    height: 136,
-    borderRadius: 68,
+    width: 112,
+    height: 112,
+    borderRadius: 56,
     borderWidth: 1,
     borderColor: 'rgba(53,211,83,0.36)',
   },
   radarButton: {
-    width: 116,
-    height: 116,
-    borderRadius: 58,
-    backgroundColor: '#35D353',
+    width: 96,
+    height: 96,
+    borderRadius: 48,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#35D353',
     shadowOpacity: 0.4,
     shadowRadius: 18,
     elevation: 10,
@@ -654,7 +648,6 @@ const styles = StyleSheet.create({
     width: 104,
     height: 104,
     borderRadius: 52,
-    backgroundColor: '#35D353',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -667,7 +660,6 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   successExercise: {
-    color: '#35D353',
     fontSize: 22,
     fontWeight: '900',
     textAlign: 'center',
@@ -711,11 +703,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
-    paddingVertical: 14,
+    minHeight: 44,
     borderRadius: 12,
-  },
-  primaryButton: {
-    backgroundColor: '#35D353',
   },
   secondaryButton: {
     backgroundColor: 'transparent',
@@ -739,7 +728,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   secondaryButtonText: {
-    color: '#2563eb',
+    color: '#35D353',
     fontSize: 15,
     fontWeight: '600',
   },
@@ -756,7 +745,7 @@ const styles = StyleSheet.create({
     flex: 1,
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 12,
-    padding: 16,
+    padding: 14,
     gap: 8,
     alignItems: 'center',
   },
@@ -777,7 +766,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: 'white',
     borderRadius: 16,
     padding: 20,
     width: '100%',
@@ -791,7 +779,6 @@ const styles = StyleSheet.create({
   },
   tagInfo: {
     padding: 12,
-    backgroundColor: '#f3f4f6',
     borderRadius: 8,
     gap: 4,
   },
@@ -817,9 +804,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
   },
-  completeButton: {
-    backgroundColor: '#16a34a',
-  },
   label: {
     fontSize: 14,
     fontWeight: '600',
@@ -837,25 +821,18 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     flex: 1,
-    paddingVertical: 12,
+    minHeight: 44,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cancelButton: {
-    backgroundColor: '#f3f4f6',
-  },
   cancelButtonText: {
-    color: '#374151',
     fontWeight: '600',
-  },
-  saveButton: {
-    backgroundColor: '#2563eb',
   },
 });
 
 function dotStyle(index: number) {
-  const colors = ['#35D353', '#4AA3FF', '#F59E0B', '#9B5CE5', '#EF4444'];
+  const colors = ['#35D353', '#35D353', '#8EA0B8'];
   return {
     left: 22 + ((index * 37) % 280),
     top: 8 + ((index * 23) % 96),

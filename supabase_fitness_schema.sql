@@ -1,24 +1,11 @@
 -- Clean schema for NFC Fitness Tracker.
 -- Run this in a new Supabase project. It intentionally does not depend on the old task schema.
 
+begin;
+
 create extension if not exists pgcrypto;
 
-drop view if exists public.daily_goal_progress;
-drop function if exists public.log_exercise_from_nfc(text, text, text, timestamptz);
-drop table if exists public.nfc_scan_events cascade;
-drop table if exists public.health_integrations cascade;
-drop table if exists public.daily_goals cascade;
-drop table if exists public.exercise_logs cascade;
-drop table if exists public.exercise_tags cascade;
-drop table if exists public.locations cascade;
-drop table if exists public.wellness_logs cascade;
-drop table if exists public.wellness_goals cascade;
-drop table if exists public.wellness_types cascade;
-drop table if exists public.user_exercises cascade;
-drop table if exists public.exercise_types cascade;
-drop table if exists public.users cascade;
-
-create table public.users (
+create table if not exists public.users (
   id text primary key,
   name text not null,
   username text unique,
@@ -34,7 +21,7 @@ create table public.users (
   createdat timestamptz not null default now()
 );
 
-create table public.exercise_types (
+create table if not exists public.exercise_types (
   id text primary key,
   name text not null,
   category text not null check (category in ('strength', 'core', 'cardio', 'mobility', 'rehab', 'other')),
@@ -43,7 +30,7 @@ create table public.exercise_types (
   createdat timestamptz not null default now()
 );
 
-create table public.user_exercises (
+create table if not exists public.user_exercises (
   user_id text not null references public.users(id) on delete cascade,
   exercise_type_id text not null references public.exercise_types(id) on delete cascade,
   active boolean not null default true,
@@ -51,7 +38,7 @@ create table public.user_exercises (
   primary key (user_id, exercise_type_id)
 );
 
-create table public.locations (
+create table if not exists public.locations (
   id text primary key,
   name text not null,
   type text check (type is null or type in ('home', 'gym', 'park', 'office', 'studio', 'other')),
@@ -59,7 +46,7 @@ create table public.locations (
   createdat timestamptz not null default now()
 );
 
-create table public.wellness_types (
+create table if not exists public.wellness_types (
   id text primary key,
   name text not null,
   category text not null check (category in ('hydration', 'nutrition', 'mindfulness', 'movement', 'supplement', 'other')),
@@ -68,7 +55,7 @@ create table public.wellness_types (
   createdat timestamptz not null default now()
 );
 
-create table public.wellness_goals (
+create table if not exists public.wellness_goals (
   id uuid primary key default gen_random_uuid(),
   user_id text not null references public.users(id) on delete cascade,
   wellness_type_id text not null references public.wellness_types(id) on delete cascade,
@@ -79,7 +66,7 @@ create table public.wellness_goals (
   unique (user_id, wellness_type_id)
 );
 
-create table public.wellness_logs (
+create table if not exists public.wellness_logs (
   id uuid primary key default gen_random_uuid(),
   user_id text not null references public.users(id) on delete cascade,
   wellness_type_id text not null references public.wellness_types(id) on delete restrict,
@@ -89,7 +76,7 @@ create table public.wellness_logs (
   createdat timestamptz not null default now()
 );
 
-create table public.exercise_tags (
+create table if not exists public.exercise_tags (
   id text primary key,
   nfc_uid text unique not null,
   ndef_payload text,
@@ -126,7 +113,7 @@ create table public.exercise_tags (
   )
 );
 
-create table public.exercise_logs (
+create table if not exists public.exercise_logs (
   id uuid primary key default gen_random_uuid(),
   user_id text not null references public.users(id) on delete cascade,
   tag_id text references public.exercise_tags(id) on delete set null,
@@ -140,7 +127,7 @@ create table public.exercise_logs (
   createdat timestamptz not null default now()
 );
 
-create table public.daily_goals (
+create table if not exists public.daily_goals (
   id uuid primary key default gen_random_uuid(),
   user_id text not null references public.users(id) on delete cascade,
   exercise_type_id text not null references public.exercise_types(id) on delete cascade,
@@ -151,7 +138,7 @@ create table public.daily_goals (
   unique (user_id, exercise_type_id)
 );
 
-create table public.health_integrations (
+create table if not exists public.health_integrations (
   id uuid primary key default gen_random_uuid(),
   user_id text not null references public.users(id) on delete cascade,
   provider text not null check (provider in ('apple_health', 'health_connect', 'google_fit', 'samsung_health')),
@@ -161,7 +148,7 @@ create table public.health_integrations (
   unique (user_id, provider)
 );
 
-create table public.nfc_scan_events (
+create table if not exists public.nfc_scan_events (
   id uuid primary key default gen_random_uuid(),
   tag_id text references public.exercise_tags(id) on delete set null,
   nfc_uid text,
@@ -173,15 +160,15 @@ create table public.nfc_scan_events (
   createdat timestamptz not null default now()
 );
 
-create index exercise_tags_nfc_uid_idx on public.exercise_tags(nfc_uid);
-create index exercise_tags_exercise_type_idx on public.exercise_tags(exercise_type_id);
-create index exercise_tags_wellness_type_idx on public.exercise_tags(wellness_type_id);
-create index user_exercises_user_idx on public.user_exercises(user_id);
-create index exercise_logs_user_created_idx on public.exercise_logs(user_id, createdat desc);
-create index exercise_logs_exercise_type_created_idx on public.exercise_logs(exercise_type_id, createdat desc);
-create index wellness_logs_user_created_idx on public.wellness_logs(user_id, createdat desc);
-create index daily_goals_user_idx on public.daily_goals(user_id);
-create index nfc_scan_events_created_idx on public.nfc_scan_events(createdat desc);
+create index if not exists exercise_tags_nfc_uid_idx on public.exercise_tags(nfc_uid);
+create index if not exists exercise_tags_exercise_type_idx on public.exercise_tags(exercise_type_id);
+create index if not exists exercise_tags_wellness_type_idx on public.exercise_tags(wellness_type_id);
+create index if not exists user_exercises_user_idx on public.user_exercises(user_id);
+create index if not exists exercise_logs_user_created_idx on public.exercise_logs(user_id, createdat desc);
+create index if not exists exercise_logs_exercise_type_created_idx on public.exercise_logs(exercise_type_id, createdat desc);
+create index if not exists wellness_logs_user_created_idx on public.wellness_logs(user_id, createdat desc);
+create index if not exists daily_goals_user_idx on public.daily_goals(user_id);
+create index if not exists nfc_scan_events_created_idx on public.nfc_scan_events(createdat desc);
 
 create or replace view public.daily_goal_progress as
 select
@@ -233,6 +220,7 @@ returns table (
 )
 language plpgsql
 security definer
+set search_path = public, pg_temp
 as $$
 declare
   matched_tag public.exercise_tags%rowtype;
@@ -510,3 +498,5 @@ insert into public.health_integrations (user_id, provider, status)
 values
   ('u1', 'apple_health', 'disconnected'),
   ('u1', 'health_connect', 'disconnected');
+
+commit;

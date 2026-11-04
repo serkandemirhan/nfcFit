@@ -1,8 +1,9 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Drawer } from 'expo-router/drawer';
-import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList, type DrawerContentComponentProps } from '@react-navigation/drawer';
 import { StyleSheet, Switch, View, Pressable, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useCallback, useMemo } from 'react';
 
 import { ThemedText } from '@/components/themed-text';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -17,30 +18,38 @@ export default function DrawerLayout() {
   const theme = Colors[colorScheme];
   const { t } = useTranslation();
   const { user } = useAuth();
+  const screenOptions = useMemo(
+    () => ({
+      headerTintColor: theme.tint,
+      drawerActiveTintColor: theme.tint,
+      drawerType: 'front' as const,
+      drawerStyle: { backgroundColor: theme.background },
+      sceneStyle: { backgroundColor: theme.background },
+      drawerItemStyle: { borderRadius: 14, marginHorizontal: 12, marginVertical: 2 },
+      drawerLabelStyle: { fontWeight: '600' as const },
+      headerLeft: () => null,
+      headerTitleAlign: 'center' as const,
+    }),
+    [theme.background, theme.tint]
+  );
+  const renderDrawerContent = useCallback(
+    (props: DrawerContentComponentProps) => (
+      <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}>
+        <UserSection user={user} />
+        <View style={styles.navSection}>
+          <DrawerItemList {...props} />
+        </View>
+        <ThemeToggle />
+        <LanguageSection />
+      </DrawerContentScrollView>
+    ),
+    [user]
+  );
 
   return (
     <Drawer
-      screenOptions={{
-        headerTintColor: theme.tint,
-        drawerActiveTintColor: theme.tint,
-        drawerType: 'front',
-        drawerStyle: { backgroundColor: theme.background },
-        sceneStyle: { backgroundColor: theme.background },
-        drawerItemStyle: { borderRadius: 14, marginHorizontal: 12, marginVertical: 2 },
-        drawerLabelStyle: { fontWeight: '600' },
-        headerLeft: () => null,
-        headerTitleAlign: 'center',
-      }}
-      drawerContent={(props) => (
-        <DrawerContentScrollView {...props} contentContainerStyle={styles.drawerContent}>
-          <UserSection user={user} />
-          <View style={styles.navSection}>
-            <DrawerItemList {...props} />
-          </View>
-          <ThemeToggle />
-          <LanguageSection />
-        </DrawerContentScrollView>
-      )}>
+      screenOptions={screenOptions}
+      drawerContent={renderDrawerContent}>
       <Drawer.Screen
         name="index"
         options={{
@@ -173,7 +182,7 @@ function ThemeToggle() {
           value={isDark}
           onValueChange={(value) => setMode(value ? 'dark' : 'light')}
           thumbColor="#f4f3f4"
-          trackColor={{ false: 'rgba(0,0,0,0.2)', true: '#2563EB' }}
+          trackColor={{ false: 'rgba(0,0,0,0.2)', true: palette.tint }}
         />
       </View>
       <Pressable

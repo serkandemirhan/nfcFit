@@ -64,7 +64,7 @@ export default function LayoutsScreen() {
     return (
       <ThemedView style={styles.centered}>
         <ThemedText type="subtitle">Yerleşim verileri alınamadı</ThemedText>
-        <ThemedText style={styles.errorHint} onPress={onRefresh}>
+        <ThemedText style={[styles.errorHint, { color: surface.green }]} onPress={onRefresh}>
           Yeniden dene
         </ThemedText>
       </ThemedView>
@@ -115,11 +115,11 @@ function LayoutCard({
       <View style={styles.layoutHeader}>
         <View>
           <ThemedText style={styles.layoutName}>{layout.name}</ThemedText>
-          <ThemedText style={styles.layoutSubtitle}>
+          <ThemedText style={[styles.layoutSubtitle, { color: surface.mutedText }]}>
             {layout.hotspotCount} nokta · {layout.assignedCards} kart
           </ThemedText>
         </View>
-        <Ionicons name="map-outline" size={20} color="#2563eb" />
+        <Ionicons name="map-outline" size={20} color={surface.green} />
       </View>
       {imageSource ? (
         <Image source={imageSource} style={styles.layoutPreview} resizeMode="cover" />
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   errorHint: {
-    color: '#2563eb',
+    fontWeight: '700',
   },
   content: {
     padding: 14,
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
   },
   layoutCard: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 12,
+    borderRadius: 16,
     padding: 12,
     gap: 12,
   },
@@ -173,7 +173,6 @@ const styles = StyleSheet.create({
   },
   layoutSubtitle: {
     fontSize: 13,
-    color: '#6b7280',
   },
   layoutPreview: {
     width: '100%',

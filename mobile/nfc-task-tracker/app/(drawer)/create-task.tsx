@@ -3,7 +3,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 
@@ -25,7 +24,6 @@ export default function CreateTaskScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const colorScheme = useColorScheme();
-  const { t } = useTranslation();
   const surface = getSurfaceColors(colorScheme);
 
   const [form, setForm] = useState({
@@ -235,9 +233,9 @@ export default function CreateTaskScreen() {
         </View>
 
         <View style={styles.templateRow}>
-          <TemplateChip label="Günlük kontrol" onPress={() => applyTemplate('daily')} />
-          <TemplateChip label="Temizlik" onPress={() => applyTemplate('cleaning')} />
-          <TemplateChip label="Bakım" onPress={() => applyTemplate('maintenance')} />
+          <TemplateChip accent={surface.green} label="Günlük kontrol" onPress={() => applyTemplate('daily')} />
+          <TemplateChip accent={surface.green} label="Temizlik" onPress={() => applyTemplate('cleaning')} />
+          <TemplateChip accent={surface.green} label="Bakım" onPress={() => applyTemplate('maintenance')} />
         </View>
 
         {/* Form Card */}
@@ -255,7 +253,7 @@ export default function CreateTaskScreen() {
             {/* Title */}
             <View style={styles.formGroup}>
               <View style={styles.labelRow}>
-                <Ionicons name="text-outline" size={18} color="#2563EB" />
+                <Ionicons name="text-outline" size={18} color={surface.green} />
                 <ThemedText style={styles.labelText}>Başlık *</ThemedText>
               </View>
               <TextInput
@@ -273,7 +271,7 @@ export default function CreateTaskScreen() {
             {/* Description */}
             <View style={styles.formGroup}>
               <View style={styles.labelRow}>
-                <Ionicons name="document-text-outline" size={18} color="#2563EB" />
+                <Ionicons name="document-text-outline" size={18} color={surface.green} />
                 <ThemedText style={styles.labelText}>Açıklama</ThemedText>
               </View>
               <TextInput
@@ -295,7 +293,7 @@ export default function CreateTaskScreen() {
               {/* Due Date */}
               <View style={[styles.formGroup, styles.halfField]}>
                 <View style={styles.labelRow}>
-                  <Ionicons name="calendar-outline" size={16} color="#2563EB" />
+                  <Ionicons name="calendar-outline" size={16} color={surface.green} />
                   <ThemedText style={styles.labelText}>Tarih</ThemedText>
                 </View>
                 <Pressable
@@ -321,7 +319,7 @@ export default function CreateTaskScreen() {
 
               <View style={[styles.formGroup, styles.halfField]}>
                 <View style={styles.labelRow}>
-                  <Ionicons name="flag-outline" size={16} color="#2563EB" />
+                  <Ionicons name="flag-outline" size={16} color={surface.green} />
                   <ThemedText style={styles.labelText}>Öncelik</ThemedText>
                 </View>
                 <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
@@ -365,7 +363,7 @@ export default function CreateTaskScreen() {
             {/* Assigned To */}
             <View style={styles.formGroup}>
               <View style={styles.labelRow}>
-                <Ionicons name="person-outline" size={18} color="#2563EB" />
+                <Ionicons name="person-outline" size={18} color={surface.green} />
                 <ThemedText style={styles.labelText}>Atanan Kişi</ThemedText>
               </View>
               <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
@@ -389,7 +387,7 @@ export default function CreateTaskScreen() {
               {/* Location */}
               <View style={[styles.formGroup, styles.halfField]}>
                 <View style={styles.labelRow}>
-                  <Ionicons name="location-outline" size={16} color="#2563EB" />
+                  <Ionicons name="location-outline" size={16} color={surface.green} />
                   <ThemedText style={styles.labelText}>Lokasyon</ThemedText>
                 </View>
                 <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
@@ -407,7 +405,7 @@ export default function CreateTaskScreen() {
 
               <View style={[styles.formGroup, styles.halfField]}>
                 <View style={styles.labelRow}>
-                  <Ionicons name="card-outline" size={16} color="#2563EB" />
+                  <Ionicons name="card-outline" size={16} color={surface.green} />
                   <ThemedText style={styles.labelText}>NFC Kart</ThemedText>
                 </View>
                 <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
@@ -434,7 +432,7 @@ export default function CreateTaskScreen() {
             {/* Repeat */}
             <View style={styles.formGroup}>
               <View style={styles.labelRow}>
-                <Ionicons name="repeat-outline" size={18} color="#2563EB" />
+                <Ionicons name="repeat-outline" size={18} color={surface.green} />
                 <ThemedText style={styles.labelText}>Tekrar</ThemedText>
               </View>
               <View style={[styles.pickerContainer, { borderColor: surface.border }]}>
@@ -506,7 +504,7 @@ export default function CreateTaskScreen() {
             {/* Tags */}
             <View style={styles.formGroup}>
               <View style={styles.labelRow}>
-                <Ionicons name="pricetag-outline" size={18} color="#2563EB" />
+                <Ionicons name="pricetag-outline" size={18} color={surface.green} />
                 <ThemedText style={styles.labelText}>Etiketler</ThemedText>
               </View>
               {tagsQuery.isLoading ? (
@@ -567,6 +565,7 @@ export default function CreateTaskScreen() {
               <Pressable
                 style={({ pressed }) => [
                   styles.saveButton,
+                  { backgroundColor: surface.green },
                   pressed && styles.buttonPressed,
                   createTaskMutation.isPending && styles.buttonDisabled,
                 ]}
@@ -584,10 +583,10 @@ export default function CreateTaskScreen() {
   );
 }
 
-function TemplateChip({ label, onPress }: { label: string; onPress: () => void }) {
+function TemplateChip({ accent, label, onPress }: { accent: string; label: string; onPress: () => void }) {
   return (
     <Pressable style={styles.templateChip} onPress={onPress}>
-      <ThemedText style={styles.templateChipText}>{label}</ThemedText>
+      <ThemedText style={[styles.templateChipText, { color: accent }]}>{label}</ThemedText>
     </Pressable>
   );
 }
@@ -652,7 +651,6 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   templateChipText: {
-    color: '#2563eb',
     fontSize: 12,
     fontWeight: '800',
   },
@@ -759,9 +757,9 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    padding: 13,
+    minHeight: 44,
     borderRadius: 12,
-    backgroundColor: '#2563EB',
+    backgroundColor: '#35D353',
     alignItems: 'center',
     justifyContent: 'center',
   },

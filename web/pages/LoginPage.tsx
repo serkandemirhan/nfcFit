@@ -1,23 +1,39 @@
 import React, { FC, useState } from 'react';
-import { User } from '../types';
 import { BrandMark, BrowserFrame } from '../components/web-ui';
 
-type LoggedInUser = User | { id: 'admin'; name: 'Admin'; avatarUrl: string };
+type LoginPageProps = {
+  authError?: string;
+  onLoginSuccess: (email: string, password: string) => Promise<void>;
+  onSignUp: (email: string, password: string) => Promise<boolean>;
+};
 
-export const LoginPage: FC<{ onLoginSuccess: (user: LoggedInUser) => void; users: User[] }> = ({ onLoginSuccess, users }) => {
-  const [email, setEmail] = useState('serkan@example.com');
-  const [password, setPassword] = useState('1234');
+export const LoginPage: FC<LoginPageProps> = ({ authError, onLoginSuccess, onSignUp }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLogin = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError('');
-    const user = users.find(item => item.email === email || item.username === email) ?? users[0];
-    if (user && password.length > 0) {
-      onLoginSuccess(user);
-      return;
+    setNotice('');
+    setIsSubmitting(true);
+    try {
+      if (mode === 'signup') {
+        const signedIn = await onSignUp(email, password);
+        if (!signedIn) {
+          setNotice('Kayıt başarılı. Giriş yapmadan önce e-posta adresini doğrula.');
+        }
+      } else {
+        await onLoginSuccess(email, password);
+      }
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : 'İşlem tamamlanamadı.');
+    } finally {
+      setIsSubmitting(false);
     }
-    setError('Email veya sifre hatali.');
   };
 
   return (
@@ -55,16 +71,20 @@ export const LoginPage: FC<{ onLoginSuccess: (user: LoggedInUser) => void; users
               </div>
             </div>
 
-            <form onSubmit={handleLogin} className="flex flex-col justify-center p-8">
+            <form onSubmit={handleSubmit} className="flex flex-col justify-center p-8">
               <div className="mx-auto w-full max-w-sm">
-                <h2 className="text-2xl font-black">Welcome back</h2>
-                <p className="mt-1 text-sm text-slate-400">Log in to your NFCFit account</p>
+                <h2 className="text-2xl font-black">{mode === 'signup' ? 'Create account' : 'Welcome back'}</h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  {mode === 'signup' ? 'Create your NFCFit account' : 'Log in to your NFCFit account'}
+                </p>
 
                 <label className="mt-8 block text-xs font-semibold text-slate-300">Email</label>
                 <input
                   value={email}
                   onChange={event => setEmail(event.target.value)}
+                  autoComplete="email"
                   type="email"
+                  required
                   className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm text-white outline-none focus:border-green-400"
                   placeholder="you@example.com"
                 />
@@ -74,19 +94,30 @@ export const LoginPage: FC<{ onLoginSuccess: (user: LoggedInUser) => void; users
                   value={password}
                   onChange={event => setPassword(event.target.value)}
                   type="password"
+                  autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                  minLength={mode === 'signup' ? 6 : undefined}
+                  required
                   className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm text-white outline-none focus:border-green-400"
                   placeholder="Enter your password"
                 />
 
-                <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
-                  <label className="flex items-center gap-2"><input type="checkbox" className="accent-green-500" /> Remember me</label>
-                  <button type="button" className="text-sky-300">Forgot password?</button>
-                </div>
+                {(error || authError) && <p className="mt-4 text-sm text-red-300">{error || authError}</p>}
+                {notice && <p className="mt-4 text-sm text-green-300">{notice}</p>}
 
-                {error && <p className="mt-4 text-sm text-red-300">{error}</p>}
-
-                <button className="mt-6 w-full rounded-xl bg-green-500 py-3 text-sm font-black text-[#04120a] transition hover:bg-green-400">
-                  Log In
+                <button
+                  disabled={isSubmitting}
+                  className="mt-6 w-full rounded-xl bg-green-500 py-3 text-sm font-black text-[#04120a] transition hover:bg-green-400 disabled:opacity-60">
+                  {isSubmitting ? 'Please wait…' : mode === 'signup' ? 'Create account' : 'Log In'}
+                </button>
+                <button
+                  type="button"
+                  className="mt-4 w-full text-sm text-sky-300"
+                  onClick={() => {
+                    setMode(mode === 'login' ? 'signup' : 'login');
+                    setError('');
+                    setNotice('');
+                  }}>
+                  {mode === 'login' ? 'Create an account' : 'Back to login'}
                 </button>
               </div>
             </form>

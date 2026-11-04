@@ -23,6 +23,7 @@ import {
   fetchUserExercises,
   fetchWellnessTypes,
   updateCardAction,
+  WellnessType,
 } from '@/lib/api';
 
 type CardForm = {
@@ -49,6 +50,8 @@ const wellnessUnits: { value: WellnessUnit; label: string }[] = [
   { value: 'count', label: 'adet' },
 ];
 
+const emptyWellnessTypes: WellnessType[] = [];
+
 export default function CardDetailScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const router = useRouter();
@@ -56,8 +59,8 @@ export default function CardDetailScreen() {
   const { user } = useAuth();
   const colorScheme = useColorScheme();
   const surface = getSurfaceColors(colorScheme);
-  const textColor = colorScheme === 'dark' ? '#ECEFF7' : '#0F172A';
-  const userId = user?.id ?? 'u1';
+  const textColor = surface.text;
+  const userId = user?.id ?? '';
 
   const [form, setForm] = useState<CardForm>({
     name: '',
@@ -80,7 +83,7 @@ export default function CardDetailScreen() {
     const userTypes = types.filter((type) => selected.has(type.id));
     return userTypes.length > 0 ? userTypes : types;
   }, [exerciseTypesQuery.data, userExercisesQuery.data]);
-  const wellnessTypes = wellnessTypesQuery.data ?? [];
+  const wellnessTypes = useMemo(() => wellnessTypesQuery.data ?? emptyWellnessTypes, [wellnessTypesQuery.data]);
 
   useEffect(() => {
     const card = cardQuery.data;
@@ -192,11 +195,11 @@ export default function CardDetailScreen() {
           </Field>
 
           <View style={styles.segment}>
-            <SegmentButton active={form.actionDomain === 'fitness'} label="Fitness" onPress={() => {
+            <SegmentButton active={form.actionDomain === 'fitness'} accent={surface.green} label="Fitness" onPress={() => {
               const nextType = selectedExercise ?? exerciseTypes[0];
               setForm((prev) => ({ ...prev, actionDomain: 'fitness', unit: nextType?.unit ?? 'repetition', quantity: prev.quantity || '10' }));
             }} />
-            <SegmentButton active={form.actionDomain === 'wellness'} label="Wellness" onPress={() => {
+            <SegmentButton active={form.actionDomain === 'wellness'} accent={surface.green} label="Wellness" onPress={() => {
               const nextType = selectedWellness ?? wellnessTypes[0];
               setForm((prev) => ({ ...prev, actionDomain: 'wellness', unit: nextType?.unit ?? 'ml', quantity: prev.quantity || '500' }));
             }} />
@@ -253,10 +256,10 @@ export default function CardDetailScreen() {
               <ThemedText style={styles.label}>Aktif</ThemedText>
               <ThemedText style={[styles.hint, { color: surface.mutedText }]}>Kapalı olursa okutunca kayıt oluşturmaz.</ThemedText>
             </View>
-            <Switch value={form.isActive} onValueChange={(isActive) => setForm((prev) => ({ ...prev, isActive }))} />
+            <Switch value={form.isActive} onValueChange={(isActive) => setForm((prev) => ({ ...prev, isActive }))} trackColor={{ false: surface.border, true: surface.green }} />
           </View>
 
-          <Pressable style={styles.saveButton} onPress={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
+          <Pressable style={[styles.saveButton, { backgroundColor: surface.green }]} onPress={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
             <ThemedText style={styles.saveText}>{saveMutation.isPending ? 'Kaydediliyor...' : 'Kaydet'}</ThemedText>
           </Pressable>
         </View>
@@ -280,9 +283,9 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
-function SegmentButton({ active, label, onPress }: { active: boolean; label: string; onPress: () => void }) {
+function SegmentButton({ active, accent, label, onPress }: { active: boolean; accent: string; label: string; onPress: () => void }) {
   return (
-    <Pressable style={[styles.segmentButton, active && styles.segmentButtonActive]} onPress={onPress}>
+    <Pressable style={[styles.segmentButton, active && { backgroundColor: accent }]} onPress={onPress}>
       <ThemedText style={[styles.segmentText, active && styles.segmentTextActive]}>{label}</ThemedText>
     </Pressable>
   );
@@ -315,7 +318,7 @@ function shortUid(uid?: string | null) {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   centered: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 24, gap: 8 },
-  retry: { color: '#2563eb', fontWeight: '700' },
+  retry: { fontWeight: '700' },
   content: { padding: 14, paddingBottom: bottomNavHeight + 24, gap: 12 },
   headerCard: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 14 },
   headerRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
@@ -335,12 +338,11 @@ const styles = StyleSheet.create({
   pickerWrap: { borderWidth: 1, borderRadius: 10, overflow: 'hidden' },
   segment: { flexDirection: 'row', padding: 4, borderRadius: 12, backgroundColor: 'rgba(148,163,184,0.18)', gap: 4 },
   segmentButton: { flex: 1, borderRadius: 9, paddingVertical: 10, alignItems: 'center' },
-  segmentButtonActive: { backgroundColor: '#22c55e' },
   segmentText: { fontSize: 13, fontWeight: '800', opacity: 0.75 },
   segmentTextActive: { color: '#fff', opacity: 1 },
   twoCol: { flexDirection: 'row', gap: 10 },
   activeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 12 },
-  saveButton: { backgroundColor: '#22c55e', borderRadius: 12, paddingVertical: 13, alignItems: 'center' },
+  saveButton: { minHeight: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   saveText: { color: '#fff', fontWeight: '900', fontSize: 15 },
   miniCard: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 12, flexDirection: 'row', alignItems: 'center', gap: 8 },
   uidText: { fontSize: 12 },

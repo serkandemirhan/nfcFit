@@ -10,13 +10,34 @@ import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
 import { useAuth } from '@/hooks/use-auth';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { ExerciseType, fetchDailyGoalProgress, fetchExerciseLogs, fetchExerciseTypes, fetchUserExercises, fetchWellnessLogs, fetchWellnessGoals, updateDailyGoal } from '@/lib/api';
+import {
+  DailyGoalProgress,
+  ExerciseLog,
+  ExerciseType,
+  UserExercise,
+  WellnessGoal,
+  WellnessLog,
+  fetchDailyGoalProgress,
+  fetchExerciseLogs,
+  fetchExerciseTypes,
+  fetchUserExercises,
+  fetchWellnessLogs,
+  fetchWellnessGoals,
+  updateDailyGoal,
+} from '@/lib/api';
+
+const emptyExerciseLogs: ExerciseLog[] = [];
+const emptyGoalProgress: DailyGoalProgress[] = [];
+const emptyExerciseTypes: ExerciseType[] = [];
+const emptyUserExercises: UserExercise[] = [];
+const emptyWellnessLogs: WellnessLog[] = [];
+const emptyWellnessGoals: WellnessGoal[] = [];
 
 export default function TodayScreen() {
   const surface = getSurfaceColors(useColorScheme());
   const { user } = useAuth();
   const queryClient = useQueryClient();
-  const userId = user?.id ?? 'u1';
+  const userId = user?.id ?? '';
   const logsQuery = useQuery({ queryKey: ['exercise_logs', userId], queryFn: () => fetchExerciseLogs(userId) });
   const goalsQuery = useQuery({ queryKey: ['daily_goal_progress', userId], queryFn: () => fetchDailyGoalProgress(userId) });
   const exerciseTypesQuery = useQuery({ queryKey: ['exercise_types'], queryFn: fetchExerciseTypes });
@@ -26,20 +47,24 @@ export default function TodayScreen() {
   const [goalDrafts, setGoalDrafts] = useState<Record<string, string>>({});
   const [tab, setTab] = useState<'overview' | 'fitness' | 'wellness'>('overview');
 
-  const logs = logsQuery.data ?? [];
-  const goals = goalsQuery.data ?? [];
+  const logs = logsQuery.data ?? emptyExerciseLogs;
+  const goals = goalsQuery.data ?? emptyGoalProgress;
+  const exerciseTypes = exerciseTypesQuery.data ?? emptyExerciseTypes;
+  const userExercises = userExercisesQuery.data ?? emptyUserExercises;
+  const wellnessLogs = wellnessLogsQuery.data ?? emptyWellnessLogs;
+  const wellnessGoals = wellnessGoalsQuery.data ?? emptyWellnessGoals;
   const selectedExerciseIds = useMemo(
-    () => new Set((userExercisesQuery.data ?? []).filter((item) => item.active !== false).map((item) => item.exercise_type_id)),
-    [userExercisesQuery.data]
+    () => new Set(userExercises.filter((item) => item.active !== false).map((item) => item.exercise_type_id)),
+    [userExercises]
   );
   const selectedExercises = useMemo(
-    () => (exerciseTypesQuery.data ?? []).filter((exercise) => selectedExerciseIds.has(exercise.id)),
-    [exerciseTypesQuery.data, selectedExerciseIds]
+    () => exerciseTypes.filter((exercise) => selectedExerciseIds.has(exercise.id)),
+    [exerciseTypes, selectedExerciseIds]
   );
   const todayLogs = logs.filter((log) => isToday(log.createdat));
   const totalQuantity = todayLogs.reduce((sum, log) => sum + Number(log.quantity ?? 0), 0);
   const totalCalories = todayLogs.reduce((sum, log) => sum + Number(log.calorie_estimate ?? 0), 0);
-  const todayWellnessLogs = (wellnessLogsQuery.data ?? []).filter((log) => isToday(log.createdat));
+  const todayWellnessLogs = wellnessLogs.filter((log) => isToday(log.createdat));
   const waterTotal = todayWellnessLogs
     .filter((log) => log.wellness_type_id === 'water')
     .reduce((sum, log) => sum + Number(log.quantity ?? 0), 0);
@@ -49,14 +74,26 @@ export default function TodayScreen() {
 
   useEffect(() => {
     setGoalDrafts((prev) => {
-      const next = { ...prev };
+      const next: Record<string, string> = { ...prev };
+      let changed = false;
+
       selectedExercises.forEach((exercise) => {
         const goal = goals.find((item) => item.exercise_type_id === exercise.id);
-        if (next[exercise.id] == null) next[exercise.id] = goal?.target_quantity ? String(Number(goal.target_quantity)) : '';
+
+        const newValue =
+          goal?.target_quantity !== undefined && goal?.target_quantity !== null
+            ? String(goal.target_quantity)
+            : '';
+
+        if (next[exercise.id] !== newValue) {
+          next[exercise.id] = newValue;
+          changed = true;
+        }
       });
-      return next;
+
+      return changed ? next : prev;
     });
-  }, [goals, selectedExercises]);
+  }, [selectedExercises, goals]);
 
   const goalMutation = useMutation({
     mutationFn: ({ exercise, target }: { exercise: ExerciseType; target: number }) =>
@@ -87,7 +124,7 @@ export default function TodayScreen() {
 
         <View style={[styles.tabs, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {(['overview', 'fitness', 'wellness'] as const).map((value) => (
-            <Pressable key={value} onPress={() => setTab(value)} style={[styles.tabButton, tab === value && styles.tabButtonActive]}>
+            <Pressable key={value} onPress={() => setTab(value)} style={[styles.tabButton, tab === value && { backgroundColor: surface.green }]}>
               <ThemedText style={[styles.tabText, tab === value && styles.tabTextActive]}>
                 {value === 'overview' ? 'Overview' : value === 'fitness' ? 'Fitness' : 'Wellness'}
               </ThemedText>
@@ -97,14 +134,14 @@ export default function TodayScreen() {
 
         <ThemedText style={styles.blockLabel}>Today Summary</ThemedText>
         <View style={styles.summaryGrid}>
-          <SummaryCard icon="flame" label="Workouts" value={`${Math.round(totalCalories)} kcal`} />
-          <SummaryCard icon="timer-outline" label="Active Time" value={`${todayLogs.length * 15} min`} />
-          <SummaryCard icon="walk" label="Steps" value={formatNumber(totalQuantity)} />
-          <SummaryCard icon="water" label="Water" value={`${formatNumber(waterTotal / 1000)} L`} />
+          <SummaryCard icon="flame" label="Workouts" value={`${Math.round(totalCalories)} kcal`} accent={surface.green} raised={surface.cardRaised} border={surface.border} />
+          <SummaryCard icon="timer-outline" label="Active Time" value={`${todayLogs.length * 15} min`} accent={surface.green} raised={surface.cardRaised} border={surface.border} />
+          <SummaryCard icon="walk" label="Steps" value={formatNumber(totalQuantity)} accent={surface.green} raised={surface.cardRaised} border={surface.border} />
+          <SummaryCard icon="water" label="Water" value={`${formatNumber(waterTotal / 1000)} L`} accent={surface.green} raised={surface.cardRaised} border={surface.border} />
         </View>
 
-        <Pressable style={styles.scanButton} onPress={() => router.push('/(drawer)/nfc')}>
-          <Ionicons name="scan-outline" size={30} color="#fff" />
+        <Pressable style={[styles.scanButton, { backgroundColor: surface.green }]} onPress={() => router.push('/(drawer)/nfc')}>
+          <Ionicons name="scan-outline" size={24} color="#fff" />
           <ThemedText style={styles.scanButtonText}>NFC Tara</ThemedText>
         </Pressable>
 
@@ -139,14 +176,14 @@ export default function TodayScreen() {
                       style={[styles.goalInput, { borderColor: surface.border, color: surface.text }]}
                     />
                     <Pressable
-                      style={[styles.goalSaveButton, goalMutation.isPending && styles.goalSaveButtonDisabled]}
+                      style={[styles.goalSaveButton, { backgroundColor: surface.green }, goalMutation.isPending && styles.goalSaveButtonDisabled]}
                       disabled={goalMutation.isPending || Number(goalDrafts[exercise.id]) <= 0}
                       onPress={() => goalMutation.mutate({ exercise, target: Number(goalDrafts[exercise.id]) })}>
                       <ThemedText style={styles.goalSaveText}>Kaydet</ThemedText>
                     </Pressable>
                   </View>
                   <View style={styles.progressTrack}>
-                    <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
+                    <View style={[styles.progressFill, { width: `${progress * 100}%`, backgroundColor: surface.green }]} />
                   </View>
                 </View>
               );
@@ -156,7 +193,7 @@ export default function TodayScreen() {
 
         {(tab === 'overview' || tab === 'wellness') && <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}> 
           <ThemedText style={styles.sectionTitle}>Wellness ilerlemesi</ThemedText>
-          {(wellnessGoalsQuery.data ?? []).slice(0, 5).map((goal) => {
+          {wellnessGoals.slice(0, 5).map((goal) => {
             const completed = todayWellnessLogs
               .filter((log) => log.wellness_type_id === goal.wellness_type_id)
               .reduce((sum, log) => sum + Number(log.quantity ?? 0), 0);
@@ -170,7 +207,7 @@ export default function TodayScreen() {
                   </ThemedText>
                 </View>
                 <View style={styles.progressTrack}>
-                  <View style={[styles.progressFillPurple, { width: `${progress * 100}%` }]} />
+                  <View style={[styles.progressFillPurple, { width: `${progress * 100}%`, backgroundColor: surface.green }]} />
                 </View>
               </View>
             );
@@ -178,11 +215,11 @@ export default function TodayScreen() {
           {wellnessDone === 0 && <ThemedText style={[styles.emptyText, { color: surface.mutedText }]}>Bugün wellness kaydı yok.</ThemedText>}
         </View>}
 
-        <View style={[styles.section, { backgroundColor: 'rgba(7,24,39,0.90)', borderColor: surface.border }]}> 
+        <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}> 
           <ThemedText style={styles.sectionTitle}>Son okutulan NFC tag</ThemedText>
           {lastTag ? (
             <View style={styles.lastTagRow}>
-              <Ionicons name="radio-outline" size={22} color="#2563eb" />
+              <Ionicons name="radio-outline" size={22} color={surface.green} />
               <View style={{ flex: 1 }}>
                 <ThemedText style={styles.lastTagTitle}>{lastTag.exercise_name}</ThemedText>
                 <ThemedText style={[styles.lastTagMeta, { color: surface.mutedText }]}> 
@@ -214,10 +251,10 @@ export default function TodayScreen() {
   );
 }
 
-function SummaryCard({ icon, label, value }: { icon: keyof typeof Ionicons.glyphMap; label: string; value: string }) {
+function SummaryCard({ icon, label, value, accent, raised, border }: { icon: keyof typeof Ionicons.glyphMap; label: string; value: string; accent: string; raised: string; border: string }) {
   return (
-    <View style={styles.summaryCard}>
-      <Ionicons name={icon} size={24} color={icon === 'water' ? '#4AA3FF' : icon === 'flame' ? '#F59E0B' : '#35D353'} />
+    <View style={[styles.summaryCard, { backgroundColor: raised, borderColor: border }]}>
+      <Ionicons name={icon} size={22} color={accent} />
       <View>
         <ThemedText style={styles.summaryLabel}>{label}</ThemedText>
         <ThemedText style={styles.summaryValue}>{value}</ThemedText>
@@ -269,21 +306,20 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: 14, paddingBottom: bottomNavHeight + 24, gap: 14 },
   header: { gap: 2 },
-  eyebrow: { color: '#F8FAFC', fontSize: 14, fontWeight: '800' },
-  title: { fontSize: 13, fontWeight: '700', color: '#8EA0B8' },
+  eyebrow: { fontSize: 14, fontWeight: '800' },
+  title: { fontSize: 13, fontWeight: '700', opacity: 0.72 },
   tabs: { flexDirection: 'row', borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 4 },
   tabButton: { flex: 1, borderRadius: 9, paddingVertical: 9, alignItems: 'center' },
-  tabButtonActive: { backgroundColor: '#35D353' },
   tabText: { fontSize: 12, fontWeight: '800', opacity: 0.7 },
   tabTextActive: { color: '#fff', opacity: 1 },
   blockLabel: { fontSize: 13, fontWeight: '900', marginTop: 2 },
   summaryGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  summaryCard: { width: '48.8%', borderRadius: 10, padding: 12, backgroundColor: 'rgba(11,31,50,0.92)', borderWidth: StyleSheet.hairlineWidth, borderColor: 'rgba(148,163,184,0.14)', flexDirection: 'row', alignItems: 'center', gap: 10 },
+  summaryCard: { width: '48%', borderRadius: 14, padding: 12, borderWidth: StyleSheet.hairlineWidth, flexDirection: 'row', alignItems: 'center', gap: 10 },
   summaryValue: { fontSize: 17, fontWeight: '900' },
   summaryLabel: { fontSize: 11, opacity: 0.7, marginBottom: 2 },
-  scanButton: { minHeight: 66, borderRadius: 14, backgroundColor: '#35D353', alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 },
-  scanButtonText: { color: '#fff', fontSize: 20, fontWeight: '900' },
-  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 14, gap: 12 },
+  scanButton: { minHeight: 52, borderRadius: 14, alignItems: 'center', justifyContent: 'center', flexDirection: 'row', gap: 10 },
+  scanButtonText: { color: '#fff', fontSize: 17, fontWeight: '800' },
+  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 16, padding: 14, gap: 12 },
   sectionTitle: { fontSize: 16, fontWeight: '800' },
   emptyText: { fontSize: 13 },
   goalRow: { gap: 7 },
@@ -292,12 +328,12 @@ const styles = StyleSheet.create({
   goalValue: { fontSize: 12, fontWeight: '700' },
   goalEditRow: { flexDirection: 'row', gap: 8, alignItems: 'center' },
   goalInput: { flex: 1, borderWidth: StyleSheet.hairlineWidth, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, fontWeight: '700' },
-  goalSaveButton: { borderRadius: 10, backgroundColor: '#2563eb', paddingHorizontal: 14, paddingVertical: 9 },
+  goalSaveButton: { minHeight: 40, borderRadius: 10, paddingHorizontal: 14, paddingVertical: 8, alignItems: 'center', justifyContent: 'center' },
   goalSaveButtonDisabled: { opacity: 0.5 },
   goalSaveText: { color: '#fff', fontWeight: '800', fontSize: 12 },
   progressTrack: { height: 8, borderRadius: 999, backgroundColor: 'rgba(148,163,184,0.22)', overflow: 'hidden' },
   progressFill: { height: 8, borderRadius: 999, backgroundColor: '#35D353' },
-  progressFillPurple: { height: 8, borderRadius: 999, backgroundColor: '#8b5cf6' },
+  progressFillPurple: { height: 8, borderRadius: 999, backgroundColor: '#35D353' },
   lastTagRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   lastTagTitle: { fontSize: 15, fontWeight: '800' },
   lastTagMeta: { fontSize: 12 },

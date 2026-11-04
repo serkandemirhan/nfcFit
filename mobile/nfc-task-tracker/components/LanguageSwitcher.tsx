@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 
 import { useLanguage, type Language } from '@/hooks/useLanguage';
+import { getSurfaceColors } from '@/constants/tasks';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 type LanguageOption = {
   code: Language;
@@ -26,6 +28,7 @@ const languages: LanguageOption[] = [
 export function LanguageSwitcher() {
   const { currentLanguage, changeLanguage } = useLanguage();
   const { t } = useTranslation();
+  const surface = getSurfaceColors(useColorScheme());
   const [modalVisible, setModalVisible] = useState(false);
 
   const currentLang = languages.find((lang) => lang.code === currentLanguage);
@@ -38,13 +41,13 @@ export function LanguageSwitcher() {
   return (
     <>
       <TouchableOpacity
-        style={styles.button}
+        style={[styles.button, { backgroundColor: surface.cardRaised }]}
         onPress={() => setModalVisible(true)}
         activeOpacity={0.7}
       >
         <Text style={styles.flag}>{currentLang?.flag}</Text>
-        <Text style={styles.languageName}>{currentLang?.name}</Text>
-        <Ionicons name="chevron-down" size={16} color="#666" />
+        <Text style={[styles.languageName, { color: surface.text }]}>{currentLang?.name}</Text>
+        <Ionicons name="chevron-down" size={16} color={surface.mutedText} />
       </TouchableOpacity>
 
       <Modal
@@ -57,14 +60,14 @@ export function LanguageSwitcher() {
           style={styles.modalOverlay}
           onPress={() => setModalVisible(false)}
         >
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { backgroundColor: surface.card }]}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>{t('settings.language')}</Text>
+              <Text style={[styles.modalTitle, { color: surface.text }]}>{t('settings.language')}</Text>
               <TouchableOpacity
                 onPress={() => setModalVisible(false)}
                 style={styles.closeButton}
               >
-                <Ionicons name="close" size={24} color="#666" />
+                <Ionicons name="close" size={24} color={surface.mutedText} />
               </TouchableOpacity>
             </View>
 
@@ -73,7 +76,8 @@ export function LanguageSwitcher() {
                 key={lang.code}
                 style={[
                   styles.languageOption,
-                  currentLanguage === lang.code && styles.languageOptionActive,
+                  { backgroundColor: surface.cardRaised },
+                  currentLanguage === lang.code && { backgroundColor: `${surface.green}20`, borderColor: surface.green },
                 ]}
                 onPress={() => handleLanguageChange(lang.code)}
                 activeOpacity={0.7}
@@ -82,13 +86,14 @@ export function LanguageSwitcher() {
                 <Text
                   style={[
                     styles.optionName,
-                    currentLanguage === lang.code && styles.optionNameActive,
+                    { color: surface.text },
+                    currentLanguage === lang.code && { color: surface.green },
                   ]}
                 >
                   {lang.name}
                 </Text>
                 {currentLanguage === lang.code && (
-                  <Ionicons name="checkmark" size={24} color="#2563eb" />
+                  <Ionicons name="checkmark" size={24} color={surface.green} />
                 )}
               </TouchableOpacity>
             ))}
@@ -107,7 +112,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 8,
-    backgroundColor: '#f5f5f5',
   },
   flag: {
     fontSize: 20,
@@ -115,7 +119,6 @@ const styles = StyleSheet.create({
   languageName: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#333',
   },
   modalOverlay: {
     flex: 1,
@@ -125,7 +128,6 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: 'white',
     borderRadius: 12,
     padding: 20,
     width: '100%',
@@ -148,7 +150,6 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
   },
   closeButton: {
     padding: 4,
@@ -161,12 +162,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderRadius: 8,
     marginBottom: 8,
-    backgroundColor: '#f9f9f9',
+    minHeight: 44,
   },
   languageOptionActive: {
-    backgroundColor: '#eff6ff',
     borderWidth: 1,
-    borderColor: '#2563eb',
   },
   optionFlag: {
     fontSize: 28,
@@ -175,10 +174,5 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 16,
     fontWeight: '500',
-    color: '#333',
-  },
-  optionNameActive: {
-    color: '#2563eb',
-    fontWeight: '600',
   },
 });

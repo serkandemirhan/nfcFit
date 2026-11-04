@@ -19,19 +19,23 @@ import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export function LoginScreen() {
-  const { login, quickLogin, error, isSubmitting } = useAuth();
+  const { login, signUp, error, notice, isSubmitting } = useAuth();
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const palette = Colors[colorScheme ?? 'light'];
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [localError, setLocalError] = useState<string | null>(null);
-  const [mode, setMode] = useState<'welcome' | 'login'>('welcome');
+  const [mode, setMode] = useState<'login' | 'signup'>('login');
 
   const handleSubmit = async () => {
     setLocalError(null);
     try {
-      await login(email, password);
+      if (mode === 'signup') {
+        await signUp(email, password);
+      } else {
+        await login(email, password);
+      }
       setPassword('');
     } catch (err) {
       if (err instanceof Error) {
@@ -51,7 +55,7 @@ export function LoginScreen() {
           <View style={styles.ringTwo} />
           <View style={styles.ringThree} />
         </View>
-        <View style={[styles.card, { backgroundColor: 'rgba(7,24,39,0.86)', borderColor: palette.border }]}>
+        <View style={[styles.card, { backgroundColor: palette.card, borderColor: palette.border }]}>
           <View style={styles.brandWrap}>
             <View style={styles.logoIcon}>
               <Ionicons name="walk" size={38} color="#fff" />
@@ -62,38 +66,35 @@ export function LoginScreen() {
             <Text style={[styles.subtitle, { color: palette.mutedText }]}>Track your workouts, habits and wellness with a tap.</Text>
           </View>
 
-          {mode === 'login' && (
-            <>
-              <View style={styles.fieldGroup}>
-                <Text style={[styles.label, { color: palette.mutedText }]}>Email</Text>
-                <TextInput
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  placeholder="serkan@example.com"
-                  placeholderTextColor={palette.mutedText}
-                  value={email}
-                  onChangeText={setEmail}
-                  style={[styles.input, { borderColor: palette.border, color: palette.text }]}
-                />
-              </View>
+          <View style={styles.fieldGroup}>
+            <Text style={[styles.label, { color: palette.mutedText }]}>Email</Text>
+            <TextInput
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholder="you@example.com"
+              placeholderTextColor={palette.mutedText}
+              value={email}
+              onChangeText={setEmail}
+              style={[styles.input, { borderColor: palette.border, color: palette.text }]}
+            />
+          </View>
 
-              <View style={styles.fieldGroup}>
-                <Text style={[styles.label, { color: palette.mutedText }]}>{t('login.password')}</Text>
-                <TextInput
-                  secureTextEntry
-                  placeholder="••••••"
-                  placeholderTextColor={palette.mutedText}
-                  value={password}
-                  onChangeText={setPassword}
-                  style={[styles.input, { borderColor: palette.border, color: palette.text }]}
-                />
-              </View>
-            </>
-          )}
+          <View style={styles.fieldGroup}>
+            <Text style={[styles.label, { color: palette.mutedText }]}>{t('login.password')}</Text>
+            <TextInput
+              secureTextEntry
+              placeholder="••••••••"
+              placeholderTextColor={palette.mutedText}
+              value={password}
+              onChangeText={setPassword}
+              style={[styles.input, { borderColor: palette.border, color: palette.text }]}
+            />
+          </View>
 
           {(error || localError) && (
             <Text style={styles.errorText}>{error ?? localError}</Text>
           )}
+          {notice && <Text style={styles.noticeText}>{notice}</Text>}
 
           <Pressable
             style={({ pressed }) => [
@@ -101,26 +102,23 @@ export function LoginScreen() {
               { backgroundColor: palette.tint, opacity: pressed || isSubmitting ? 0.8 : 1 },
             ]}
             disabled={isSubmitting}
-            onPress={mode === 'welcome' ? () => quickLogin() : handleSubmit}
+            onPress={handleSubmit}
           >
             {isSubmitting ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={styles.primaryText}>{mode === 'welcome' ? 'Get Started' : t('login.submit')}</Text>
+              <Text style={styles.primaryText}>{mode === 'signup' ? 'Create account' : t('login.submit')}</Text>
             )}
           </Pressable>
 
           <Pressable
             style={[styles.outlineButton, { borderColor: palette.border }]}
-            onPress={() => setMode(mode === 'welcome' ? 'login' : 'welcome')}>
-            <Text style={[styles.outlineText, { color: palette.text }]}>{mode === 'welcome' ? 'Log In' : 'Back'}</Text>
+            onPress={() => {
+              setMode(mode === 'login' ? 'signup' : 'login');
+              setLocalError(null);
+            }}>
+            <Text style={[styles.outlineText, { color: palette.text }]}>{mode === 'login' ? 'Create account' : 'Back to login'}</Text>
           </Pressable>
-
-          {mode === 'login' && (
-            <Pressable>
-              <Text style={[styles.forgotText, { color: palette.tint }]}>Şifremi unuttum</Text>
-            </Pressable>
-          )}
 
           <Pressable>
             <Text style={[styles.termsText, { color: palette.mutedText }]}>By continuing, you agree to Terms & Privacy Policy</Text>
@@ -176,8 +174,8 @@ const styles = StyleSheet.create({
   card: {
     borderWidth: StyleSheet.hairlineWidth,
     borderRadius: 28,
-    padding: 24,
-    gap: 16,
+    padding: 20,
+    gap: 14,
     elevation: 4,
     overflow: 'hidden',
   },
@@ -237,6 +235,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 13,
   },
+  noticeText: {
+    color: '#86efac',
+    textAlign: 'center',
+    fontSize: 13,
+  },
   forgotText: {
     textAlign: 'center',
     fontSize: 13,
@@ -249,13 +252,13 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     borderRadius: 10,
-    paddingVertical: 13,
+    minHeight: 44,
     alignItems: 'center',
   },
   outlineButton: {
     borderRadius: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    paddingVertical: 12,
+    minHeight: 44,
     alignItems: 'center',
   },
   outlineText: {

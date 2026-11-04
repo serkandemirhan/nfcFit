@@ -178,6 +178,7 @@ export default function LayoutDetailScreen() {
               <PressableText
                 label={updateImage.isPending ? 'Kaydediliyor…' : 'Kaydet'}
                 primary
+                accent={surface.green}
                 disabled={updateImage.isPending}
                 onPress={() => updateImage.mutate(imageUrl)}
               />
@@ -236,7 +237,7 @@ export default function LayoutDetailScreen() {
           ) : (
             locations.map((loc) => (
               <View key={loc.id} style={styles.hotspotRow}>
-                <Ionicons name="radio-button-on-outline" size={16} color="#2563eb" />
+                <Ionicons name="radio-button-on-outline" size={16} color={surface.green} />
                 <ThemedText style={styles.hotspotLabel}>{loc.name}</ThemedText>
                 <ThemedText style={[styles.hotspotCoords, { color: surface.mutedText }]}>
                   x:{getLocationPosition(loc).x ?? '?'} · y:{getLocationPosition(loc).y ?? '?'}
@@ -255,18 +256,20 @@ function PressableText({
   label,
   onPress,
   primary,
+  accent,
   disabled,
 }: {
   label: string;
   onPress: () => void;
   primary?: boolean;
+  accent?: string;
   disabled?: boolean;
 }) {
   return (
     <View
       style={[
         styles.actionButton,
-        primary && styles.actionButtonPrimary,
+        primary && { backgroundColor: accent, borderColor: accent },
         disabled && { opacity: 0.5 },
       ]}>
       <ThemedText
@@ -299,7 +302,7 @@ const styles = StyleSheet.create({
   },
   section: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 12,
+    borderRadius: 16,
     padding: 12,
     gap: 12,
   },
@@ -348,13 +351,11 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    minHeight: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 999,
     borderWidth: StyleSheet.hairlineWidth,
-  },
-  actionButtonPrimary: {
-    backgroundColor: '#2563eb',
-    borderColor: '#2563eb',
   },
   actionButtonLabel: {
     fontWeight: '600',
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
     zIndex: 5,
   },
   mapMarkerEditing: {
-    backgroundColor: '#2563eb',
+    backgroundColor: '#35D353',
   },
   mapMarkerLabel: {
     marginTop: 3,

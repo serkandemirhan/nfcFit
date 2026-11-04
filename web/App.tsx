@@ -23,20 +23,8 @@ import { CardsPage } from './pages/CardsPage';
 import { LoginPage } from './pages/LoginPage';
 import { WellnessPage } from './pages/WellnessPage';
 import { MembersPage } from './pages/MembersPage';
-import { BrowserFrame, BrandMark, Panel } from './components/web-ui';
-import { fallbackCards } from './data/fallbackCards';
-import { fallbackExerciseTypes, fallbackUserExercises } from './data/fallbackExerciseTypes';
-import { fallbackWellnessGoals, fallbackWellnessLogs, fallbackWellnessTypes } from './data/fallbackWellness';
-
-const SINGLE_USER: User = {
-  id: 'u1',
-  name: 'Serkan',
-  username: 'serkan',
-  email: 'serkan@example.com',
-  avatarUrl: 'https://i.pravatar.cc/150?u=serkan',
-  avatarurl: 'https://i.pravatar.cc/150?u=serkan',
-};
-
+import { ProfilePage, SettingsPage } from './pages/AccountPages';
+import { BrowserFrame, BrandMark, Panel, UserAvatar } from './components/web-ui';
 const parseCard = (raw: any): NfcCard => ({
   ...raw,
   uid: raw.uid ?? raw.nfc_uid,
@@ -60,7 +48,7 @@ const parseExerciseLogAsTask = (raw: any): Task => {
     description: raw.source === 'nfc' ? 'NFC tag ile kaydedildi' : 'Manual exercise log',
     status: TaskStatus.Completed,
     locationId: '',
-    userId: raw.user_id ?? 'u1',
+    userId: raw.user_id ?? '',
     createdAt,
     dueDate: createdAt,
     attachments: [],
@@ -113,72 +101,159 @@ const App: FC = () => {
     const hash = window.location.hash.substring(1) as Page;
     return navItems.some(item => item.id === hash) ? hash : 'dashboard';
   });
-  const [users, setUsers] = useState<User[]>([SINGLE_USER]);
-  const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('nfcfit-web-user');
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [users, setUsers] = useState<User[]>([]);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [authError, setAuthError] = useState('');
+  const [dataError, setDataError] = useState('');
   const [nfcCards, setNfcCards] = useState<NfcCard[]>([]);
   const [exerciseTypes, setExerciseTypes] = useState<ExerciseType[]>([]);
   const [userExercises, setUserExercises] = useState<UserExercise[]>([]);
   const [dailyGoalProgress, setDailyGoalProgress] = useState<DailyGoalProgress[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [wellnessTypes, setWellnessTypes] = useState<WellnessType[]>(fallbackWellnessTypes);
-  const [wellnessGoals, setWellnessGoals] = useState<WellnessGoal[]>(fallbackWellnessGoals);
-  const [wellnessLogs, setWellnessLogs] = useState<WellnessLog[]>(fallbackWellnessLogs);
+  const [wellnessTypes, setWellnessTypes] = useState<WellnessType[]>([]);
+  const [wellnessGoals, setWellnessGoals] = useState<WellnessGoal[]>([]);
+  const [wellnessLogs, setWellnessLogs] = useState<WellnessLog[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
-    const load = async () => {
-      const fetchWith = async <T extends unknown>(tableName: string, fallback: T[] = []): Promise<T[]> => {
-        const { data, error } = await supabase.from(tableName).select('*');
-        if (error) {
-          console.warn(`${tableName} verisi alinamadi:`, error.message);
-          return fallback;
-        }
-        return data as T[];
-      };
-
-      const [
-        usersData,
-        cardsData,
-        logsData,
-        exerciseTypesData,
-        userExercisesData,
-        goalProgressData,
-        wellnessTypesData,
-        wellnessGoalsData,
-        wellnessLogsData,
-      ] = await Promise.all([
-        fetchWith<User>('users', [SINGLE_USER]),
-        fetchWith<NfcCard>('exercise_tags', fallbackCards),
-        fetchWith<any>('exercise_logs', []),
-        fetchWith<ExerciseType>('exercise_types', fallbackExerciseTypes),
-        fetchWith<UserExercise>('user_exercises', fallbackUserExercises),
-        fetchWith<DailyGoalProgress>('daily_goal_progress', []),
-        fetchWith<WellnessType>('wellness_types', fallbackWellnessTypes),
-        fetchWith<WellnessGoal>('wellness_goals', fallbackWellnessGoals),
-        fetchWith<any>('wellness_logs', fallbackWellnessLogs),
-      ]);
-
-      const user = usersData.find(item => item.id === SINGLE_USER.id) ?? usersData[0] ?? SINGLE_USER;
-      setUsers([user]);
-      setNfcCards((cardsData as any[]).map(parseCard));
-      setTasks((logsData as any[]).map(parseExerciseLogAsTask));
-      setExerciseTypes(exerciseTypesData.length > 0 ? exerciseTypesData : fallbackExerciseTypes);
-      const savedUserExercises = localStorage.getItem('nfcfit-user-exercises');
-      setUserExercises(savedUserExercises ? JSON.parse(savedUserExercises) : userExercisesData.length > 0 ? userExercisesData : fallbackUserExercises);
-      setDailyGoalProgress(goalProgressData);
-      setWellnessTypes(wellnessTypesData.length > 0 ? wellnessTypesData : fallbackWellnessTypes);
-      setWellnessGoals(wellnessGoalsData.length > 0 ? wellnessGoalsData : fallbackWellnessGoals);
-      setWellnessLogs((wellnessLogsData as any[]).map(parseWellnessLog));
+    let active = true;
+    const loadProfile = async (session: NonNullable<Awaited<ReturnType<typeof supabase.auth.getSession>>['data']['session']>) => {
+      const { data, error } = await supabase.rpc('get_or_create_profile', {
+        p_name: session.user.user_metadata?.name ?? null,
+      }).maybeSingle();
+      if (error) throw error;
+      if (!data) throw new Error('Kullanıcı profili bulunamadı.');
+      const profile = { ...data, avatarUrl: data.avatarurl } as User;
+      if (active) {
+        setCurrentUser(profile);
+        setUsers([profile]);
+        setAuthError('');
+      }
     };
-    load();
+
+    const handleSession = (session: Awaited<ReturnType<typeof supabase.auth.getSession>>['data']['session']) => {
+      if (!session) {
+        setCurrentUser(null);
+        setUsers([]);
+        setAuthLoading(false);
+        return;
+      }
+      setCurrentUser(null);
+      setUsers([]);
+      setAuthLoading(true);
+      setTimeout(() => {
+        void loadProfile(session)
+          .catch((error: unknown) => {
+            if (active) {
+              setCurrentUser(null);
+              setUsers([]);
+              setAuthError(error instanceof Error ? error.message : 'Profil yüklenemedi.');
+            }
+          })
+          .finally(() => {
+            if (active) setAuthLoading(false);
+          });
+      }, 0);
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session || event === 'SIGNED_OUT') {
+        handleSession(null);
+      } else if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'USER_UPDATED') {
+        handleSession(session);
+      }
+    });
+
+    void supabase.auth.getSession()
+      .then(({ data, error }) => {
+        if (!active) return;
+        if (error) throw error;
+        handleSession(data.session);
+      })
+      .catch((error: unknown) => {
+        if (active) {
+          setAuthError(error instanceof Error ? error.message : 'Oturum kontrol edilemedi.');
+          setAuthLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('nfcfit-user-exercises', JSON.stringify(userExercises));
-  }, [userExercises]);
+    let active = true;
+    if (!currentUser) {
+      setNfcCards([]);
+      setExerciseTypes([]);
+      setUserExercises([]);
+      setDailyGoalProgress([]);
+      setTasks([]);
+      setWellnessTypes([]);
+      setWellnessGoals([]);
+      setWellnessLogs([]);
+      setDataError('');
+      return () => { active = false; };
+    }
+
+    setNfcCards([]);
+    setExerciseTypes([]);
+    setUserExercises([]);
+    setDailyGoalProgress([]);
+    setTasks([]);
+    setWellnessTypes([]);
+    setWellnessGoals([]);
+    setWellnessLogs([]);
+    setDataError('');
+
+    const load = async () => {
+      const fetchTable = async <T,>(tableName: string): Promise<T[]> => {
+        const { data, error } = await supabase.from(tableName).select('*');
+        if (error) throw error;
+        return (data ?? []) as T[];
+      };
+
+      try {
+        const [
+          cardsData,
+          logsData,
+          exerciseTypesData,
+          userExercisesData,
+          goalProgressData,
+          wellnessTypesData,
+          wellnessGoalsData,
+          wellnessLogsData,
+        ] = await Promise.all([
+          fetchTable<NfcCard>('exercise_tags'),
+          fetchTable<any>('exercise_logs'),
+          fetchTable<ExerciseType>('exercise_types'),
+          fetchTable<UserExercise>('user_exercises'),
+          fetchTable<DailyGoalProgress>('daily_goal_progress'),
+          fetchTable<WellnessType>('wellness_types'),
+          fetchTable<WellnessGoal>('wellness_goals'),
+          fetchTable<any>('wellness_logs'),
+        ]);
+        if (!active) return;
+        setNfcCards(cardsData.map(parseCard));
+        setTasks(logsData.map(parseExerciseLogAsTask));
+        setExerciseTypes(exerciseTypesData);
+        setUserExercises(userExercisesData);
+        setDailyGoalProgress(goalProgressData);
+        setWellnessTypes(wellnessTypesData);
+        setWellnessGoals(wellnessGoalsData);
+        setWellnessLogs(wellnessLogsData.map(parseWellnessLog));
+        setDataError('');
+      } catch (error) {
+        if (!active) return;
+        setDataError(error instanceof Error ? error.message : 'Supabase verileri yüklenemedi.');
+      }
+    };
+    void load();
+    return () => { active = false; };
+  }, [currentUser]);
 
   useEffect(() => {
     const onPop = () => {
@@ -190,7 +265,7 @@ const App: FC = () => {
   }, []);
 
   const selectedExerciseTypes = exerciseTypes.filter(type =>
-    userExercises.some(item => item.user_id === (users[0]?.id ?? 'u1') && item.exercise_type_id === type.id && item.active !== false)
+    userExercises.some(item => item.user_id === currentUser?.id && item.exercise_type_id === type.id && item.active !== false)
   );
 
   const navigate = (nextPage: Page) => {
@@ -199,19 +274,33 @@ const App: FC = () => {
     setIsSidebarOpen(false);
   };
 
-  const login = (user: User | { id: 'admin'; name: 'Admin'; avatarUrl: string }) => {
-    const nextUser = user.id === 'admin' ? SINGLE_USER : user as User;
-    setCurrentUser(nextUser);
-    localStorage.setItem('nfcfit-web-user', JSON.stringify(nextUser));
+  const login = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({ email: email.trim().toLowerCase(), password });
+    if (error) throw error;
   };
 
-  const logout = () => {
-    setCurrentUser(null);
-    localStorage.removeItem('nfcfit-web-user');
+  const signUp = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim().toLowerCase(),
+      password,
+      options: { data: { name: email.trim().split('@')[0] } },
+    });
+    if (error) throw error;
+    return Boolean(data.session);
   };
+
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    setCurrentUser(null);
+  };
+
+  if (authLoading) {
+    return <div className="grid min-h-screen place-items-center bg-[#020b14] text-white">Checking session…</div>;
+  }
 
   if (!currentUser) {
-    return <LoginPage users={users} onLoginSuccess={login} />;
+    return <LoginPage authError={authError} onLoginSuccess={login} onSignUp={signUp} />;
   }
 
   const renderPage = () => {
@@ -231,9 +320,9 @@ const App: FC = () => {
       case 'exercises':
         return <ExercisesPage exerciseTypes={exerciseTypes} userExercises={userExercises} users={users} setUserExercises={setUserExercises} />;
       case 'profile':
-        return <SimplePage title="Profile" description="Single user profile and body metrics." user={currentUser} onLogout={logout} />;
+        return <ProfilePage user={currentUser} onLogout={logout} />;
       case 'settings':
-        return <SimplePage title="Settings" description="Theme, defaults and account settings." user={currentUser} onLogout={logout} />;
+        return <SettingsPage user={currentUser} onLogout={logout} />;
       default:
         return <DashboardPage tasks={tasks} users={users} cards={nfcCards} goals={dailyGoalProgress} wellnessTypes={wellnessTypes} wellnessGoals={wellnessGoals} wellnessLogs={wellnessLogs} />;
     }
@@ -270,7 +359,7 @@ const App: FC = () => {
               <div className="mt-auto pt-8">
                 <Panel className="p-3">
                   <div className="flex items-center gap-3">
-                    <img src={currentUser.avatarurl ?? currentUser.avatarUrl} alt={currentUser.name} className="h-9 w-9 rounded-full" />
+                    <UserAvatar user={currentUser} className="h-9 w-9 text-sm" />
                     <div>
                       <p className="text-sm font-bold text-white">{currentUser.name}</p>
                       <p className="text-xs text-slate-400">Admin</p>
@@ -285,6 +374,11 @@ const App: FC = () => {
                 <button onClick={() => setIsSidebarOpen(true)} className="rounded-lg border border-white/10 px-3 py-2">Menu</button>
               </div>
               <div className="p-4 md:p-6">
+                {dataError && (
+                  <p role="alert" className="mb-4 rounded-lg border border-red-400/30 bg-red-500/10 p-3 text-sm text-red-200">
+                    Supabase verileri yüklenemedi: {dataError}
+                  </p>
+                )}
                 {renderPage()}
               </div>
             </main>
@@ -294,19 +388,5 @@ const App: FC = () => {
     </div>
   );
 };
-
-function SimplePage({ title, description, user, onLogout }: { title: string; description: string; user: User; onLogout: () => void }) {
-  return (
-    <Panel className="max-w-2xl p-6">
-      <h1 className="text-2xl font-black text-white">{title}</h1>
-      <p className="mt-2 text-slate-400">{description}</p>
-      <div className="mt-6 rounded-xl border border-white/10 bg-white/[0.04] p-4">
-        <p className="font-bold text-white">{user.name}</p>
-        <p className="text-sm text-slate-400">{user.email}</p>
-      </div>
-      <button onClick={onLogout} className="mt-6 rounded-xl bg-red-500 px-4 py-2 text-sm font-black text-white">Log out</button>
-    </Panel>
-  );
-}
 
 export default AppWithContext;

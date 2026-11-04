@@ -38,7 +38,7 @@ export default function SettingsScreen() {
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
           <View style={styles.settingRow}>
             <View style={styles.settingLabel}>
-              <Ionicons name="moon-outline" size={20} color="#2563eb" />
+              <Ionicons name="moon-outline" size={20} color={surface.green} />
               <View>
                 <ThemedText style={styles.settingTitle}>Tema</ThemedText>
                 <ThemedText style={[styles.settingHint, { color: surface.mutedText }]}>
@@ -50,7 +50,7 @@ export default function SettingsScreen() {
               value={isDark}
               onValueChange={(value) => setMode(value ? 'dark' : 'light')}
               thumbColor="#f8fafc"
-              trackColor={{ false: 'rgba(148,163,184,0.45)', true: '#2563eb' }}
+              trackColor={{ false: 'rgba(148,163,184,0.45)', true: surface.green }}
             />
           </View>
           <Pressable style={styles.secondaryButton} onPress={() => setMode('system')}>
@@ -60,13 +60,13 @@ export default function SettingsScreen() {
 
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
           <View style={styles.settingLabel}>
-            <Ionicons name="language-outline" size={20} color="#2563eb" />
+            <Ionicons name="language-outline" size={20} color={surface.green} />
             <ThemedText style={styles.settingTitle}>Dil</ThemedText>
           </View>
           <LanguageSwitcher />
         </View>
 
-        <Pressable style={styles.logoutButton} onPress={logout}>
+        <Pressable style={[styles.logoutButton, { backgroundColor: surface.cardRaised }]} onPress={logout}>
           <Ionicons name="log-out-outline" size={20} color="#dc2626" />
           <ThemedText style={styles.logoutText}>Çıkış yap</ThemedText>
         </Pressable>
@@ -164,12 +164,12 @@ const styles = StyleSheet.create({
   secondaryButton: {
     alignSelf: 'flex-start',
     borderRadius: 999,
-    backgroundColor: 'rgba(37,99,235,0.1)',
+    backgroundColor: 'rgba(53,211,83,0.12)',
     paddingHorizontal: 12,
     paddingVertical: 7,
   },
   secondaryButtonText: {
-    color: '#2563eb',
+    color: '#35D353',
     fontWeight: '700',
     fontSize: 12,
   },
@@ -180,7 +180,8 @@ const styles = StyleSheet.create({
     gap: 8,
     borderRadius: 12,
     backgroundColor: 'rgba(220,38,38,0.08)',
-    padding: 13,
+    minHeight: 44,
+    paddingHorizontal: 14,
   },
   logoutText: {
     color: '#dc2626',

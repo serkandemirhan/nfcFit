@@ -58,9 +58,9 @@ export default function CardsScreen() {
         contentContainerStyle={styles.content}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={[styles.statsRow, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <StatCard label={t('common.all')} value={String(totalCards)} icon="layers-outline" />
-          <StatCard label="Kurulum" value={String(idleCards)} icon="alert-circle-outline" />
-          <StatCard label={t('cards.inactive')} value={String(inactiveCards)} icon="remove-circle-outline" />
+          <StatCard label={t('common.all')} value={String(totalCards)} icon="layers-outline" accent={surface.green} />
+          <StatCard label="Kurulum" value={String(idleCards)} icon="alert-circle-outline" accent={surface.green} />
+          <StatCard label={t('cards.inactive')} value={String(inactiveCards)} icon="remove-circle-outline" accent={surface.green} />
         </View>
 
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
@@ -78,7 +78,7 @@ export default function CardsScreen() {
           )}
         </View>
       </ScrollView>
-      <Pressable style={styles.fab} onPress={() => router.push('/(drawer)/new-tag' as never)}>
+      <Pressable style={[styles.fab, { backgroundColor: surface.green }]} onPress={() => router.push('/(drawer)/new-tag' as never)}>
         <Ionicons name="add" size={28} color="#fff" />
       </Pressable>
       <AppBottomNav />
@@ -86,10 +86,10 @@ export default function CardsScreen() {
   );
 }
 
-function StatCard({ label, value, icon }: { label: string; value: string; icon: keyof typeof Ionicons.glyphMap }) {
+function StatCard({ label, value, icon, accent }: { label: string; value: string; icon: keyof typeof Ionicons.glyphMap; accent: string }) {
   return (
     <View style={styles.statCard}>
-      <Ionicons name={icon} size={20} color="#2563eb" />
+      <Ionicons name={icon} size={20} color={accent} />
       <ThemedText type="subtitle">{value}</ThemedText>
       <ThemedText style={styles.statLabel}>{label}</ThemedText>
     </View>
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   errorHint: {
-    color: '#2563eb',
+    color: '#35D353',
   },
   content: {
     padding: 14,
@@ -200,14 +200,14 @@ const styles = StyleSheet.create({
     gap: 8,
     padding: 10,
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 12,
+    borderRadius: 16,
   },
   statCard: {
     flex: 1,
-    borderRadius: 10,
-    paddingVertical: 7,
-    paddingHorizontal: 10,
-    backgroundColor: 'rgba(37,99,235,0.08)',
+    borderRadius: 12,
+    paddingVertical: 9,
+    paddingHorizontal: 8,
+    backgroundColor: 'rgba(53,211,83,0.10)',
     gap: 2,
   },
   statLabel: {
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   },
   section: {
     borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 12,
+    borderRadius: 16,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
@@ -255,10 +255,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 18,
     bottom: bottomNavHeight + 14,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: '#2563eb',
+    width: 52,
+    height: 52,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#0f172a',

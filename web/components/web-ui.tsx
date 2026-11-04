@@ -1,4 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { User } from '../types';
+
+export function UserAvatar({ user, className = '' }: { user: User; className?: string }) {
+  const [failed, setFailed] = useState(false);
+  const src = user.avatarurl ?? user.avatarUrl;
+
+  if (!src || failed) {
+    return (
+      <div aria-label={user.name} className={`grid shrink-0 place-items-center rounded-full bg-green-500/20 font-black text-green-200 ${className}`}>
+        {user.name.trim().charAt(0).toUpperCase() || '?'}
+      </div>
+    );
+  }
+
+  return <img src={src} alt={user.name} onError={() => setFailed(true)} className={`shrink-0 rounded-full object-cover ${className}`} />;
+}
 
 export function BrandMark({ small = false }: { small?: boolean }) {
   return (

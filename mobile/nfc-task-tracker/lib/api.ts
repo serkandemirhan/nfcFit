@@ -112,7 +112,6 @@ export type AppUser = {
   username?: string | null;
   email?: string | null;
   avatarurl?: string | null;
-  passwordhash?: string | null;
 };
 
 export type Tag = {
@@ -316,7 +315,7 @@ export async function fetchExerciseTypes() {
   return (data ?? []) as ExerciseType[];
 }
 
-export async function fetchExerciseLogs(userId = 'u1') {
+export async function fetchExerciseLogs(userId: string) {
   const { data, error } = await supabase
     .from('exercise_logs')
     .select('*, exercise_types(name)')
@@ -329,7 +328,7 @@ export async function fetchExerciseLogs(userId = 'u1') {
   })) as ExerciseLog[];
 }
 
-export async function fetchDailyGoalProgress(userId = 'u1') {
+export async function fetchDailyGoalProgress(userId: string) {
   const { data, error } = await supabase
     .from('daily_goal_progress')
     .select('*')
@@ -338,7 +337,7 @@ export async function fetchDailyGoalProgress(userId = 'u1') {
   return (data ?? []) as DailyGoalProgress[];
 }
 
-export async function fetchUserExercises(userId = 'u1') {
+export async function fetchUserExercises(userId: string) {
   const { data, error } = await supabase
     .from('user_exercises')
     .select('*')
@@ -372,7 +371,7 @@ export async function fetchWellnessTypes() {
   return (data ?? []) as WellnessType[];
 }
 
-export async function fetchWellnessGoals(userId = 'u1') {
+export async function fetchWellnessGoals(userId: string) {
   const { data, error } = await supabase
     .from('wellness_goals')
     .select('*')
@@ -382,7 +381,7 @@ export async function fetchWellnessGoals(userId = 'u1') {
   return (data ?? []) as WellnessGoal[];
 }
 
-export async function fetchWellnessLogs(userId = 'u1') {
+export async function fetchWellnessLogs(userId: string) {
   const { data, error } = await supabase
     .from('wellness_logs')
     .select('*, wellness_types(name)')
@@ -445,7 +444,7 @@ export async function createExerciseTag(payload: {
       calorie_estimate: payload.calorieEstimate ?? null,
       is_active: payload.isActive,
       location_id: payload.locationId ?? null,
-      assigned_user_id: payload.assignedUserId ?? 'u1',
+      assigned_user_id: payload.assignedUserId,
     })
     .select()
     .single();
@@ -512,7 +511,7 @@ export async function createCard(payload: {
       quantity: null,
       unit: null,
       is_active: true,
-      assigned_user_id: payload.assignedUserId ?? 'u1',
+      assigned_user_id: payload.assignedUserId,
     })
     .select()
     .single();
@@ -671,19 +670,12 @@ export async function updateLayout(id: string, payload: Partial<Pick<Layout, 'na
 }
 
 export async function fetchUsers() {
-  const { data, error } = await supabase.from('users').select('*').order('name', { ascending: true });
+  const { data, error } = await supabase
+    .from('users')
+    .select('id, name, username, email, avatarurl')
+    .order('name', { ascending: true });
   if (error) throw error;
   return (data ?? []) as AppUser[];
-}
-
-export async function updateUserPassword(id: string, newPassword: string) {
-  const { error } = await supabase.from('users').update({ passwordhash: newPassword }).eq('id', id);
-  if (error) throw error;
-}
-
-export async function deleteUserById(id: string) {
-  const { error } = await supabase.from('users').delete().eq('id', id);
-  if (error) throw error;
 }
 
 // Tag functions

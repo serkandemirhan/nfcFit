@@ -80,18 +80,9 @@ export const ExercisesPage: FC<{
                 (data as UserExercise) ?? payload,
             ]);
             showToast('success', `${exercise.name} listene eklendi.`);
-        } catch (error: any) {
-            const message = String(error?.message ?? '');
-            const isLocalBackendGap = message.includes('/api/user_exercises') || message.includes('404') || message.includes('Failed to fetch');
-            if (isLocalBackendGap) {
-                setUserExercises(prev => [
-                    ...prev.filter(item => !(item.user_id === activeUserId && item.exercise_type_id === exercise.id)),
-                    payload,
-                ]);
-                showToast('success', `${exercise.name} listene eklendi. Supabase env baglaninca kalici kaydedilir.`);
-            } else {
-                showToast('error', message || 'Egzersiz eklenemedi. Supabase schema güncel mi kontrol et.');
-            }
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Egzersiz eklenemedi.';
+            showToast('error', message);
         } finally {
             setSavingExerciseId(null);
         }
@@ -108,15 +99,9 @@ export const ExercisesPage: FC<{
             if (error) throw error;
             setUserExercises(prev => prev.filter(item => !(item.user_id === activeUserId && item.exercise_type_id === exercise.id)));
             showToast('success', `${exercise.name} listenden çıkarıldı.`);
-        } catch (error: any) {
-            const message = String(error?.message ?? '');
-            const isLocalBackendGap = message.includes('/api/user_exercises') || message.includes('404') || message.includes('Failed to fetch');
-            if (isLocalBackendGap) {
-                setUserExercises(prev => prev.filter(item => !(item.user_id === activeUserId && item.exercise_type_id === exercise.id)));
-                showToast('success', `${exercise.name} listenden çıkarıldı. Supabase env baglaninca kalici kaydedilir.`);
-            } else {
-                showToast('error', message || 'Egzersiz listenden çıkarılamadı.');
-            }
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Egzersiz listenden çıkarılamadı.';
+            showToast('error', message);
         } finally {
             setSavingExerciseId(null);
         }

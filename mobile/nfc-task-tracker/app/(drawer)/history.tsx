@@ -14,7 +14,7 @@ import { ExerciseLog, fetchExerciseLogs, fetchWellnessLogs, WellnessLog } from '
 export default function HistoryScreen() {
   const surface = getSurfaceColors(useColorScheme());
   const { user } = useAuth();
-  const userId = user?.id ?? 'u1';
+  const userId = user?.id ?? '';
   const [filter, setFilter] = useState<'all' | 'fitness' | 'wellness'>('all');
   const logsQuery = useQuery({ queryKey: ['exercise_logs', userId], queryFn: () => fetchExerciseLogs(userId) });
   const wellnessQuery = useQuery({ queryKey: ['wellness_logs', userId], queryFn: () => fetchWellnessLogs(userId) });
@@ -44,7 +44,7 @@ export default function HistoryScreen() {
             <ThemedText
               key={value}
               onPress={() => setFilter(value)}
-              style={[styles.filterChip, filter === value && styles.filterChipActive]}>
+              style={[styles.filterChip, filter === value && { backgroundColor: surface.green, color: '#fff', opacity: 1 }]}>
               {value === 'all' ? 'All' : value === 'fitness' ? 'Fitness' : 'Wellness'}
             </ThemedText>
           ))}
@@ -55,8 +55,8 @@ export default function HistoryScreen() {
             <ThemedText style={{ color: surface.mutedText }}>Henüz egzersiz kaydı yok.</ThemedText>
           ) : (
             logs.map((item) => item.type === 'fitness'
-              ? <FitnessHistoryRow key={`f-${item.log.id}`} log={item.log as ExerciseLog} muted={surface.mutedText} />
-              : <WellnessHistoryRow key={`w-${item.log.id}`} log={item.log as WellnessLog} muted={surface.mutedText} />)
+              ? <FitnessHistoryRow key={`f-${item.log.id}`} log={item.log as ExerciseLog} muted={surface.mutedText} accent={surface.green} />
+                  : <WellnessHistoryRow key={`w-${item.log.id}`} log={item.log as WellnessLog} muted={surface.mutedText} accent={surface.green} />)
           )}
         </View>
       </ScrollView>
@@ -65,11 +65,11 @@ export default function HistoryScreen() {
   );
 }
 
-function FitnessHistoryRow({ log, muted }: { log: ExerciseLog; muted: string }) {
+function FitnessHistoryRow({ log, muted, accent }: { log: ExerciseLog; muted: string; accent: string }) {
   return (
     <View style={styles.row}>
       <View style={styles.iconWrap}>
-        <Ionicons name={log.source === 'nfc' ? 'radio-outline' : 'create-outline'} size={18} color="#2563eb" />
+        <Ionicons name={log.source === 'nfc' ? 'radio-outline' : 'create-outline'} size={18} color={accent} />
       </View>
       <View style={{ flex: 1 }}>
         <ThemedText style={styles.rowTitle}>{formatQuantity(log.quantity, log.unit)} {log.exercise_name}</ThemedText>
@@ -77,16 +77,16 @@ function FitnessHistoryRow({ log, muted }: { log: ExerciseLog; muted: string }) 
           {formatDate(log.createdat)} · {log.source === 'nfc' ? 'NFC Tag ile kaydedildi' : 'Manuel kaydedildi'}
         </ThemedText>
       </View>
-      <ThemedText style={styles.kcal}>{Math.round(Number(log.calorie_estimate ?? 0))} kcal</ThemedText>
+      <ThemedText style={[styles.kcal, { color: accent }]}>{Math.round(Number(log.calorie_estimate ?? 0))} kcal</ThemedText>
     </View>
   );
 }
 
-function WellnessHistoryRow({ log, muted }: { log: WellnessLog; muted: string }) {
+function WellnessHistoryRow({ log, muted, accent }: { log: WellnessLog; muted: string; accent: string }) {
   return (
     <View style={styles.row}>
-      <View style={[styles.iconWrap, { backgroundColor: 'rgba(139,92,246,0.12)' }]}>
-        <Ionicons name={log.wellness_type_id === 'water' ? 'water-outline' : 'add-circle-outline'} size={18} color="#8b5cf6" />
+      <View style={[styles.iconWrap, { backgroundColor: 'rgba(53,211,83,0.12)' }]}>
+        <Ionicons name={log.wellness_type_id === 'water' ? 'water-outline' : 'add-circle-outline'} size={18} color={accent} />
       </View>
       <View style={{ flex: 1 }}>
         <ThemedText style={styles.rowTitle}>{formatWellnessQuantity(log.quantity, log.unit)} {log.wellness_name}</ThemedText>
@@ -131,11 +131,10 @@ const styles = StyleSheet.create({
   subtitle: { fontSize: 13 },
   filters: { flexDirection: 'row', borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 4, gap: 4 },
   filterChip: { flex: 1, textAlign: 'center', paddingVertical: 8, borderRadius: 9, fontSize: 12, fontWeight: '800', opacity: 0.7 },
-  filterChipActive: { backgroundColor: '#22c55e', color: '#fff', opacity: 1 },
-  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, paddingHorizontal: 12 },
+  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 16, paddingHorizontal: 12 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 13, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(148,163,184,0.22)' },
-  iconWrap: { width: 34, height: 34, borderRadius: 17, backgroundColor: 'rgba(37,99,235,0.1)', alignItems: 'center', justifyContent: 'center' },
+  iconWrap: { width: 36, height: 36, borderRadius: 12, backgroundColor: 'rgba(53,211,83,0.12)', alignItems: 'center', justifyContent: 'center' },
   rowTitle: { fontSize: 15, fontWeight: '800' },
   rowMeta: { fontSize: 12, marginTop: 2 },
-  kcal: { color: '#2563eb', fontSize: 12, fontWeight: '900' },
+  kcal: { fontSize: 12, fontWeight: '900' },
 });

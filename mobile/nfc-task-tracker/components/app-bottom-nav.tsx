@@ -64,23 +64,24 @@ export function AppBottomNav() {
         return (
           <Pressable
             key={item.label}
-            style={[styles.item, isScan && styles.scanItem]}
+            style={styles.item}
             onPress={() => router.push(item.href as never)}>
             <View style={[
+              styles.iconWrap,
               isScan && styles.scanBubble,
-              isScan && { backgroundColor: active ? '#35D353' : 'rgba(53,211,83,0.92)' },
+              isScan && { backgroundColor: active ? surface.green : `${surface.green}E8` },
             ]}>
               <Ionicons
                 name={active ? item.activeIcon : item.icon}
-                size={isScan ? 24 : 20}
-                color={isScan ? '#fff' : active ? '#35D353' : surface.mutedText}
+                size={20}
+                color={isScan ? '#fff' : active ? surface.green : surface.mutedText}
               />
             </View>
             <ThemedText
               numberOfLines={1}
               style={[
                 styles.label,
-                { color: active ? (isScan ? '#35D353' : '#35D353') : surface.mutedText },
+                { color: active ? surface.green : surface.mutedText },
                 active && styles.labelActive,
               ]}>
               {item.label}
@@ -92,7 +93,7 @@ export function AppBottomNav() {
   );
 }
 
-export const bottomNavHeight = 74;
+export const bottomNavHeight = 72;
 
 const styles = StyleSheet.create({
   wrap: {
@@ -105,32 +106,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingHorizontal: 6,
-    paddingTop: 8,
-    paddingBottom: 10,
+    paddingTop: 6,
+    paddingBottom: 8,
   },
   item: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 3,
-    minHeight: 48,
+    gap: 2,
+    minHeight: 54,
   },
-  scanItem: {
-    marginTop: -22,
-  },
-  scanBubble: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+  iconWrap: {
+    width: 38,
+    height: 38,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#35D353',
-    shadowOpacity: 0.35,
-    shadowRadius: 12,
-    elevation: 8,
+  },
+  scanBubble: {
+    borderRadius: 12,
   },
   label: {
     fontSize: 10,
+    lineHeight: 14,
     fontWeight: '600',
   },
   labelActive: {

@@ -14,7 +14,7 @@ import { fetchExerciseLogs, fetchExerciseTypes, fetchUserExercises } from '@/lib
 export default function FitnessScreen() {
   const surface = getSurfaceColors(useColorScheme());
   const { user } = useAuth();
-  const userId = user?.id ?? 'u1';
+  const userId = user?.id ?? '';
   const [period, setPeriod] = useState<'day' | 'week' | 'month'>('day');
   const logsQuery = useQuery({ queryKey: ['exercise_logs', userId], queryFn: () => fetchExerciseLogs(userId) });
   const typesQuery = useQuery({ queryKey: ['exercise_types'], queryFn: fetchExerciseTypes });
@@ -54,13 +54,13 @@ export default function FitnessScreen() {
           userExercisesQuery.refetch();
         }} />}>
         <View style={styles.header}>
-          <ThemedText style={styles.eyebrow}>Activity</ThemedText>
+          <ThemedText style={[styles.eyebrow, { color: surface.green }]}>Activity</ThemedText>
           <ThemedText style={styles.title}>Fitness</ThemedText>
         </View>
 
         <View style={[styles.segment, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {(['day', 'week', 'month'] as const).map((value) => (
-            <Pressable key={value} onPress={() => setPeriod(value)} style={[styles.segmentButton, period === value && styles.segmentButtonActive]}>
+            <Pressable key={value} onPress={() => setPeriod(value)} style={[styles.segmentButton, period === value && { backgroundColor: surface.green }]}>
               <ThemedText style={[styles.segmentText, period === value && styles.segmentTextActive]}>
                 {value === 'day' ? 'Gün' : value === 'week' ? 'Hafta' : 'Ay'}
               </ThemedText>
@@ -72,15 +72,15 @@ export default function FitnessScreen() {
           <ThemedText style={styles.sectionTitle}>Activity</ThemedText>
           <View style={styles.activityBody}>
             <View style={styles.donutOuter}>
-              <View style={styles.donutMiddle}>
+              <View style={[styles.donutMiddle, { backgroundColor: surface.card }]}>
                 <ThemedText style={styles.donutValue}>{Math.round(totalCalories)}</ThemedText>
                 <ThemedText style={styles.donutLabel}>kcal</ThemedText>
               </View>
             </View>
             <View style={styles.legend}>
-              <LegendDot color="#9B5CE5" label="Workouts" value={`${totalWorkouts}`} />
-              <LegendDot color="#35D353" label="Active Time" value={`${activeMinutes} min`} />
-              <LegendDot color="#4AA3FF" label="Volume" value={String(Math.round(totalQuantity))} />
+              <LegendDot color={surface.green} label="Workouts" value={`${totalWorkouts}`} />
+              <LegendDot color={surface.green} label="Active Time" value={`${activeMinutes} min`} />
+              <LegendDot color={surface.mutedText} label="Volume" value={String(Math.round(totalQuantity))} />
             </View>
           </View>
         </View>
@@ -92,14 +92,14 @@ export default function FitnessScreen() {
           ) : (
             rows.slice().sort((a, b) => b.quantity - a.quantity).map((row) => (
               <View key={row.exercise.id} style={styles.row}>
-                <Ionicons name="fitness-outline" size={22} color="#F59E0B" />
+                <Ionicons name="fitness-outline" size={22} color={surface.green} />
                 <View style={{ flex: 1 }}>
                   <ThemedText style={styles.rowTitle}>{row.exercise.name}</ThemedText>
                   <ThemedText style={[styles.rowMeta, { color: surface.mutedText }]}>
                     {row.count} kayıt · {formatQuantity(row.quantity, row.exercise.unit)}
                   </ThemedText>
                 </View>
-                <ThemedText style={styles.kcal}>{Math.round(row.calories)} kcal</ThemedText>
+                <ThemedText style={[styles.kcal, { color: surface.green }]}>{Math.round(row.calories)} kcal</ThemedText>
               </View>
             ))
           )}
@@ -145,19 +145,18 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   content: { padding: 14, paddingBottom: bottomNavHeight + 24, gap: 14 },
   header: { gap: 2 },
-  eyebrow: { color: '#35D353', fontSize: 13, fontWeight: '800' },
+  eyebrow: { fontSize: 13, fontWeight: '800' },
   title: { fontSize: 28, fontWeight: '900' },
   segment: { flexDirection: 'row', borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 4 },
   segmentButton: { flex: 1, borderRadius: 9, paddingVertical: 9, alignItems: 'center' },
-  segmentButtonActive: { backgroundColor: '#35D353' },
   segmentText: { fontSize: 12, fontWeight: '800', opacity: 0.7 },
   segmentTextActive: { color: '#fff', opacity: 1 },
-  activityCard: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 14, gap: 14 },
-  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, paddingHorizontal: 12, paddingTop: 12 },
+  activityCard: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 16, padding: 14, gap: 14 },
+  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 16, paddingHorizontal: 12, paddingTop: 12 },
   sectionTitle: { fontSize: 16, fontWeight: '900' },
   activityBody: { flexDirection: 'row', alignItems: 'center', gap: 20 },
-  donutOuter: { width: 132, height: 132, borderRadius: 66, borderWidth: 18, borderTopColor: '#EF4444', borderRightColor: '#35D353', borderBottomColor: '#4AA3FF', borderLeftColor: '#9B5CE5', alignItems: 'center', justifyContent: 'center' },
-  donutMiddle: { width: 86, height: 86, borderRadius: 43, backgroundColor: '#071827', alignItems: 'center', justifyContent: 'center' },
+  donutOuter: { width: 132, height: 132, borderRadius: 66, borderWidth: 18, borderTopColor: '#35D353', borderRightColor: '#35D353', borderBottomColor: 'rgba(148,163,184,0.28)', borderLeftColor: 'rgba(148,163,184,0.28)', alignItems: 'center', justifyContent: 'center' },
+  donutMiddle: { width: 86, height: 86, borderRadius: 43, alignItems: 'center', justifyContent: 'center' },
   donutValue: { fontSize: 24, fontWeight: '900' },
   donutLabel: { fontSize: 12, opacity: 0.7, fontWeight: '800' },
   legend: { flex: 1, gap: 10 },
@@ -168,5 +167,5 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 13, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(148,163,184,0.22)' },
   rowTitle: { fontSize: 15, fontWeight: '800' },
   rowMeta: { fontSize: 12, marginTop: 2 },
-  kcal: { color: '#F59E0B', fontSize: 12, fontWeight: '900' },
+  kcal: { fontSize: 12, fontWeight: '900' },
 });

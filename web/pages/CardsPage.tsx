@@ -32,6 +32,8 @@ export const CardsPage: FC<{
   const [editingCard, setEditingCard] = useState<NfcCard | null>(null);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [notice, setNotice] = useState('');
 
   const stats = useMemo(() => ({
     all: cards.length,
@@ -44,6 +46,8 @@ export const CardsPage: FC<{
     const exerciseType = exerciseTypes.find(type => type.id === card.exercise_type_id) ?? exerciseTypes[0];
     const wellnessType = wellnessTypes.find(type => type.id === card.wellness_type_id) ?? wellnessTypes[0];
     setEditingCard(card);
+    setFormError('');
+    setNotice('');
     setForm({
       name: card.alias ?? card.name ?? '',
       domain,
@@ -56,9 +60,24 @@ export const CardsPage: FC<{
   };
 
   const saveCard = async () => {
-    if (!editingCard || !form.name.trim()) return;
+    if (!editingCard) return;
     const quantity = Number(form.quantity);
-    if (form.domain !== 'unassigned' && quantity <= 0) return;
+    if (!form.name.trim()) {
+      setFormError('Enter a name for this tag.');
+      return;
+    }
+    if (form.domain !== 'unassigned' && (!Number.isFinite(quantity) || quantity <= 0)) {
+      setFormError('Quantity must be greater than zero.');
+      return;
+    }
+    if (form.domain === 'fitness' && !form.exerciseTypeId) {
+      setFormError('Select an exercise for this tag.');
+      return;
+    }
+    if (form.domain === 'wellness' && !form.wellnessTypeId) {
+      setFormError('Select a wellness action for this tag.');
+      return;
+    }
     const selectedExercise = exerciseTypes.find(type => type.id === form.exerciseTypeId);
     const payload =
       form.domain === 'fitness'
@@ -95,11 +114,16 @@ export const CardsPage: FC<{
             };
 
     setSaving(true);
+    setFormError('');
     try {
       const { data, error } = await supabase.from('exercise_tags').update(payload).eq('id', editingCard.id).select().single();
       if (error) throw error;
+      if (!data) throw new Error('The tag could not be saved because the server returned no updated record.');
       setNfcCards(prev => prev.map(card => card.id === editingCard.id ? parseCard(data) : card));
       setEditingCard(null);
+      setNotice('Tag settings saved.');
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : 'Tag settings could not be saved.');
     } finally {
       setSaving(false);
     }
@@ -112,8 +136,12 @@ export const CardsPage: FC<{
           <h1 className="text-2xl font-black text-white">Tags</h1>
           <p className="mt-1 text-sm text-slate-400">Bind each NFC tag to a fitness or wellness action</p>
         </div>
-        <div className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-bold text-green-300">+ Add Tag from Scan</div>
+        <p className="rounded-xl border border-sky-400/20 bg-sky-400/10 px-4 py-2 text-sm text-sky-200">
+          Scan new tags in the NFC-enabled mobile app.
+        </p>
       </div>
+
+      {notice && <p role="status" className="rounded-lg border border-green-400/20 bg-green-400/10 p-3 text-sm text-green-200">{notice}</p>}
 
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <Stat title="All" value={stats.all} />
@@ -154,6 +182,11 @@ export const CardsPage: FC<{
             );
           })}
         </div>
+        {cards.length === 0 && (
+          <p className="p-8 text-center text-sm text-slate-400">
+            No NFC tags found. Scan a tag in the mobile app to add it here.
+          </p>
+        )}
       </Panel>
 
       {editingCard && (
@@ -164,7 +197,7 @@ export const CardsPage: FC<{
                 <h2 className="text-xl font-black text-white">Edit Tag</h2>
                 <p className="mt-1 text-sm text-slate-400">{shortUid(editingCard.uid ?? editingCard.nfc_uid)}</p>
               </div>
-              <button onClick={() => setEditingCard(null)} className="text-slate-400">Close</button>
+              <button type="button" onClick={() => setEditingCard(null)} className="text-slate-400">Close</button>
             </div>
 
             <div className="mt-5 space-y-4">
@@ -228,7 +261,9 @@ export const CardsPage: FC<{
                 <input type="checkbox" checked={form.active} onChange={event => setForm(prev => ({ ...prev, active: event.target.checked }))} className="accent-green-500" />
               </label>
 
-              <button onClick={saveCard} disabled={saving} className="w-full rounded-xl bg-green-500 py-3 text-sm font-black text-[#04120a] disabled:opacity-60">
+              {formError && <p role="alert" className="rounded-lg border border-red-400/20 bg-red-400/10 p-3 text-sm text-red-200">{formError}</p>}
+
+              <button type="button" onClick={saveCard} disabled={saving} className="w-full rounded-xl bg-green-500 py-3 text-sm font-black text-[#04120a] disabled:opacity-60">
                 {saving ? 'Saving...' : 'Save Tag'}
               </button>
             </div>

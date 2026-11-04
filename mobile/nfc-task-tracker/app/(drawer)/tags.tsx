@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { router, useNavigation } from 'expo-router';
+import { useNavigation } from 'expo-router';
 import {
   Alert,
   Modal,
@@ -131,15 +131,15 @@ export default function TagsScreen() {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity
-          style={styles.headerAction}
+          style={[styles.headerAction, { borderColor: surface.green }]}
           onPress={() => setShowCreateModal(true)}
           activeOpacity={0.7}>
-          <Ionicons name="add-circle-outline" size={20} color="#2563eb" />
-          <ThemedText style={styles.headerActionLabel}>Yeni Tag</ThemedText>
+          <Ionicons name="add-circle-outline" size={20} color={surface.green} />
+          <ThemedText style={[styles.headerActionLabel, { color: surface.green }]}>Yeni Tag</ThemedText>
         </TouchableOpacity>
       ),
     });
-  }, [navigation]);
+  }, [navigation, surface.green]);
 
   if (tagsQuery.isLoading) {
     return (
@@ -152,8 +152,8 @@ export default function TagsScreen() {
   if (tagsQuery.error) {
     return (
       <ThemedView style={styles.centered}>
-        <ThemedText type="subtitle">Tag'ler yüklenemedi</ThemedText>
-        <ThemedText style={styles.retry} onPress={() => tagsQuery.refetch()}>
+        <ThemedText type="subtitle">Tag&apos;ler yüklenemedi</ThemedText>
+        <ThemedText style={[styles.retry, { color: surface.green }]} onPress={() => tagsQuery.refetch()}>
           {t('common.retry')}
         </ThemedText>
       </ThemedView>
@@ -179,7 +179,7 @@ export default function TagsScreen() {
                 </View>
                 <View style={styles.tagActions}>
                   <Pressable onPress={() => handleEdit(tag)} style={styles.iconButton}>
-                    <Ionicons name="create-outline" size={20} color="#2563EB" />
+                    <Ionicons name="create-outline" size={20} color={surface.green} />
                   </Pressable>
                   <Pressable onPress={() => handleDelete(tag)} style={styles.iconButton}>
                     <Ionicons name="trash-outline" size={20} color="#EF4444" />
@@ -239,7 +239,7 @@ export default function TagsScreen() {
                   <ThemedText style={styles.cancelButtonText}>İptal</ThemedText>
                 </Pressable>
                 <Pressable
-                  style={styles.saveButton}
+                  style={[styles.saveButton, { backgroundColor: surface.green }]}
                   onPress={handleSave}
                   disabled={createMutation.isPending || updateMutation.isPending}>
                   <ThemedText style={styles.saveButtonText}>
@@ -268,12 +268,12 @@ const styles = StyleSheet.create({
     padding: 24,
     gap: 8,
   },
-  retry: {
-    color: '#2563eb',
-  },
   content: {
     padding: 16,
     gap: 16,
+  },
+  retry: {
+    fontWeight: '700',
   },
   section: {
     borderWidth: StyleSheet.hairlineWidth,
@@ -319,11 +319,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 999,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#2563eb',
     marginRight: 8,
   },
   headerActionLabel: {
-    color: '#2563eb',
     fontWeight: '600',
   },
   modalOverlay: {
@@ -396,10 +394,11 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     flex: 1,
-    padding: 16,
+    minHeight: 44,
     borderRadius: 12,
     backgroundColor: '#F1F5F9',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   cancelButtonText: {
     color: '#475569',
@@ -408,10 +407,10 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    padding: 16,
+    minHeight: 44,
     borderRadius: 12,
-    backgroundColor: '#2563EB',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   saveButtonText: {
     color: '#FFFFFF',

@@ -25,7 +25,7 @@ export default function NewTagScreen() {
       createCard({
         uid: uid.trim(),
         alias: name.trim() || 'Yeni NFC Tag',
-        assignedUserId: user?.id ?? 'u1',
+        assignedUserId: user?.id ?? '',
       }),
     onSuccess: (card) => {
       queryClient.invalidateQueries({ queryKey: ['cards'] });
@@ -80,13 +80,13 @@ export default function NewTagScreen() {
                 autoCapitalize="characters"
                 style={[styles.input, styles.uidInput, { color: surface.text, borderColor: surface.border }]}
               />
-              <Pressable style={styles.scanSmallButton} onPress={() => router.push('/(drawer)/nfc')}>
+              <Pressable style={[styles.scanSmallButton, { backgroundColor: surface.green }]} onPress={() => router.push('/(drawer)/nfc')}>
                 <Ionicons name="scan-outline" size={18} color="#fff" />
               </Pressable>
             </View>
           </Field>
 
-          <Pressable style={styles.saveButton} onPress={handleSave} disabled={saveMutation.isPending}>
+          <Pressable style={[styles.saveButton, { backgroundColor: surface.green }]} onPress={handleSave} disabled={saveMutation.isPending}>
             <ThemedText style={styles.saveText}>{saveMutation.isPending ? 'Ekleniyor...' : 'Kartı Ekle'}</ThemedText>
           </Pressable>
         </View>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
   input: { borderWidth: 1, borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10, fontSize: 15 },
   uidRow: { flexDirection: 'row', gap: 8 },
   uidInput: { flex: 1 },
-  scanSmallButton: { width: 44, borderRadius: 10, backgroundColor: '#22c55e', alignItems: 'center', justifyContent: 'center' },
-  saveButton: { backgroundColor: '#22c55e', borderRadius: 12, paddingVertical: 13, alignItems: 'center' },
+  scanSmallButton: { width: 44, minHeight: 44, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  saveButton: { minHeight: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   saveText: { color: '#fff', fontWeight: '900', fontSize: 15 },
 });

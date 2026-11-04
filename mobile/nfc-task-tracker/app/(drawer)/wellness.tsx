@@ -32,7 +32,7 @@ const iconMap: Record<string, keyof typeof Ionicons.glyphMap> = {
 export default function WellnessScreen() {
   const surface = getSurfaceColors(useColorScheme());
   const { user } = useAuth();
-  const userId = user?.id ?? 'u1';
+  const userId = user?.id ?? '';
   const queryClient = useQueryClient();
   const [period, setPeriod] = useState<Period>('day');
   const typesQuery = useQuery({ queryKey: ['wellness_types'], queryFn: fetchWellnessTypes });
@@ -75,7 +75,7 @@ export default function WellnessScreen() {
 
         <View style={[styles.segment, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {(['day', 'week', 'month'] as const).map((value) => (
-            <Pressable key={value} onPress={() => setPeriod(value)} style={[styles.segmentButton, period === value && styles.segmentButtonActive]}>
+            <Pressable key={value} onPress={() => setPeriod(value)} style={[styles.segmentButton, period === value && { backgroundColor: surface.green }]}>
               <ThemedText style={[styles.segmentText, period === value && styles.segmentTextActive]}>
                 {value === 'day' ? 'Day' : value === 'week' ? 'Week' : 'Month'}
               </ThemedText>
@@ -84,14 +84,18 @@ export default function WellnessScreen() {
         </View>
 
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          {rows.map(({ type, goal, completed }) => {
+          {rows.length === 0 ? (
+            <ThemedText style={[styles.emptyText, { color: surface.mutedText }]}>
+              Henüz wellness alışkanlığı yok.
+            </ThemedText>
+          ) : rows.map(({ type, goal, completed }) => {
             const target = Number(goal?.target_quantity ?? 0);
             const progress = target > 0 ? Math.min(1, completed / target) : 0;
             return (
-              <View key={type.id} style={[styles.row, { borderColor: surface.border }]}>
+              <View key={type.id} style={[styles.row, { backgroundColor: surface.cardRaised, borderColor: surface.border }]}>
                 <View style={styles.rowTop}>
                   <View style={styles.iconTitle}>
-                    <Ionicons name={iconMap[type.id] ?? 'add-circle-outline'} size={24} color="#8b5cf6" />
+                    <Ionicons name={iconMap[type.id] ?? 'add-circle-outline'} size={22} color={surface.green} />
                     <View>
                       <ThemedText style={styles.rowTitle}>{type.name}</ThemedText>
                       <ThemedText style={[styles.rowMeta, { color: surface.mutedText }]}>
@@ -107,7 +111,7 @@ export default function WellnessScreen() {
                   </Pressable>
                 </View>
                 <View style={styles.progressTrack}>
-                  <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
+                  <View style={[styles.progressFill, { width: `${progress * 100}%`, backgroundColor: surface.green }]} />
                 </View>
               </View>
             );
@@ -145,16 +149,16 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: '900' },
   segment: { flexDirection: 'row', borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 4 },
   segmentButton: { flex: 1, borderRadius: 9, paddingVertical: 9, alignItems: 'center' },
-  segmentButtonActive: { backgroundColor: '#8b5cf6' },
   segmentText: { fontSize: 12, fontWeight: '800', opacity: 0.7 },
   segmentTextActive: { color: '#fff', opacity: 1 },
-  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 10, gap: 8 },
-  row: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, backgroundColor: 'rgba(11,31,50,0.92)', padding: 12, gap: 10 },
+  section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 16, padding: 10, gap: 8 },
+  emptyText: { fontSize: 13 },
+  row: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 14, padding: 12, gap: 10 },
   rowTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
   iconTitle: { flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1 },
   rowTitle: { fontSize: 15, fontWeight: '800' },
   rowMeta: { fontSize: 12, marginTop: 2 },
-  addButton: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#8b5cf6', alignItems: 'center', justifyContent: 'center' },
+  addButton: { width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
   progressTrack: { height: 7, borderRadius: 999, backgroundColor: 'rgba(148,163,184,0.24)', overflow: 'hidden' },
-  progressFill: { height: 7, borderRadius: 999, backgroundColor: '#8b5cf6' },
+  progressFill: { height: 7, borderRadius: 999, backgroundColor: '#35D353' },
 });

@@ -136,6 +136,11 @@ export interface Task {
   lastCompletedAt?: Date;
   completionNotes?: string;
   active?: boolean;
+  calorie_estimate?: number | null;
+  exercise_type_id?: string | null;
+  quantity?: number | null;
+  unit?: string | null;
+  source?: 'nfc' | 'manual' | 'health_import' | string;
   repeat?: {
     frequency: number;
     unit: 'hours' | 'days';
