@@ -27,6 +27,14 @@ Tenant API'leri `/api/console` altında çalışır ve `DATABASE_URL` üzerinde 
 
 Tenant API, eski görev API'lerinden ayrı olarak `nfcfit-tenant-api` Vercel projesinde `backend/index.py` giriş noktasından çalıştırılır. Bu servis yalnızca `/api/console/*` ve `/health` yollarını sunar; eski, kimlik doğrulaması olmayan görev CRUD uçlarını internete açmaz. Vercel projesinin kök dizini `backend` olmalıdır.
 
+GitHub otomatik yayınında Vercel Project Settings → Root Directory değeri de
+`backend` olmalıdır. Yerel CLI ile yalnızca backend klasörünü göndermek, Git
+yayınının kök ayarını düzeltmez. Depo kökündeki `.vercelignore`, backend'e ait
+hariç tutmaları da içerir: üretimde `index.py` kullanılır, eski `app.py`, testler
+ve izole fixture sunucuları gönderilmez. Monorepo CLI yayını için depo kökünden
+doğru Vercel projesini seçin; kök ayarı `backend` olan projeye tekrar yalnızca
+`backend/` alt klasörünü göndermeyin.
+
 Vercel'de bu projeye hem Production hem Preview için şu değişkenleri ekleyin:
 
 ```

@@ -6,6 +6,9 @@ mobile/nfc-task-tracker/ui-review-screenshots/
 .git/
 **/node_modules/
 backend/.venv/
+backend/app.py
+backend/tests/
+backend/scripts/
 **/__pycache__/
 **/.env
 **/.env.*
