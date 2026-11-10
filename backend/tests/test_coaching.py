@@ -749,3 +749,23 @@ class CoachingJourneyTests(unittest.TestCase):
         self.req("POST", "/messages", "coach", 201, json=note)
         self.assertEqual(len(self.req("GET", "/overview")["messages"]), 1)
         self.assertEqual(self.req("GET", "/overview", "second")["messages"], [])
+
+    def test_library_media_is_read_only_and_preserves_training_history(self):
+        from coaching import LibraryExercise
+        _, assigned = self.plan()
+        workout = self.workout(assigned[0])
+        workout = self.command(workout, "start")
+        self.command(workout, "set", actual_set={"id": str(uuid4()), "exercise_key": self.exercise, "set_number": 1, "reps": 10, "kg": 40, "occurred_at": datetime.now(timezone.utc).isoformat()})
+        def snapshot():
+            with ConsoleSession() as db:
+                return json.dumps({
+                    "library": [(e.id, e.owner_id, e.content) for e in db.query(LibraryExercise).order_by(LibraryExercise.id)],
+                    "versions": [(v.id, v.content) for v in db.query(PlanVersion).order_by(PlanVersion.id)],
+                    "workouts": [(w.id, w.snapshot, w.actual) for w in db.query(Workout).order_by(Workout.id)],
+                }, sort_keys=True, default=str)
+        before = snapshot()
+        catalog = self.req("GET", "/library", "coach")
+        bench = next(e for e in catalog if e["id"] == "lib-bench-press")
+        self.assertEqual({m["role"] for m in bench["media"]}, {"thumbnail", "position_1", "position_2"})
+        self.assertTrue(all(m["license"] == "CC BY-SA 4.0" for m in bench["media"]))
+        self.assertEqual(snapshot(), before)

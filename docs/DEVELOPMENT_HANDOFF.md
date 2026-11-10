@@ -68,4 +68,4 @@ Mobil: `mobile/nfc-task-tracker/` içinde `npm start`; native çalışma için u
 
 ## Egzersiz görsellerinin durumu
 
-Medya yükleme altyapısı mevcut, fakat `docs/EXERCISE_MEDIA_MANIFEST.json` henüz boş. Everkinetic, wger ve Desk Break araştırıldı; üçüncü taraf medya henüz içeri alınmadı. Sonraki adım hareket/ekipman eşleştirmesi, lisans ve kaynak kaydı, ardından web listesi ile detay görünümüne entegrasyon. İş akışı: `docs/EXERCISE_MEDIA_WORKFLOW.md`.
+Everkinetic pilotu 10 hareket / 29 WebP dosyası içerir. Diğer 92 hareket henüz eşleştirilmedi. Genel hareketin veritabanındaki medya alanı boşsa API paketlenmiş pilotu salt okunur olarak sunar; özel görseller korunur. Web ve Expo bileşenlerinde küçük görsel ve pozisyon seçimi bulunur. Ayrıntılar: `docs/EXERCISE_MEDIA_WORKFLOW.md`; eşleştirmeler: `docs/EXERCISE_MEDIA_MAPPING.json`.

@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "name": "10 mapped catalog exercises; desktop thumbnails, both positions and attribution load",
+      "status": "PASS"
+    },
+    {
+      "name": "375px positions switch with keyboard and reduced motion without overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Static side plank shows one pose without animation controls",
+      "status": "PASS"
+    },
+    {
+      "name": "Unmapped exercise keeps usable detail with no misleading picture",
+      "status": "PASS"
+    },
+    {
+      "name": "Detail adds directly to workout and targets stay editable",
+      "status": "PASS"
+    },
+    {
+      "name": "375px builder search displays movement thumbnails without overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Image failure is recoverable with retry",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

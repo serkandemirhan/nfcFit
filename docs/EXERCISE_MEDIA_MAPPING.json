@@ -1,0 +1,551 @@
+{
+  "source_revision": "446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6",
+  "matched": [
+    {
+      "exercise_id": "lib-bench-press",
+      "source_id": "0042",
+      "source_title": "Bench Press: Barbell",
+      "status": "matched",
+      "equipment": "barbell",
+      "originals": [
+        {
+          "path": "png/0042-relaxation.png",
+          "sha256": "cf20ad4c70d2137f64fc4023ead14e0785cb07465ebd5d602b78e5d12a8fac35"
+        },
+        {
+          "path": "png/0042-tension.png",
+          "sha256": "33f685fde6fd2dba006d4d73c34789ffb33252a3cd1d70d6659de517d223b2bf"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-incline-bench-press",
+      "source_id": "0043",
+      "source_title": "Bench Press: Barbell (Incline)",
+      "status": "matched",
+      "equipment": "barbell",
+      "originals": [
+        {
+          "path": "png/0043-relaxation.png",
+          "sha256": "6dff28902378e1bb3a65472aa64e8db55406433ebe6f49bb1a8714da7a53093d"
+        },
+        {
+          "path": "png/0043-tension.png",
+          "sha256": "7a3fd051682c7c4232d7bee69ce4241ea472d4751f15e76a5a75606135ac9280"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-dumbbell-bench-press",
+      "source_id": "0055",
+      "source_title": "Bench Press: Dumbbell",
+      "status": "matched",
+      "equipment": "dumbbell",
+      "originals": [
+        {
+          "path": "png/0055-relaxation.png",
+          "sha256": "8b01f7ad1f8201199921376e37324be81196803ca2fee34d9c1f446f7c535fb8"
+        },
+        {
+          "path": "png/0055-tension.png",
+          "sha256": "5503d157789f4952c7cadae16192ec40ac83ddd15e4d802fc6a7e5a77341de88"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-dumbbell-curl",
+      "source_id": "0224",
+      "source_title": "Biceps Curl: Dumbbell",
+      "status": "matched",
+      "equipment": "dumbbell",
+      "originals": [
+        {
+          "path": "png/0224-relaxation.png",
+          "sha256": "78032bb7e68a5df81b397dc7d81027357bcc60a115a077a512f15e4a02ac89dc"
+        },
+        {
+          "path": "png/0224-tension.png",
+          "sha256": "06223444d1cf84765b4a4accaf32647c2710c320d797a5e3c8c46283ab0cdc6c"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-leg-press",
+      "source_id": "0127",
+      "source_title": "Leg Press",
+      "status": "matched",
+      "equipment": "machine",
+      "originals": [
+        {
+          "path": "png/0127-relaxation.png",
+          "sha256": "d2270aa075bb27db2d3bc9eeba3ad8acea7cfc2926c664d10d046c01619f2ed1"
+        },
+        {
+          "path": "png/0127-tension.png",
+          "sha256": "078c7c902505de0fd5049774d92628f0c6e14c1a1979484e71e5d24abec84135"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-deadlift",
+      "source_id": "0099",
+      "source_title": "Dead Lifts: Barbell",
+      "status": "matched",
+      "equipment": "barbell",
+      "originals": [
+        {
+          "path": "png/0099-relaxation.png",
+          "sha256": "07ffa6739917dc9dad04dd86501c25ddda44562badaf6f9c7b254f77ff7ae8ff"
+        },
+        {
+          "path": "png/0099-tension.png",
+          "sha256": "1d64426b8cfe859016466fba31a9196623df1df74d908a880ae1a760c71b0860"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-romanian-deadlift",
+      "source_id": "0118",
+      "source_title": "Romanian Dead Lift",
+      "status": "matched",
+      "equipment": "barbell",
+      "originals": [
+        {
+          "path": "png/0118-relaxation.png",
+          "sha256": "23aaec8b1eb6c3d1c7f953ccdc2a207978e6bf68f688382065e381f3a96a3753"
+        },
+        {
+          "path": "png/0118-tension.png",
+          "sha256": "7fbb3416cad6b695ceaa69840f1be8212ff3a2328834b73bde5e7b83060d589a"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-push-up",
+      "source_id": "0077",
+      "source_title": "Push Up: Body Weight",
+      "status": "matched",
+      "equipment": "bodyweight",
+      "originals": [
+        {
+          "path": "png/0077-relaxation.png",
+          "sha256": "a21683624cef6aba13405dbaa95d1586bf9953e96e0d060ec3e465e02590d348"
+        },
+        {
+          "path": "png/0077-tension.png",
+          "sha256": "8d1e1b0b23647d2a2b93be32bdb5c1bf3217b80e91309c96100c5765633447ea"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-hammer-curl",
+      "source_id": "0227",
+      "source_title": "Biceps Curl: Dumbbell (Hammer)",
+      "status": "matched",
+      "equipment": "dumbbell",
+      "originals": [
+        {
+          "path": "png/0227-relaxation.png",
+          "sha256": "8c3eef252ce76a00c6bcbd971b10df57d26d79c640694b83940f102688f6cf86"
+        },
+        {
+          "path": "png/0227-tension.png",
+          "sha256": "50989276810112f435b9fde71c86e7c01553fe48c2b2f10caeda361c339ae1e1"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    },
+    {
+      "exercise_id": "lib-side-plank",
+      "source_id": "0113",
+      "source_title": "Side Plank",
+      "status": "matched",
+      "equipment": "bodyweight",
+      "originals": [
+        {
+          "path": "png/0113-tension.png",
+          "sha256": "37a09c01d7e27fc205804a79fe7136bea9154ea8340abf53ce405d1e5861828d"
+        }
+      ],
+      "review": "Equipment/variant and visible positions checked; not a certified technique demonstration."
+    }
+  ],
+  "pending": [
+    {
+      "exercise_id": "lib-incline-dumbbell-press",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-dumbbell-fly",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-cable-fly",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-pec-deck",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-incline-push-up",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-knee-push-up",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-chest-press-machine",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-floor-press",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-lat-pulldown",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-seated-cable-row",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-one-arm-dumbbell-row",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-bent-over-row",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-chest-supported-row",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-pull-up",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-assisted-pull-up",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-neutral-grip-pulldown",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-straight-arm-pulldown",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-inverted-row",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-t-bar-row",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-machine-row",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-dumbbell-shoulder-press",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-barbell-overhead-press",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-lateral-raise",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-front-raise",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-reverse-fly",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-face-pull",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-cable-lateral-raise",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-shoulder-press-machine",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-landmine-press",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-band-pull-apart",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-barbell-curl",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-preacher-curl",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-cable-curl",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-concentration-curl",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-triceps-pushdown",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-rope-pushdown",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-overhead-triceps-extension",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-lying-triceps-extension",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-close-grip-bench-press",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-wrist-curl",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-squat",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-goblet-squat",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-bodyweight-squat",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-front-squat",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-leg-extension",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-seated-leg-curl",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-lying-leg-curl",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-dumbbell-romanian-deadlift",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-reverse-lunge",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-forward-lunge",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-walking-lunge",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-split-squat",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-bulgarian-split-squat",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-step-up",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-standing-calf-raise",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-seated-calf-raise",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-sumo-deadlift",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-hip-thrust",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-glute-bridge",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-single-leg-glute-bridge",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-cable-kickback",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-hip-abduction-machine",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-hip-adduction-machine",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-clamshell",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-lateral-band-walk",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-dead-bug",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-bird-dog",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-crunch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-reverse-crunch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-hanging-knee-raise",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-cable-crunch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-pallof-press",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-russian-twist",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-heel-touch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-seated-knee-tuck",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-plank",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-knee-plank",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-hollow-hold",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-treadmill-walk",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-treadmill-run",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-outdoor-walk",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-outdoor-run",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-stationary-bike",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-recumbent-bike",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-rowing-ergometer",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-elliptical-trainer",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-standing-calf-stretch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-seated-hamstring-stretch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-standing-quadriceps-stretch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-half-kneeling-hip-flexor-stretch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-doorway-chest-stretch",
+      "status": "needs_review"
+    },
+    {
+      "exercise_id": "lib-child-pose",
+      "status": "needs_review"
+    }
+  ]
+}

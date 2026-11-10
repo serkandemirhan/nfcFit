@@ -1,4 +1,5 @@
 from club_roles import COACH_ROLES
+from exercise_media import library_media
 """Coaching domain on the existing tenant identity, transaction and database boundary."""
 
 import hashlib
@@ -778,7 +779,7 @@ def library(
         )
     )
     return [
-        {"id": e.id, **e.content, "favorite": e.id in favorites}
+        {"id": e.id, **e.content, "media": library_media(e.id, e.owner_id, e.content.get("media")), "favorite": e.id in favorites}
         for e in rows
         if (
             not q

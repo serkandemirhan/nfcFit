@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useRef } from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Search, Dumbbell, X } from "lucide-react";
+import { Search, X } from "lucide-react";
+import { ExerciseMedia, ExerciseThumbnail } from "./ExerciseMedia";
 import type { Exercise } from "../mobile/nfc-task-tracker/lib/coaching-types";
 import { exerciseSearchText } from "./lib/trainer-planning";
 import {
@@ -47,9 +48,7 @@ export default function TrainerExerciseLibrary({
         header: "Egzersiz",
         cell: ({ row }) => (
           <div className="nfc-exercise-name">
-            <span className="nfc-exercise-symbol">
-              <Dumbbell size={19} />
-            </span>
+            <ExerciseThumbnail exercise={row.original} />
             <div>
               <strong>{row.original.name}</strong>
               <small>{row.original.name_en}</small>
@@ -170,17 +169,7 @@ export default function TrainerExerciseLibrary({
                 </DialogClose>
               </header>
               <div className="nfc-detail-body">
-                {selected.media?.find((m) => m.media_type === "image") && (
-                  <img
-                    className="nfc-exercise-media"
-                    src={
-                      selected.media.find((m) => m.media_type === "image")!.url
-                    }
-                    alt={
-                      selected.media.find((m) => m.media_type === "image")!.alt
-                    }
-                  />
-                )}
+                <ExerciseMedia exercise={selected} />
                 <p>{selected.description}</p>
                 <h3>Uygulama adımları</h3>
                 {selected.instructions.length ? (
@@ -202,13 +191,6 @@ export default function TrainerExerciseLibrary({
                     </ul>
                   </>
                 )}
-                {selected.media
-                  ?.filter((m) => m.media_type === "image")
-                  .map((m) => (
-                    <small key={m.url}>
-                      {m.attribution} · {m.license}
-                    </small>
-                  ))}
               </div>
               <footer>
                 <Button

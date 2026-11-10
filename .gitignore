@@ -24,6 +24,7 @@ Thumbs.db
 
 # Claude Code settings (optional - remove if you want to commit)
 .claude/
+.vercel/
 
 # Local configuration and Python caches
 .env.*

@@ -1,5 +1,6 @@
 import {readRecovery,recoveryKey,type DraftSnapshot} from "./lib/trainer-draft-recovery";
 import { HeaderAction } from "./components/trainer-ui/page-actions";
+import { ExerciseMedia, ExerciseThumbnail } from "./ExerciseMedia";
 import { DataTable } from "./components/trainer-ui/data-table";
 import { RowActions } from "./components/trainer-ui/row-actions";
 import {
@@ -1151,11 +1152,7 @@ export default function TrainerPlanning({
                     onClick={() => addExercise(e)}
                   >
                     <span className="tp-exercise-icon">
-                      {e.media?.[0]?.media_type === "image" ? (
-                        <img src={e.media[0].url} alt={e.media[0].alt} />
-                      ) : (
-                        e.muscle.slice(0, 2).toUpperCase()
-                      )}
+                      <ExerciseThumbnail exercise={e} />
                     </span>
                     <span>
                       <strong>{e.name}</strong>
@@ -1450,15 +1447,7 @@ export default function TrainerPlanning({
               {activeLibrary && (
                 <details>
                   <summary>Hareket rehberi</summary>
-                  {activeLibrary.media?.[0] && (
-                    <a
-                      href={activeLibrary.media[0].url}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Görsel / video önizlemesi ↗
-                    </a>
-                  )}
+                  <ExerciseMedia exercise={activeLibrary} />
                   <p>{activeLibrary.description}</p>
                   {activeLibrary.instructions.map((s, i) => (
                     <p key={i}>{s}</p>

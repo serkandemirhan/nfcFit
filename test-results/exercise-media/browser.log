@@ -1,0 +1,8 @@
+PASS 10 mapped catalog exercises; desktop thumbnails, both positions and attribution load
+PASS 375px positions switch with keyboard and reduced motion without overflow
+PASS Static side plank shows one pose without animation controls
+PASS Unmapped exercise keeps usable detail with no misleading picture
+PASS Detail adds directly to workout and targets stay editable
+PASS 375px builder search displays movement thumbnails without overflow
+PASS Image failure is recoverable with retry
+PASS No uncaught browser errors

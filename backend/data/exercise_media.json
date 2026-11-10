@@ -1,0 +1,370 @@
+{
+  "lib-bench-press": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-bench-press-position_1-478bd6fdb54d.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Bench press · pozisyon 1",
+      "sha256": "478bd6fdb54d656164d609b6b024b79351df1e1c66a5ee56b4a2c99b48665b57",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-bench-press-position_2-e1cdfe083844.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Bench press · pozisyon 2",
+      "sha256": "e1cdfe083844932d2143a669a0872d148955bfe234b1bb1e6a339a74b6464fbe",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-bench-press-thumbnail-5257ce7325b2.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Bench press · küçük görsel",
+      "sha256": "5257ce7325b2435eae42f6909c9879fa5db5dfe0a38ebde7deb008b0ab0d75d4",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-incline-bench-press": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-incline-bench-press-position_1-14524d671ac5.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Eğimli bench press · pozisyon 1",
+      "sha256": "14524d671ac54dc33429f0961501776911653cd23d463659fc01e07f1bb3abfd",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-incline-bench-press-position_2-a87893b7dd4f.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Eğimli bench press · pozisyon 2",
+      "sha256": "a87893b7dd4f0eed7ce41cb3445ad8131460bd0d4f3b2c3fd156d523f5574652",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-incline-bench-press-thumbnail-a742729628e2.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Eğimli bench press · küçük görsel",
+      "sha256": "a742729628e20fa04f9b1b9b90467f60fea6608b49c939d78be77133344ace9d",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-dumbbell-bench-press": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-bench-press-position_1-6c4c8e89d9ed.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Dambıl göğüs press · pozisyon 1",
+      "sha256": "6c4c8e89d9edcaaf931e2899ea518b9c814319e7d81493a4103e4ebcc99b37ef",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-bench-press-position_2-9b38604ca943.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Dambıl göğüs press · pozisyon 2",
+      "sha256": "9b38604ca94319edeb330d03e62a99347d36e25173429c22c44183fd68b434b3",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-bench-press-thumbnail-a3785968011b.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Dambıl göğüs press · küçük görsel",
+      "sha256": "a3785968011be66fc35fb7e07ee39cd4169b0813f9f71abeaa5486d32c94e4fd",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-dumbbell-curl": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-curl-position_1-ff8dd9f1c4b5.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Dambıl biseps curl · pozisyon 1",
+      "sha256": "ff8dd9f1c4b5870063cf716684c29e8736210c3654794fb68687d067e6fecaa3",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-curl-position_2-2c6593975a6e.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Dambıl biseps curl · pozisyon 2",
+      "sha256": "2c6593975a6e1c1be4c58dc0b646bd48a3ed369405985c1d87fc102b78f01d69",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-curl-thumbnail-0274c604759a.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Dambıl biseps curl · küçük görsel",
+      "sha256": "0274c604759ad1473d376f029766a4e9772309f1a1822a73358eee826e0a8331",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-leg-press": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-leg-press-position_1-5898319b63a1.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Bacak press · pozisyon 1",
+      "sha256": "5898319b63a145aea7bcb0a2b8c1760bc8f07e54c7f037804a392bc6e895c891",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-leg-press-position_2-4b8e8da2e63c.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Bacak press · pozisyon 2",
+      "sha256": "4b8e8da2e63cd34046f4e966c5442820d99938db97739a59afde3e050db6602d",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-leg-press-thumbnail-017b0272a4e8.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Bacak press · küçük görsel",
+      "sha256": "017b0272a4e8ec6190a863af00e73d3911d8ff28772ef3bd056fd70020124d2b",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-deadlift": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-deadlift-position_1-4f98cd42d2d0.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Deadlift · pozisyon 1",
+      "sha256": "4f98cd42d2d038871d9156ec81d5dbb62aea197e409f21b36f8c62279c9260bf",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-deadlift-position_2-da6838e3db15.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Deadlift · pozisyon 2",
+      "sha256": "da6838e3db158803187db151b42852f1655531d13f84bcbfddfd5364e9b55b43",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-deadlift-thumbnail-064828481920.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Deadlift · küçük görsel",
+      "sha256": "0648284819205bfb960b264c2d1fd0f91291c2653b7b2b26330cb69fd8b0f9de",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-romanian-deadlift": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-romanian-deadlift-position_1-c94497270a43.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Romen deadlift · pozisyon 1",
+      "sha256": "c94497270a43c8fe7889376983f8c53faeefdf3a23a66a036473b8cdedcd64bb",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-romanian-deadlift-position_2-3e8b78c6c8d4.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Romen deadlift · pozisyon 2",
+      "sha256": "3e8b78c6c8d48355aa145d04886ebc4a9944a95c3fd78c804b935cbc0609694c",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-romanian-deadlift-thumbnail-61dd2bbff38b.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Romen deadlift · küçük görsel",
+      "sha256": "61dd2bbff38b8be92d8ad1c2ce17323ce921f41ae764b701c4a2fcf4b660a7dd",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-push-up": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-push-up-position_1-0d6777df28d0.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Şınav · pozisyon 1",
+      "sha256": "0d6777df28d0eaebaf8803eb861b44b6acc318d5530b3816858db568a22b221d",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-push-up-position_2-b082717fd288.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Şınav · pozisyon 2",
+      "sha256": "b082717fd28875d61e01a2759f985d002a013e200a5e3a62ecd67383d0a31b38",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-push-up-thumbnail-304af54b419a.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Şınav · küçük görsel",
+      "sha256": "304af54b419a0c876ce2ac0b44afff1d658dbc4c4c7e3acce26a9167474c0edc",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-hammer-curl": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-hammer-curl-position_1-6981c3ddfa5b.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Çekiç curl · pozisyon 1",
+      "sha256": "6981c3ddfa5bee3937c1b007f1bac32ed6ded5196044c9d684d0c4ff2af6f27b",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_1"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-hammer-curl-position_2-4298203b7584.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Çekiç curl · pozisyon 2",
+      "sha256": "4298203b75842ee5d8cb08d510f11c0617486669d8747939d26f2a835497853d",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "position_2"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-hammer-curl-thumbnail-4b897cef99be.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Çekiç curl · küçük görsel",
+      "sha256": "4b897cef99be433d7eabb7fe44e06b0836ed5ecd22450da31c68e82a66c4dd2e",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ],
+  "lib-side-plank": [
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-side-plank-pose-67de7f891d45.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Yan plank · sabit duruş",
+      "sha256": "67de7f891d4519360ccb3891ddff2cebb17feb051a9d763bb327562cf4c72c76",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "pose"
+    },
+    {
+      "media_type": "image",
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-side-plank-thumbnail-9bfb5b56b6fb.webp",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Everkinetic / Greg Priday · NFCFit uyarlaması",
+      "rights_holder": "Greg Priday / Everkinetic",
+      "alt": "Yan plank · küçük görsel",
+      "sha256": "9bfb5b56b6fbb21ded8102634b2f7e78a20526b56806b403af91893e3da06ad1",
+      "source": "https://github.com/everkinetic/data/tree/446bb9a3d0c3beb6b84f7c9d77dfc8af707a2ab6/dist",
+      "license_url": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "role": "thumbnail"
+    }
+  ]
+}

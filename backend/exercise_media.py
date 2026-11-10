@@ -6,6 +6,8 @@ and confirmation of commercial rights remain the operator's responsibility.
 
 import hashlib
 import ipaddress
+import json
+from functools import lru_cache
 from pathlib import Path
 from urllib.parse import urlsplit
 
@@ -99,5 +101,21 @@ def validate_manifest(manifest, asset_root, exercise_ids):
         }
         item["source"] = public_https(asset["source"])
         item["license_url"] = public_https(asset["license_url"])
+        if "role" in asset:
+            if kind != "image" or asset["role"] not in {"thumbnail", "position_1", "position_2", "pose"}:
+                raise ValueError("Unsupported image presentation role.")
+            item["role"] = asset["role"]
         grouped.setdefault(exercise_id, []).append(item)
     return grouped
+
+
+def library_media(exercise_id, owner_id, current):
+    """Read-only fallback for global exercises; preserve operator/custom media."""
+    if owner_id is not None or current:
+        return current or []
+    return _bundled_media().get(exercise_id, [])
+
+
+@lru_cache(maxsize=1)
+def _bundled_media():
+    return json.loads((Path(__file__).parent / "data/exercise_media.json").read_text())

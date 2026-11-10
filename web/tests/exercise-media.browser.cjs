@@ -1,0 +1,48 @@
+const {launch,login,api}=require('./trainer-browser-fixture.cjs');
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const out=path.resolve(__dirname,'../../test-results/exercise-media');fs.mkdirSync(path.join(out,'screenshots'),{recursive:true});
+let env,failImages=false;const checks=[];const pass=name=>{checks.push({name,status:'PASS'});console.log('PASS',name)};
+(async()=>{
+ env=await launch();const p=env.page;p.setDefaultTimeout(30000);
+ await p.route('https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/**',async route=>{
+  const pathname=new URL(route.request().url()).pathname;
+  if(failImages&&pathname.includes('lib-bench-press-'))return route.abort();
+  const file=path.resolve(__dirname,'../public'+pathname);assert(file.startsWith(path.resolve(__dirname,'../public/media')+path.sep));
+  await route.fulfill({body:fs.readFileSync(file),contentType:'image/webp'});
+ });
+ await p.route('**/api/console/coaching/library*',async route=>{
+  const response=await route.fetch();const data=await response.json();
+  if(failImages)for(const e of data)if(e.id==='lib-bench-press')for(const m of e.media)m.url+='?fault-injection=1';
+  await route.fulfill({response,json:data});
+ });
+ const b=name=>p.getByRole('button',{name,exact:true});
+ const nav=async name=>{if(!await b(name).isVisible())await b('Menüyü aç').click();await b(name).click()};
+ const shot=name=>p.screenshot({path:path.join(out,'screenshots',name+'.png'),fullPage:false});
+ const noOverflow=async()=>assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'horizontal overflow');
+ const loaded=async img=>{await img.waitFor();await img.evaluate(el=>el.complete&&el.naturalWidth?true:new Promise((res,rej)=>{el.onload=()=>res(true);el.onerror=()=>rej(Error('image failed'))}));assert(await img.evaluate(el=>el.naturalWidth>0))};
+ await login(p,'trainer@planning.test');await p.locator('.nfc-page-header').waitFor();await p.getByText('Yükleniyor…',{exact:true}).waitFor({state:'hidden'});const catalog=await api('trainer@planning.test','/coaching/library');
+ assert.equal(catalog.filter(e=>e.media.some(m=>m.role==='thumbnail')).length,10);
+ const bench=catalog.find(e=>e.id==='lib-bench-press');
+ await nav('Egzersiz kütüphanesi');await p.getByLabel('Egzersiz ara',{exact:true}).fill(bench.name_en);
+ await loaded(p.locator('tbody tr').filter({has:b(bench.name+' detayları')}).locator('img'));await shot('01-desktop-library');
+ await b(bench.name+' detayları').click();const dialog=p.getByRole('dialog'),view=dialog.locator('.exercise-media-view');
+ await loaded(view.locator('img').first());await loaded(view.locator('img').nth(1));assert.equal(await view.locator('.exercise-position:visible').count(),2);
+ assert.equal(await view.locator('a[href="https://creativecommons.org/licenses/by-sa/4.0/"]').count(),1);
+ await shot('02-desktop-positions');pass('10 mapped catalog exercises; desktop thumbnails, both positions and attribution load');
+ await p.setViewportSize({width:375,height:812});await p.emulateMedia({reducedMotion:'reduce'});
+ assert.equal(await view.locator('.exercise-position:visible').count(),1);await b('Pozisyon 2').click();assert.equal(await b('Pozisyon 2').getAttribute('aria-pressed'),'true');
+ await noOverflow();assert(await dialog.evaluate(el=>el.scrollWidth<=el.clientWidth));await shot('03-mobile-position-two');
+ await b('Pozisyon 1').focus();await p.keyboard.press('Enter');assert.equal(await b('Pozisyon 1').getAttribute('aria-pressed'),'true');pass('375px positions switch with keyboard and reduced motion without overflow');
+ await b('Detayları kapat').click();const side=catalog.find(e=>e.id==='lib-side-plank');await p.getByLabel('Egzersiz ara',{exact:true}).fill(side.name_en);await b(side.name+' detayları').click();
+ await loaded(dialog.locator('.exercise-position img'));assert.equal(await dialog.getByText('Sabit duruş',{exact:true}).count(),1);assert.equal(await dialog.locator('.exercise-position-controls').count(),0);await shot('04-mobile-static-pose');await b('Detayları kapat').click();pass('Static side plank shows one pose without animation controls');
+ const squat=catalog.find(e=>e.id==='lib-squat');await p.getByLabel('Egzersiz ara',{exact:true}).fill(squat.name_en);await b(squat.name+' detayları').click();
+ assert(await dialog.getByText('Bu hareket için doğrulanmış görsel henüz eklenmedi.').isVisible());await shot('05-unmapped-exercise');await b('Detayları kapat').click();pass('Unmapped exercise keeps usable detail with no misleading picture');
+ await p.getByLabel('Egzersiz ara',{exact:true}).fill(bench.name_en);await b(bench.name+' detayları').click();await b('Antrenmanda kullan').click();await p.locator('.tp-target.selected').waitFor();
+ assert((await p.getByLabel('Düzenlenen egzersiz',{exact:true}).locator('option:checked').textContent()).includes(bench.name));await p.locator('.tp-target.selected input').first().fill('5');await shot('06-mobile-edit-after-add');await noOverflow();pass('Detail adds directly to workout and targets stay editable');
+ await nav('Antrenmanlar');await b('＋ Antrenman oluştur').click();await p.locator('.tp-exercise-library').waitFor();
+ if(await b('Egzersiz ekle').isVisible())await b('Egzersiz ekle').click();
+ await p.getByLabel('Egzersiz ara',{exact:true}).fill(bench.name_en);await loaded(p.locator('.tp-exercise-library .exercise-thumbnail img').first());await noOverflow();await shot('07-mobile-builder-search');pass('375px builder search displays movement thumbnails without overflow');await b('Kütüphaneyi kapat').click();
+ failImages=true;await p.reload();await p.locator('.nfc-page-header').waitFor();await nav('Egzersiz kütüphanesi');await p.getByLabel('Egzersiz ara',{exact:true}).fill('plank');await p.getByLabel('Egzersiz ara',{exact:true}).fill(bench.name_en);await b(bench.name+' detayları').click();
+ await dialog.getByText('Görsel yüklenemedi.',{exact:false}).first().waitFor();await shot('08-image-error');failImages=false;await dialog.getByRole('button',{name:'Yeniden dene',exact:true}).first().click();await loaded(dialog.locator('.exercise-position:visible img'));await b('Detayları kapat').click();pass('Image failure is recoverable with retry');
+ assert.equal(env.errors.length,0);pass('No uncaught browser errors');fs.writeFileSync(path.join(out,'functional-results.json'),JSON.stringify({checks,errors:env.errors},null,2));await env.browser.close();
+})().catch(async e=>{console.error(e);checks.push({name:e.message,status:'FAIL'});fs.writeFileSync(path.join(out,'functional-results.json'),JSON.stringify({checks,errors:env?.errors},null,2));if(env){await env.page.screenshot({path:path.join(out,'screenshots/failure.png')}).catch(()=>{});await env.browser.close()}process.exitCode=1});

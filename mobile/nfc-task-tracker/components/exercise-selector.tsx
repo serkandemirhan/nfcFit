@@ -1,7 +1,6 @@
 import { KeyboardFrame } from "./keyboard-frame";
 import { StatusBar } from "expo-status-bar";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { Image } from "expo-image";
 import { MovementArt, MuscleMap } from "./fitness-art";
 import {
   FitButton,
@@ -16,7 +15,7 @@ import {
   equipmentLabels,
   difficultyLabels,
 } from "@/lib/athlete-presentation";
-import { ExerciseMedia } from "./exercise-media";
+import { ExerciseMedia, ExerciseThumbnail } from "./exercise-media";
 import {
   CoachText as Text,
   CoachButton,
@@ -489,9 +488,6 @@ export function ExerciseSelector({
               keyboardShouldPersistTaps="handled"
               initialNumToRender={12}
               renderItem={({ item: e }) => {
-                const media = e.media?.find((m) =>
-                  ["image", "animation"].includes(m.media_type),
-                );
                 const picked = chosen.includes(e.id);
                 return (
                   <View
@@ -523,16 +519,7 @@ export function ExerciseSelector({
                           overflow: "hidden",
                         }}
                       >
-                        {media ? (
-                          <Image
-                            source={{ uri: media.url }}
-                            style={{ width: 66, height: 66 }}
-                            contentFit="cover"
-                            accessibilityLabel={media.alt}
-                          />
-                        ) : (
-                          <MovementArt muscle={e.muscle} size={66} />
-                        )}
+                        <ExerciseThumbnail exercise={e} fallback={<MovementArt muscle={e.muscle} size={66} />} />
                       </View>
                       <View style={{ flex: 1, gap: 4 }}>
                         <Text style={[f.body, { fontWeight: "800" }]}>

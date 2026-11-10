@@ -13,6 +13,7 @@ export type Exercise = {
   variations: string[];
   media: {
     media_type: "image" | "animation" | "video" | "model3d";
+    role?: "thumbnail" | "position_1" | "position_2" | "pose";
     url: string;
     alt: string;
     attribution: string;
