@@ -1,0 +1,37 @@
+{
+  "checks": [
+    {
+      "name": "01-desktop-facility",
+      "status": "PASS"
+    },
+    {
+      "name": "02-desktop-facility-collapsed",
+      "status": "PASS"
+    },
+    {
+      "name": "03-desktop-trainer",
+      "status": "PASS"
+    },
+    {
+      "name": "04-mobile-trainer",
+      "status": "PASS"
+    },
+    {
+      "name": "05-mobile-facility",
+      "status": "PASS"
+    },
+    {
+      "name": "06-mobile-members",
+      "status": "PASS"
+    },
+    {
+      "name": "Manager permissions preserved; no unavailable workspace switch",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

@@ -20,7 +20,3 @@
 .nfc-facility .facility-content [role=alert]{margin-bottom:12px}
 @media(max-width:1023px){.nfc-facility{min-height:calc(100dvh - 24px)}}
 @media(max-width:600px){.facility-shell-root{padding:0}.nfc-facility{min-height:100dvh}.nfc-facility .facility-header{padding:6px 10px;gap:8px}.nfc-facility .facility-content{padding:14px 12px}.nfc-facility .facility-page-title h1{font-size:22px}.nfc-facility .facility-account-controls select{max-width:130px}.nfc-facility .facility-page-title{gap:6px}}
-
-.facility-shell:has(>.workspace-switcher) .nfc-facility{min-height:calc(100dvh - 84px)}
-.facility-shell:has(>.workspace-switcher) .nfc-facility [data-slot=sidebar]{height:calc(100dvh - 84px)}
-@media(max-width:600px){.facility-shell:has(>.workspace-switcher) .nfc-facility{min-height:calc(100dvh - 60px)}}

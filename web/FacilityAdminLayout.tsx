@@ -10,10 +10,10 @@ const icons: Record<string, typeof Users> = {
   exercises: Library, staff: UsersRound, activity: Activity, administration: Settings,
 };
 
-export default function FacilityAdminLayout({ sections, selected, navigate, tenantName, summary, accountControls, messages, children }: {
+export default function FacilityAdminLayout({ sections, selected, navigate, tenantName, summary, accountControls, workspaceControl, messages, children }: {
   sections: FacilitySection[]; selected: string; navigate: (id: string) => void;
   tenantName: string; summary: string; accountControls: React.ReactNode;
-  messages: React.ReactNode; children: React.ReactNode;
+  workspaceControl: React.ReactNode; messages: React.ReactNode; children: React.ReactNode;
 }) {
   const current = sections.find((section) => section.id === selected);
   return <SidebarProvider storageKey="nfcfit:facility:sidebar" className="nfc-facility">
@@ -31,9 +31,10 @@ export default function FacilityAdminLayout({ sections, selected, navigate, tena
       </div>
     </Sidebar>
     <div className="nfc-admin-main">
-      <header className="nfc-page-header facility-header">
+      <header className="nfc-page-header facility-header console-workspace-header">
         <div className="nfc-page-breadcrumb"><SidebarTrigger /><span>Tesis yönetimi</span><span aria-hidden>/</span><strong>{current?.label}</strong></div>
-        <div className="facility-account-controls">{accountControls}</div>
+        {workspaceControl}
+        <div className="facility-account-controls console-account-controls">{accountControls}</div>
       </header>
       <div className="nfc-page-content facility-content">
         <div className="nfc-page-title facility-page-title"><h1>{current?.label}</h1><p>{summary}</p></div>
