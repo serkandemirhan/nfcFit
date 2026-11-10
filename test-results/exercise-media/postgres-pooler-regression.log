@@ -1,0 +1,1 @@
+PASS real PostgreSQL: 15 repeated queries across transactions; prepare_threshold=None; zero automatic named prepared statements.

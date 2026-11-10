@@ -17,10 +17,29 @@ RepDB's MIT example projects informed the presentation approach. No RepDB datase
 | Previous Git-triggered production web build failed while reading shared native TypeScript. | `web/vite.config.ts` | Explicit web tsconfig supplied to esbuild, so a web-only dependency install does not resolve `expo/tsconfig.base` from shared source files. | Normal web build and isolated web build with no mobile node_modules pass; web TypeScript passes. | `web-build.log`, `web-only-build.log`, `web-types.log` | CI/deployment result is recorded separately below. |
 | Expo web export could not resolve expo-sqlite's bundled .wasm file. | Native `metro.config.js` | Register wasm as a Metro asset, following Expo SQLite web setup. | Expo web export and native TypeScript pass. | `mobile-export.log`, `mobile-types.log` | Export compilation is not native device execution. Hosting Expo SQLite web additionally requires appropriate cross-origin isolation headers; the separate Vite Trainer deployment is unaffected. |
 
+## Production rollout correction
+
+The first API deployment reached READY but some cold starts returned 500.
+Runtime logs identified `psycopg.errors.DuplicatePreparedStatement` during
+startup schema inspection against the Supabase transaction pooler. The
+`vc_handler` import message was a subsequent runtime-wrapper error, not the
+underlying database failure.
+
+`backend/tenant_console.py` now passes `prepare_threshold=None` to psycopg
+connections. SQLite and other driver configurations remain unchanged. The
+11 tenant and 17 coaching tests pass after this correction; a real isolated
+PostgreSQL test runs 15 repeated parameterized queries across transactions and
+asserts no `_pg3_*` statements are prepared. No production records were deleted,
+rewritten or reset to resolve this issue. Final live status is recorded below.
+
+Driver reference: https://www.psycopg.org/psycopg3/docs/advanced/prepare.html
+
 ## Test execution
 
 - `backend/tests/test_exercise_media.py`: 3 tests passed.
 - `backend/tests/test_coaching.py`: 17 tests passed.
+- `backend/tests/test_tenant_console.py`: 11 tests passed after the production pooler correction.
+- Real isolated PostgreSQL: 15 repeated queries across transactions produce zero automatic named prepared statements with the actual configured SQLAlchemy engine. See `postgres-pooler-regression.log`.
 - Web media/planning/save-state unit tests: 18 passed.
 - Browser test: `web/tests/exercise-media.browser.cjs`; 1440x900 desktop and 375x812 responsive web. Functional results in `functional-results.json`.
 - Web TypeScript, mobile TypeScript, production web build, isolated web-only build and Expo web export passed.
@@ -30,4 +49,15 @@ Browser data is isolated synthetic fixture data on localhost. Before publication
 
 ## Publication
 
-Publication is pending at the time of this validation commit. Deployment URLs, live asset checksum results and protected-endpoint checks will be recorded in `DEPLOYMENT.md` and `live-checks.json` after release.
+Published and verified. Web: https://nfc-fit.vercel.app/console. API: https://nfcfit-tenant-api.vercel.app.
+
+- Web production deployment: `dpl_38ZyfND48jX8D2mrDwhNF5kPHW8A`, READY.
+- API production deployment: `dpl_FtyLzVwE4D9WZp7mPGVuk4c7xtSc`, READY.
+- Feature commit: `8228f2a`; transaction-pooler correction: `1dac292`; both pushed to `main`.
+- All 29 public WebP files returned 200 and match their manifest SHA-256. Hosted full license returns 200.
+- Actual production login renders at 1440x900 and 375x812, without horizontal overflow or uncaught page errors. No localhost fixture configuration appears in the production app entry bundle.
+- 12 repeated/concurrent live API checks pass: health 200, protected library/auth endpoints 401, fixture auth route 404; CORS allows the actual web origin.
+- Authenticated production member workflows were not rerun. Authenticated editing/data-preservation tests use isolated realistic fixture data. No real account password was reset or production workout created for validation.
+- Native source and Expo export are updated; no new signed Android/iOS binary or store release is claimed. Existing installations can receive catalog pictures on refresh; the new native position-viewer controls require a rebuilt app.
+
+See `DEPLOYMENT.md`, `live-checks.json`, `production-browser-results.json` and the screenshot index.

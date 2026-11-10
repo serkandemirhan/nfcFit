@@ -1,0 +1,42 @@
+Vercel CLI 65.14.0
+  Inspect         https://vercel.com/serkan-demirhans-projects/nfcfit-tenant-api/FtyLzVwE4D9WZp7mPGVuk4c7xtSc
+  Production      https://nfcfit-tenant-6i3nexh7p-serkan-demirhans-projects.vercel.app
+▲ Aliased         https://nfcfit-tenant-api.vercel.app
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_FtyLzVwE4D9WZp7mPGVuk4c7xtSc",
+    "url": "https://nfcfit-tenant-6i3nexh7p-serkan-demirhans-projects.vercel.app",
+    "productionUrl": "https://nfcfit-tenant-api.vercel.app",
+    "inspectorUrl": "https://vercel.com/serkan-demirhans-projects/nfcfit-tenant-api/FtyLzVwE4D9WZp7mPGVuk4c7xtSc",
+    "readyState": "READY",
+    "target": "production",
+    "environment": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_FtyLzVwE4D9WZp7mPGVuk4c7xtSc",
+    "buildMachine": {
+      "cores": 2,
+      "memory": 8192,
+      "machine": "basic",
+      "selectionType": "fixed",
+      "selectionSource": "plan-default"
+    },
+    "deploymentProtection": [
+      "vercel_authentication"
+    ]
+  },
+  "message": "Deployment nfcfit-tenant-6i3nexh7p-serkan-demirhans-projects.vercel.app ready. Production URL: https://nfcfit-tenant-api.vercel.app",
+  "next": [
+    {
+      "command": "vercel curl https://nfcfit-tenant-api.vercel.app",
+      "when": "Verify deployment, including when Deployment Protection is enabled"
+    },
+    {
+      "command": "vercel inspect nfcfit-tenant-6i3nexh7p-serkan-demirhans-projects.vercel.app --cwd backend",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod --cwd backend",
+      "when": "Promote to production"
+    }
+  ]
+}

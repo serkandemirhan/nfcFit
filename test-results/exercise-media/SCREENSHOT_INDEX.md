@@ -12,3 +12,5 @@ Actual Chrome screenshots of the implemented UI, using isolated synthetic accoun
 | [06-mobile-edit-after-add.png](screenshots/06-mobile-edit-after-add.png) | Detail → add to workout → focused numeric set editing. |
 | [07-mobile-builder-search.png](screenshots/07-mobile-builder-search.png) | Mobile search overlay with movement-specific thumbnails. |
 | [08-image-error.png](screenshots/08-image-error.png) | Injected image failure with editing-safe retry control. |
+| [09-production-login-desktop.png](screenshots/09-production-login-desktop.png) | Actual public production login at 1440x900, no fixture interception. |
+| [10-production-login-mobile.png](screenshots/10-production-login-mobile.png) | Actual public production login at 375x812, no horizontal overflow. |

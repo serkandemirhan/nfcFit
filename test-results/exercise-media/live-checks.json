@@ -1,0 +1,295 @@
+{
+  "web_url": "https://nfc-fit.vercel.app/console",
+  "web_status": 200,
+  "web_deployment": "dpl_38ZyfND48jX8D2mrDwhNF5kPHW8A",
+  "source_commit": "1dac292",
+  "fixture_configuration_in_live_entry_bundle": false,
+  "license_status": 200,
+  "assets": [
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-bench-press-position_1-478bd6fdb54d.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 24510,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-bench-press-position_2-e1cdfe083844.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 22868,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-bench-press-thumbnail-5257ce7325b2.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 5282,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-incline-bench-press-position_1-14524d671ac5.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 26926,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-incline-bench-press-position_2-a87893b7dd4f.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 24188,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-incline-bench-press-thumbnail-a742729628e2.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 6056,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-bench-press-position_1-6c4c8e89d9ed.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 24014,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-bench-press-position_2-9b38604ca943.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 20924,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-bench-press-thumbnail-a3785968011b.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 5526,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-curl-position_1-ff8dd9f1c4b5.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 18658,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-curl-position_2-2c6593975a6e.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 17022,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-dumbbell-curl-thumbnail-0274c604759a.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 4354,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-leg-press-position_1-5898319b63a1.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 21144,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-leg-press-position_2-4b8e8da2e63c.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 23190,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-leg-press-thumbnail-017b0272a4e8.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 4646,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-deadlift-position_1-4f98cd42d2d0.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 20196,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-deadlift-position_2-da6838e3db15.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 16292,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-deadlift-thumbnail-064828481920.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 5386,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-romanian-deadlift-position_1-c94497270a43.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 20432,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-romanian-deadlift-position_2-3e8b78c6c8d4.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 16598,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-romanian-deadlift-thumbnail-61dd2bbff38b.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 5410,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-push-up-position_1-0d6777df28d0.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 15490,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-push-up-position_2-b082717fd288.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 15822,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-push-up-thumbnail-304af54b419a.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 3510,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-hammer-curl-position_1-6981c3ddfa5b.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 18616,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-hammer-curl-position_2-4298203b7584.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 16352,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-hammer-curl-thumbnail-4b897cef99be.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 4334,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-side-plank-pose-67de7f891d45.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 14074,
+      "content_type": "image/webp"
+    },
+    {
+      "url": "https://nfc-fit.vercel.app/media/exercises/everkinetic-v1/lib-side-plank-thumbnail-9bfb5b56b6fb.webp",
+      "status": 200,
+      "sha256_matches": true,
+      "bytes": 3296,
+      "content_type": "image/webp"
+    }
+  ],
+  "api": {
+    "url": "https://nfcfit-tenant-api.vercel.app",
+    "deployment": "dpl_FtyLzVwE4D9WZp7mPGVuk4c7xtSc",
+    "source_commit": "1dac292",
+    "checks": [
+      {
+        "path": "/health",
+        "expected": 200,
+        "status": 200,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/api/console/coaching/library",
+        "expected": 401,
+        "status": 401,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/api/console/auth/me",
+        "expected": 401,
+        "status": 401,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/fixture-auth/auth/v1/token",
+        "expected": 404,
+        "status": 404,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/health",
+        "expected": 200,
+        "status": 200,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/api/console/coaching/library",
+        "expected": 401,
+        "status": 401,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/api/console/auth/me",
+        "expected": 401,
+        "status": 401,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/fixture-auth/auth/v1/token",
+        "expected": 404,
+        "status": 404,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/health",
+        "expected": 200,
+        "status": 200,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/api/console/coaching/library",
+        "expected": 401,
+        "status": 401,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/api/console/auth/me",
+        "expected": 401,
+        "status": 401,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      },
+      {
+        "path": "/fixture-auth/auth/v1/token",
+        "expected": 404,
+        "status": 404,
+        "cors_origin": "https://nfc-fit.vercel.app"
+      }
+    ]
+  },
+  "visual_source_commit": "8228f2a6565d1011abba489ab4470e424061cdd2",
+  "initial_web_deployment": "dpl_7RJ2ovcJL8x7hPTPdT1NH37XUYhK",
+  "verified_at_utc": "2026-11-10T06:36:59.263396+00:00"
+}
