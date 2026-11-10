@@ -1,0 +1,8 @@
+{
+  "command": [
+    "npm",
+    "run",
+    "build"
+  ],
+  "exit_code": 0
+}

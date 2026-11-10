@@ -1,0 +1,3130 @@
+[
+  {
+    "id": "lib-bench-press",
+    "name": "Bench press",
+    "name_en": "Bench Press",
+    "description": "Bench press: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "barbell"
+    ],
+    "variations": [
+      "lib-incline-bench-press",
+      "lib-dumbbell-bench-press",
+      "lib-incline-dumbbell-press",
+      "lib-chest-press-machine",
+      "lib-floor-press"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-incline-bench-press",
+    "name": "Eğimli bench press",
+    "name_en": "Incline Bench Press",
+    "description": "Eğimli bench press: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "barbell"
+    ],
+    "variations": [
+      "lib-bench-press",
+      "lib-dumbbell-bench-press",
+      "lib-incline-dumbbell-press",
+      "lib-chest-press-machine",
+      "lib-floor-press"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-dumbbell-bench-press",
+    "name": "Dambıl göğüs press",
+    "name_en": "Dumbbell Bench Press",
+    "description": "Dambıl göğüs press: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-bench-press",
+      "lib-incline-bench-press",
+      "lib-incline-dumbbell-press",
+      "lib-chest-press-machine",
+      "lib-floor-press"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-incline-dumbbell-press",
+    "name": "Eğimli dambıl press",
+    "name_en": "Incline Dumbbell Press",
+    "description": "Eğimli dambıl press: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-bench-press",
+      "lib-incline-bench-press",
+      "lib-dumbbell-bench-press",
+      "lib-chest-press-machine",
+      "lib-floor-press"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-dumbbell-fly",
+    "name": "Dambıl açış",
+    "name_en": "Dumbbell Fly",
+    "description": "Dambıl açış: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "dumbbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-cable-fly",
+    "name": "Kablo açış",
+    "name_en": "Cable Fly",
+    "description": "Kablo açış: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "cable"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-pec-deck",
+    "name": "Pec deck",
+    "name_en": "Pec Deck",
+    "description": "Pec deck: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "machine"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-push-up",
+    "name": "Şınav",
+    "name_en": "Push-Up",
+    "description": "Şınav: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-incline-push-up",
+      "lib-knee-push-up"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-incline-push-up",
+    "name": "Yükseltilmiş şınav",
+    "name_en": "Incline Push-Up",
+    "description": "Yükseltilmiş şınav: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-push-up",
+      "lib-knee-push-up"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-knee-push-up",
+    "name": "Diz üstü şınav",
+    "name_en": "Knee Push-Up",
+    "description": "Diz üstü şınav: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-push-up",
+      "lib-incline-push-up"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-chest-press-machine",
+    "name": "Göğüs press makinesi",
+    "name_en": "Chest Press Machine",
+    "description": "Göğüs press makinesi: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "machine"
+    ],
+    "variations": [
+      "lib-bench-press",
+      "lib-incline-bench-press",
+      "lib-dumbbell-bench-press",
+      "lib-incline-dumbbell-press",
+      "lib-floor-press"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-floor-press",
+    "name": "Yerde press",
+    "name_en": "Floor Press",
+    "description": "Yerde press: göğüs odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "chest",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "chest",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-bench-press",
+      "lib-incline-bench-press",
+      "lib-dumbbell-bench-press",
+      "lib-incline-dumbbell-press",
+      "lib-chest-press-machine"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-lat-pulldown",
+    "name": "Lat çekiş",
+    "name_en": "Lat Pulldown",
+    "description": "Lat çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "cable"
+    ],
+    "variations": [
+      "lib-neutral-grip-pulldown"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-seated-cable-row",
+    "name": "Oturarak kablo çekiş",
+    "name_en": "Seated Cable Row",
+    "description": "Oturarak kablo çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "cable"
+    ],
+    "variations": [
+      "lib-one-arm-dumbbell-row",
+      "lib-bent-over-row",
+      "lib-chest-supported-row",
+      "lib-t-bar-row",
+      "lib-machine-row"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-one-arm-dumbbell-row",
+    "name": "Tek kol dambıl çekiş",
+    "name_en": "One-Arm Dumbbell Row",
+    "description": "Tek kol dambıl çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-seated-cable-row",
+      "lib-bent-over-row",
+      "lib-chest-supported-row",
+      "lib-t-bar-row",
+      "lib-machine-row"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-bent-over-row",
+    "name": "Eğilerek bar çekiş",
+    "name_en": "Bent-Over Row",
+    "description": "Eğilerek bar çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "barbell"
+    ],
+    "variations": [
+      "lib-seated-cable-row",
+      "lib-one-arm-dumbbell-row",
+      "lib-chest-supported-row",
+      "lib-t-bar-row",
+      "lib-machine-row"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-chest-supported-row",
+    "name": "Göğüs destekli çekiş",
+    "name_en": "Chest-Supported Row",
+    "description": "Göğüs destekli çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-seated-cable-row",
+      "lib-one-arm-dumbbell-row",
+      "lib-bent-over-row",
+      "lib-t-bar-row",
+      "lib-machine-row"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-pull-up",
+    "name": "Barfiks",
+    "name_en": "Pull-Up",
+    "description": "Barfiks: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-assisted-pull-up"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-assisted-pull-up",
+    "name": "Destekli barfiks",
+    "name_en": "Assisted Pull-Up",
+    "description": "Destekli barfiks: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "machine"
+    ],
+    "variations": [
+      "lib-pull-up"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-neutral-grip-pulldown",
+    "name": "Nötr tutuş lat çekiş",
+    "name_en": "Neutral-Grip Pulldown",
+    "description": "Nötr tutuş lat çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "cable"
+    ],
+    "variations": [
+      "lib-lat-pulldown"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-straight-arm-pulldown",
+    "name": "Düz kol kablo çekiş",
+    "name_en": "Straight-Arm Pulldown",
+    "description": "Düz kol kablo çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "cable"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-inverted-row",
+    "name": "Ters vücut çekiş",
+    "name_en": "Inverted Row",
+    "description": "Ters vücut çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-t-bar-row",
+    "name": "T bar çekiş",
+    "name_en": "T-Bar Row",
+    "description": "T bar çekiş: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "machine"
+    ],
+    "variations": [
+      "lib-seated-cable-row",
+      "lib-one-arm-dumbbell-row",
+      "lib-bent-over-row",
+      "lib-chest-supported-row",
+      "lib-machine-row"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-machine-row",
+    "name": "Çekiş makinesi",
+    "name_en": "Machine Row",
+    "description": "Çekiş makinesi: sırt odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "back",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "back",
+      "machine"
+    ],
+    "variations": [
+      "lib-seated-cable-row",
+      "lib-one-arm-dumbbell-row",
+      "lib-bent-over-row",
+      "lib-chest-supported-row",
+      "lib-t-bar-row"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-dumbbell-shoulder-press",
+    "name": "Dambıl omuz press",
+    "name_en": "Dumbbell Shoulder Press",
+    "description": "Dambıl omuz press: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-barbell-overhead-press",
+      "lib-shoulder-press-machine"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-barbell-overhead-press",
+    "name": "Bar omuz press",
+    "name_en": "Barbell Overhead Press",
+    "description": "Bar omuz press: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "barbell"
+    ],
+    "variations": [
+      "lib-dumbbell-shoulder-press",
+      "lib-shoulder-press-machine"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-lateral-raise",
+    "name": "Yana açış",
+    "name_en": "Lateral Raise",
+    "description": "Yana açış: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-cable-lateral-raise"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-front-raise",
+    "name": "Öne kaldırış",
+    "name_en": "Front Raise",
+    "description": "Öne kaldırış: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "dumbbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-reverse-fly",
+    "name": "Ters açış",
+    "name_en": "Reverse Fly",
+    "description": "Ters açış: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "dumbbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-face-pull",
+    "name": "Yüze kablo çekiş",
+    "name_en": "Face Pull",
+    "description": "Yüze kablo çekiş: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "cable"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-cable-lateral-raise",
+    "name": "Kablo yana açış",
+    "name_en": "Cable Lateral Raise",
+    "description": "Kablo yana açış: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "cable"
+    ],
+    "variations": [
+      "lib-lateral-raise"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-shoulder-press-machine",
+    "name": "Omuz press makinesi",
+    "name_en": "Shoulder Press Machine",
+    "description": "Omuz press makinesi: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "machine"
+    ],
+    "variations": [
+      "lib-dumbbell-shoulder-press",
+      "lib-barbell-overhead-press"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-landmine-press",
+    "name": "Landmine press",
+    "name_en": "Landmine Press",
+    "description": "Landmine press: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "barbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-band-pull-apart",
+    "name": "Lastikle yana açış",
+    "name_en": "Band Pull-Apart",
+    "description": "Lastikle yana açış: omuz odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "shoulders",
+    "secondary_muscles": [],
+    "equipment": "band",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "shoulders",
+      "band"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-dumbbell-curl",
+    "name": "Dambıl biseps curl",
+    "name_en": "Dumbbell Curl",
+    "description": "Dambıl biseps curl: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-barbell-curl",
+      "lib-preacher-curl",
+      "lib-cable-curl",
+      "lib-concentration-curl"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-barbell-curl",
+    "name": "Bar biseps curl",
+    "name_en": "Barbell Curl",
+    "description": "Bar biseps curl: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "barbell"
+    ],
+    "variations": [
+      "lib-dumbbell-curl",
+      "lib-preacher-curl",
+      "lib-cable-curl",
+      "lib-concentration-curl"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-hammer-curl",
+    "name": "Çekiç curl",
+    "name_en": "Hammer Curl",
+    "description": "Çekiç curl: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "dumbbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-preacher-curl",
+    "name": "Sehpa destekli curl",
+    "name_en": "Preacher Curl",
+    "description": "Sehpa destekli curl: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "machine"
+    ],
+    "variations": [
+      "lib-dumbbell-curl",
+      "lib-barbell-curl",
+      "lib-cable-curl",
+      "lib-concentration-curl"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-cable-curl",
+    "name": "Kablo biseps curl",
+    "name_en": "Cable Curl",
+    "description": "Kablo biseps curl: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "cable"
+    ],
+    "variations": [
+      "lib-dumbbell-curl",
+      "lib-barbell-curl",
+      "lib-preacher-curl",
+      "lib-concentration-curl"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-concentration-curl",
+    "name": "Konsantrasyon curl",
+    "name_en": "Concentration Curl",
+    "description": "Konsantrasyon curl: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-dumbbell-curl",
+      "lib-barbell-curl",
+      "lib-preacher-curl",
+      "lib-cable-curl"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-triceps-pushdown",
+    "name": "Triseps kablo itiş",
+    "name_en": "Triceps Pushdown",
+    "description": "Triseps kablo itiş: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "cable"
+    ],
+    "variations": [
+      "lib-rope-pushdown"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-rope-pushdown",
+    "name": "Halatla triseps itiş",
+    "name_en": "Rope Pushdown",
+    "description": "Halatla triseps itiş: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "cable"
+    ],
+    "variations": [
+      "lib-triceps-pushdown"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-overhead-triceps-extension",
+    "name": "Baş üstü triseps açış",
+    "name_en": "Overhead Triceps Extension",
+    "description": "Baş üstü triseps açış: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "dumbbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-lying-triceps-extension",
+    "name": "Yatarak triseps açış",
+    "name_en": "Lying Triceps Extension",
+    "description": "Yatarak triseps açış: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "barbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-close-grip-bench-press",
+    "name": "Dar tutuş bench press",
+    "name_en": "Close-Grip Bench Press",
+    "description": "Dar tutuş bench press: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "barbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-wrist-curl",
+    "name": "El bileği curl",
+    "name_en": "Wrist Curl",
+    "description": "El bileği curl: kol odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "arms",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "arms",
+      "dumbbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-squat",
+    "name": "Squat",
+    "name_en": "Squat",
+    "description": "Squat: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "barbell"
+    ],
+    "variations": [
+      "lib-goblet-squat",
+      "lib-bodyweight-squat",
+      "lib-front-squat"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-goblet-squat",
+    "name": "Goblet squat",
+    "name_en": "Goblet Squat",
+    "description": "Goblet squat: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-squat",
+      "lib-bodyweight-squat",
+      "lib-front-squat"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-bodyweight-squat",
+    "name": "Vücut ağırlığı squat",
+    "name_en": "Bodyweight Squat",
+    "description": "Vücut ağırlığı squat: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-squat",
+      "lib-goblet-squat",
+      "lib-front-squat"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-front-squat",
+    "name": "Ön squat",
+    "name_en": "Front Squat",
+    "description": "Ön squat: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "advanced",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "barbell"
+    ],
+    "variations": [
+      "lib-squat",
+      "lib-goblet-squat",
+      "lib-bodyweight-squat"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-leg-press",
+    "name": "Bacak press",
+    "name_en": "Leg Press",
+    "description": "Bacak press: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "machine"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-leg-extension",
+    "name": "Bacak açış",
+    "name_en": "Leg Extension",
+    "description": "Bacak açış: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "machine"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-seated-leg-curl",
+    "name": "Oturarak bacak curl",
+    "name_en": "Seated Leg Curl",
+    "description": "Oturarak bacak curl: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "machine"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-lying-leg-curl",
+    "name": "Yatarak bacak curl",
+    "name_en": "Lying Leg Curl",
+    "description": "Yatarak bacak curl: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "machine"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-romanian-deadlift",
+    "name": "Romen deadlift",
+    "name_en": "Romanian Deadlift",
+    "description": "Romen deadlift: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "barbell"
+    ],
+    "variations": [
+      "lib-dumbbell-romanian-deadlift"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-deadlift",
+    "name": "Deadlift",
+    "name_en": "Deadlift",
+    "description": "Deadlift: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "advanced",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "barbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-dumbbell-romanian-deadlift",
+    "name": "Dambıl Romen deadlift",
+    "name_en": "Dumbbell Romanian Deadlift",
+    "description": "Dambıl Romen deadlift: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-romanian-deadlift"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-reverse-lunge",
+    "name": "Geri hamle",
+    "name_en": "Reverse Lunge",
+    "description": "Geri hamle: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-forward-lunge",
+      "lib-walking-lunge"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-forward-lunge",
+    "name": "Öne hamle",
+    "name_en": "Forward Lunge",
+    "description": "Öne hamle: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-reverse-lunge",
+      "lib-walking-lunge"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-walking-lunge",
+    "name": "Yürüyerek hamle",
+    "name_en": "Walking Lunge",
+    "description": "Yürüyerek hamle: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-reverse-lunge",
+      "lib-forward-lunge"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-split-squat",
+    "name": "Ayrık duruş squat",
+    "name_en": "Split Squat",
+    "description": "Ayrık duruş squat: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-bulgarian-split-squat"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-bulgarian-split-squat",
+    "name": "Arka ayak yükseltilmiş squat",
+    "name_en": "Bulgarian Split Squat",
+    "description": "Arka ayak yükseltilmiş squat: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "dumbbell",
+    "difficulty": "advanced",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "dumbbell"
+    ],
+    "variations": [
+      "lib-split-squat"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-step-up",
+    "name": "Basamağa çıkış",
+    "name_en": "Step-Up",
+    "description": "Basamağa çıkış: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-standing-calf-raise",
+    "name": "Ayakta baldır yükselişi",
+    "name_en": "Standing Calf Raise",
+    "description": "Ayakta baldır yükselişi: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "machine"
+    ],
+    "variations": [
+      "lib-seated-calf-raise"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-seated-calf-raise",
+    "name": "Oturarak baldır yükselişi",
+    "name_en": "Seated Calf Raise",
+    "description": "Oturarak baldır yükselişi: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "machine"
+    ],
+    "variations": [
+      "lib-standing-calf-raise"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-sumo-deadlift",
+    "name": "Sumo deadlift",
+    "name_en": "Sumo Deadlift",
+    "description": "Sumo deadlift: bacak odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "barbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-hip-thrust",
+    "name": "Kalça itiş",
+    "name_en": "Hip Thrust",
+    "description": "Kalça itiş: kalça odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "glutes",
+    "secondary_muscles": [],
+    "equipment": "barbell",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "glutes",
+      "barbell"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-glute-bridge",
+    "name": "Kalça köprüsü",
+    "name_en": "Glute Bridge",
+    "description": "Kalça köprüsü: kalça odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "glutes",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "glutes",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-single-leg-glute-bridge"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-single-leg-glute-bridge",
+    "name": "Tek bacak kalça köprüsü",
+    "name_en": "Single-Leg Glute Bridge",
+    "description": "Tek bacak kalça köprüsü: kalça odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "glutes",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "glutes",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-glute-bridge"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-cable-kickback",
+    "name": "Kablo geriye bacak itiş",
+    "name_en": "Cable Kickback",
+    "description": "Kablo geriye bacak itiş: kalça odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "glutes",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "glutes",
+      "cable"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-hip-abduction-machine",
+    "name": "Dış bacak makinesi",
+    "name_en": "Hip Abduction Machine",
+    "description": "Dış bacak makinesi: kalça odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "glutes",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "glutes",
+      "machine"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-hip-adduction-machine",
+    "name": "İç bacak makinesi",
+    "name_en": "Hip Adduction Machine",
+    "description": "İç bacak makinesi: bacak iç bölgesi odaklı tekrar takibi. İlk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "legs",
+    "secondary_muscles": [],
+    "equipment": "machine",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "legs",
+      "machine"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-clamshell",
+    "name": "Yan yatarak diz açış",
+    "name_en": "Clamshell",
+    "description": "Yan yatarak diz açış: kalça odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "glutes",
+    "secondary_muscles": [],
+    "equipment": "band",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "glutes",
+      "band"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-lateral-band-walk",
+    "name": "Lastikle yana yürüyüş",
+    "name_en": "Lateral Band Walk",
+    "description": "Lastikle yana yürüyüş: kalça odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "glutes",
+    "secondary_muscles": [],
+    "equipment": "band",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "glutes",
+      "band"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-dead-bug",
+    "name": "Dead bug",
+    "name_en": "Dead Bug",
+    "description": "Dead bug: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-bird-dog",
+    "name": "Bird dog",
+    "name_en": "Bird Dog",
+    "description": "Bird dog: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-crunch",
+    "name": "Karın crunch",
+    "name_en": "Crunch",
+    "description": "Karın crunch: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-reverse-crunch",
+    "name": "Ters crunch",
+    "name_en": "Reverse Crunch",
+    "description": "Ters crunch: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-hanging-knee-raise",
+    "name": "Asılarak diz çekiş",
+    "name_en": "Hanging Knee Raise",
+    "description": "Asılarak diz çekiş: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-cable-crunch",
+    "name": "Kablo karın crunch",
+    "name_en": "Cable Crunch",
+    "description": "Kablo karın crunch: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "core",
+      "cable"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-pallof-press",
+    "name": "Pallof press",
+    "name_en": "Pallof Press",
+    "description": "Pallof press: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "cable",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps",
+      "kg"
+    ],
+    "tags": [
+      "core",
+      "cable"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-russian-twist",
+    "name": "Oturarak gövde dönüşü",
+    "name_en": "Russian Twist",
+    "description": "Oturarak gövde dönüşü: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-heel-touch",
+    "name": "Topuğa dokunuş",
+    "name_en": "Heel Touch",
+    "description": "Topuğa dokunuş: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-seated-knee-tuck",
+    "name": "Oturarak diz çekiş",
+    "name_en": "Seated Knee Tuck",
+    "description": "Oturarak diz çekiş: gövde odaklı tekrar takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "reps"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-plank",
+    "name": "Plank",
+    "name_en": "Plank",
+    "description": "Plank: gövde odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-knee-plank"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-side-plank",
+    "name": "Yan plank",
+    "name_en": "Side Plank",
+    "description": "Yan plank: gövde odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-knee-plank",
+    "name": "Diz üstü plank",
+    "name_en": "Knee Plank",
+    "description": "Diz üstü plank: gövde odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [
+      "lib-plank"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-hollow-hold",
+    "name": "Hollow hold",
+    "name_en": "Hollow Hold",
+    "description": "Hollow hold: gövde odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "core",
+    "secondary_muscles": [],
+    "equipment": "bodyweight",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı boyuna ve kontrol edebildiğin yüke göre ayarla.",
+      "Hareketi dengeli duruş ve kontrollü tempo ile uygula.",
+      "Tekrarlar arasında kontrolü koruyarak başlangıç konumuna dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "core",
+      "bodyweight"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-treadmill-walk",
+    "name": "Koşu bandında yürüyüş",
+    "name_en": "Treadmill Walk",
+    "description": "Koşu bandında yürüyüş: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "treadmill",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "treadmill"
+    ],
+    "variations": [
+      "lib-outdoor-walk"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-treadmill-run",
+    "name": "Koşu bandında koşu",
+    "name_en": "Treadmill Run",
+    "description": "Koşu bandında koşu: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "treadmill",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "treadmill"
+    ],
+    "variations": [
+      "lib-outdoor-run"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-outdoor-walk",
+    "name": "Açık havada yürüyüş",
+    "name_en": "Outdoor Walk",
+    "description": "Açık havada yürüyüş: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "none"
+    ],
+    "variations": [
+      "lib-treadmill-walk"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-outdoor-run",
+    "name": "Açık havada koşu",
+    "name_en": "Outdoor Run",
+    "description": "Açık havada koşu: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "none"
+    ],
+    "variations": [
+      "lib-treadmill-run"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-stationary-bike",
+    "name": "Sabit bisiklet",
+    "name_en": "Stationary Bike",
+    "description": "Sabit bisiklet: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "bike",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "bike"
+    ],
+    "variations": [
+      "lib-recumbent-bike"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-recumbent-bike",
+    "name": "Yatay bisiklet",
+    "name_en": "Recumbent Bike",
+    "description": "Yatay bisiklet: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "bike",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "bike"
+    ],
+    "variations": [
+      "lib-stationary-bike"
+    ],
+    "media": []
+  },
+  {
+    "id": "lib-rowing-ergometer",
+    "name": "Kürek ergometresi",
+    "name_en": "Rowing Ergometer",
+    "description": "Kürek ergometresi: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "rower",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "rower"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-elliptical-trainer",
+    "name": "Eliptik bisiklet",
+    "name_en": "Elliptical Trainer",
+    "description": "Eliptik bisiklet: kardiyo odaklı süre/mesafe takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "cardio",
+    "secondary_muscles": [],
+    "equipment": "elliptical",
+    "difficulty": "intermediate",
+    "instructions": [
+      "Ekipmanı kullanım yönergesine göre ayarla; düşük tempoda başla.",
+      "Kontrollü bir tempo seç ve nefesini tutma.",
+      "Bitirirken tempoyu kademeli azalt."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds",
+      "meters"
+    ],
+    "tags": [
+      "cardio",
+      "elliptical"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-standing-calf-stretch",
+    "name": "Ayakta baldır esnetme",
+    "name_en": "Standing Calf Stretch",
+    "description": "Ayakta baldır esnetme: mobilite odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "mobility",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Dengeli ve rahat bir başlangıç pozisyonu al.",
+      "Hareket aralığını zorlamadan hafif gerilme düzeyinde kal.",
+      "Yaylanmadan kontrollü biçimde başlangıca dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "mobility",
+      "none"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-seated-hamstring-stretch",
+    "name": "Oturarak arka bacak esnetme",
+    "name_en": "Seated Hamstring Stretch",
+    "description": "Oturarak arka bacak esnetme: mobilite odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "mobility",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Dengeli ve rahat bir başlangıç pozisyonu al.",
+      "Hareket aralığını zorlamadan hafif gerilme düzeyinde kal.",
+      "Yaylanmadan kontrollü biçimde başlangıca dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "mobility",
+      "none"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-standing-quadriceps-stretch",
+    "name": "Ayakta ön bacak esnetme",
+    "name_en": "Standing Quadriceps Stretch",
+    "description": "Ayakta ön bacak esnetme: mobilite odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "mobility",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Dengeli ve rahat bir başlangıç pozisyonu al.",
+      "Hareket aralığını zorlamadan hafif gerilme düzeyinde kal.",
+      "Yaylanmadan kontrollü biçimde başlangıca dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "mobility",
+      "none"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-half-kneeling-hip-flexor-stretch",
+    "name": "Yarım diz çökerek kalça önü esnetme",
+    "name_en": "Half-Kneeling Hip Flexor Stretch",
+    "description": "Yarım diz çökerek kalça önü esnetme: mobilite odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "mobility",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Dengeli ve rahat bir başlangıç pozisyonu al.",
+      "Hareket aralığını zorlamadan hafif gerilme düzeyinde kal.",
+      "Yaylanmadan kontrollü biçimde başlangıca dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "mobility",
+      "none"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-doorway-chest-stretch",
+    "name": "Kapıda göğüs esnetme",
+    "name_en": "Doorway Chest Stretch",
+    "description": "Kapıda göğüs esnetme: mobilite odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "mobility",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Dengeli ve rahat bir başlangıç pozisyonu al.",
+      "Hareket aralığını zorlamadan hafif gerilme düzeyinde kal.",
+      "Yaylanmadan kontrollü biçimde başlangıca dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "mobility",
+      "none"
+    ],
+    "variations": [],
+    "media": []
+  },
+  {
+    "id": "lib-child-pose",
+    "name": "Çocuk duruşu",
+    "name_en": "Child Pose",
+    "description": "Çocuk duruşu: mobilite odaklı süre takibi. Genel kütüphane kaydı; ilk uygulamada antrenöründen harekete özel teknik gösterimi iste.",
+    "muscle": "mobility",
+    "secondary_muscles": [],
+    "equipment": "none",
+    "difficulty": "beginner",
+    "instructions": [
+      "Dengeli ve rahat bir başlangıç pozisyonu al.",
+      "Hareket aralığını zorlamadan hafif gerilme düzeyinde kal.",
+      "Yaylanmadan kontrollü biçimde başlangıca dön."
+    ],
+    "safety": [
+      "Hareketi öğrenmeden yüksek yük kullanma.",
+      "Keskin ağrı veya baş dönmesinde dur; uygun uzman desteği al."
+    ],
+    "measurements": [
+      "seconds"
+    ],
+    "tags": [
+      "mobility",
+      "none"
+    ],
+    "variations": [],
+    "media": []
+  }
+]

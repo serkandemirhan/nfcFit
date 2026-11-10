@@ -1,0 +1,2 @@
+PASS bulk assignment across two remote pages persists two independent copies and preserves every old plan/workout [ 'Berk İnce', 'Elif Aksoy' ]
+PASS direct overlap blocks confirmation; move-after resolution enables it; cancelling makes no writes

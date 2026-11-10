@@ -1,0 +1,46 @@
+{"at": "2026-11-08T11:27:50.877384+03:00", "event": "frame-counter-reset"}
+{"at": "2026-11-08T11:27:51.768964+03:00", "event": "cold-launch", "adb_wall_seconds": 0.651, "native_result": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 583\nWaitTime: 585\nComplete\n"}
+{"at": "2026-11-08T11:27:59.639067+03:00", "event": "capture", "name": "001-home-after-upgrade", "observer_seconds": 3.245}
+{"at": "2026-11-08T11:28:07.085327+03:00", "event": "tap", "x": 330, "y": 2080, "dispatch_seconds": 0.146, "label": "Programim"}
+{"at": "2026-11-08T11:28:13.653496+03:00", "event": "capture", "name": "002-compact-week", "observer_seconds": 3.388}
+{"at": "2026-11-08T11:28:31.765524+03:00", "event": "tap", "x": 164, "y": 962, "dispatch_seconds": 0.163, "label": "Haftada-dinlenme-gunu"}
+{"at": "2026-11-08T11:28:53.643006+03:00", "event": "capture", "name": "003-selected-rest-day", "observer_seconds": 3.193}
+{"at": "2026-11-08T11:29:04.198059+03:00", "event": "capture", "name": "004-builder-sticky-footer", "observer_seconds": 3.007}
+{"at": "2026-11-08T11:29:13.021764+03:00", "event": "tap", "x": 530, "y": 2070, "dispatch_seconds": 0.142, "label": "Bos-planda-dogrulama"}
+{"at": "2026-11-08T11:29:19.723517+03:00", "event": "capture", "name": "005-validation-next-to-save", "observer_seconds": 3.063}
+{"at": "2026-11-08T11:29:36.257458+03:00", "event": "capture", "name": "006-member-coach-route-guard", "observer_seconds": 2.988}
+{"at": "2026-11-08T11:29:51.569509+03:00", "event": "capture", "name": "007-member-management-guard", "observer_seconds": 3.63}
+{"at": "2026-11-08T11:30:54.356822+03:00", "event": "tap", "x": 530, "y": 786, "dispatch_seconds": 0.109, "label": "Ana-sayfa"}
+{"at": "2026-11-08T11:31:10.332270+03:00", "event": "quick-capture", "name": "008-before-offline"}
+{"at": "2026-11-08T11:31:14.956476+03:00", "event": "tap", "x": 530, "y": 1150, "dispatch_seconds": 0.215, "label": "Test-seansini-ac"}
+{"at": "2026-11-08T11:31:48.359073+03:00", "event": "capture", "name": "009-pause-retained-after-upgrade", "observer_seconds": 2.956}
+{"at": "2026-11-08T11:32:06.335093+03:00", "event": "tap", "x": 530, "y": 1840, "dispatch_seconds": 0.103, "label": "Cevrimdisi-devam-et"}
+{"at": "2026-11-08T11:32:10.099860+03:00", "event": "quick-capture", "name": "010-offline-resumed"}
+{"at": "2026-11-08T11:32:14.747307+03:00", "event": "tap", "x": 500, "y": 1000, "dispatch_seconds": 0.183, "label": "Cevrimdisi-egzersiz"}
+{"at": "2026-11-08T11:32:22.577558+03:00", "event": "quick-capture", "name": "011-offline-exercise"}
+{"at": "2026-11-08T11:32:28.528941+03:00", "event": "tap", "x": 500, "y": 1760, "dispatch_seconds": 0.202, "label": "Ikinci-set-cevrimdisi"}
+{"at": "2026-11-08T11:32:33.250294+03:00", "event": "quick-capture", "name": "012-compact-set-entry"}
+{"at": "2026-11-08T11:32:39.844550+03:00", "event": "tap", "x": 530, "y": 2080, "dispatch_seconds": 0.12, "label": "Cevrimdisi-ikinci-seti-kaydet"}
+{"at": "2026-11-08T11:32:47.555366+03:00", "event": "quick-capture", "name": "013-offline-set-saved"}
+{"at": "2026-11-08T11:32:55.731721+03:00", "event": "capture", "name": "014-offline-restart-persistence", "observer_seconds": 3.303}
+{"at": "2026-11-08T11:33:36.354569+03:00", "event": "tap", "x": 530, "y": 1250, "dispatch_seconds": 0.197, "label": "Yeniden-acilan-seansa-don"}
+{"at": "2026-11-08T11:33:41.187042+03:00", "event": "quick-capture", "name": "015-reconnect-workout"}
+{"at": "2026-11-08T11:34:00.560294+03:00", "event": "tap", "x": 958, "y": 795, "dispatch_seconds": 0.179, "label": "Son-duraklatma"}
+{"at": "2026-11-08T11:34:07.852003+03:00", "event": "capture", "name": "016-paused-after-offline", "observer_seconds": 2.875}
+{"at": "2026-11-08T11:34:14.784579+03:00", "event": "tap", "x": 530, "y": 2040, "dispatch_seconds": 0.128, "label": "Test-seansini-kismi-bitir"}
+{"at": "2026-11-08T11:34:21.531497+03:00", "event": "capture", "name": "017-partial-confirmation", "observer_seconds": 2.838}
+{"at": "2026-11-08T11:34:26.827640+03:00", "event": "tap", "x": 750, "y": 1290, "dispatch_seconds": 0.173, "label": "Kismi-bitisi-onayla"}
+{"at": "2026-11-08T11:34:34.972079+03:00", "event": "capture", "name": "018-workout-partial-summary", "observer_seconds": 3.088}
+{"at": "2026-11-08T11:34:45.804048+03:00", "event": "tap", "x": 530, "y": 1750, "dispatch_seconds": 0.161, "label": "Bitis-sonrasi-ilerleme"}
+{"at": "2026-11-08T11:34:52.640343+03:00", "event": "capture", "name": "019-progress-after-finish", "observer_seconds": 3.146}
+{"at": "2026-11-08T11:35:07.674253+03:00", "event": "tap", "x": 474, "y": 808, "dispatch_seconds": 0.166, "label": "Otuz-gun"}
+{"at": "2026-11-08T11:35:16.486778+03:00", "event": "capture", "name": "020-progress-30-days", "observer_seconds": 3.232}
+{"at": "2026-11-08T11:35:55.837185+03:00", "event": "tap", "x": 714, "y": 808, "dispatch_seconds": 0.166, "label": "Doksan-gun"}
+{"at": "2026-11-08T11:36:14.809000+03:00", "event": "capture", "name": "021-progress-90-days", "observer_seconds": 3.185}
+{"at": "2026-11-08T11:36:37.202092+03:00", "event": "capture", "name": "022-exercise-performance", "observer_seconds": 3.117}
+{"at": "2026-11-08T11:38:02.732233+03:00", "event": "tap", "x": 955, "y": 2080, "dispatch_seconds": 0.125, "label": "Profil"}
+{"at": "2026-11-08T11:38:09.502788+03:00", "event": "tap", "x": 500, "y": 1250, "dispatch_seconds": 0.122, "label": "Iyi-yasam"}
+{"at": "2026-11-08T11:38:23.873661+03:00", "event": "capture", "name": "023-wellness", "observer_seconds": 3.001}
+{"at": "2026-11-08T11:38:44.429856+03:00", "event": "tap", "x": 955, "y": 2080, "dispatch_seconds": 0.134, "label": "Profil-hedeflere-don"}
+{"at": "2026-11-08T11:39:02.216416+03:00", "event": "tap", "x": 500, "y": 1700, "dispatch_seconds": 0.181, "label": "Hedeflerim"}
+{"at": "2026-11-08T11:39:09.274336+03:00", "event": "capture", "name": "024-personal-goals", "observer_seconds": 3.33}

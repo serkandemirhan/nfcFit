@@ -1,0 +1,23 @@
+const {launch,login,api,raw}=require('./trainer-browser-fixture.cjs');
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const out=path.resolve(__dirname,'../../test-results/trainer-daily-workflow');fs.mkdirSync(out+'/screenshots',{recursive:true});
+(async()=>{const e=await launch(),p=e.page;const requests=[];p.on('request',r=>{if(r.url().includes('/coaching/'))requests.push(r.url())});
+const shot=async name=>p.screenshot({path:out+'/screenshots/'+name+'.png',fullPage:true});
+const idle=async()=>{await p.waitForTimeout(650);await p.locator('table[aria-busy="true"]').waitFor({state:'hidden'});};
+await login(p,'trainer@planning.test');await p.locator('.nfc-page-header').waitFor();await idle();
+assert(!requests.some(x=>x.includes('/dashboard')));assert(!requests.some(x=>x.endsWith('/overview')));await shot('01-overview');
+let names=await p.locator('td[data-column="name"]').allTextContents();await p.getByRole('button',{name:'Sonraki sayfa',exact:true}).click();await idle();assert.notDeepEqual(await p.locator('td[data-column="name"]').allTextContents(),names);console.log('PASS remote overview pagination, no eager overview/dashboard');
+await p.getByRole('button',{name:'Üyelerim',exact:true}).click();await idle();await shot('02-members');
+const input=p.getByPlaceholder('Sporcu ara');console.log('SEARCH',await input.count());
+await input.fill('ada');await idle();await p.getByRole('button',{name:'Sporcuyu incele',exact:true}).first().click();await idle();await shot('03-member-program');
+await p.locator('.nfc-member-tabs').getByRole('button',{name:'İlerleme',exact:true}).click();await idle();assert((await p.locator('body').innerText()).includes('5/4'));await shot('04-member-extra-sets');
+await p.getByRole('button',{name:'Geçmiş',exact:true}).click();await idle();await shot('05-member-history');
+console.log('PASS member program/progress/history and actual extra sets');
+await p.getByRole('button',{name:'İlgi bekleyenler',exact:true}).click();await idle();await input.fill('');await idle();await shot('06-attention');assert((await p.locator('body').innerText()).includes('Aktif programı yok'));
+await p.getByRole('button',{name:'Program ata',exact:true}).first().click();await idle();await shot('07-direct-assignment-programs');console.log('DIALOG', (await p.getByRole('dialog').innerText()).slice(0,2200));
+await p.getByRole('dialog').getByRole('button').filter({hasText:'Seç →'}).first().click();await idle();await shot('08-direct-assignment-review');console.log('ASSIGN', (await p.getByRole('dialog').innerText()).slice(0,2500));
+assert((await p.getByRole('dialog').innerText()).includes('Başlangıç'));await p.keyboard.press('Escape');await idle();
+console.log('PASS direct assignment reuses date and member review dialog');
+for(const width of [1440,1280,390,375,412]){await p.setViewportSize({width,height:900});await idle();assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`overflow ${width}`);await shot(`09-attention-${width}`)}
+assert.deepEqual(e.errors,[]);console.log('PASS five widths and no JS errors');await e.browser.close();
+})().catch(err=>{console.error(err);process.exit(1)});

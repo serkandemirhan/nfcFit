@@ -1,0 +1,374 @@
+[
+  {
+    "path": "before/1280x800-members.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "748e6ca0a8ce2dd908492db42de109af471475c4a69fbeb5c0d34dbe03564aa6"
+  },
+  {
+    "path": "before/1280x800-overview.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "5378db13ef78e00d6eb85dda413b739c92d8b3356fb04b95c6adb70d6ac2aa94"
+  },
+  {
+    "path": "before/1280x800-programs.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "939f1282f3e379502c5311600d0a43d16b3d9f9141af399a16bffd3f67d9e5c5"
+  },
+  {
+    "path": "before/1280x800-workouts.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "a406de1c9ac675dfad4b5cad4f2839f80980eb156d24ca04a283475ec2697dd9"
+  },
+  {
+    "path": "before/1440x900-members.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "c14f73fc6f2af7e6bc8b7c770001cde184a8034c117e3ed95e01b47c37ef89bb"
+  },
+  {
+    "path": "before/1440x900-overview.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "2a7652f1613f5b569e0d225dd6b20838a3473bd9eb796cda2edb58b802c714a8"
+  },
+  {
+    "path": "before/1440x900-programs.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "b6e9d77a63ee573e2cdb255a1d46b31eaa1d116f50867fe7ba5d550e81d4e0b5"
+  },
+  {
+    "path": "before/1440x900-workouts.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "26897159a68f7ed0417ed316390142dc8a68bf79f66c7a9b725b9e1bf823d178"
+  },
+  {
+    "path": "before/375x667-members.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "ef9381817d34401bd48ac050978770e6aef48dfc5de61a51c43c56193f399691"
+  },
+  {
+    "path": "before/375x667-overview.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "2e81ce3adb8af04e6ee14df8b7ee7e09718ba50da2095c4915d68ac728ab93d0"
+  },
+  {
+    "path": "before/375x667-programs.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "41f77eb4a02ab4e9c0fe079a972f4450f4e8132ccdd70da5c278dd46f7c25341"
+  },
+  {
+    "path": "before/375x667-workouts.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "aa2cf1d3ebd73403a2790c7763b5112c39815e971a749454c2eb9be5a758fac0"
+  },
+  {
+    "path": "before/390x844-members.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "0a0f15f609591627ad6541df0b08d7e040cc435c5c62a811323756990e42a217"
+  },
+  {
+    "path": "before/390x844-overview.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "d97688dc537ca24acfc1bc442ba2c776f53069a281c20726037f2dbc3d97823d"
+  },
+  {
+    "path": "before/390x844-programs.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "44c1ac72f02ebeeb90ba8db7b2be2dba742b55003641bccffe2350c706c72125"
+  },
+  {
+    "path": "before/390x844-workouts.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "345fdaddc4b63a966c20a30a106f72031d0f2b9448f8cf8b77765632036dbf77"
+  },
+  {
+    "path": "before/412x915-members.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "bbf0e432dec7417205e1613e86a5cda494614dbae238a018fa66a375750fabad"
+  },
+  {
+    "path": "before/412x915-overview.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "5595b180539b22ee11b089667d60cd8a2089e33b21a0be923ae583783445651f"
+  },
+  {
+    "path": "before/412x915-programs.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "9f53eece76fafcf59ac3bf4b76f887848555cb423618eaa2691f45cdf1b36b6b"
+  },
+  {
+    "path": "before/412x915-workouts.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "8f8c8969f119378f2f241413a2fc16d8f0e7d3b2c0cd100e1f5acfd44e992972"
+  },
+  {
+    "path": "after/1280x800-members.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "36b420db3f17d0cd57a9003895eadd37f6af7d9a5371bcccb8249bf94c71f291"
+  },
+  {
+    "path": "after/1280x800-overview.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "5e0277d971652a5d74a30d7eebccea90431a63dfcc757d7a7e67045a115e4c1c"
+  },
+  {
+    "path": "after/1280x800-programs.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "f3f430012933e3339d4f96a99bdb888e3e85d3930773f2cbab289a5b14a082c9"
+  },
+  {
+    "path": "after/1280x800-workouts.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "62b9ebdffffdcd5222f96e85f02718ea465c06b543dcc1a3d0df41a54a3dd145"
+  },
+  {
+    "path": "after/1440x900-members.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "a61065cda9867c061981db8f08528682e2a079635b4037ea725f1e3690f5ffb4"
+  },
+  {
+    "path": "after/1440x900-overview.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "2debd0049c58b77f65c2ecf5b14f1f19b4dcb03b25ffe6bec27d4eb3c7acae4d"
+  },
+  {
+    "path": "after/1440x900-programs.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "248736ec1d9f5f78675ac5372b46aad26d2fc25dd7e56f6920cc413460166f5a"
+  },
+  {
+    "path": "after/1440x900-workouts.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "edc61c858f6765e8bc916f15bc377da1e75ed58dfe3d96dde65ac7e3a7a7d01e"
+  },
+  {
+    "path": "after/375x667-members.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "adf3572d2ee490045980c40704134aafcddab8a3dad9c45fa59cd39582e5edf8"
+  },
+  {
+    "path": "after/375x667-overview.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "93efff6fbe9d27be7d8f409c32ca6fde84795cb4e4edf2314df946902a1d3391"
+  },
+  {
+    "path": "after/375x667-programs.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "777c0b42735d03b01f1ed7f5f7af4c85cdb008cf7e1a25030e169a3c9355f902"
+  },
+  {
+    "path": "after/375x667-workouts.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "bf38813f57d311e6be5d395564e097747b7887ffd30a7b7b4f2198df5b479c9e"
+  },
+  {
+    "path": "after/390x844-members.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "6ed56ed067a7167215d220263074b8dfa67e42d3021f762c94a966ea051e4be2"
+  },
+  {
+    "path": "after/390x844-overview.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "b0ce7d514ae230906558cbf3d8daf0b849e45746af165b4f88af98535a2ae50e"
+  },
+  {
+    "path": "after/390x844-programs.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "4d474906b398769f6432207aadc89f4655f4209e40f393ecb6a775cddb2734d6"
+  },
+  {
+    "path": "after/390x844-workouts.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "a5734a594e585a70c78c43b7915a63e605cb3568af8940dab28dffc886854573"
+  },
+  {
+    "path": "after/412x915-members.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "9e5e88e34b52cb9da5198e6ccb9b0c79f8157a86401959d28ab65d53df75808e"
+  },
+  {
+    "path": "after/412x915-overview.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "9715b124a37d5d7a8ad15c900eacae30c805da186ce35d11b80d2a6226a507bd"
+  },
+  {
+    "path": "after/412x915-programs.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "7d110b7795caef617a4f6b4dd32eaa54b39c6184c8bc7728c6df06b02a9454f3"
+  },
+  {
+    "path": "after/412x915-workouts.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "da92a9f627f7d21d878561a37e03b812a470b0e35c057bbad6cbb261f8e030fc"
+  },
+  {
+    "path": "workflows/01-member-pagination.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "84995e408ae91b63e3a1e88997d48fa28242b257709908d92233a2186b65a6b1"
+  },
+  {
+    "path": "workflows/02-program-history.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "5e0680ecb0d0e23e9a7d5f38609d74c1eec7c326f89832fa657e10127ecbc196"
+  },
+  {
+    "path": "workflows/03-assignment-member-search.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "33d4a625416e3ff90bbacda0f05825c172f331bbc314bab029fb940bf7088add"
+  },
+  {
+    "path": "workflows/04-workout-filter.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "68393dbe4f7fc695769efd79c9ec8d4821f43fe8e957302b27ac2061d2aa0ea4"
+  },
+  {
+    "path": "workflows/05-mobile-real-member-progress.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "0f0db8d5a1226e479c4a76ff0a3966d58632e553b9dfd7c3a7cdd16b6a7add97"
+  },
+  {
+    "path": "workflows/06-mobile-actions-menu.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "ec0a27bd4f27b0439610070cfe7c866db1b109da9bd740fd3040e790830d39fe"
+  },
+  {
+    "path": "workflows/07-mobile-workout-reduced-viewport.png",
+    "width": 375,
+    "height": 450,
+    "sha256": "ef3be2731cf03eebdc5f4055b4ed39113cb57f906081a8fdf99747d94f9eb0a5"
+  },
+  {
+    "path": "workflows/08-mobile-create-program.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "64c9fd15f1a85ff43ce995c41d3b2a168f819f9f52275b0c3fc75c2be5fb6309"
+  },
+  {
+    "path": "persistence/workflows/01-unsaved-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "cb4bea22c3321f9032863f4713772b46526703c0fa30f5bfb78027c9dddb4cc1"
+  },
+  {
+    "path": "persistence/workflows/02-focused-exercise-targets.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "51a3d024495277a66a3c1a3cd784ed6b0298cf72d2fe00d7310be64b49c255dc"
+  },
+  {
+    "path": "persistence/workflows/03-template-save-failed.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "68a6966730548dc5e1cabce83953a891f0a32da8326f3c5d352c4de5148ea2f2"
+  },
+  {
+    "path": "persistence/workflows/04-applied-to-day-not-persisted.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "70acd118112cf6f797a7e40d88b63dbc42bf07cb24d200db3fe850bb03121fd4"
+  },
+  {
+    "path": "persistence/workflows/05-saving-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "0b2a5254a65c20d2a5a51e7d60f2b6dbab3edd4a41e884061f1e5b6ac277b4d5"
+  },
+  {
+    "path": "persistence/workflows/06-saved-draft.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "062850bc30b18eea770751583cc2b58e0761245cdb80ad633f1ad0b4d55dfc5a"
+  },
+  {
+    "path": "persistence/workflows/07-published-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "1c707c110ceb5aac1cf74e27dc9c1eee265c3fb4498960279b5c8855cb04b9cb"
+  },
+  {
+    "path": "persistence/workflows/08-published-with-unpublished-changes.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "6bd2091060560b57ed4bda6576b2a0521936e557908ce12a82a4e40b64d8fc5a"
+  },
+  {
+    "path": "persistence/workflows/09-program-save-failed-retry.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "2131220d284734f2715283ffe59efaecc6ee387a2960f4bd4ba6942a8f0f06a4"
+  },
+  {
+    "path": "persistence/workflows/10-overlap-final-review.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "aa397d497969b273295d4b36b9707c01b8d49f47caf02db3b929bd0be3302579"
+  },
+  {
+    "path": "persistence/workflows/11-non-overlapping-final-review.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "d414912817730ce4409a6c404884112d99c1fa2e69d283091e4645a723e0fc9e"
+  },
+  {
+    "path": "persistence/workflows/12-member-persisted-schedule.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "9df0384917532d8d01ab0894ea204672bf30a1231d22f3480cc12e35c162e1f2"
+  },
+  {
+    "path": "persistence/workflows/13-ada-five-of-four-extra.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "0cbe69cd1c7e50cfff9d66830e99fc361f87049ef3732978dc7ec405fb23c371"
+  },
+  {
+    "path": "persistence/workflows/14-emre-four-of-four.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "2b9905d8bc7d63921c419047910c2e9aeda24163439e0bc0a88972b6ea094fcc"
+  }
+]

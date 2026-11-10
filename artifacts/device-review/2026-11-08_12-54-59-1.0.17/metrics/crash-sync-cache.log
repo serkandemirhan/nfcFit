@@ -1,0 +1,201 @@
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: FATAL EXCEPTION: mqt_v_native
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: Process: com.serkandemirhan.nfcfit, PID: 25126
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: com.facebook.react.common.JavascriptException: TypeError: Cannot read property 'length' of undefined
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: This error is located at:
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at CoachingSync (address at index.android.bundle:1:2449094)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Suspense (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Route (address at index.android.bundle:1:1482695)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at BaseRoute (address at index.android.bundle:1:1489583)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at StaticContainer (address at index.android.bundle:1:921649)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at EnsureSingleNavigator (address at index.android.bundle:1:868884)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at SceneView (address at index.android.bundle:1:919521)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RNSScreenContentWrapper (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ScreenContentWrapper (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at DebugContainer (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RNSScreen (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Animated(Anonymous) (address at index.android.bundle:1:644621)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Suspender (address at index.android.bundle:1:1460181)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Suspense (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Freeze (address at index.android.bundle:1:1460241)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at DelayedFreeze (address at index.android.bundle:1:1459823)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at InnerScreen (address at index.android.bundle:1:1457540)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1459221)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ScreenStackItem (address at index.android.bundle:1:1469388)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at SceneView (address at index.android.bundle:1:1943640)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RNSScreenStack (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1468467)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ScreenStack (address at index.android.bundle:1:1467656)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at FrameSizeProviderInner (address at index.android.bundle:1:988398)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at FrameSizeProvider (address at index.android.bundle:1:988319)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RCTView (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at View (address at index.android.bundle:1:491124)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at SafeAreaProviderCompat (address at index.android.bundle:1:999881)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at NativeStackView (address at index.android.bundle:1:1942218)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at PreventRemoveProvider (address at index.android.bundle:1:900020)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at NavigationStateListenerProvider (address at index.android.bundle:1:926975)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at NavigationContent (address at index.android.bundle:1:916646)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:916549)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at NativeStackNavigator (address at index.android.bundle:1:1938576)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1481616)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1938010)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at AuthGate (address at index.android.bundle:1:2426582)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at OfflineSyncProvider (address at index.android.bundle:1:2432677)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at AuthProvider (address at index.android.bundle:1:1599582)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at QueryClientProvider (address at index.android.bundle:1:1722454)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ThemeProvider (address at index.android.bundle:1:871044)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RNGestureHandlerRootView (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at GestureHandlerRootView (address at index.android.bundle:1:1382833)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RootLayoutContent (address at index.android.bundle:1:2425860)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ColorSchemeProvider (address at index.android.bundle:1:1579105)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RootLayout (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Suspense (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Route (address at index.android.bundle:1:1482695)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at BaseRoute (address at index.android.bundle:1:1489583)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at StaticContainer (address at index.android.bundle:1:921649)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at EnsureSingleNavigator (address at index.android.bundle:1:868884)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at SceneView (address at index.android.bundle:1:919521)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at PreventRemoveProvider (address at index.android.bundle:1:900020)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at NavigationStateListenerProvider (address at index.android.bundle:1:926975)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at NavigationContent (address at index.android.bundle:1:916646)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:916549)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at Content (address at index.android.bundle:1:2040641)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RNCSafeAreaProvider (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at SafeAreaProvider (address at index.android.bundle:1:984790)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at LinkPreviewContextProvider (address at index.android.bundle:1:1951501)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:2039539)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ThemeProvider (address at index.android.bundle:1:871044)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at EnsureSingleNavigator (address at index.android.bundle:1:868884)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at BaseNavigationContainer (address at index.android.bundle:1:847661)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at NavigationContainerInner (address at index.android.bundle:1:2042500)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ContextNavigator (address at index.android.bundle:1:2039768)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at ExpoRoot (address at index.android.bundle:1:2039412)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at App (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at RCTView (<anonymous>)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at View (address at index.android.bundle:1:491124)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime:     at AppContainer (address at index.android.bundle:1:490452), stack:
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: CoachingSync@1:2449745
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: renderWithHooks@1:249848
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: updateFunctionComponent@1:268642
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: beginWork@1:276492
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: performUnitOfWork@1:295166
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: workLoopSync@1:294174
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: renderRootSync@1:294006
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: performWorkOnRoot@1:291650
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: performSyncWorkOnRoot@1:245431
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: flushSyncWorkAcrossRoots_impl@1:244322
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: processRootScheduleInMicrotask@1:244682
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: anonymous@1:245526
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at com.facebook.react.modules.core.ExceptionsManagerModule.reportException(ExceptionsManagerModule.kt:52)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at com.facebook.jni.NativeRunnable.run(Native Method)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at android.os.Handler.handleCallback(Handler.java:995)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:103)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadHandler.dispatchMessage(MessageQueueThreadHandler.kt:21)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:273)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:363)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion.startNewBackgroundThread$lambda$1(MessageQueueThreadImpl.kt:175)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion.$r8$lambda$ldnZnqelhYFctGaUKkOKYj5rxo4(MessageQueueThreadImpl.kt:0)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
+11-08 13:01:12.257 25126 25164 E AndroidRuntime: 	at java.lang.Thread.run(Thread.java:1571)
+
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: FATAL EXCEPTION: mqt_v_native
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: Process: com.serkandemirhan.nfcfit, PID: 27852
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: com.facebook.react.common.JavascriptException: TypeError: Cannot read property 'length' of undefined
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: This error is located at:
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at CoachingSync (address at index.android.bundle:1:2449094)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Suspense (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Route (address at index.android.bundle:1:1482695)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at BaseRoute (address at index.android.bundle:1:1489583)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at StaticContainer (address at index.android.bundle:1:921649)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at EnsureSingleNavigator (address at index.android.bundle:1:868884)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at SceneView (address at index.android.bundle:1:919521)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RNSScreenContentWrapper (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ScreenContentWrapper (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at DebugContainer (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RNSScreen (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Animated(Anonymous) (address at index.android.bundle:1:644621)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Suspender (address at index.android.bundle:1:1460181)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Suspense (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Freeze (address at index.android.bundle:1:1460241)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at DelayedFreeze (address at index.android.bundle:1:1459823)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at InnerScreen (address at index.android.bundle:1:1457540)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1459221)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ScreenStackItem (address at index.android.bundle:1:1469388)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at SceneView (address at index.android.bundle:1:1943640)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RNSScreenStack (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1468467)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ScreenStack (address at index.android.bundle:1:1467656)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at FrameSizeProviderInner (address at index.android.bundle:1:988398)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at FrameSizeProvider (address at index.android.bundle:1:988319)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RCTView (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at View (address at index.android.bundle:1:491124)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at SafeAreaProviderCompat (address at index.android.bundle:1:999881)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at NativeStackView (address at index.android.bundle:1:1942218)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at PreventRemoveProvider (address at index.android.bundle:1:900020)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at NavigationStateListenerProvider (address at index.android.bundle:1:926975)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at NavigationContent (address at index.android.bundle:1:916646)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:916549)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at NativeStackNavigator (address at index.android.bundle:1:1938576)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1481616)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:1938010)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at AuthGate (address at index.android.bundle:1:2426582)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at OfflineSyncProvider (address at index.android.bundle:1:2432677)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at AuthProvider (address at index.android.bundle:1:1599582)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at QueryClientProvider (address at index.android.bundle:1:1722454)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ThemeProvider (address at index.android.bundle:1:871044)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RNGestureHandlerRootView (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at GestureHandlerRootView (address at index.android.bundle:1:1382833)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RootLayoutContent (address at index.android.bundle:1:2425860)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ColorSchemeProvider (address at index.android.bundle:1:1579105)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RootLayout (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Suspense (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Route (address at index.android.bundle:1:1482695)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at BaseRoute (address at index.android.bundle:1:1489583)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at StaticContainer (address at index.android.bundle:1:921649)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at EnsureSingleNavigator (address at index.android.bundle:1:868884)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at SceneView (address at index.android.bundle:1:919521)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at PreventRemoveProvider (address at index.android.bundle:1:900020)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at NavigationStateListenerProvider (address at index.android.bundle:1:926975)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at NavigationContent (address at index.android.bundle:1:916646)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:916549)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at Content (address at index.android.bundle:1:2040641)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RNCSafeAreaProvider (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at SafeAreaProvider (address at index.android.bundle:1:984790)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at LinkPreviewContextProvider (address at index.android.bundle:1:1951501)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at anonymous (address at index.android.bundle:1:2039539)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ThemeProvider (address at index.android.bundle:1:871044)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at EnsureSingleNavigator (address at index.android.bundle:1:868884)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at BaseNavigationContainer (address at index.android.bundle:1:847661)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at NavigationContainerInner (address at index.android.bundle:1:2042500)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ContextNavigator (address at index.android.bundle:1:2039768)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at ExpoRoot (address at index.android.bundle:1:2039412)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at App (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at RCTView (<anonymous>)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at View (address at index.android.bundle:1:491124)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime:     at AppContainer (address at index.android.bundle:1:490452), stack:
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: CoachingSync@1:2449745
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: renderWithHooks@1:249848
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: updateFunctionComponent@1:268642
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: beginWork@1:276492
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: performUnitOfWork@1:295166
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: workLoopSync@1:294174
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: renderRootSync@1:294006
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: performWorkOnRoot@1:291650
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: performSyncWorkOnRoot@1:245431
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: flushSyncWorkAcrossRoots_impl@1:244322
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: processRootScheduleInMicrotask@1:244682
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: anonymous@1:245526
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at com.facebook.react.modules.core.ExceptionsManagerModule.reportException(ExceptionsManagerModule.kt:52)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at com.facebook.jni.NativeRunnable.run(Native Method)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at android.os.Handler.handleCallback(Handler.java:995)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:103)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadHandler.dispatchMessage(MessageQueueThreadHandler.kt:21)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:273)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:363)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion.startNewBackgroundThread$lambda$1(MessageQueueThreadImpl.kt:175)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion.$r8$lambda$ldnZnqelhYFctGaUKkOKYj5rxo4(MessageQueueThreadImpl.kt:0)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at com.facebook.react.bridge.queue.MessageQueueThreadImpl$Companion$$ExternalSyntheticLambda0.run(D8$$SyntheticClass:0)
+11-08 13:01:50.227 27852 27877 E AndroidRuntime: 	at java.lang.Thread.run(Thread.java:1571)

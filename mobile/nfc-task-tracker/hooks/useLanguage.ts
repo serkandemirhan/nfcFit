@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getLocales } from 'expo-localization';
 
 export type Language = 'tr' | 'en';
 
@@ -23,8 +22,7 @@ export function useLanguage() {
         await i18n.changeLanguage(savedLanguage);
       } else {
         // Get device language
-        const locales = getLocales();
-        const deviceLanguage = locales[0]?.languageCode || 'tr';
+        const deviceLanguage = 'tr'; // Turkish is the product default; explicit saved preference still wins.
         const supportedLanguage = (['tr', 'en'].includes(deviceLanguage) ? deviceLanguage : 'tr') as Language;
 
         await i18n.changeLanguage(supportedLanguage);

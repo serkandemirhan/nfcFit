@@ -1,0 +1,6 @@
+test_scoped_reads_wellness_consent_and_client_write_denial (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 11.830s
+
+OK

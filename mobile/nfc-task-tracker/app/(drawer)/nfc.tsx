@@ -1,8 +1,12 @@
+import { tenantConsoleConfigured } from "@/lib/tenant-console";
+import { matchesOwnedLegacyCard } from "@/lib/tag-link";
+import { WorkoutNfcContext,useWorkoutNfcContext } from '@/components/workout-nfc-context';
+import { readMemberCard } from '@/lib/offline-member';
+import { ActivityRecorder } from '@/components/activity-recorder';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useRef, useState } from 'react';
 import {
   Alert,
   Modal,
@@ -21,16 +25,19 @@ import { ThemedView } from '@/components/themed-view';
 import { getSurfaceColors } from '@/constants/tasks';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useAuth } from '@/hooks/use-auth';
-import { createCard, ExerciseLogResult, logExerciseFromNfc } from '@/lib/api';
+import { createCard, fetchCards, ExerciseLogResult, logExerciseFromNfc } from '@/lib/api';
 import { nfcManager, NFCTag } from '@/lib/nfc-manager';
+import { TenantScanResult } from '@/lib/tenant-console';
 
 type ScanState = 'idle' | 'scanning' | 'success' | 'error';
 
 export default function NFCScreen() {
-  const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const surface = getSurfaceColors(colorScheme);
   const queryClient = useQueryClient();
+  const params = useLocalSearchParams<{ start?: string }>();
+  const handledStart = useRef('');
+  const autoScan = useRef<(() => void) | null>(null);
   const { user } = useAuth();
 
   const [nfcSupported, setNfcSupported] = useState<boolean | null>(null);
@@ -42,7 +49,14 @@ export default function NFCScreen() {
   const [showManualModal, setShowManualModal] = useState(false);
   const [manualUid, setManualUid] = useState('');
   const [manualName, setManualName] = useState('');
+  const [manualBusy,setManualBusy]=useState(false);
+  const manualFlight=useRef(false);
   const [loggedExercise, setLoggedExercise] = useState<ExerciseLogResult | null>(null);
+  const scanController = useRef<AbortController | null>(null);
+  const [scanPhase, setScanPhase] = useState<'reading' | 'resolving'>('reading');
+  useEffect(() => () => { scanController.current?.abort(); void nfcManager.cancelScan(); }, []);
+  const [tenantScan, setTenantScan] = useState<TenantScanResult | null>(null);
+  const workoutContext=useWorkoutNfcContext(tenantScan?.tag?.id);
 
   useEffect(() => {
     checkNFCStatus();
@@ -63,46 +77,63 @@ export default function NFCScreen() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cards'] });
       Alert.alert(
-        t('nfc.scanSuccess'),
-        t('cards.addCard') + ' ' + t('common.save'),
+        'Kart okundu',
+        'Kart ekle' + ' ' + 'Kaydet',
         [
           {
-            text: t('cards.title'),
+            text: 'Kartlar',
             onPress: () => router.push('/(drawer)/cards'),
           },
-          { text: t('common.close'), style: 'cancel' },
+          { text: 'Kapat', style: 'cancel' },
         ]
       );
       resetScan();
     },
     onError: (error) => {
-      Alert.alert(t('common.error'), error instanceof Error ? error.message : t('tasks.errors.unknownError'));
+      Alert.alert('İşlem tamamlanamadı', error instanceof Error ? error.message : 'İşlem tamamlanamadı. Tekrar deneyin.');
     },
   });
 
   const startScan = async () => {
     if (!nfcEnabled) {
       Alert.alert(
-        t('nfc.nfcDisabled'),
-        t('nfc.nfcDisabled'),
+        'Telefonun ayarlarından NFC’yi aç.',
+        'Telefonun ayarlarından NFC’yi aç.',
         [
           {
-            text: t('settings.title'),
+            text: 'NFC ayarları',
             onPress: () => nfcManager.openSettings(),
           },
-          { text: t('common.cancel'), style: 'cancel' },
+          { text: 'İptal', style: 'cancel' },
         ]
       );
       return;
     }
 
+    const controller = new AbortController();
+    scanController.current?.abort(); scanController.current = controller;
+    setScanPhase('reading');
     setScanState('scanning');
 
     try {
-      const tag = await nfcManager.readTag();
+      const tag = await nfcManager.readTag(controller.signal);
+      if (controller.signal.aborted) return;
 
       if (tag) {
         setScannedTag(tag);
+        setScanPhase('resolving');
+        const tenantResult = await readMemberCard(user?.id ?? '', tag.id, controller.signal);
+        if (controller.signal.aborted) return;
+        if (tenantResult) {
+          setTenantScan(tenantResult);
+          setScanState('success');
+          return;
+        }
+        if (tenantConsoleConfigured) {
+          const existing=(await fetchCards()).some(card=>matchesOwnedLegacyCard(card,tag.id,user?.id??''));
+          if(controller.signal.aborted)return;
+          if(!existing)throw new Error('Bu kart kulübünde tanımlı değil. Kartı kulüp yöneticine tanımlat; tarama kişisel kart veya aktivite oluşturmadı.');
+        }
         const result = await logExerciseFromNfc({
           uid: tag.id,
           ndefPayload: tag.textPayload,
@@ -118,41 +149,43 @@ export default function NFCScreen() {
         if (result?.result === 'logged' || result?.result === 'wellness_logged') {
           return;
         } else if (result?.result === 'new_tag') {
-          Alert.alert('Yeni kart eklendi', 'Bu NFC tag hesabına eklendi. Kartlar ekranından fitness veya wellness aksiyonuna bağlayabilirsin.', [
+          Alert.alert('Yeni kart eklendi', 'Bu kart hesabına eklendi. Kartlar ekranından egzersiz veya iyi yaşam işlemine bağlayabilirsin.', [
             { text: 'Kartlar', onPress: () => { resetScan(); router.push('/(drawer)/cards' as never); } },
-            { text: t('common.close'), style: 'cancel', onPress: resetScan },
+            { text: 'Kapat', style: 'cancel', onPress: resetScan },
           ]);
         } else if (result?.result === 'unassigned_tag') {
-          Alert.alert('Kart hazır', 'Bu tag henüz bir aksiyona bağlı değil. Kartlar ekranından bağlayabilirsin.', [
+          Alert.alert('Kart hazır', 'Bu kart henüz bir aksiyona bağlı değil. Kartlar ekranından bağlayabilirsin.', [
             { text: 'Kartlar', onPress: () => { resetScan(); router.push('/(drawer)/cards' as never); } },
-            { text: t('common.close'), style: 'cancel', onPress: resetScan },
+            { text: 'Kapat', style: 'cancel', onPress: resetScan },
           ]);
         } else if (result?.result === 'inactive_tag') {
-          Alert.alert(t('common.error'), t('nfc.inactiveExerciseTag'), [{ text: t('common.close'), onPress: resetScan }]);
+          Alert.alert('İşlem tamamlanamadı', 'Bu kartın egzersizi pasif.', [{ text: 'Kapat', onPress: resetScan }]);
         } else if (result?.result === 'user_mismatch') {
-          Alert.alert(t('common.error'), t('nfc.userMismatch'), [{ text: t('common.close'), onPress: resetScan }]);
+          Alert.alert('İşlem tamamlanamadı', 'Bu kart başka bir kullanıcıya ait.', [{ text: 'Kapat', onPress: resetScan }]);
         } else {
           Alert.alert(
-            t('nfc.scanSuccess'),
-            t('nfc.noExerciseTagMatch'),
+            'Kart okundu',
+            'Karta henüz bir egzersiz atanmamış.',
             [
-              { text: t('cards.addCard'), onPress: () => setShowNameModal(true) },
-              { text: t('common.close'), style: 'cancel', onPress: resetScan },
+              { text: 'Kart ekle', onPress: () => setShowNameModal(true) },
+              { text: 'Kapat', style: 'cancel', onPress: resetScan },
             ]
           );
         }
       } else {
         setScanState('error');
-        Alert.alert(t('common.error'), t('nfc.scanError'));
+        Alert.alert('İşlem tamamlanamadı', 'Kart okunamadı. Tekrar deneyebilirsin.');
       }
     } catch (error) {
+      if (controller.signal.aborted) return;
       setScanState('error');
       console.error('NFC scan error:', error);
-      Alert.alert(t('common.error'), t('nfc.scanError'));
+      Alert.alert('İşlem tamamlanamadı', error instanceof Error ? error.message : 'Kart okunamadı. Tekrar deneyebilirsin.');
     }
   };
 
   const cancelScan = () => {
+    scanController.current?.abort();
     nfcManager.cancelScan();
     setScanState('idle');
   };
@@ -160,10 +193,19 @@ export default function NFCScreen() {
   const resetScan = () => {
     setScannedTag(null);
     setLoggedExercise(null);
+    setTenantScan(null);
     setCardName('');
     setScanState('idle');
     setShowNameModal(false);
   };
+
+  autoScan.current = () => { resetScan(); void startScan(); };
+  useEffect(() => {
+    if (typeof params.start === 'string' && params.start !== handledStart.current && nfcSupported && nfcEnabled) {
+      handledStart.current = params.start;
+      autoScan.current?.();
+    }
+  }, [params.start, nfcSupported, nfcEnabled]);
 
   const saveCard = () => {
     if (!scannedTag) return;
@@ -178,53 +220,29 @@ export default function NFCScreen() {
     setShowNameModal(false);
   };
 
-  const saveManualCard = () => {
-    if (!manualUid.trim()) {
-      Alert.alert(t('common.error'), t('cards.errors.cardIdRequired'));
+  const saveManualCard = async () => {
+    if(manualFlight.current)return;
+    if(manualUid.trim().length<4){Alert.alert('Kart kontrol edilemedi','En az 4 karakterli kart UID’sini girin.');return;}
+    if(tenantConsoleConfigured) {
+      manualFlight.current=true;setManualBusy(true);
+      try {
+        const result=await readMemberCard(user?.id??'',manualUid.trim());
+        if(!result)throw new Error('Kart kulübünde tanımlı değil. Kartı kulüp yöneticin tanımlamalı.');
+        setTenantScan(result);setScanState('success');setShowManualModal(false);setManualUid('');
+      }catch(error){Alert.alert('Kart kontrol edilemedi',error instanceof Error?error.message:'Bağlantını kontrol edip yeniden dene.');}
+      finally{manualFlight.current=false;setManualBusy(false);}
       return;
     }
-
-    createCardMutation.mutate({
-      uid: manualUid.trim(),
-      alias: manualName.trim() || undefined,
-      assignedUserId: user?.id ?? '',
-    });
-
-    setManualUid('');
-    setManualName('');
-    setShowManualModal(false);
+    createCardMutation.mutate({uid:manualUid.trim(),alias:manualName.trim()||undefined,assignedUserId:user?.id??''});
+    setManualUid('');setManualName('');setShowManualModal(false);
   };
-
-  // NFC not supported
-  if (nfcSupported === false) {
-    return (
-      <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
-        <View style={styles.centered}>
-          <Ionicons name="phone-portrait-outline" size={80} color={surface.mutedText} />
-          <ThemedText type="title">{t('nfc.noNfcSupport')}</ThemedText>
-          <ThemedText style={[styles.subtitle, { color: surface.mutedText }]}>
-            {t('nfc.noNfcSupport')}
-          </ThemedText>
-
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: surface.green }]}
-            onPress={() => setShowManualModal(true)}
-            activeOpacity={0.7}
-          >
-            <Ionicons name="create-outline" size={20} color="#fff" />
-            <ThemedText style={styles.buttonText}>{t('cards.addCard')} (Manual)</ThemedText>
-          </TouchableOpacity>
-        </View>
-      </ThemedView>
-    );
-  }
 
   // Loading NFC status
   if (nfcSupported === null) {
     return (
       <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
         <View style={styles.centered}>
-          <ThemedText>{t('common.loading')}</ThemedText>
+          <ThemedText>{'Yükleniyor…'}</ThemedText>
         </View>
       </ThemedView>
     );
@@ -234,9 +252,9 @@ export default function NFCScreen() {
     <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
       <ScrollView contentContainerStyle={styles.content}>
         {/* Header */}
-        <View style={styles.scanHero}>
-          <ThemedText style={styles.scanTitle}>Hold your phone{'\n'}near the NFC tag</ThemedText>
-          <ThemedText style={[styles.scanStateText, { color: surface.green }]}>{scanState === 'scanning' ? 'Scanning...' : 'Ready to scan'}</ThemedText>
+        {scanState !== 'success' && <View style={styles.scanHero}>
+          <ThemedText style={styles.scanTitle}>{nfcSupported?"Telefonunu kartın\nyakınına getir":'Kartını UID ile kontrol et'}</ThemedText>
+          <ThemedText style={[styles.scanStateText, { color: surface.green }]}>{scanState === 'scanning' ? 'Okunuyor…' : nfcSupported ? 'Okutmaya hazır' : 'Bu cihazda NFC yok. Kart UID’sini elle girebilirsin.'}</ThemedText>
           <View style={styles.radarWrap}>
             <View style={styles.radarRingOuter} />
             <View style={styles.radarRingMiddle} />
@@ -250,18 +268,19 @@ export default function NFCScreen() {
             </TouchableOpacity>
           </View>
 
-          {!nfcEnabled && (
+          {nfcSupported && !nfcEnabled && (
             <TouchableOpacity
               style={[styles.button, { backgroundColor: surface.green }]}
               onPress={() => nfcManager.openSettings()}
               activeOpacity={0.7}
             >
               <Ionicons name="settings-outline" size={20} color="#fff" />
-              <ThemedText style={styles.buttonText}>{t('settings.title')}</ThemedText>
+              <ThemedText style={styles.buttonText}>{'NFC ayarları'}</ThemedText>
             </TouchableOpacity>
           )}
-        </View>
+        </View>}
 
+        {scanState === 'scanning' && <ThemedText accessibilityLiveRegion="polite">{scanPhase === 'reading' ? 'Kartı telefonun NFC alanına yaklaştır…' : 'Kart okundu. Egzersizin getiriliyor…'}</ThemedText>}
         {/* Scan Status */}
         {scanState === 'error' && (
           <View style={[styles.card, { backgroundColor: surface.card, borderColor: surface.border }]}>
@@ -271,7 +290,7 @@ export default function NFCScreen() {
 
         {/* Action Buttons */}
         {scanState !== 'success' && <View style={styles.actionsRow}>
-          {scanState === 'idle' ? (
+          {scanState === 'idle' || scanState === 'error' ? (
             <>
               <TouchableOpacity
                 style={[styles.actionButton, { backgroundColor: surface.green }]}
@@ -280,7 +299,7 @@ export default function NFCScreen() {
                 activeOpacity={0.7}
               >
                 <Ionicons name="scan-outline" size={24} color="#fff" />
-                <ThemedText style={styles.buttonText}>{t('nfc.readCard')}</ThemedText>
+                <ThemedText style={styles.buttonText}>{'Kart okut'}</ThemedText>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -289,7 +308,7 @@ export default function NFCScreen() {
                 activeOpacity={0.7}
               >
                 <Ionicons name="create-outline" size={22} color={surface.green} />
-                <ThemedText style={styles.secondaryButtonText}>Manual</ThemedText>
+                <ThemedText style={styles.secondaryButtonText}>Elle gir</ThemedText>
               </TouchableOpacity>
             </>
           ) : (
@@ -299,12 +318,37 @@ export default function NFCScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="close-circle-outline" size={24} color="#fff" />
-              <ThemedText style={styles.buttonText}>{t('common.cancel')}</ThemedText>
+              <ThemedText style={styles.buttonText}>{'İptal'}</ThemedText>
             </TouchableOpacity>
           )}
         </View>}
 
+        <WorkoutNfcContext context={workoutContext}/>
         {/* Info Cards */}
+        {tenantScan && !workoutContext.matches.length && (
+          <View style={[styles.successCard, { backgroundColor: surface.card, borderColor: surface.border }]}>
+            <ThemedText style={styles.successTitle}>{tenantScan.tenant.name}</ThemedText>
+            {tenantScan.result === 'join_request_pending' ? (
+              <>
+                <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
+                  Salon üyelik isteğin yöneticinin onayını bekliyor.
+                </ThemedText>
+                <TouchableOpacity style={[styles.actionButton, styles.secondaryButton, { borderColor: surface.border }]} onPress={resetScan}>
+                  <ThemedText style={styles.secondaryButtonText}>Tamam</ThemedText>
+                </TouchableOpacity>
+              </>
+            ) : tenantScan.result === 'tag_unassigned' ? (
+              <>
+                <ThemedText style={styles.successExercise}>{tenantScan.tag?.name}</ThemedText>
+                <ThemedText style={[styles.hint, { color: surface.mutedText }]}>{workoutContext.equipment?'Ekipmanın egzersizleri tanımlı. Programından antrenman açabilir veya elle seçim yapabilirsin.':'Kart tanımlı, ancak henüz bir egzersize bağlı değil. Salon yöneticiniz egzersiz atadıktan sonra aktivite kaydedebilirsiniz.'}</ThemedText>
+                <TouchableOpacity style={[styles.actionButton, { backgroundColor: surface.green }]} onPress={resetScan}><ThemedText style={styles.buttonText}>Tamam</ThemedText></TouchableOpacity>
+              </>
+            ) : (
+              tenantScan.tag && tenantScan.exercise && <ActivityRecorder key={tenantScan.tag.id} intent={{ tagId: tenantScan.tag.id, exercise: tenantScan.exercise.name, exerciseId: tenantScan.exercise.id, unit: tenantScan.exercise.unit, quantity: tenantScan.exercise.default_quantity, tenant: tenantScan.tenant.name }} onNext={() => { resetScan(); void startScan(); }} />
+            )}
+          </View>
+        )}
+
         {(loggedExercise?.result === 'logged' || loggedExercise?.result === 'wellness_logged') && (
           <View style={[styles.successCard, { backgroundColor: surface.card, borderColor: surface.border }]}>
             <View style={styles.confettiDots}>
@@ -313,14 +357,14 @@ export default function NFCScreen() {
             <View style={[styles.successCircle, { backgroundColor: surface.green }]}>
               <Ionicons name="checkmark" size={58} color="#fff" />
             </View>
-            <ThemedText style={styles.successTitle}>Great!</ThemedText>
+            <ThemedText style={styles.successTitle}>Kaydedildi</ThemedText>
             <ThemedText style={[styles.successExercise, { color: surface.green }]}>
-              +{formatQuantity(loggedExercise.quantity, loggedExercise.unit)} {loggedExercise.result === 'wellness_logged' ? loggedExercise.wellness_name : loggedExercise.exercise_name ?? t('nfc.exercise')}
+              +{formatQuantity(loggedExercise.quantity, loggedExercise.unit)} {loggedExercise.result === 'wellness_logged' ? loggedExercise.wellness_name : loggedExercise.exercise_name ?? 'Egzersiz'}
             </ThemedText>
-            <ThemedText style={styles.successTitleSmall}>added</ThemedText>
+            <ThemedText style={styles.successTitleSmall}>eklendi</ThemedText>
             <View style={[styles.taskResult, { borderColor: surface.border }]}>
               <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
-                {loggedExercise.result === 'wellness_logged' ? 'Logged' : 'Calories Burned'}
+                {loggedExercise.result === 'wellness_logged' ? 'Kaydedilen miktar' : 'Tahmini kalori'}
               </ThemedText>
               <ThemedText style={styles.taskTitle}>
                 {loggedExercise.result === 'wellness_logged'
@@ -328,14 +372,14 @@ export default function NFCScreen() {
                   : `${loggedExercise.calorie_estimate ?? 0} kcal`}
               </ThemedText>
               <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
-                {loggedExercise.result === 'wellness_logged' ? 'Total Today' : 'Total Today'}
+                {loggedExercise.result === 'wellness_logged' ? 'Bu kayıt' : 'Bu kayıt'}
               </ThemedText>
             </View>
             <TouchableOpacity style={[styles.actionButton, { backgroundColor: surface.green }]} onPress={() => router.push(loggedExercise.result === 'wellness_logged' ? '/(drawer)/wellness' as never : '/(drawer)/fitness' as never)}>
-              <ThemedText style={styles.buttonText}>{loggedExercise.result === 'wellness_logged' ? 'View Wellness' : 'View Workout'}</ThemedText>
+              <ThemedText style={styles.buttonText}>{loggedExercise.result === 'wellness_logged' ? 'İyi yaşam kayıtlarım' : 'İlerlememi gör'}</ThemedText>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.actionButton, styles.secondaryButton, { borderColor: surface.border }]} onPress={resetScan}>
-              <ThemedText style={styles.secondaryButtonText}>Done</ThemedText>
+              <ThemedText style={styles.secondaryButtonText}>Tamam</ThemedText>
             </TouchableOpacity>
           </View>
         )}
@@ -343,14 +387,14 @@ export default function NFCScreen() {
         <View style={styles.infoGrid}>
           <InfoCard
             icon="card-outline"
-            title={t('cards.title')}
-            description={t('cards.noCards')}
+            title={'Önceki kişisel kartlar'}
+            description={'Eski kişisel kart kayıtların. Kulüp kartlarını kulüp yöneticin yönetir.'}
             onPress={() => router.push('/(drawer)/cards')}
           />
           <InfoCard
             icon="help-circle-outline"
-            title={t('settings.about')}
-            description={t('nfc.instructions')}
+            title={'Nasıl kullanılır?'}
+            description={'Kartı telefonunun NFC alanına yaklaştır, ardından miktarı onayla.'}
           />
         </View>
       </ScrollView>
@@ -366,7 +410,7 @@ export default function NFCScreen() {
         <Pressable style={styles.modalOverlay} onPress={() => { setShowNameModal(false); resetScan(); }}>
           <Pressable style={[styles.modalContent, { backgroundColor: surface.card }]} onPress={(e) => e.stopPropagation()}>
             <View style={styles.modalHeader}>
-              <ThemedText type="subtitle">{t('cards.cardName')}</ThemedText>
+              <ThemedText type="subtitle">{'Kart adı'}</ThemedText>
               <TouchableOpacity onPress={() => { setShowNameModal(false); resetScan(); }}>
                 <Ionicons name="close" size={24} color={surface.mutedText} />
               </TouchableOpacity>
@@ -374,19 +418,19 @@ export default function NFCScreen() {
 
             {scannedTag && (
               <View style={[styles.tagInfo, { backgroundColor: surface.cardRaised }]}>
-                <ThemedText style={styles.label}>{t('nfc.cardId')}</ThemedText>
+                <ThemedText style={styles.label}>{'Kart UID'}</ThemedText>
                 <ThemedText style={styles.tagId}>{scannedTag.id}</ThemedText>
                 <ThemedText style={[styles.hint, { color: surface.mutedText }]}>
-                  {t('nfc.cardType')}: {scannedTag.type}
+                  {'Kart türü'}: {scannedTag.type}
                 </ThemedText>
               </View>
             )}
 
             <View style={styles.inputGroup}>
-              <ThemedText style={styles.label}>{t('cards.cardName')} ({t('common.none')})</ThemedText>
+              <ThemedText style={styles.label}>{'Kart adı'} ({'isteğe bağlı'})</ThemedText>
               <TextInput
                 style={[styles.input, { borderColor: surface.border, color: surface.text }]}
-                placeholder={`${t('cards.cardName')}...`}
+                placeholder={`${'Kart adı'}...`}
                 placeholderTextColor={surface.mutedText}
                 value={cardName}
                 onChangeText={setCardName}
@@ -399,7 +443,7 @@ export default function NFCScreen() {
                 style={[styles.modalButton, { backgroundColor: surface.cardRaised }]}
                 onPress={() => { setShowNameModal(false); resetScan(); }}
               >
-                <ThemedText style={styles.cancelButtonText}>{t('common.cancel')}</ThemedText>
+                <ThemedText style={styles.cancelButtonText}>{'İptal'}</ThemedText>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -408,7 +452,7 @@ export default function NFCScreen() {
                 disabled={createCardMutation.isPending}
               >
                 <ThemedText style={styles.buttonText}>
-                  {createCardMutation.isPending ? t('common.loading') : t('common.save')}
+                  {createCardMutation.isPending ? 'Yükleniyor…' : 'Kaydet'}
                 </ThemedText>
               </TouchableOpacity>
             </View>
@@ -426,14 +470,14 @@ export default function NFCScreen() {
         <Pressable style={styles.modalOverlay} onPress={() => setShowManualModal(false)}>
           <Pressable style={[styles.modalContent, { backgroundColor: surface.card }]} onPress={(e) => e.stopPropagation()}>
             <View style={styles.modalHeader}>
-              <ThemedText type="subtitle">{t('cards.addCard')} (Manual)</ThemedText>
+              <ThemedText type="subtitle">{tenantConsoleConfigured?'Kulüp kartını kontrol et':'Kart ekle (elle gir)'}</ThemedText>
               <TouchableOpacity onPress={() => setShowManualModal(false)}>
                 <Ionicons name="close" size={24} color={surface.mutedText} />
               </TouchableOpacity>
             </View>
 
             <View style={styles.inputGroup}>
-              <ThemedText style={styles.label}>{t('nfc.cardId')} *</ThemedText>
+              <ThemedText style={styles.label}>{'Kart UID'} *</ThemedText>
               <TextInput
                 style={[styles.input, { borderColor: surface.border, color: surface.text }]}
                 placeholder="ABC123DEF456"
@@ -445,32 +489,32 @@ export default function NFCScreen() {
               />
             </View>
 
-            <View style={styles.inputGroup}>
-              <ThemedText style={styles.label}>{t('cards.cardName')} ({t('common.none')})</ThemedText>
+            {!tenantConsoleConfigured && <View style={styles.inputGroup}>
+              <ThemedText style={styles.label}>{'Kart adı'} ({'isteğe bağlı'})</ThemedText>
               <TextInput
                 style={[styles.input, { borderColor: surface.border, color: surface.text }]}
-                placeholder={`${t('cards.cardName')}...`}
+                placeholder={`${'Kart adı'}...`}
                 placeholderTextColor={surface.mutedText}
                 value={manualName}
                 onChangeText={setManualName}
               />
-            </View>
+            </View>}
 
             <View style={styles.modalActions}>
               <TouchableOpacity
                 style={[styles.modalButton, { backgroundColor: surface.cardRaised }]}
                 onPress={() => setShowManualModal(false)}
               >
-                <ThemedText style={styles.cancelButtonText}>{t('common.cancel')}</ThemedText>
+                <ThemedText style={styles.cancelButtonText}>{'İptal'}</ThemedText>
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={[styles.modalButton, { backgroundColor: surface.green }]}
                 onPress={saveManualCard}
-                disabled={createCardMutation.isPending}
+                disabled={createCardMutation.isPending || manualBusy}
               >
                 <ThemedText style={styles.buttonText}>
-                  {createCardMutation.isPending ? t('common.loading') : t('common.save')}
+                  {createCardMutation.isPending || manualBusy ? 'Kontrol ediliyor…' : tenantConsoleConfigured ? 'Kartı kontrol et' : 'Kaydet'}
                 </ThemedText>
               </TouchableOpacity>
             </View>
@@ -482,15 +526,14 @@ export default function NFCScreen() {
 }
 
 function ScanStatus({ state, surfaceMuted, accent }: { state: ScanState; surfaceMuted: string; accent: string }) {
-  const { t } = useTranslation();
 
   if (state === 'scanning') {
     return (
       <View style={styles.scanningIndicator}>
         <Ionicons name="radio" size={48} color={accent} />
-        <ThemedText type="subtitle">{t('nfc.scanning')}</ThemedText>
+        <ThemedText type="subtitle">{'Kart okunuyor…'}</ThemedText>
         <ThemedText style={[styles.hint, { color: surfaceMuted }]}>
-          {t('nfc.instructions')}
+          {'Kartı telefonunun NFC alanına yaklaştır, ardından miktarı onayla.'}
         </ThemedText>
       </View>
     );
@@ -500,7 +543,7 @@ function ScanStatus({ state, surfaceMuted, accent }: { state: ScanState; surface
     return (
       <View style={styles.scanningIndicator}>
         <Ionicons name="checkmark-circle" size={48} color={accent} />
-        <ThemedText type="subtitle">{t('nfc.scanSuccess')}</ThemedText>
+        <ThemedText type="subtitle">{'Kart okundu'}</ThemedText>
       </View>
     );
   }
@@ -509,7 +552,7 @@ function ScanStatus({ state, surfaceMuted, accent }: { state: ScanState; surface
     return (
       <View style={styles.scanningIndicator}>
         <Ionicons name="close-circle" size={48} color="#ef4444" />
-        <ThemedText type="subtitle">{t('nfc.scanError')}</ThemedText>
+        <ThemedText type="subtitle">{'Kart okunamadı. Tekrar deneyebilirsin.'}</ThemedText>
       </View>
     );
   }

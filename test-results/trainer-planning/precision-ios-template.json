@@ -1,0 +1,26 @@
+{
+  "id": "70d2c65e-5d01-4f42-9973-759e24868aa4",
+  "tenant_id": "planning-club",
+  "version": 1,
+  "content": {
+    "id": "fa156074-a775-4d83-ad76-8db2f0ddb2ab",
+    "name": "Mobil Teknik · Klavye",
+    "dates": [
+      "2026-11-09"
+    ],
+    "exercises": [
+      {
+        "id": "c7aa1d34-9a02-4527-8f9f-1abdaa840661",
+        "exercise_id": "lib-bench-press",
+        "sets": 4,
+        "reps": 12,
+        "kg": 20,
+        "seconds": null,
+        "meters": null,
+        "rest_seconds": 60,
+        "notes": "Gerçek iOS sistem klavyesi için ayrı test şablonu.",
+        "superset": null
+      }
+    ]
+  }
+}

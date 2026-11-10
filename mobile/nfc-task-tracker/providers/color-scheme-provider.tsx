@@ -14,7 +14,7 @@ const ColorSchemeContext = createContext<ColorSchemeContextValue | undefined>(un
 
 export function ColorSchemeProvider({ children }: { children: ReactNode }) {
   const deviceScheme = useDeviceColorScheme() ?? 'light';
-  const [mode, setMode] = useState<ThemePreference>('system');
+  const [mode, setMode] = useState<ThemePreference>('dark');
 
   const resolvedScheme: NonNullable<ColorSchemeName> = useMemo(() => {
     if (mode === 'system') return deviceScheme;

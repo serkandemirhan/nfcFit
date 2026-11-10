@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Users/user/NFCFit/backend/.venv/bin/python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "backend/tests",
+    "-v"
+  ],
+  "exit_code": 0
+}

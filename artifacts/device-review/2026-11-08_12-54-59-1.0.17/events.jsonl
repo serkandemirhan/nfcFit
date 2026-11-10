@@ -1,0 +1,47 @@
+{"at": "2026-11-08T12:55:31.647421+03:00", "event": "cold-launch", "adb_wall_seconds": 0.681, "native_result": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 556\nWaitTime: 558\nComplete\n"}
+{"at": "2026-11-08T12:55:39.682080+03:00", "event": "capture", "name": "001-today", "observer_seconds": 4.613}
+{"at": "2026-11-08T12:55:49.029611+03:00", "event": "frame-counter-reset"}
+{"at": "2026-11-08T12:55:49.296588+03:00", "event": "tap", "x": 330, "y": 2080, "dispatch_seconds": 0.178, "label": "Programim"}
+{"at": "2026-11-08T12:55:59.718545+03:00", "event": "capture", "name": "002-programim", "observer_seconds": 3.22}
+{"at": "2026-11-08T12:56:02.576677+03:00", "event": "tap", "x": 960, "y": 390, "dispatch_seconds": 0.143, "label": "Program-secenkleri"}
+{"at": "2026-11-08T12:56:08.438901+03:00", "event": "capture", "name": "003-program-menu", "observer_seconds": 3.175}
+{"at": "2026-11-08T12:56:11.808230+03:00", "event": "tap", "x": 500, "y": 1040, "dispatch_seconds": 0.133, "label": "Hedeflerim"}
+{"at": "2026-11-08T12:56:18.292968+03:00", "event": "capture", "name": "004-goals", "observer_seconds": 3.236}
+{"at": "2026-11-08T12:56:31.809385+03:00", "event": "capture", "name": "005-goals-daily", "observer_seconds": 3.281}
+{"at": "2026-11-08T12:56:35.295763+03:00", "event": "tap", "x": 500, "y": 900, "dispatch_seconds": 0.146, "label": "Hedef-duzenle"}
+{"at": "2026-11-08T12:56:41.503819+03:00", "event": "capture", "name": "006-goal-editor", "observer_seconds": 3.026}
+{"at": "2026-11-08T12:56:44.518550+03:00", "event": "tap", "x": 300, "y": 900, "dispatch_seconds": 0.17, "label": "Hedef-alani"}
+{"at": "2026-11-08T12:56:51.928221+03:00", "event": "capture", "name": "007-goal-keyboard", "observer_seconds": 3.049}
+{"at": "2026-11-08T12:56:58.706548+03:00", "event": "tap", "x": 750, "y": 2080, "dispatch_seconds": 0.137, "label": "Ilerleme"}
+{"at": "2026-11-08T12:57:13.161381+03:00", "event": "tap", "x": 750, "y": 2080, "dispatch_seconds": 0.153, "label": "Ilerleme"}
+{"at": "2026-11-08T12:57:19.160667+03:00", "event": "capture", "name": "008-progress", "observer_seconds": 2.988}
+{"at": "2026-11-08T12:57:26.752880+03:00", "event": "tap", "x": 700, "y": 535, "dispatch_seconds": 0.257, "label": "90gun"}
+{"at": "2026-11-08T12:57:33.348268+03:00", "event": "capture", "name": "009-progress-90days", "observer_seconds": 3.065}
+{"at": "2026-11-08T12:57:45.315732+03:00", "event": "capture", "name": "010-progress-details", "observer_seconds": 3.987}
+{"at": "2026-11-08T12:57:48.968637+03:00", "event": "tap", "x": 500, "y": 320, "dispatch_seconds": 0.171, "label": "Kismi-antrenman"}
+{"at": "2026-11-08T12:57:51.983583+03:00", "event": "capture", "name": "011-partial-workout", "observer_seconds": 2.936}
+{"at": "2026-11-08T12:57:59.818303+03:00", "event": "capture", "name": "012-plan-setup", "observer_seconds": 2.894}
+{"at": "2026-11-08T12:58:04.619827+03:00", "event": "tap", "x": 500, "y": 1110, "dispatch_seconds": 0.169, "label": "Hazir-taslak"}
+{"at": "2026-11-08T12:58:07.770735+03:00", "event": "capture", "name": "013-starter-customization", "observer_seconds": 3.048}
+{"at": "2026-11-08T12:58:21.854332+03:00", "event": "metrics", "name": "after-member-review"}
+{"at": "2026-11-08T12:58:25.050797+03:00", "event": "capture", "name": "014-setup-actions", "observer_seconds": 3.114}
+{"at": "2026-11-08T12:58:34.999616+03:00", "event": "capture", "name": "015-setup-bottom", "observer_seconds": 2.832}
+{"at": "2026-11-08T12:58:38.308484+03:00", "event": "tap", "x": 540, "y": 1840, "dispatch_seconds": 0.154, "label": "Egzersizlerini-belirle"}
+{"at": "2026-11-08T12:58:41.539409+03:00", "event": "capture", "name": "016-plan-builder", "observer_seconds": 3.146}
+{"at": "2026-11-08T12:58:48.231947+03:00", "event": "tap", "x": 300, "y": 850, "dispatch_seconds": 0.218, "label": "Plan-adi"}
+{"at": "2026-11-08T12:58:51.241987+03:00", "event": "capture", "name": "017-builder-keyboard", "observer_seconds": 2.921}
+{"at": "2026-11-08T12:59:00.602506+03:00", "event": "capture", "name": "018-member-coach-denied", "observer_seconds": 2.888}
+{"at": "2026-11-08T12:59:58.930842+03:00", "event": "capture", "name": "019-member-coach-result", "observer_seconds": 2.996}
+{"at": "2026-11-08T13:00:19.969713+03:00", "event": "capture", "name": "020-member-management", "observer_seconds": 3.089}
+{"at": "2026-11-08T13:00:27.544861+03:00", "event": "capture", "name": "021-management-result", "observer_seconds": 3.002}
+{"at": "2026-11-08T13:00:34.278719+03:00", "event": "tap", "x": 960, "y": 1940, "dispatch_seconds": 0.114, "label": "Profil"}
+{"at": "2026-11-08T13:00:37.742331+03:00", "event": "capture", "name": "022-profile", "observer_seconds": 3.299}
+{"at": "2026-11-08T13:00:57.410408+03:00", "event": "capture", "name": "023-profile-tools", "observer_seconds": 3.191}
+{"at": "2026-11-08T13:01:03.187424+03:00", "event": "tap", "x": 530, "y": 1550, "dispatch_seconds": 0.211, "label": "Cihaz-araclari"}
+{"at": "2026-11-08T13:01:06.775849+03:00", "event": "capture", "name": "024-profile-expanded", "observer_seconds": 3.159}
+{"at": "2026-11-08T13:01:15.237089+03:00", "event": "capture", "name": "025-coaching-sync", "observer_seconds": 3.264}
+{"at": "2026-11-08T13:01:31.519868+03:00", "event": "capture", "name": "026-sync-current", "observer_seconds": 2.871}
+{"at": "2026-11-08T13:01:42.644959+03:00", "event": "capture", "name": "027-sync-result", "observer_seconds": 3.486}
+{"at": "2026-11-08T13:01:52.932332+03:00", "event": "capture", "name": "028-coaching-sync", "observer_seconds": 2.901}
+{"at": "2026-11-08T13:05:04.653437+03:00", "event": "tap", "x": 120, "y": 2080, "dispatch_seconds": 0.189, "label": "Bugun"}
+{"at": "2026-11-08T13:05:09.140659+03:00", "event": "capture", "name": "029-today-lower", "observer_seconds": 3.8}

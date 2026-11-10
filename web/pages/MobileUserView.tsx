@@ -7,7 +7,7 @@ import { DynamicTaskStatusLabel } from '../components/DynamicTaskStatusLabel';
 import { supabase } from '../supabaseClient';
 
 const parseExerciseLogAsTask = (raw: any): Task => {
-    const createdAt = new Date(raw.createdat ?? new Date().toISOString());
+    const createdAt = new Date(raw.createdat ?? raw.created_at ?? raw.createdAt ?? new Date().toISOString());
     return {
         id: raw.log_id ?? raw.id,
         title: `${raw.quantity ?? 0} ${formatUnit(raw.unit)} ${raw.exercise_name ?? 'Egzersiz'}`,
@@ -41,11 +41,11 @@ export const MobileUserView: FC<{
     const { t } = useTranslation();
     const myActiveTasks = useMemo(
         () => tasks
-            .filter(task => task.userid === currentUser.id && (task.active ?? true) && ![TaskStatus.Completed, TaskStatus.Canceled].includes(task.status))
-            .sort((a,b) => a.duedate.getTime() - b.duedate.getTime()),
+            .filter(task => task.userId === currentUser.id && (task.active ?? true) && ![TaskStatus.Completed, TaskStatus.Canceled].includes(task.status))
+            .sort((a,b) => a.dueDate.getTime() - b.dueDate.getTime()),
         [tasks, currentUser.id]
     );
-    const myCompletedTasks = useMemo(() => tasks.filter(t => t.userid === currentUser.id && t.status === TaskStatus.Completed).sort((a, b) => (b.lastcompletedat?.getTime() || 0) - (a.lastcompletedat?.getTime() || 0)).slice(0, 10), [tasks, currentUser.id]);
+    const myCompletedTasks = useMemo(() => tasks.filter(t => t.userId === currentUser.id && t.status === TaskStatus.Completed).sort((a, b) => (b.lastCompletedAt?.getTime() || 0) - (a.lastCompletedAt?.getTime() || 0)).slice(0, 10), [tasks, currentUser.id]);
 
     const [isNfcModalOpen, setIsNfcModalOpen] = useState(false);
     const [scannedLocation, setScannedLocation] = useState<Location | null>(null);
@@ -172,11 +172,11 @@ export const MobileUserView: FC<{
                         {myActiveTasks.map(task => (
                             <li key={task.id} className="bg-gray-800 p-4 rounded-lg shadow-sm border-l-4 border-blue-500">
                                 <div className="flex justify-between items-start">
-                                    <div className="flex-1 min-w-0"><p className="font-bold text-white break-words">{task.title}</p><p className="text-sm text-gray-400 mt-1">{locations.find(l => l.id === task.locationid)?.name}</p></div>
+                                    <div className="flex-1 min-w-0"><p className="font-bold text-white break-words">{task.title}</p><p className="text-sm text-gray-400 mt-1">{locations.find(l => l.id === task.locationId)?.name}</p></div>
                                     <div className="flex-shrink-0 ml-2"><DynamicTaskStatusLabel task={task} /></div>
                                 </div>
                                 <div className="flex items-center justify-between mt-2">
-                                     <p className="text-xs text-yellow-400">Bitiş: {timeFormatter.format(task.duedate)}</p>
+                                     <p className="text-xs text-yellow-400">Bitiş: {timeFormatter.format(task.dueDate)}</p>
                                       {task.attachments && task.attachments.length > 0 && (<button onClick={() => onViewAttachments(task)} className="flex items-center space-x-1 text-cyan-400 hover:text-cyan-300"><Icons.Attachment /><span className="text-xs">{task.attachments.length}</span></button>)}
                                 </div>
                             </li>
@@ -193,10 +193,10 @@ export const MobileUserView: FC<{
                             {myCompletedTasks.map(task => (
                                 <li key={task.id} className="bg-gray-800/70 p-4 rounded-lg shadow-sm border-l-4 border-green-500 opacity-80">
                                     <div className="flex justify-between items-start">
-                                        <div><p className="font-bold text-gray-300 line-through">{task.title}</p><p className="text-sm text-gray-500 mt-1">{locations.find(l => l.id === task.locationid)?.name}</p></div>
+                                        <div><p className="font-bold text-gray-300 line-through">{task.title}</p><p className="text-sm text-gray-500 mt-1">{locations.find(l => l.id === task.locationId)?.name}</p></div>
                                         <DynamicTaskStatusLabel task={task} />
                                     </div>
-                                    {task.lastcompletedat && <p className="text-xs text-gray-400 mt-2">Tamamlandı: {timeFormatter.format(task.lastcompletedat)}</p>}
+                                    {task.lastCompletedAt && <p className="text-xs text-gray-400 mt-2">Tamamlandı: {timeFormatter.format(task.lastCompletedAt)}</p>}
                                 </li>
                             ))}
                         </ul>

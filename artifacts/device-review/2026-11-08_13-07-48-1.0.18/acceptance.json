@@ -1,0 +1,9 @@
+{
+  "builder_keyboard_save_visible": true,
+  "keyboard_excess_space_observed": true,
+  "coaching_sync_opens_without_crash": true,
+  "evidence": [
+    "screens/002-sync-details.png",
+    "screens/004-builder-keyboard.png"
+  ]
+}

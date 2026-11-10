@@ -1,0 +1,13 @@
+import React,{useEffect,useState} from 'react';
+import TrainerPlanning from './TrainerPlanning';
+import {Dialog,DialogContent,DialogTitle,DialogDescription,Button,Input,DialogClose} from './components/trainer-ui/primitives';
+import type {CoachingOverview,Plan} from '../mobile/nfc-task-tracker/lib/coaching-types';
+import type {TrainerMember} from './lib/trainer-workspace';
+import {exerciseSearchText} from './lib/trainer-planning';
+export default function TrainerQuickAssignment({members,tenantId,api,close,saved}:{members:TrainerMember[];tenantId:string;api:<T>(path:string,body?:unknown,method?:string)=>Promise<T>;close:()=>void;saved:()=>Promise<void>}){
+ const [data,setData]=useState<CoachingOverview|null>(null),[error,setError]=useState(''),[query,setQuery]=useState(''),[plan,setPlan]=useState<Plan|null>(null);
+ useEffect(()=>{let live=true;api<CoachingOverview>('/overview').then(d=>{if(live)setData(d)}).catch(e=>{if(live)setError(e.message)});return()=>{live=false}},[]);
+ const candidates=(data?.plans??[]).filter(p=>p.tenant_id===tenantId&&!p.athlete_id&&(p.content.planning_status??'published')==='published'&&exerciseSearchText(p.content.name).includes(exerciseSearchText(query)));
+ if(plan&&data)return <TrainerPlanning api={api} plans={data.plans} members={members} catalog={[]} tenantId={tenantId} timezone={data.timezone??'Europe/Istanbul'} mode="plans" createSignal={0} reload={saved} comment={()=>{}} dialogOnly assignmentRequest={{nonce:plan.id,planId:plan.id,memberIds:members.map(m=>m.athlete_id)}} onAssignmentClosed={close}/>;
+ return <Dialog open onOpenChange={v=>{if(!v)close()}}><DialogContent className="nfc-quick-assignment"><header><div><DialogTitle>Üyelere program ata</DialogTitle><DialogDescription>{members.map(m=>m.name).join(', ')} · {members.length} üye</DialogDescription></div><DialogClose asChild><Button variant="ghost" size="icon" aria-label="Atamayı kapat">×</Button></DialogClose></header><label>Yayındaki programı ara<Input type="search" aria-label="Atanacak programı ara" value={query} onChange={e=>setQuery(e.target.value)}/></label>{error?<p role="alert">{error}</p>:!data?<p role="status">Programlar yükleniyor…</p>:<div className="nfc-assignment-options">{candidates.map(p=><Button variant="outline" key={p.id} onClick={()=>setPlan(p)}><span><strong>{p.content.name}</strong><small>{p.content.weeks} hafta · Yayında</small></span><span>Seç →</span></Button>)}{!candidates.length&&<p>Bu aramada yayında program yok. Programlar bölümünden yayınlayabilirsin.</p>}</div>}<p className="nfc-muted">Sonraki adımda başlangıç tarihi, çakışmalar ve son onay gösterilir.</p></DialogContent></Dialog>;
+}

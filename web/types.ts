@@ -147,4 +147,4 @@ export interface Task {
   } | null;
 }
 
-export type Page = 'dashboard' | 'members' | 'fitness' | 'wellness' | 'tasks' | 'cards' | 'profile' | 'settings' | 'exercises';
+export type Page = 'board' | 'layouts' | 'users' | 'dashboard' | 'members' | 'fitness' | 'wellness' | 'tasks' | 'cards' | 'profile' | 'settings' | 'exercises';

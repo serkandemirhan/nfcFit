@@ -1,7 +1,8 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -23,10 +24,24 @@ export function LoginScreen() {
   const { t } = useTranslation();
   const colorScheme = useColorScheme();
   const palette = Colors[colorScheme ?? 'light'];
+  const primaryContentColor = colorScheme === 'dark' ? palette.background : '#fff';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const [mode, setMode] = useState<'login' | 'signup'>('login');
+  const passwordInput = useRef<TextInput>(null);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', () => setKeyboardVisible(true));
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => setKeyboardVisible(false));
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
 
   const handleSubmit = async () => {
     setLocalError(null);
@@ -47,27 +62,41 @@ export function LoginScreen() {
   return (
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: palette.background }]}
-      behavior={Platform.select({ ios: 'padding', android: undefined })}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps="handled">
-        <View style={styles.rings}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContainer,
+          keyboardVisible && styles.keyboardScrollContainer,
+        ]}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
+      >
+        {!keyboardVisible && <View style={styles.rings}>
           <View style={styles.ringOne} />
           <View style={styles.ringTwo} />
           <View style={styles.ringThree} />
-        </View>
-        <View style={[styles.card, { backgroundColor: palette.card, borderColor: palette.border }]}>
-          <View style={styles.brandWrap}>
-            <View style={styles.logoIcon}>
+        </View>}
+        <View style={[
+          styles.card,
+          keyboardVisible && styles.keyboardCard,
+          { backgroundColor: palette.card, borderColor: palette.border },
+        ]}>
+          <View style={[styles.brandWrap, keyboardVisible && styles.keyboardBrandWrap]}>
+            {!keyboardVisible && <View style={styles.logoIcon}>
               <Ionicons name="walk" size={38} color="#fff" />
               <Ionicons name="radio-outline" size={24} color={palette.tint} style={styles.logoSignal} />
-            </View>
-            <Text style={[styles.title, { color: palette.text }]}>NFC<Text style={{ color: palette.tint }}>Fit</Text></Text>
-            <Text style={[styles.tagline, { color: palette.text }]}>Tap. Track. Improve.</Text>
-            <Text style={[styles.subtitle, { color: palette.mutedText }]}>Track your workouts, habits and wellness with a tap.</Text>
+            </View>}
+            <Text style={[styles.title, keyboardVisible && styles.keyboardTitle, { color: palette.text }]} maxFontSizeMultiplier={1.2}>NFC<Text style={{ color: palette.tint }}>Fit</Text></Text>
+            {!keyboardVisible && <>
+              <Text style={[styles.tagline, { color: palette.text }]}>Tap. Track. Improve.</Text>
+              <Text style={[styles.subtitle, { color: palette.mutedText }]}>Track your workouts, habits and wellness with a tap.</Text>
+            </>}
+            {keyboardVisible && <Text style={[styles.keyboardHint, { color: palette.mutedText }]}>{mode === 'login' ? 'Giriş yap' : 'Hesap oluştur'}</Text>}
           </View>
 
           <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: palette.mutedText }]}>Email</Text>
+            <Text style={[styles.label, { color: palette.mutedText }]} maxFontSizeMultiplier={1.2}>E-posta</Text>
             <TextInput
               autoCapitalize="none"
               keyboardType="email-address"
@@ -75,20 +104,44 @@ export function LoginScreen() {
               placeholderTextColor={palette.mutedText}
               value={email}
               onChangeText={setEmail}
+              returnKeyType="next"
+              onSubmitEditing={() => passwordInput.current?.focus()}
+              autoComplete="email"
+              textContentType="emailAddress"
+              maxFontSizeMultiplier={1.2}
               style={[styles.input, { borderColor: palette.border, color: palette.text }]}
             />
+            <Text style={[styles.characterCount, { color: palette.mutedText }]} maxFontSizeMultiplier={1.2}>{email.length} karakter</Text>
           </View>
 
           <View style={styles.fieldGroup}>
-            <Text style={[styles.label, { color: palette.mutedText }]}>{t('login.password')}</Text>
-            <TextInput
-              secureTextEntry
-              placeholder="••••••••"
-              placeholderTextColor={palette.mutedText}
-              value={password}
-              onChangeText={setPassword}
-              style={[styles.input, { borderColor: palette.border, color: palette.text }]}
-            />
+            <Text style={[styles.label, { color: palette.mutedText }]} maxFontSizeMultiplier={1.2}>{t('login.password')}</Text>
+            <View style={styles.passwordInputWrap}>
+              <TextInput
+                ref={passwordInput}
+                secureTextEntry={!passwordVisible}
+                placeholder="Password"
+                placeholderTextColor={palette.mutedText}
+                value={password}
+                onChangeText={setPassword}
+                returnKeyType="go"
+                onSubmitEditing={() => void handleSubmit()}
+                autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                textContentType={mode === 'login' ? 'password' : 'newPassword'}
+                maxFontSizeMultiplier={1.2}
+                style={[styles.input, styles.passwordInput, { borderColor: palette.border, color: palette.text }]}
+              />
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={passwordVisible ? 'Hide password' : 'Show password'}
+                hitSlop={10}
+                onPress={() => setPasswordVisible(visible => !visible)}
+                style={styles.passwordVisibilityButton}
+              >
+                <Ionicons name={passwordVisible ? 'eye-off-outline' : 'eye-outline'} size={21} color={palette.mutedText} />
+              </Pressable>
+            </View>
+            <Text style={[styles.characterCount, { color: palette.mutedText }]} maxFontSizeMultiplier={1.2}>{password.length} karakter</Text>
           </View>
 
           {(error || localError) && (
@@ -105,24 +158,26 @@ export function LoginScreen() {
             onPress={handleSubmit}
           >
             {isSubmitting ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color={primaryContentColor} />
             ) : (
-              <Text style={styles.primaryText}>{mode === 'signup' ? 'Create account' : t('login.submit')}</Text>
+              <Text style={[styles.primaryText, { color: primaryContentColor }]} maxFontSizeMultiplier={1.2}>{mode === 'signup' ? 'Hesap oluştur' : t('login.submit')}</Text>
             )}
           </Pressable>
 
-          <Pressable
-            style={[styles.outlineButton, { borderColor: palette.border }]}
+            <Pressable
+              style={styles.modeButton}
             onPress={() => {
               setMode(mode === 'login' ? 'signup' : 'login');
               setLocalError(null);
             }}>
-            <Text style={[styles.outlineText, { color: palette.text }]}>{mode === 'login' ? 'Create account' : 'Back to login'}</Text>
-          </Pressable>
+              <Text style={[styles.modeText, { color: palette.tint }]} maxFontSizeMultiplier={1.2}>
+                {mode === 'login' ? 'Yeni misin? Hesap oluştur' : 'Zaten hesabın var mı? Giriş yap'}
+              </Text>
+            </Pressable>
 
-          <Pressable>
+            {!keyboardVisible && <Pressable>
             <Text style={[styles.termsText, { color: palette.mutedText }]}>By continuing, you agree to Terms & Privacy Policy</Text>
-          </Pressable>
+            </Pressable>}
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -137,6 +192,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     padding: 24,
+  },
+  keyboardScrollContainer: {
+    justifyContent: 'flex-start',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
   },
   rings: {
     position: 'absolute',
@@ -179,6 +239,10 @@ const styles = StyleSheet.create({
     elevation: 4,
     overflow: 'hidden',
   },
+  keyboardCard: {
+    padding: 16,
+    gap: 10,
+  },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -189,6 +253,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     paddingVertical: 18,
+  },
+  keyboardBrandWrap: {
+    paddingVertical: 0,
+    gap: 2,
   },
   logoIcon: {
     width: 66,
@@ -205,6 +273,13 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: '900',
   },
+  keyboardTitle: {
+    fontSize: 20,
+  },
+  keyboardHint: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
   tagline: {
     fontSize: 17,
     fontWeight: '800',
@@ -218,6 +293,9 @@ const styles = StyleSheet.create({
   fieldGroup: {
     gap: 6,
   },
+  passwordInputWrap: {
+    justifyContent: 'center',
+  },
   label: {
     fontSize: 13,
     fontWeight: '600',
@@ -229,6 +307,19 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 14,
     fontSize: 16,
+  },
+  passwordInput: {
+    paddingRight: 48,
+  },
+  passwordVisibilityButton: {
+    position: 'absolute',
+    right: 14,
+    height: '100%',
+    justifyContent: 'center',
+  },
+  characterCount: {
+    alignSelf: 'flex-end',
+    fontSize: 11,
   },
   errorText: {
     color: '#f87171',
@@ -251,24 +342,28 @@ const styles = StyleSheet.create({
     lineHeight: 16,
   },
   primaryButton: {
-    borderRadius: 10,
-    minHeight: 44,
+    borderRadius: 12,
+    minHeight: 50,
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
   },
-  outlineButton: {
-    borderRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
-    minHeight: 44,
+  modeButton: {
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
   },
-  outlineText: {
-    fontSize: 15,
+  modeText: {
+    fontSize: 13,
     fontWeight: '700',
+    textAlign: 'center',
   },
   primaryText: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
+    includeFontPadding: false,
+    textAlign: 'center',
   },
   divider: {
     flexDirection: 'row',

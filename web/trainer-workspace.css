@@ -1,0 +1,1435 @@
+/* Trainer workspace tokens. Scoped to Trainer; other club/member surfaces retain their layout. */
+.trainer-shell {
+  max-width: 1440px;
+  --tp-space: 16px;
+  --tp-surface: #101b2c;
+  --tp-line: #2a384c;
+}
+.trainer-shell > header {
+  margin-bottom: 16px;
+  gap: 12px;
+}
+.trainer-shell > header h1 {
+  font-size: 19px;
+  line-height: 1.3;
+}
+.trainer-shell > header > div > p {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+}
+.trainer-shell .trainer-area {
+  font-size: 14px;
+}
+.trainer-shell .trainer-area > * + * {
+  margin-top: 16px;
+}
+.trainer-area[data-editor-open="true"] > .trainer-navigation-row {
+  display: none;
+}
+.trainer-area .trainer-navigation button {
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.trainer-area .trainer-refresh {
+  min-height: 44px;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+.trainer-area .tp {
+  gap: 16px;
+  --tp-accent: #bef264;
+}
+.trainer-area .tp[data-has-actions="true"] {
+  gap: 12px;
+}
+.trainer-area .tp h2 {
+  font-size: 26px;
+  line-height: 1.2;
+  margin: 4px 0;
+  letter-spacing: -0.025em;
+}
+.trainer-area .tp h3 {
+  font-size: 16px;
+  margin: 0;
+}
+.trainer-area .tp p {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+.trainer-area .tp-panel {
+  padding: 16px;
+  gap: 12px;
+  border-radius: 12px;
+}
+.trainer-area .tp-heading {
+  gap: 16px;
+  min-height: 52px;
+  order: 0;
+}
+.trainer-area .tp .tp-heading > div > p:not(.tp-eyebrow) {
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+.trainer-area .tp-field {
+  gap: 6px;
+  font-size: 12px;
+}
+.trainer-area .tp-field input,
+.trainer-area .tp-field select,
+.trainer-area .tp-field textarea {
+  padding: 10px 11px;
+  font-weight: 500;
+}
+.trainer-area .tp-program-actions {
+  flex-wrap: nowrap;
+}
+.trainer-area .tp-context-bar {
+  order: 1;
+  min-height: 34px;
+  padding: 6px 12px;
+  border: 1px solid #33483b;
+  border-left: 3px solid #bef264;
+  border-radius: 8px;
+  box-shadow: none;
+  background: #10201cef;
+  position: sticky;
+  top: 0;
+}
+.trainer-area .tp-context-bar > div {
+  gap: 12px;
+}
+.trainer-area .tp-context-bar strong,
+.trainer-area .tp-context-bar span {
+  font-size: 12px;
+}
+.trainer-area .tp[data-view="program"] > .tp-context-bar {
+  display: none;
+}
+.trainer-area .tp-publication-state {
+  order: 1;
+  min-height: 24px;
+  gap: 10px;
+  font-size: 12px;
+  color: #aebdd0;
+}
+.trainer-area .tp-publication-state > span:last-child {
+  font-size: 12px;
+}
+.trainer-area .tp-settings {
+  order: 2;
+  padding-block: 0;
+  background: #0b1524;
+}
+.trainer-area .tp-settings > summary {
+  font-size: 13px;
+  padding-block: 11px;
+}
+.trainer-area .tp-settings .tp-disclosure-body {
+  padding: 4px 0 16px;
+}
+.trainer-area .tp-program-meta {
+  gap: 12px;
+}
+.trainer-area .tp-planner-layout {
+  order: 3;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 24%);
+  gap: 16px;
+  align-items: start;
+}
+.trainer-area .tp-calendar-panel {
+  gap: 16px;
+}
+.trainer-area .tp-week-calendar {
+  display: grid;
+  gap: 12px;
+}
+.trainer-area .tp-week-tools {
+  align-items: center;
+}
+.trainer-area .tp-week-tools > .tp-field {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+.trainer-area .tp-week-tools > .tp-field select {
+  width: 125px;
+}
+.trainer-area .tp-week-actions {
+  padding: 0 10px;
+  background: transparent;
+}
+.trainer-area .tp-week-actions summary {
+  font-size: 12px;
+}
+.trainer-area .tp-week-range {
+  font-size: 12px;
+  margin: 0 !important;
+}
+.trainer-area .tp-calendar {
+  gap: 8px;
+}
+.trainer-area .tp button.tp-day {
+  min-height: 124px;
+  padding: 10px;
+  gap: 6px;
+  border-radius: 8px;
+}
+.trainer-area .tp-day > strong {
+  font-size: 25px;
+}
+.trainer-area .tp-day-content {
+  min-height: 0;
+}
+.trainer-area .tp-mini-workout {
+  padding: 6px;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.trainer-area .tp-mini-workout small {
+  font-size: 10px;
+}
+.trainer-area .tp-selected-heading {
+  margin-bottom: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--tp-line);
+}
+.trainer-area .tp-selected-heading h3 {
+  margin-top: 4px;
+  font-size: 18px;
+}
+.trainer-area .tp-day-editor {
+  display: grid;
+  gap: 12px;
+}
+.trainer-area .tp-scheduled {
+  padding: 14px;
+  border-radius: 10px;
+  background: #11211e;
+}
+.trainer-area .tp-scheduled .tp-inline p {
+  font-size: 12px;
+  color: #aebdd0;
+}
+.trainer-area .tp-session-actions {
+  margin-top: 12px;
+}
+.trainer-area .tp-session-actions > summary,
+.trainer-area .tp-day-ops > summary {
+  font-size: 12px;
+}
+.trainer-area .tp-exercise-chips {
+  margin-top: 10px;
+}
+.trainer-area .tp-exercise-chips span {
+  font-size: 11px;
+}
+.trainer-area .tp-empty {
+  padding: 20px 12px;
+  min-height: 0;
+}
+.trainer-area .tp-empty h3 {
+  font-size: 16px;
+}
+.trainer-area .tp-empty p {
+  font-size: 13px;
+}
+.trainer-area .tp-planner-sidebar {
+  gap: 12px;
+}
+.trainer-area .tp-planner-sidebar .tp-panel {
+  padding: 0 14px;
+}
+.trainer-area .tp-planner-sidebar .tp-disclosure-body {
+  padding-bottom: 14px;
+  gap: 10px;
+}
+.trainer-area .tp-template-section > summary {
+  font-size: 13px;
+}
+.trainer-area .tp-template-pick {
+  padding: 10px !important;
+  gap: 4px;
+}
+.trainer-area .tp-template-pick strong {
+  font-size: 13px;
+}
+.trainer-area .tp-template-pick small {
+  font-size: 11px;
+}
+.trainer-area .tp-program-summary p {
+  font-size: 12px;
+}
+.trainer-area .tp-program-summary h3 {
+  display: none;
+}
+.trainer-area .tp-workspace {
+  order: 2;
+  position: relative;
+  grid-template-columns: minmax(230px, 25fr) minmax(0, 55fr) minmax(190px, 20fr);
+  gap: 16px;
+  align-items: start;
+  height: var(--tp-editor-height, 570px);
+  min-height: 360px;
+}
+.trainer-area .tp-workspace:has(.tp-summary:not([open])) {
+  grid-template-columns: minmax(230px, 25%) minmax(0, 1fr) 168px;
+}
+.trainer-area .tp-workspace > main {
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.trainer-area .tp-exercise-library {
+  top: 0;
+  max-height: 100%;
+  overflow: auto;
+  gap: 12px;
+  padding: 16px;
+}
+.trainer-area .tp-exercise-library h3 {
+  font-size: 15px;
+}
+.trainer-area .tp-exercise-library .tp-inline small {
+  display: none;
+}
+.trainer-area .tp-exercise-results {
+  max-height: none;
+}
+.trainer-area .tp-exercise-pick {
+  min-height: 60px !important;
+}
+.trainer-area .tp-exercise-pick strong {
+  font-size: 12px;
+}
+.trainer-area .tp-library-filters > .tp-disclosure-body {
+  gap: 10px;
+}
+.trainer-area .tp-target {
+  padding: 12px;
+  gap: 12px;
+  border-radius: 10px;
+  margin-top: 0;
+}
+.trainer-area .tp-target-title {
+  font-size: 14px !important;
+}
+.trainer-area .tp-target-fields {
+  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.trainer-area .tp-target > .tp-inline {
+  gap: 8px;
+}
+.trainer-area .tp-target-notes {
+  border-top: 1px solid #263449;
+}
+.trainer-area .tp-target-notes > summary {
+  font-size: 12px;
+  color: #aebdd0;
+}
+.trainer-area .tp-target-notes textarea {
+  margin-bottom: 8px;
+}
+.trainer-area .tp-target-actions {
+  border-top: 1px solid #263449;
+  padding-top: 10px;
+}
+.trainer-area .tp-target-actions button {
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.trainer-area .tp-number {
+  width: 26px;
+  height: 28px;
+  font-size: 12px;
+}
+.trainer-area .tp-order {
+  gap: 6px;
+}
+.trainer-area .tp-order button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 8px;
+}
+.trainer-area .tp-summary {
+  max-height: 100%;
+  overflow: auto;
+  padding: 0 14px;
+}
+.trainer-area .tp-summary > summary {
+  font-size: 12px;
+}
+.trainer-area .tp-summary .tp-disclosure-body {
+  gap: 12px;
+  padding-bottom: 14px;
+}
+.trainer-area .tp-summary ol {
+  padding-left: 18px;
+  font-size: 12px;
+}
+.trainer-area .tp-summary li {
+  margin: 6px 0;
+}
+.trainer-area .tp-summary .tp-muted,
+.trainer-area .tp-summary details {
+  font-size: 12px;
+}
+.trainer-area .tp-metrics strong {
+  font-size: 24px;
+}
+.trainer-area .tp-edit-feedback {
+  padding: 8px 10px;
+  font-size: 12px;
+  margin: 0 !important;
+}
+.trainer-area .tp-savebar {
+  order: 5;
+  position: static;
+  bottom: auto;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  gap: 16px;
+  box-shadow: none;
+  background: #111f30;
+}
+.trainer-area .tp-savebar > .tp-save-state {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+}
+.trainer-area .tp-save-state .tp-state-dot {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #c3ddbe;
+  background: #1d3529;
+  flex: none;
+  font-size: 12px;
+}
+.trainer-area .tp-save-state > div {
+  min-width: 0;
+}
+.trainer-area .tp-save-state strong {
+  display: block;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 650;
+}
+.trainer-area .tp-save-state small {
+  font-size: 11px;
+  margin-top: 3px;
+  line-height: 1.4;
+  max-width: 620px;
+}
+.trainer-area .tp-save-state[data-save-state="unpublished"] strong,
+.trainer-area .tp-save-state[data-save-state="unsaved"] strong {
+  color: #fde68a;
+}
+.trainer-area .tp-save-state[data-save-state="failed"] strong {
+  color: #fecdd3;
+}
+.trainer-area .tp-save-state[data-save-state="failed"] .tp-state-dot {
+  color: #fecdd3;
+  background: #4c1d2c;
+}
+.trainer-area .tp-save-state[data-save-state="saving"] .tp-state-dot {
+  animation: tp-saving 1s linear infinite;
+}
+@keyframes tp-saving {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.trainer-area .tp-savebar > .tp-save-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  flex: none;
+  gap: 8px;
+}
+.trainer-area .tp-savebar button {
+  white-space: nowrap;
+}
+.trainer-area .tp-save-state .tp-retry {
+  color: #fecdd3;
+  border-color: #815365;
+}
+.trainer-area .tp-dialog {
+  padding: 20px;
+  border-radius: 14px;
+  max-height: calc(100dvh - 48px);
+  overflow: auto;
+  width: min(620px, calc(100vw - 32px));
+}
+.trainer-area .tp-dialog > header {
+  margin-bottom: 16px;
+}
+.trainer-area .tp-dialog > header h3 {
+  font-size: 18px;
+  line-height: 1.35;
+}
+.trainer-area .tp-dialog .tp-preview-week {
+  padding: 12px;
+  margin-block: 12px;
+}
+.trainer-area .tp-dialog .tp-assignment-summary {
+  padding: 12px;
+}
+.trainer-area .tp-member-impact {
+  padding: 12px;
+  margin-block: 12px;
+}
+.trainer-area .tp-member-impact > div {
+  padding: 10px;
+}
+.trainer-area .tp-review-actions {
+  position: static;
+  bottom: auto;
+  padding-top: 16px;
+  padding-bottom: 0;
+  margin-top: 16px;
+  border-top: 1px solid #334155;
+}
+.trainer-area .tp-coverage-list {
+  gap: 8px;
+  margin-block: 12px;
+}
+.trainer-area .tp-coverage-week {
+  padding: 10px 12px;
+  gap: 8px;
+}
+.trainer-area .tp-dialog .tp-notice,
+.trainer-area .tp-dialog .tp-warning {
+  padding: 10px;
+  font-size: 12px;
+}
+.trainer-area .tp-dialog p {
+  font-size: 13px;
+}
+.trainer-area .tp-starters {
+  padding-block: 0;
+}
+.trainer-area .tp-starters > summary {
+  font-size: 13px;
+}
+.trainer-area .tp-starters > :not(summary) {
+  margin-bottom: 12px;
+}
+.trainer-area .tp-filters {
+  padding: 14px;
+  gap: 12px;
+}
+.trainer-area .tp-program-card {
+  gap: 12px;
+}
+.trainer-area .tp-program-card h3 {
+  font-size: 19px;
+}
+.trainer-area .tp-program-stats {
+  padding: 12px 0;
+}
+.trainer-area .tp-card-actions button {
+  flex: none;
+}
+.trainer-area .tp-card-actions .tp-primary {
+  flex: 1;
+}
+.trainer-area .trainer-overview-hero {
+  padding: 0;
+  min-height: 0;
+}
+.trainer-area .trainer-overview-hero h3 {
+  font-size: 23px;
+}
+.trainer-area .trainer-overview-hero p {
+  font-size: 13px;
+}
+.trainer-area .trainer-dashboard-kpis {
+  gap: 12px;
+}
+.trainer-area .trainer-member-header {
+  gap: 12px;
+}
+.trainer-area .trainer-member-header h2 {
+  font-size: 23px;
+  margin: 2px 0;
+}
+.trainer-area .trainer-member-stats {
+  gap: 12px;
+}
+.trainer-area .trainer-member-stats > div {
+  padding: 14px;
+}
+.trainer-area .trainer-member-stats strong {
+  font-size: 24px;
+}
+.trainer-area .trainer-week-summary {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 2fr;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  background: #101b2c;
+}
+.trainer-area .trainer-week-summary h3 {
+  font-weight: 700;
+}
+.trainer-area .trainer-week-summary p,
+.trainer-area .trainer-week-summary small {
+  color: #94a3b8;
+  font-size: 12px;
+}
+.trainer-area .trainer-week-progress {
+  height: 8px;
+  border-radius: 8px;
+  background: #25344a;
+  overflow: hidden;
+  margin-block: 10px;
+}
+.trainer-area .trainer-week-progress span {
+  display: block;
+  height: 100%;
+  background: #bef264;
+}
+.trainer-area .trainer-recent-history {
+  display: grid;
+  gap: 6px;
+}
+.trainer-area .trainer-recent-history a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 10px;
+  border: 1px solid #2a384c;
+  border-radius: 8px;
+  font-size: 12px;
+}
+.trainer-area .trainer-workout-progress {
+  padding: 16px;
+}
+.trainer-area .trainer-workout-progress > h3 {
+  font-size: 16px;
+}
+.trainer-area .trainer-exercise-progress {
+  padding-top: 12px;
+}
+.trainer-area .trainer-set-counts {
+  max-width: 560px;
+  gap: 8px;
+  margin-block: 10px;
+}
+.trainer-area .trainer-set-counts > div {
+  padding: 10px 12px;
+}
+.trainer-area .trainer-set-counts dd {
+  font-size: 23px;
+  margin-top: 2px;
+}
+.trainer-area .trainer-set-chart {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 560px;
+}
+.trainer-area .trainer-set-track {
+  flex: 1;
+  height: 7px;
+  background: #26364a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.trainer-area .trainer-set-track span {
+  display: block;
+  height: 100%;
+  background: #bef264;
+}
+.trainer-area .trainer-set-chart small {
+  font-size: 11px;
+  color: #aebdd0;
+}
+.trainer-area .trainer-workout-progress details > summary {
+  min-height: 44px;
+  font-size: 12px;
+}
+@media (min-width: 768px) {
+  .trainer-area .tp[data-has-actions="true"] {
+    padding-bottom: 0;
+  }
+  .trainer-area .tp-workspace > main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .trainer-area .tp-workspace > main > * {
+    flex-shrink: 0;
+  }
+  .trainer-area .tp-target:not(.selected) {
+    display: block;
+    padding: 10px 12px;
+  }
+  .trainer-area .tp-target:not(.selected) .tp-order {
+    display: none;
+  }
+  .trainer-area .tp-target:not(.selected) p {
+    margin-top: 0;
+    padding-left: 38px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 1100px) and (min-width: 768px) {
+  .trainer-area .tp-workspace {
+    grid-template-columns: minmax(210px, 27%) minmax(0, 1fr);
+  }
+  .trainer-area .tp-summary {
+    grid-column: 1;
+    max-height: none;
+  }
+  .trainer-area .tp-workspace > main {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .trainer-area .tp-workspace:has(.tp-summary:not([open])) {
+    grid-template-columns: minmax(210px, 27%) minmax(0, 1fr);
+  }
+  .trainer-area .tp-target-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 767px) {
+  .trainer-shell > header {
+    margin-bottom: 12px;
+  }
+  .trainer-shell > header h1 {
+    font-size: 19px;
+  }
+  .trainer-shell .trainer-area > * + * {
+    margin-top: 12px;
+  }
+  .trainer-area .trainer-navigation button {
+    padding: 10px 4px;
+    font-size: 11px;
+  }
+  .trainer-area .trainer-refresh {
+    padding: 10px 8px;
+    font-size: 11px;
+  }
+  .trainer-area .tp {
+    gap: 12px;
+  }
+  .trainer-area .tp-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 0;
+  }
+  .trainer-area .tp-heading h2 {
+    font-size: 21px;
+    line-height: 1.25;
+    margin: 4px 0;
+  }
+  .trainer-area .tp-heading .tp-eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+  .trainer-area .tp[data-has-actions="true"] > .tp-heading > div:first-child {
+    width: 100%;
+  }
+  .trainer-area .tp-program-actions {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+    justify-content: stretch;
+  }
+  .trainer-area .tp-program-actions button {
+    flex: 1;
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  .trainer-area .tp-context-bar,
+  .trainer-area .tp[data-view="program"] > .tp-context-bar {
+    display: flex;
+    order: 2;
+    min-height: 36px;
+    padding: 7px 10px;
+    top: env(safe-area-inset-top, 0px);
+  }
+  .trainer-area .tp-context-bar > div {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .trainer-area .tp-context-bar strong,
+  .trainer-area .tp-context-bar span {
+    font-size: 11px;
+  }
+  .trainer-area .tp-context-status {
+    max-width: 88px;
+    font-size: 10px !important;
+  }
+  .trainer-area .tp-publication-state {
+    order: 1;
+    font-size: 11px;
+    gap: 8px;
+  }
+  .trainer-area .tp-publication-state > span:last-child {
+    font-size: 11px;
+  }
+  .trainer-area .tp .tp-program-views {
+    display: flex;
+    order: 3;
+    gap: 4px;
+    background: #101b2c;
+    border: 1px solid #2a384c;
+    border-radius: 9px;
+    padding: 3px;
+  }
+  .trainer-area .tp-program-views button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    min-height: 44px;
+    padding: 8px;
+    font-size: 12px;
+  }
+  .trainer-area .tp-program-views button[aria-pressed="true"] {
+    background: #24382b;
+    color: #d9f99d;
+  }
+  .trainer-area .tp-settings {
+    order: 4;
+  }
+  .trainer-area .tp[data-program-view="week"] .tp-settings,
+  .trainer-area .tp[data-program-view="day"] .tp-settings {
+    display: none;
+  }
+  .trainer-area .tp[data-program-view="overview"] .tp-planner-layout {
+    display: none;
+  }
+  .trainer-area .tp[data-program-view="overview"] .tp-settings > summary {
+    display: none;
+  }
+  .trainer-area
+    .tp[data-program-view="overview"]
+    .tp-settings
+    > .tp-disclosure-body {
+    display: block;
+    padding-top: 14px;
+  }
+  .trainer-area .tp-program-meta {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .trainer-area .tp-program-meta > .tp-field:nth-child(-n + 2) {
+    grid-column: 1/-1;
+  }
+  .trainer-area .tp-planner-layout {
+    order: 4;
+    display: block;
+  }
+  .trainer-area .tp-calendar-panel {
+    padding: 12px;
+    gap: 12px;
+  }
+  .trainer-area .tp-week-calendar {
+    gap: 10px;
+  }
+  .trainer-area .tp-calendar {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 3px;
+    overflow: visible;
+  }
+  .trainer-area .tp button.tp-day {
+    min-width: 0;
+    min-height: 90px;
+    padding: 9px 2px;
+    gap: 6px;
+  }
+  .trainer-area .tp-day > span:first-child {
+    font-size: 10px;
+  }
+  .trainer-area .tp-day > strong {
+    font-size: 21px;
+  }
+  .trainer-area .tp-day .tp-mobile {
+    font-size: 8px !important;
+    white-space: nowrap !important;
+    letter-spacing: -0.03em;
+  }
+  .trainer-area .tp[data-program-view="week"] .tp-day-editor {
+    display: none;
+  }
+  .trainer-area .tp[data-program-view="day"] .tp-week-calendar {
+    display: none;
+  }
+  .trainer-area .tp[data-program-view="day"] .tp-selected-heading {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .trainer-area .tp .tp-open-day {
+    display: block;
+    width: 100%;
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .trainer-area .tp[data-program-view="day"] .tp-open-day {
+    display: none;
+  }
+  .trainer-area .tp-planner-sidebar {
+    margin-top: 12px;
+  }
+  .trainer-area .tp[data-program-view="week"] .tp-planner-sidebar {
+    display: none;
+  }
+  .trainer-area .tp-planner-sidebar .tp-program-summary {
+    display: none;
+  }
+  .trainer-area .tp-scheduled {
+    padding: 12px;
+  }
+  .trainer-area .tp-selected-heading h3 {
+    font-size: 18px;
+  }
+  .trainer-area .tp-week-tools > .tp-field {
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+  }
+  .trainer-area .tp-week-tools > .tp-field select {
+    width: 110px;
+  }
+  .trainer-area .tp-week-tools {
+    gap: 8px;
+  }
+  .trainer-area .tp-week-actions {
+    max-width: calc(100% - 120px);
+  }
+  .trainer-area .tp-workspace {
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+  .trainer-area .tp-workspace > main {
+    height: auto;
+    overflow: visible;
+    padding: 12px;
+  }
+  .trainer-area .tp-exercise-library {
+    display: none;
+  }
+  .trainer-area .tp-exercise-library.is-open {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    z-index: 60;
+    border: 0;
+    border-radius: 0;
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 16px
+      calc(16px + env(safe-area-inset-bottom, 0px));
+    overflow: auto;
+  }
+  .trainer-area .tp-exercise-library.is-open .tp-inline {
+    flex-wrap: nowrap;
+  }
+  .trainer-area .tp-exercise-library .tp-inline small {
+    display: block;
+    font-size: 11px;
+    margin-top: 4px;
+  }
+  .trainer-area .tp:has(.tp-exercise-library.is-open) .tp-savebar {
+    visibility: hidden;
+  }
+  .trainer-area .tp-exercise-results {
+    overflow: visible;
+    max-height: none;
+  }
+  .trainer-area .tp-summary {
+    margin-top: 12px;
+    padding: 0 12px;
+    max-height: none;
+  }
+  .trainer-area .tp-mobile-focus-controls {
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .trainer-area .tp-mobile-focus-controls small {
+    display: none;
+  }
+  .trainer-area .tp-target {
+    padding: 12px;
+    gap: 12px;
+  }
+  .trainer-area .tp-target-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .trainer-area .tp-field input,
+  .trainer-area .tp-field select,
+  .trainer-area .tp-field textarea {
+    font-size: 16px;
+  }
+  .trainer-area .tp-savebar {
+    position: fixed;
+    order: 5;
+    left: 16px;
+    right: 16px;
+    bottom: var(--tp-keyboard-offset, 0px);
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    gap: 8px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    z-index: 22;
+  }
+  .trainer-area .tp-savebar > .tp-save-state {
+    gap: 8px;
+    align-items: center;
+  }
+  .trainer-area .tp-save-state .tp-state-dot {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+  .trainer-area .tp-save-state strong {
+    font-size: 11px;
+  }
+  .trainer-area .tp-save-state small {
+    display: none;
+  }
+  .trainer-area .tp-save-state[data-save-state="failed"] small {
+    display: block;
+    font-size: 10px;
+    max-height: 42px;
+    overflow: auto;
+  }
+  .trainer-area .tp-save-state[data-save-state="failed"] {
+    align-items: flex-start;
+  }
+  .trainer-area .tp-save-state .tp-retry {
+    margin-left: auto;
+    padding: 8px;
+    font-size: 11px;
+  }
+  .trainer-area .tp-savebar > .tp-save-actions {
+    display: flex;
+    width: 100%;
+    gap: 8px;
+  }
+  .trainer-area .tp-save-actions button {
+    flex: 1;
+    padding: 10px 6px;
+    font-size: 11px;
+    min-height: 44px;
+    white-space: normal;
+  }
+  .trainer-area .tp[data-has-actions="true"] {
+    padding-bottom: calc(var(--tp-action-height, 100px) + 24px);
+  }
+  .trainer-area .tp-dialog {
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - 32px);
+    padding: 16px;
+    margin: auto;
+  }
+  .trainer-area .tp-dialog > header {
+    margin-bottom: 12px;
+  }
+  .trainer-area .tp-dialog > header h3 {
+    font-size: 18px;
+  }
+  .trainer-area .tp-dialog .tp-review-actions {
+    position: static;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .trainer-area .tp-review-actions button {
+    min-height: 44px;
+    flex: 1;
+    font-size: 11px;
+  }
+  .trainer-area .tp-coverage-week {
+    padding: 10px;
+  }
+  .trainer-area .tp-filters {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 12px;
+    gap: 12px;
+  }
+  .trainer-area .tp-filters > .tp-field:first-child {
+    grid-column: 1/-1;
+  }
+  .trainer-area .trainer-week-summary {
+    grid-template-columns: 1fr;
+    padding: 14px;
+    gap: 12px;
+  }
+  .trainer-area .trainer-member-stats {
+    gap: 8px;
+  }
+  .trainer-area .trainer-member-stats > div {
+    padding: 12px 8px;
+  }
+  .trainer-area .trainer-member-stats strong {
+    font-size: 22px;
+  }
+  .trainer-area .trainer-member-stats span {
+    font-size: 10px;
+  }
+  .trainer-area .trainer-workout-progress {
+    padding: 14px;
+  }
+  .trainer-area .trainer-set-counts {
+    gap: 6px;
+  }
+  .trainer-area .trainer-set-counts > div {
+    padding: 10px 8px;
+  }
+  .trainer-area .trainer-set-counts dd {
+    font-size: 23px;
+  }
+  .trainer-area .trainer-set-counts dt {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .trainer-area .tp-save-state .tp-state-dot {
+    animation: none;
+  }
+}
+@media (max-width: 767px) {
+  .trainer-area .tp-save-state small {
+    display: block;
+    font-size: 10px;
+    max-height: 28px;
+    overflow: hidden;
+  }
+}
+@media (min-width: 768px) {
+  .trainer-area .tp-planner-layout {
+    height: var(--tp-editor-height, 560px);
+    min-height: 280px;
+  }
+  .trainer-area .tp-calendar-panel {
+    height: 100%;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+  .trainer-area .tp-planner-sidebar {
+    max-height: 100%;
+    overflow: auto;
+  }
+  .trainer-area .tp-calendar-panel .tp-day-editor {
+    gap: 8px;
+  }
+  .trainer-area .tp-selected-heading {
+    margin-bottom: 0;
+  }
+  .trainer-area .tp-scheduled {
+    gap: 8px;
+  }
+  .trainer-area .tp-exercise-chips {
+    margin-top: 0;
+  }
+  .trainer-area .tp-session-actions {
+    margin-top: 0;
+  }
+}
+@media (max-width: 767px) {
+  .trainer-area .tp-planner-layout {
+    height: auto;
+    min-height: 0;
+  }
+  .trainer-area .tp-calendar-panel {
+    height: auto;
+    overflow: visible;
+  }
+  .trainer-area .tp-scheduled {
+    gap: 8px;
+  }
+}
+.trainer-area .tp-workout-name > summary {
+  font-size: 12px;
+}
+.trainer-area .tp-day-primary-actions {
+  order: 1;
+}
+.trainer-area .tp-day-editor > .tp-scheduled,
+.trainer-area .tp-day-editor > .tp-empty {
+  order: 2;
+}
+.trainer-area .tp-day-editor > .tp-day-ops {
+  order: 3;
+}
+@media (min-width: 768px) {
+  .trainer-area .tp-workout-name > summary {
+    display: none;
+  }
+  .trainer-area .tp-workout-name > .tp-field {
+    display: flex;
+  }
+  .trainer-area .tp-workout-name:not([open]) > .tp-field {
+    display: flex;
+  }
+}
+@media (max-width: 767px) {
+  .trainer-area .tp[data-view="workout"] .tp-heading {
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  .trainer-area .tp[data-view="workout"] .tp-heading > div:first-child {
+    width: auto;
+    flex: 1;
+  }
+  .trainer-area .tp[data-view="workout"] .tp-heading > button {
+    flex: none;
+    padding: 10px;
+    font-size: 11px;
+  }
+  .trainer-area .tp[data-view="workout"] .tp-heading h2 {
+    font-size: 19px;
+  }
+  .trainer-area .tp-workspace > main {
+    position: relative;
+  }
+  .trainer-area .tp-workout-name {
+    min-height: 44px;
+    margin-bottom: 10px;
+  }
+  .trainer-area .tp-workout-name > summary {
+    width: calc(100% - 145px);
+    padding-block: 12px;
+  }
+  .trainer-area .tp-exercise-heading h3 {
+    display: none;
+  }
+  .trainer-area .tp-exercise-heading > button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 11px;
+  }
+  .trainer-area .tp-mobile-focus-controls .tp-field > label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .trainer-area .tp-target {
+    display: flex;
+    flex-direction: column;
+  }
+  .trainer-area .tp-target > .tp-inline:first-child {
+    order: 3;
+    justify-content: flex-end;
+    border-top: 1px solid #263449;
+    padding-top: 8px;
+  }
+  .trainer-area .tp-target .tp-target-title {
+    display: none;
+  }
+}
+.trainer-area .tp-heading {
+  flex-direction: row;
+}
+.trainer-area .tp-save-actions:empty {
+  display: none;
+}
+.trainer-area .tp-unpublish-action {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #334155;
+  padding-top: 12px;
+  margin-top: 12px;
+}
+.trainer-area .tp-unpublish-action p {
+  font-size: 12px;
+  color: #aebdd0;
+}
+.trainer-area .tp-unpublish-action button {
+  color: #fcd34d;
+}
+.trainer-shell > header button {
+  min-height: 44px;
+}
+.trainer-area .tp-check,
+.trainer-area .tp-member-picks label {
+  min-height: 44px;
+}
+@media (max-width: 767px) {
+  .trainer-area .tp-calendar-panel {
+    padding: 8px;
+  }
+}
+.trainer-area .tp-library-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 12px;
+}
+.trainer-area .tp-more-filters {
+  min-width: 140px;
+}
+.trainer-area .tp-more-filters > summary {
+  font-size: 13px;
+}
+.trainer-area .tp-more-filters[open] {
+  grid-column: 1/-1;
+}
+.trainer-area .tp-filters-body {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.trainer-area .tp-preview-week > summary {
+  min-height: 44px;
+  font-size: 14px;
+  font-weight: 650;
+}
+@media (max-width: 767px) {
+  .trainer-area .tp-more-filters {
+    min-width: 100px;
+  }
+  .trainer-area .tp-filters-body {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.trainer-area .tp-dialog[open] {
+  display: flex;
+  flex-direction: column;
+}
+.trainer-area .tp-dialog > header {
+  flex: none;
+}
+.trainer-area .tp-dialog > header > button {
+  min-width: 44px;
+  flex: none;
+}
+.trainer-area .tp-dialog-body {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.trainer-area .tp-dialog-body > * {
+  flex-shrink: 0;
+}
+.trainer-area .tp-dialog > .tp-review-actions {
+  flex: none;
+  margin-top: 12px;
+}
+@media (min-width: 768px) {
+  .trainer-area .trainer-exercise-progress {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(0, 2fr);
+    gap: 8px 24px;
+    align-items: center;
+  }
+  .trainer-area .trainer-exercise-progress > h4 {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .trainer-area .trainer-exercise-progress > .trainer-set-status {
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+  }
+  .trainer-area .trainer-exercise-progress > details {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .trainer-area .trainer-exercise-progress > .trainer-set-counts {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    max-width: none;
+    margin: 0;
+  }
+  .trainer-area .trainer-exercise-progress > .trainer-set-chart {
+    grid-column: 2;
+    grid-row: 3;
+    max-width: none;
+  }
+}
+.trainer-area .tp-program-context {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+.trainer-area .tp-program-context strong {
+  color: #d9f99d;
+}
+.trainer-area .tp-program-context small {
+  font-size: 11px;
+}
+@media (max-width: 767px) {
+  .trainer-area .tp-program-context {
+    display: none;
+  }
+}
+.trainer-area .tp-workspace[inert],
+.trainer-area .tp-planner-layout[inert],
+.trainer-area .tp-program-meta[inert] {
+  opacity: 0.65;
+}
+.trainer-area .trainer-scheduled-programs > summary {
+  min-height: 44px;
+  padding-block: 12px;
+  font-size: 12px;
+  color: #aebdd0;
+  cursor: pointer;
+}
+.trainer-area .trainer-scheduled-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-block: 12px;
+  border-top: 1px solid #334155;
+}
+.trainer-area .trainer-scheduled-row small {
+  display: block;
+  color: #94a3b8;
+  font-size: 11px;
+  margin-top: 4px;
+}
+@media (max-width: 767px) {
+  .trainer-area .trainer-scheduled-row {
+    flex-wrap: wrap;
+  }
+}
+.trainer-area .tp-program-context {
+  flex-shrink: 0;
+  min-width: max-content;
+}
+.trainer-area .tp-program-context > * {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.trainer-area .tp-program-context small {
+  flex-basis: auto;
+}
+@media (max-width: 767px) {
+  .trainer-area .tp-target:not(.selected) {
+    display: none;
+  }
+}

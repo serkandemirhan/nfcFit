@@ -1,0 +1,12 @@
+{
+  "implementation": "PASS",
+  "focused_tests": 53,
+  "device_acceptance": "BLOCKED",
+  "changes": [
+    "Compact seven weekdays with selected state; tapping an existing day selects its original session ID and never removes it.",
+    "Names, dates and existing session selectors retained, including multiple sessions per weekday.",
+    "Blank name checked first with Program adını girin.; purpose has example placeholder.",
+    "Advanced settings and KeyboardFrame save footer structure unchanged."
+  ],
+  "shared_change": "CoachField gained optional placeholder prop. No default or layout changes for other screens."
+}

@@ -16,15 +16,22 @@ export type ApiResponse = {
   [key: string]: any;
 };
 
-export function getSupabase(): SupabaseClient {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !key) {
-    throw new Error('Missidng SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY');
+/** Use the caller's JWT and public key: a club role never grants a global service-role client. */
+export async function getSupabase(req: ApiRequest, res: ApiResponse): Promise<SupabaseClient | null> {
+  const authorization = req.headers?.authorization ?? req.headers?.Authorization;
+  if (typeof authorization !== 'string' || !authorization.startsWith('Bearer ') || !authorization.slice(7).trim()) {
+    err(res,401,'Giriş yapmanız gerekiyor.');return null;
   }
-  return createClient(url, key, {
-    auth: { persistSession: false }
-  });
+  const url=process.env.SUPABASE_URL??process.env.VITE_SUPABASE_URL;
+  const key=process.env.SUPABASE_ANON_KEY??process.env.VITE_SUPABASE_ANON_KEY;
+  if(!url||!key){err(res,503,'Hesap doğrulama servisi yapılandırılmamış.');return null;}
+  const client=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false},global:{headers:{Authorization:authorization}}});
+  try {
+    const {data,error}=await client.auth.getUser(authorization.slice(7).trim());
+    if(error||!data.user){err(res,401,'Oturum geçersiz veya süresi dolmuş.');return null;}
+    if(!data.user.email_confirmed_at){err(res,403,'Önce e-posta adresinizi doğrulayın.');return null;}
+    return client;
+  }catch{err(res,503,'Oturum doğrulanamadı. Bağlantınızı kontrol edin.');return null;}
 }
 
 export async function readJson<T = any>(req: ApiRequest): Promise<T> {

@@ -11,7 +11,8 @@ const normalizeUser = (row: any) => ({
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (!ensureOriginAllowed(req, res)) return;
-  const supabase = getSupabase();
+  const supabase = await getSupabase(req, res);
+  if (!supabase) return;
 
   if (req.method === 'GET') {
     const { data, error } = await supabase.from('users').select('*').order('name');

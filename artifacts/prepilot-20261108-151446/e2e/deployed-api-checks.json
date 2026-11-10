@@ -1,0 +1,47 @@
+{
+  "base_url": "https://nfcfit-tenant-api.vercel.app",
+  "checks": [
+    {
+      "name": "health",
+      "path": "/health",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 400,
+      "status": "PASS"
+    },
+    {
+      "name": "unauthenticated identity",
+      "path": "/api/console/auth/me",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 288,
+      "status": "PASS"
+    },
+    {
+      "name": "unauthenticated platform",
+      "path": "/api/console/platform/tenants",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 327,
+      "status": "PASS"
+    },
+    {
+      "name": "unauthenticated subscription",
+      "path": "/api/console/tenants/00000000-0000-0000-0000-000000000000/subscription",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 297,
+      "status": "PASS"
+    },
+    {
+      "name": "deployed role API contract",
+      "required_routes": [
+        "/api/console/tenants/{tenant_id}/billing-profile",
+        "/api/console/tenants/{tenant_id}/subscription",
+        "/api/console/tenants/{tenant_id}/staff/{staff_id}"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "limits": "Public reachability and unauthenticated denial only. No role-authenticated tenant journey implied."
+}

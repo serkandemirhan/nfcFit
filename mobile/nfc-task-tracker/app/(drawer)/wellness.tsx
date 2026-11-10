@@ -1,3 +1,4 @@
+import { ExpandedWellness } from '@/components/expanded-wellness';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
@@ -70,14 +71,20 @@ export default function WellnessScreen() {
           logsQuery.refetch();
         }} />}>
         <View style={styles.header}>
-          <ThemedText style={styles.title}>Wellness</ThemedText>
+          <ThemedText style={styles.title}>İyi yaşam</ThemedText>
         </View>
 
+        <ExpandedWellness />
+        {(typesQuery.isPending || logsQuery.isPending) && <ThemedText>Önceki alışkanlıklar yükleniyor…</ThemedText>}
+        {(typesQuery.error || logsQuery.error || goalsQuery.error) && <ThemedText accessibilityRole="alert" style={{color:'#B91C1C'}}>Önceki alışkanlık kayıtları alınamadı. Yenilemek için aşağı çekin; telefondaki yeni kayıtlar korunur.</ThemedText>}
+        {logMutation.error && <ThemedText accessibilityRole="alert" style={{color:'#B91C1C'}}>Kayıt onaylanamadı. Tekrar eklemeden önce listeyi yenileyin.</ThemedText>}
+        {logMutation.isSuccess && <ThemedText accessibilityLiveRegion="polite">Alışkanlık kaydedildi.</ThemedText>}
+        <ThemedText type="subtitle">Önceki alışkanlık kayıtları</ThemedText>
         <View style={[styles.segment, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {(['day', 'week', 'month'] as const).map((value) => (
             <Pressable key={value} onPress={() => setPeriod(value)} style={[styles.segmentButton, period === value && { backgroundColor: surface.green }]}>
               <ThemedText style={[styles.segmentText, period === value && styles.segmentTextActive]}>
-                {value === 'day' ? 'Day' : value === 'week' ? 'Week' : 'Month'}
+                {value === 'day' ? 'Gün' : value === 'week' ? 'Hafta' : 'Ay'}
               </ThemedText>
             </Pressable>
           ))}
@@ -86,7 +93,7 @@ export default function WellnessScreen() {
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {rows.length === 0 ? (
             <ThemedText style={[styles.emptyText, { color: surface.mutedText }]}>
-              Henüz wellness alışkanlığı yok.
+              Henüz alışkanlık tanımlanmadı.
             </ThemedText>
           ) : rows.map(({ type, goal, completed }) => {
             const target = Number(goal?.target_quantity ?? 0);
@@ -99,11 +106,12 @@ export default function WellnessScreen() {
                     <View>
                       <ThemedText style={styles.rowTitle}>{type.name}</ThemedText>
                       <ThemedText style={[styles.rowMeta, { color: surface.mutedText }]}>
-                        {formatQuantity(completed, type.unit)} / {target ? formatQuantity(target, goal?.unit ?? type.unit) : 'No goal'}
+                        {formatQuantity(completed, type.unit)} / {target ? formatQuantity(target, goal?.unit ?? type.unit) : 'Hedef belirlenmedi'}
                       </ThemedText>
                     </View>
                   </View>
                   <Pressable
+                    accessibilityRole="button" accessibilityLabel={`${type.name} kaydı ekle`}
                     onPress={() => logMutation.mutate(type)}
                     disabled={logMutation.isPending}
                     style={styles.addButton}>

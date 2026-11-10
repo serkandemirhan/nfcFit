@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-11-08T17:30:41.996821+03:00",
+  "public_checks": [
+    {
+      "path": "/health",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 508,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/console/auth/me",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 489,
+      "status": "PASS"
+    }
+  ],
+  "new_authenticated_sync": "BLOCKED",
+  "reason": "No connected authenticated device. Public checks do not verify synchronization; no authentication tokens extracted or passwords reset."
+}

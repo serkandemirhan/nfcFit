@@ -1,0 +1,53 @@
+INFO:     Started server process [14302]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:50970 - "GET /api/console/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50978 - "GET /api/console/coaching/dashboard HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:50973 - "GET /api/console/coaching/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50976 - "GET /api/console/coaching/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50972 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50975 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50974 - "GET /api/console/coaching/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50977 - "GET /api/console/coaching/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50982 - "GET /api/console/coaching/workout-templates?tenant_id=planning-club HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50981 - "GET /api/console/coaching/workout-templates?tenant_id=planning-club HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50989 - "POST /api/console/coaching/workout-templates HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50991 - "GET /api/console/coaching/workout-templates?tenant_id=planning-club HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50993 - "POST /api/console/coaching/plans HTTP/1.1" 201 Created
+INFO:     127.0.0.1:50998 - "GET /api/console/coaching/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50997 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50999 - "GET /api/console/coaching/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51001 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51003 - "PATCH /api/console/coaching/plans/60069ad6-06dc-4520-aa0f-4c6e731e53c7 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51009 - "GET /api/console/coaching/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51007 - "GET /api/console/coaching/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51005 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51011 - "POST /api/console/coaching/plans/60069ad6-06dc-4520-aa0f-4c6e731e53c7/assign HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51017 - "GET /api/console/coaching/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51016 - "GET /api/console/coaching/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51015 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51019 - "POST /api/console/coaching/plans/60069ad6-06dc-4520-aa0f-4c6e731e53c7/assign HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:51020 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "GET /api/console/coaching/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51020 - "POST /api/console/coaching/workouts HTTP/1.1" 201 Created
+INFO:     127.0.0.1:51021 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51020 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51020 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51020 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51020 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51020 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51021 - "POST /api/console/coaching/workouts/b4b93679-d008-446a-8822-824168d006f7/commands HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51025 - "GET /api/console/coaching/overview?athlete_id=53c71777-0c33-5977-ae3f-536dd74435c8 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51024 - "GET /api/console/coaching/dashboard HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51027 - "GET /api/console/coaching/library HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51032 - "GET /api/console/coaching/workout-templates?tenant_id=planning-club HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51034 - "GET /api/console/coaching/workout-templates?tenant_id=planning-club HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [14302]

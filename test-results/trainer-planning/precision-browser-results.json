@@ -1,0 +1,109 @@
+{
+  "results": [
+    {
+      "name": "Test-provider login uses the normal Supabase client and real scoped APIs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Ordinary member remains denied trainer access",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Exercise addition focuses its sets directly without losing selected day",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Empty numeric text stays editable, validates, and decimal comma input is accepted",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Accent-tolerant exercise search and filter clearing retain the selected workout",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Keyboard-accessible reordering reports the resulting position",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Removal requires confirmation; cancel and undo preserve IDs and targets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Intentional rest and unconfigured dates have distinct text and visual states",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Four-week draft persists independent copied-week targets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Validation links open the exact missing week/day without publishing",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Draft, published and local unpublished edits remain separate; preview does not publish",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Publishing a template revision never overwrites its existing member assignment",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Distinct Emre workout displays planned 4, completed 4, extra 0",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Distinct Ada workout displays planned 4, completed 5 and +1 extra in a separate screenshot",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Future member adjustment preserves both completed workouts, targets and actual sets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Overlap resolves by a later start date while preserving the original assignment and history",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Explicit coexistence adds an independent copy and keeps existing 4/4 records intact",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "375px search, filters, selection and focused target editing retain week/day context",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Essential 375px edits save/publish without page overflow or reduced-viewport input obstruction",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "No uncaught JavaScript errors during the precision journey",
+      "status": "PASS",
+      "details": ""
+    }
+  ],
+  "errors": [],
+  "consoleMessages": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "networkFailures": []
+}

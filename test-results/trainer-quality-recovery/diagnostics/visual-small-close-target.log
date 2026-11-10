@@ -1,0 +1,34 @@
+1440x900-dashboard
+1440x900-library
+1440x900-program
+1440x900-program-full
+1440x900-workout
+1440x900-workout-full
+1440x900-assignment
+1440x900-progress
+1440x900-progress-full
+1280x800-dashboard
+1280x800-library
+1280x800-program
+1280x800-workout
+1280x800-assignment
+1280x800-progress
+390x844-dashboard
+390x844-library
+390x844-program
+390x844-selected-day
+390x844-workout
+390x844-exercise-search
+AssertionError [ERR_ASSERTION]: 390x844-assignment: Small touch targets [{"text":"×","w":38.578125,"h":46}]
+
+1 !== 0
+
+    at shot (/Users/user/NFCFit/web/tests/trainer-quality.capture.cjs:59:28)
+    at async /Users/user/NFCFit/web/tests/trainer-quality.capture.cjs:125:5 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}

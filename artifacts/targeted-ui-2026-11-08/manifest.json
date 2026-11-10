@@ -1,0 +1,412 @@
+[
+  {
+    "path": "README.txt",
+    "bytes": 818,
+    "sha256": "ea1d5734a8c56c696795f2f9dc599a4b9b00f313b0fe31c49ddeb7f3a6d25357"
+  },
+  {
+    "path": "after/screens/BLOCKED.txt",
+    "bytes": 257,
+    "sha256": "197aaa9be6bd6828323f0502667fafb0dd30155280bca5ff0070b6e1a0142545"
+  },
+  {
+    "path": "batches/UI-01.json",
+    "bytes": 520,
+    "sha256": "9a9ad307a04667dca8fc0adfa236811212985016875502d2b51c700ae796a322"
+  },
+  {
+    "path": "batches/UI-02.json",
+    "bytes": 623,
+    "sha256": "48362515cffa1f8cc698b28e3712c28c0e9e977803ae4bae2f5720d036befc3a"
+  },
+  {
+    "path": "batches/UI-03.json",
+    "bytes": 941,
+    "sha256": "80e3f75e579fb474b053e58d56c09643b1c5edb2e220ccada39b5a08554aaa3b"
+  },
+  {
+    "path": "batches/UI-04.json",
+    "bytes": 627,
+    "sha256": "2aac5a847fe4f63275e0f1cad5f385b0080b2485e0ed4e89bc32ab8730c87a33"
+  },
+  {
+    "path": "batches/UI-05.json",
+    "bytes": 667,
+    "sha256": "1415140e353cafc84cb9670aec488b4b397689621e8f32ea872ef5eee34ba83f"
+  },
+  {
+    "path": "before/screens/001-today-result.png",
+    "bytes": 216117,
+    "sha256": "0a94561ba6f9b34ed4e33b502a392fc8927f03330e8d0418e280855df9b27767"
+  },
+  {
+    "path": "before/screens/001-today-result.xml",
+    "bytes": 25912,
+    "sha256": "f4c7fd8908349af62bd14f69c31f6b9fb4ae13c792ccd07af0c35a55faf7865e"
+  },
+  {
+    "path": "before/screens/002-builder-compact.png",
+    "bytes": 132519,
+    "sha256": "3236a3d19471b7d91f95aff9169d0d398e0218441e52a1f64ee0166b9da6df99"
+  },
+  {
+    "path": "before/screens/002-builder-compact.xml",
+    "bytes": 17801,
+    "sha256": "918b76068f4d37b1df74aaebd3a96d893d7193b5ef8ddf799a8f8a68a9b429c9"
+  },
+  {
+    "path": "before/screens/003-builder-keyboard-viewport.png",
+    "bytes": 188672,
+    "sha256": "2487e44b09f2b5a13bbf92a7a19776ce53d732217507ce5179216170b2d68c2e"
+  },
+  {
+    "path": "before/screens/003-builder-keyboard-viewport.xml",
+    "bytes": 17800,
+    "sha256": "b180009d96f3be3ef278e0c485668beecf37323a11fdc791da2ebdae59f19e38"
+  },
+  {
+    "path": "before/screens/004-expanded-plan-settings.png",
+    "bytes": 150070,
+    "sha256": "19805ac57b1763dc7e037c1619ab432e2b1858e46a1de99c0e5343b2e11f5691"
+  },
+  {
+    "path": "before/screens/004-expanded-plan-settings.xml",
+    "bytes": 22232,
+    "sha256": "0b7cd183cb923f680d06b05cf810184b0f114481819120f34416dde1819fa502"
+  },
+  {
+    "path": "before/screens/005-sync-screen.png",
+    "bytes": 112282,
+    "sha256": "b39f27704f28474215b6cc363de3fb8871096adaf7815adf72a53a0b9409876e"
+  },
+  {
+    "path": "before/screens/005-sync-screen.xml",
+    "bytes": 10575,
+    "sha256": "5f8fed5b27ee14d7d25ee892b4793c4990be9f581f75cf1be5a27985fcb80cde"
+  },
+  {
+    "path": "before/screens/006-sync-retry.png",
+    "bytes": 112282,
+    "sha256": "b39f27704f28474215b6cc363de3fb8871096adaf7815adf72a53a0b9409876e"
+  },
+  {
+    "path": "before/screens/006-sync-retry.xml",
+    "bytes": 10575,
+    "sha256": "5f8fed5b27ee14d7d25ee892b4793c4990be9f581f75cf1be5a27985fcb80cde"
+  },
+  {
+    "path": "before/screens/007-dated-goals.png",
+    "bytes": 192015,
+    "sha256": "4dd0471b438fa67aa6a885f4617ab1cebd378e55f108c9ae4a2a8949e3ab2f9f"
+  },
+  {
+    "path": "before/screens/007-dated-goals.xml",
+    "bytes": 26025,
+    "sha256": "f125725765ef63ced62850d0d65de325f26ba73b89352e0a977b6c121bb471ab"
+  },
+  {
+    "path": "before/screens/008-daily-goals.png",
+    "bytes": 177393,
+    "sha256": "a5c7430835a74b5c29ee30d29e23b8fca1f22036baac58ed070b4555381924a1"
+  },
+  {
+    "path": "before/screens/008-daily-goals.xml",
+    "bytes": 24517,
+    "sha256": "3548f03254f691979a725f4a55b9786989b0085b02a723dab88348c090715215"
+  },
+  {
+    "path": "before/screens/009-progress-states.png",
+    "bytes": 168148,
+    "sha256": "f5c395958c2a026c6dad32db3009af4550a02357ccf71de8410fcae6ead09af7"
+  },
+  {
+    "path": "before/screens/009-progress-states.xml",
+    "bytes": 33759,
+    "sha256": "046fb9ac44f85dc0ea0e110d7e670d75a37fdf78b0e36fd1f03737944ce5e384"
+  },
+  {
+    "path": "changes.patch",
+    "bytes": 49910,
+    "sha256": "2aa2c62853653bb10b2fec728eb8dde462ee7ab82ea85d38ee1819c4071d8737"
+  },
+  {
+    "path": "checks/UI-01-tests.log",
+    "bytes": 11957,
+    "sha256": "299b0697d937bd263c2e22c61b9a82fd09f80cd3aa569d3778568b708ab6f064"
+  },
+  {
+    "path": "checks/UI-01-typescript.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "checks/UI-02-tests.log",
+    "bytes": 12262,
+    "sha256": "eb8ea8f9c480ca284e83ce69fc2bebe76a71e214e2066e0e5b9d49023d6a06f2"
+  },
+  {
+    "path": "checks/UI-02-typescript.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "checks/UI-03-tests.log",
+    "bytes": 2649,
+    "sha256": "82f2741dd3c02d8cc42dba84069a554c201e2d01e1b9b21d416530279bd54aba"
+  },
+  {
+    "path": "checks/UI-03-typescript.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "checks/UI-04-tests.log",
+    "bytes": 4331,
+    "sha256": "765862e96435ca7a10de8d26762c2cba5d80f26e2a0d43b1db587e57bc8c7c76"
+  },
+  {
+    "path": "checks/UI-04-typescript.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "checks/UI-05-tests.log",
+    "bytes": 10915,
+    "sha256": "12200c7fb000141f5e06432d1394ac5dc8428f9e665e5d99fbd28982538cdd97"
+  },
+  {
+    "path": "checks/UI-05-typescript.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "checks/aborted-trace.txt",
+    "bytes": 2057,
+    "sha256": "1365abe6156150c1ce3a00f67231b1f033f7b667183d0384ada7fb7152721211"
+  },
+  {
+    "path": "checks/all-tests.log",
+    "bytes": 28329,
+    "sha256": "ad2ff8314360fa71485a256e46f2cb2197537a5dd12bae96c89f20a5f534d397"
+  },
+  {
+    "path": "checks/android-build.log",
+    "bytes": 69459,
+    "sha256": "7581275f568d408aa26060ee1bcef32010d262e73b403a1c6a426230fa24359a"
+  },
+  {
+    "path": "checks/android-release.json",
+    "bytes": 292,
+    "sha256": "5800b9e864c60ac9fbf73a289d6b0cec51fe00636a8936d0706de408f4e582b7"
+  },
+  {
+    "path": "checks/apk-certificate.log",
+    "bytes": 342,
+    "sha256": "a355997bae3e4812f3506ebb9f734b38d7fa78d5faaaaad4f038ab00c2f76ab6"
+  },
+  {
+    "path": "checks/commands.json",
+    "bytes": 1619,
+    "sha256": "0bbef8620a372dc5f67dcad9640594590dcbca490584adf9a89a403a30e44511"
+  },
+  {
+    "path": "checks/component-event-tests.log",
+    "bytes": 2029,
+    "sha256": "df99987a6891ac03fefc8455f547095f166db1a6d7404b4f94d2c6e488505851"
+  },
+  {
+    "path": "checks/device-connection.txt",
+    "bytes": 26,
+    "sha256": "36f15c2fe32964a6fbe902e914a47739d4e6304b0d3e812bf08096ff0419b7ae"
+  },
+  {
+    "path": "checks/eslint.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "checks/live-backend.json",
+    "bytes": 552,
+    "sha256": "53878d8bf09f051c07a8891918024b9988436f975467a4159e28e46e0a4415db"
+  },
+  {
+    "path": "checks/protected-scope.json",
+    "bytes": 81,
+    "sha256": "a7f6b7a15a369c8e20c7e8fbb340bfb8d8495c9bd9c11977e28752c90b35eea1"
+  },
+  {
+    "path": "checks/typescript.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "checks/verify-apk.py",
+    "bytes": 3981,
+    "sha256": "3f6e0e00eb1d2d694ff6d69270064c62b3a20a172f5c66cf84c4c10b8e63a2e8"
+  },
+  {
+    "path": "index.html",
+    "bytes": 2159332,
+    "sha256": "9d0ca1eb222c2c5bc50312207ded33ecedb28e0be061d153a75de2629b58361c"
+  },
+  {
+    "path": "protected-before.json",
+    "bytes": 1735,
+    "sha256": "d75868e54a2bdb0444902756977be25015ba60e87c02b3063b59b6831d8ef814"
+  },
+  {
+    "path": "report.json",
+    "bytes": 9134,
+    "sha256": "3e3689881a678cf7286601f093d04882ccfc415896d3b5578624f0fb0ff9c98b"
+  },
+  {
+    "path": "request.txt",
+    "bytes": 7156,
+    "sha256": "aed17513e21a9a5f8dbdd33fd32e9be6923c0a73127071451de1baa51af5aa4f"
+  },
+  {
+    "path": "source-manifest.json",
+    "bytes": 3688,
+    "sha256": "2831c98004c3289a49e78a2b0986fbceaa3f61c4486d1ca4c6f2a499c1b5baa2"
+  },
+  {
+    "path": "sources/after/android/app/build.gradle",
+    "bytes": 8157,
+    "sha256": "53f3e2e7218673fa3b87f0747e4b9b6e76385ddf9c7c9f6b9525e009714a1518"
+  },
+  {
+    "path": "sources/after/app/coaching-sync.tsx",
+    "bytes": 6119,
+    "sha256": "20df6862c6ba6e2995a0cc6eca75a582251e0ccbffbc4cfbe90af9ae3df12853"
+  },
+  {
+    "path": "sources/after/app/goals.tsx",
+    "bytes": 3471,
+    "sha256": "154e5f7fec7f397e4b337e09d6e7f91b8a7117da9a0997defd0d1539b064a46c"
+  },
+  {
+    "path": "sources/after/app/plan-builder.tsx",
+    "bytes": 23412,
+    "sha256": "001a3eb6ca013d28c1a3cc61a94e9b51bfdf162548ab08c4b26844533b13b9c2"
+  },
+  {
+    "path": "sources/after/app.json",
+    "bytes": 2388,
+    "sha256": "c418167d68736ebd7cf33b448e4c71e91f201634fec4d1853a0e9cca71758960"
+  },
+  {
+    "path": "sources/after/components/activity-trends.tsx",
+    "bytes": 5284,
+    "sha256": "b19f557d1aadd2cabd7002d65037c295553cb94112be81dba823cb11459e2f93"
+  },
+  {
+    "path": "sources/after/components/coaching-ui.tsx",
+    "bytes": 6503,
+    "sha256": "42cc75024207bb76c72fd467e0522f7b8b74a2665e1314b7a75cd2b2a7f7a1a3"
+  },
+  {
+    "path": "sources/after/components/member-tenant-goals.tsx",
+    "bytes": 8402,
+    "sha256": "273483c9a8695486b477808450a0bf32828db0407af77ed172b1bae974dbabcc"
+  },
+  {
+    "path": "sources/after/components/today-program.tsx",
+    "bytes": 9660,
+    "sha256": "99038e3ef923e178bb55eeaefc6f9f284e497e3a07dcbffa0b89c240ff86229e"
+  },
+  {
+    "path": "sources/after/lib/coaching-store-core.ts",
+    "bytes": 14969,
+    "sha256": "cd08c2d792306b5dd0ed924dbdf04e9b310cf2df8cb3d01b10ee1b42a53d11c4"
+  },
+  {
+    "path": "sources/after/lib/coaching.ts",
+    "bytes": 4877,
+    "sha256": "882188ffa6a797118587bdc6740bc832db39f7ef31f55dc33fe47fbf42f0760f"
+  },
+  {
+    "path": "sources/after/lib/manual-sync-status.ts",
+    "bytes": 3212,
+    "sha256": "d11fc6bb0f61a0e1286b8cf24b06360c71df24b7fdba4129127f896f8789c219"
+  },
+  {
+    "path": "sources/after/lib/plan-day-selector.ts",
+    "bytes": 797,
+    "sha256": "948055aac58b51454ec0bb21f9ac209ac382b98e6237a3df5e7b36bbb70522d7"
+  },
+  {
+    "path": "sources/after/tests/coaching-sync.test.cjs",
+    "bytes": 5301,
+    "sha256": "f23117821f269aee3fc57bba88b3a3bde1800c349cd469a1539308bc047f7876"
+  },
+  {
+    "path": "sources/after/tests/targeted-ui-render.test.cjs",
+    "bytes": 14509,
+    "sha256": "bb6f660177863151f0b99358494356b497de26aed8e1a74b21a96e624914c02c"
+  },
+  {
+    "path": "sources/after/tests/targeted-ui.test.cjs",
+    "bytes": 4228,
+    "sha256": "5515f8929f56faee789be3f050b72e8a9346c4ff3010960008234659bc1fac7a"
+  },
+  {
+    "path": "sources/before/android/app/build.gradle",
+    "bytes": 8157,
+    "sha256": "de10a1afe589d140bdef1c2d2a5b28bb916d7046761d41f6de8be55659ed0dc1"
+  },
+  {
+    "path": "sources/before/app/coaching-sync.tsx",
+    "bytes": 4942,
+    "sha256": "c8357a934f7946ec5b647870c1619b20cfb1325eabccade68b5ceab63ed2dce4"
+  },
+  {
+    "path": "sources/before/app/goals.tsx",
+    "bytes": 3459,
+    "sha256": "cb9645a38164528857326b4ff832e65d8a748a6d3adc0761a5bf0253bf055ac0"
+  },
+  {
+    "path": "sources/before/app/plan-builder.tsx",
+    "bytes": 22747,
+    "sha256": "2a62bea6ec7dbf1c7b53bd69f9ae5e3ddd122e6cbd628aea1a279d5bddcb40cd"
+  },
+  {
+    "path": "sources/before/app.json",
+    "bytes": 2388,
+    "sha256": "34c78f99185abd314a93c0029103be842ee8f5137b391510cbbf2315180675cc"
+  },
+  {
+    "path": "sources/before/components/activity-trends.tsx",
+    "bytes": 5122,
+    "sha256": "6c3a16cac14da4bed4d9d2ed9bd1d6dfe0f38799dfb71bfd18fcd9536ea5b085"
+  },
+  {
+    "path": "sources/before/components/coaching-ui.tsx",
+    "bytes": 6430,
+    "sha256": "f977c4d61ce54dcb5fabf95727a34c980abca687ec597ed1ab7aa77931f0f394"
+  },
+  {
+    "path": "sources/before/components/member-tenant-goals.tsx",
+    "bytes": 7938,
+    "sha256": "b5ce1cc8bb6ab11c8ad7e97d26617ffb891a8c15cff6bfe1967e798f84397f47"
+  },
+  {
+    "path": "sources/before/components/today-program.tsx",
+    "bytes": 9705,
+    "sha256": "9ca51aa37d330b485c7707118237250fb7b3c2ba4b23e55af0defd527e299aec"
+  },
+  {
+    "path": "sources/before/lib/coaching-store-core.ts",
+    "bytes": 14923,
+    "sha256": "6150f0a241a59ab184df3ec6ed25e9225f225a3bf0aa119d783e0d3ad18b5ae9"
+  },
+  {
+    "path": "sources/before/lib/coaching.ts",
+    "bytes": 4741,
+    "sha256": "eeecaf990e71c6b99ccd9a561960f06c70d73757b28542db1161b75b3252bb6c"
+  },
+  {
+    "path": "sources/before/tests/coaching-sync.test.cjs",
+    "bytes": 4437,
+    "sha256": "646235cddbde6923611bb840ded47534ccfa21f311900b41e3ab7ac27d681bb1"
+  }
+]

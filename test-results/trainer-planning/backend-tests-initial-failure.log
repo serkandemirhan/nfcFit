@@ -1,0 +1,576 @@
+test_account_timezone_is_validated_private_and_used_by_report_worker (test_club_roles.CanonicalCoachingTests) ... ok
+test_assignment_independent_snapshots_revision_conflict_and_review (test_club_roles.CanonicalCoachingTests) ... ok
+test_coach_dashboard_requires_explicit_active_staff_not_ordinary_membership (test_club_roles.CanonicalCoachingTests) ... ok
+test_cron_authentication_and_idempotent_generation (test_club_roles.CanonicalCoachingTests) ... ok
+test_daily_reminders_are_authorized_deduplicated_and_stop_after_revocation (test_club_roles.CanonicalCoachingTests) ... ok
+test_equipment_can_map_multiple_exercises_and_never_creates_a_set (test_club_roles.CanonicalCoachingTests) ... ok
+test_library_filters_favorites_private_custom_and_media_guard (test_club_roles.CanonicalCoachingTests) ... ok
+test_long_workout_partial_skips_and_quantity_validation (test_club_roles.CanonicalCoachingTests) ... ok
+test_new_member_template_rebase_review_comment_and_isolation (test_club_roles.CanonicalCoachingTests) ... ok
+test_overview_query_count_does_not_grow_per_plan (test_club_roles.CanonicalCoachingTests) ... ok
+test_personal_plans_hidden_from_facility_coaches_and_scheduled_worker_protected (test_club_roles.CanonicalCoachingTests) ... ok
+test_prepared_future_workout_refresh_is_explicit_idempotent_and_preserves_actuals (test_club_roles.CanonicalCoachingTests) ... ok
+test_recorded_clock_excludes_pauses_and_completed_snapshot_survives_revision (test_club_roles.CanonicalCoachingTests) ... ok
+test_revoked_membership_prevents_new_workout_commands (test_club_roles.CanonicalCoachingTests) ... ok
+test_role_demotion_blocks_existing_templates_and_trainer_performance (test_club_roles.CanonicalCoachingTests) ... ok
+test_weekly_report_deterministic_scope_and_no_invented_volume (test_club_roles.CanonicalCoachingTests) ... ok
+test_wellness_private_granular_consent_revocation_and_context_messages (test_club_roles.CanonicalCoachingTests) ... ok
+test_workout_manual_sets_retry_immutable_terminal_and_plan_targets (test_club_roles.CanonicalCoachingTests) ... ok
+test_admin_only_subscription_settings_and_audit (test_club_roles.ClubRoleTests) ... ok
+test_billing_profile_and_platform_subscription_review (test_club_roles.ClubRoleTests) ... ok
+test_canonical_and_legacy_identity_roles_and_legacy_rows_are_not_rewritten (test_club_roles.ClubRoleTests) ... ok
+test_catalog_equipment_and_assignment_mutations_match_role_matrix (test_club_roles.ClubRoleTests) ... ok
+test_manager_can_invite_trainers_but_no_higher_roles_or_self_promotion (test_club_roles.ClubRoleTests) ... ok
+test_members_cards_and_audit_are_tenant_scoped (test_club_roles.ClubRoleTests) ... ok
+test_no_independent_athlete_plan_creation (test_club_roles.ClubRoleTests) ... ok
+test_operational_reads_for_every_role_and_cross_club (test_club_roles.ClubRoleTests) ... ok
+test_platform_admin_needs_explicit_club_grant (test_club_roles.ClubRoleTests) ... ok
+test_unverified_account_cannot_be_promoted_to_admin (test_club_roles.ClubRoleTests) ... ok
+test_verified_promotion_last_admin_and_history_preserving_removal (test_club_roles.ClubRoleTests) ... ok
+test_account_timezone_is_validated_private_and_used_by_report_worker (test_coaching.CoachingJourneyTests) ... ok
+test_assignment_independent_snapshots_revision_conflict_and_review (test_coaching.CoachingJourneyTests) ... ok
+test_coach_dashboard_requires_explicit_active_staff_not_ordinary_membership (test_coaching.CoachingJourneyTests) ... ok
+test_cron_authentication_and_idempotent_generation (test_coaching.CoachingJourneyTests) ... ok
+test_daily_reminders_are_authorized_deduplicated_and_stop_after_revocation (test_coaching.CoachingJourneyTests) ... ok
+test_equipment_can_map_multiple_exercises_and_never_creates_a_set (test_coaching.CoachingJourneyTests) ... ok
+test_library_filters_favorites_private_custom_and_media_guard (test_coaching.CoachingJourneyTests) ... ok
+test_long_workout_partial_skips_and_quantity_validation (test_coaching.CoachingJourneyTests) ... ok
+test_new_member_template_rebase_review_comment_and_isolation (test_coaching.CoachingJourneyTests) ... ok
+test_personal_plans_hidden_from_facility_coaches_and_scheduled_worker_protected (test_coaching.CoachingJourneyTests) ... ok
+test_prepared_future_workout_refresh_is_explicit_idempotent_and_preserves_actuals (test_coaching.CoachingJourneyTests) ... ok
+test_recorded_clock_excludes_pauses_and_completed_snapshot_survives_revision (test_coaching.CoachingJourneyTests) ... ok
+test_revoked_membership_prevents_new_workout_commands (test_coaching.CoachingJourneyTests) ... ok
+test_weekly_report_deterministic_scope_and_no_invented_volume (test_coaching.CoachingJourneyTests) ... ok
+test_wellness_private_granular_consent_revocation_and_context_messages (test_coaching.CoachingJourneyTests) ... ok
+test_workout_manual_sets_retry_immutable_terminal_and_plan_targets (test_coaching.CoachingJourneyTests) ... ok
+test_concurrent_admin_removal_keeps_one_active_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_five_club_roles_database_boundaries_and_last_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_planning_templates_deny_direct_client_access (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_role_migration_preserves_data_and_rejects_unknown_policy (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_scoped_reads_wellness_consent_and_client_write_denial (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_private_or_credential_urls_rejected (test_exercise_media.ExerciseMediaTests) ... ok
+test_verified_bytes_rights_and_scope_required (test_exercise_media.ExerciseMediaTests) ... ok
+test_email_already_linked_to_another_supabase_user_is_rejected (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_existing_console_accounts_table_gets_supabase_link_column (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_offline_catalog_deltas_record_replay_conflicts_and_history_pagination (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_postgres_urls_select_the_installed_psycopg_driver (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_supabase_auth_endpoint_identity_response_is_normalized (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_supabase_identity_lookup_requires_bearer_token (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_tenant_join_approval_nfc_record_and_isolation (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_uid_formats_preserve_hex_bytes_and_synthetic_identifiers (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unassigned_tag_can_be_assigned_detached_and_deleted_without_losing_activity (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unchanged_linked_identity_does_not_commit_or_refresh_account (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unverified_supabase_email_cannot_link_or_create_account (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_empty_draft_publish_validation_and_archive_assignment (test_trainer_planning.TrainerPlanningTests) ... ERROR
+test_overlap_requires_acknowledgement_and_preserves_independent_copies (test_trainer_planning.TrainerPlanningTests) ... ERROR
+test_rest_day_conflicts_and_program_range (test_trainer_planning.TrainerPlanningTests) ... ERROR
+test_workout_template_scopes_idempotency_and_concurrent_edit (test_trainer_planning.TrainerPlanningTests) ... ERROR
+
+======================================================================
+ERROR: test_empty_draft_publish_validation_and_archive_assignment (test_trainer_planning.TrainerPlanningTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/tests/test_coaching.py", line 49, in setUp
+    r = self.client.get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 518, in get
+    return super().get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 488, in request
+    return super().request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 381, in handle_request
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 378, in handle_request
+    portal.call(self.app, scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 321, in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 440, in result
+    return self.__get_result()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 389, in __get_result
+    raise self._exception
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 252, in _call_func
+    retval = await retval_or_awaitable
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/routing.py", line 291, in app
+    solved_result = await solve_dependencies(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/dependencies/utils.py", line 632, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 310, in get_account
+    return _get_or_link_account(db, _fetch_supabase_identity(access_token))
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 281, in _get_or_link_account
+    db.flush()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4352, in flush
+    self._flush(objects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4448, in _flush
+    flush_context.execute()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO console_accounts (id, email, name, password_hash, supabase_user_id, is_platform_admin, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('9e9a274b-3406-44b1-9701-4a72607998ae', 'owner-5de681e3621e4ddca963b25b20078049@nfcfit.test', 'Owner-5De681E3621E4Ddca963B25B20078049', 'supabase-auth-managed', None, 0, '2026-11-09 08:39:17.487372')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+======================================================================
+ERROR: test_overlap_requires_acknowledgement_and_preserves_independent_copies (test_trainer_planning.TrainerPlanningTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/tests/test_coaching.py", line 49, in setUp
+    r = self.client.get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 518, in get
+    return super().get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 488, in request
+    return super().request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 381, in handle_request
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 378, in handle_request
+    portal.call(self.app, scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 321, in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 440, in result
+    return self.__get_result()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 389, in __get_result
+    raise self._exception
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 252, in _call_func
+    retval = await retval_or_awaitable
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/routing.py", line 291, in app
+    solved_result = await solve_dependencies(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/dependencies/utils.py", line 632, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 310, in get_account
+    return _get_or_link_account(db, _fetch_supabase_identity(access_token))
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 281, in _get_or_link_account
+    db.flush()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4352, in flush
+    self._flush(objects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4448, in _flush
+    flush_context.execute()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO console_accounts (id, email, name, password_hash, supabase_user_id, is_platform_admin, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('1fef7b36-e039-49d2-89b3-744f319b60e3', 'owner-ef5e3ade56f6465f8c88bcbddcfb03d5@nfcfit.test', 'Owner-Ef5E3Ade56F6465F8C88Bcbddcfb03D5', 'supabase-auth-managed', None, 0, '2026-11-09 08:39:17.640638')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+======================================================================
+ERROR: test_rest_day_conflicts_and_program_range (test_trainer_planning.TrainerPlanningTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/tests/test_coaching.py", line 49, in setUp
+    r = self.client.get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 518, in get
+    return super().get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 488, in request
+    return super().request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 381, in handle_request
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 378, in handle_request
+    portal.call(self.app, scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 321, in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 440, in result
+    return self.__get_result()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 389, in __get_result
+    raise self._exception
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 252, in _call_func
+    retval = await retval_or_awaitable
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/routing.py", line 291, in app
+    solved_result = await solve_dependencies(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/dependencies/utils.py", line 632, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 310, in get_account
+    return _get_or_link_account(db, _fetch_supabase_identity(access_token))
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 281, in _get_or_link_account
+    db.flush()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4352, in flush
+    self._flush(objects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4448, in _flush
+    flush_context.execute()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO console_accounts (id, email, name, password_hash, supabase_user_id, is_platform_admin, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('e80ed024-e1d3-4321-af59-37453a451013', 'owner-c19a8edcc9dc482a9fcfeb46d058dec1@nfcfit.test', 'Owner-C19A8Edcc9Dc482A9Fcfeb46D058Dec1', 'supabase-auth-managed', None, 0, '2026-11-09 08:39:17.651880')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+======================================================================
+ERROR: test_workout_template_scopes_idempotency_and_concurrent_edit (test_trainer_planning.TrainerPlanningTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: attempt to write a readonly database
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/user/NFCFit/backend/tests/test_coaching.py", line 49, in setUp
+    r = self.client.get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 518, in get
+    return super().get(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1053, in get
+    return self.request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 488, in request
+    return super().request(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 825, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/httpx/_client.py", line 1014, in _send_single_request
+    response = transport.handle_request(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 381, in handle_request
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/testclient.py", line 378, in handle_request
+    portal.call(self.app, scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 321, in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 440, in result
+    return self.__get_result()
+  File "/Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/concurrent/futures/_base.py", line 389, in __get_result
+    raise self._exception
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/from_thread.py", line 252, in _call_func
+    retval = await retval_or_awaitable
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/applications.py", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/applications.py", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 187, in __call__
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/errors.py", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/cors.py", line 85, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/middleware/exceptions.py", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 735, in app
+    await route.handle(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 288, in handle
+    await self.app(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 62, in wrapped_app
+    raise exc
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/_exception_handler.py", line 51, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/routing.py", line 73, in app
+    response = await f(request)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/routing.py", line 291, in app
+    solved_result = await solve_dependencies(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/fastapi/dependencies/utils.py", line 632, in solve_dependencies
+    solved = await run_in_threadpool(call, **solved_result.values)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/starlette/concurrency.py", line 39, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func, *args)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/to_thread.py", line 56, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 2485, in run_sync_in_worker_thread
+    return await future
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/anyio/_backends/_asyncio.py", line 976, in run
+    result = context.run(func, *args)
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 310, in get_account
+    return _get_or_link_account(db, _fetch_supabase_identity(access_token))
+  File "/Users/user/NFCFit/backend/tenant_console.py", line 281, in _get_or_link_account
+    db.flush()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4352, in flush
+    self._flush(objects)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4488, in _flush
+    transaction.rollback(_capture_exception=True)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/util/langhelpers.py", line 146, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/session.py", line 4448, in _flush
+    flush_context.execute()
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 466, in execute
+    rec.execute(self)
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/orm/persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "/Users/user/NFCFit/backend/.venv/lib/python3.9/site-packages/sqlalchemy/engine/default.py", line 941, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) attempt to write a readonly database
+[SQL: INSERT INTO console_accounts (id, email, name, password_hash, supabase_user_id, is_platform_admin, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)]
+[parameters: ('f5f1e021-9e81-4969-ac01-530206273722', 'owner-3c7f58e444d24198aa43aa61c64ab020@nfcfit.test', 'Owner-3C7F58E444D24198Aa43Aa61C64Ab020', 'supabase-auth-managed', None, 0, '2026-11-09 08:39:17.663902')]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+----------------------------------------------------------------------
+Ran 67 tests in 42.568s
+
+FAILED (errors=4, skipped=5)

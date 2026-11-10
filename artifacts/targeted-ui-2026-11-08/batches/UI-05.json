@@ -1,0 +1,12 @@
+{
+  "implementation": "PASS",
+  "focused_tests": 47,
+  "device_acceptance": "BLOCKED",
+  "changes": [
+    "Terminal-count label is Sonlandırılan seans; completed/partial/missed counts remain separate.",
+    "Duration, actual sets and terminal-session summary now precede chart.",
+    "Sparse chart uses 80 minimum height and smaller bars; populated chart 104; empty chart has explanatory empty state.",
+    "7,30,90 period selection, 4:01, partial 2/8 and underlying immutable data covered by source-component and existing calculation regressions."
+  ],
+  "shared_change": "ActivityTrends is used only by Progress. No classification or date calculation changed."
+}

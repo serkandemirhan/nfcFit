@@ -1,0 +1,3 @@
+SESSION 96ef6bc6-1bcc-4a33-9367-a72318172a5e [ 'NATIVE_APP', 'WEBVIEW_25300.3' ]
+PASS saved 5 sets through real iOS keyboard and real API
+PASS genuine native keyboard and visible numeric input/save controls {"width":375,"scrollWidth":375,"input":{"top":158,"bottom":206},"bar":{"top":277.5,"bottom":364.5},"viewport":{"top":49.5,"height":364.5},"active":"<input id=\"_r_7_\" inputmode=\"numeric\" enterkeyhint=\"done\" autocomplete=\"off\" type=\"text\" value=\"5\">"}

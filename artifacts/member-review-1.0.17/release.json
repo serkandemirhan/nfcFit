@@ -1,0 +1,74 @@
+{
+  "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.17.apk",
+  "bytes": 100794538,
+  "sha256": "87baec651bc103dd0b5119248915b1d8778a5fde4dcf9a80b3ece9d7e87e78fc",
+  "source_files_verified": 112,
+  "version": "1.0.17",
+  "versionCode": 18,
+  "mobile_tests_passed": 78,
+  "typescript": "passed",
+  "lint": "passed",
+  "physical_acceptance": "1.0.17 installed and inspected; two issues found, superseded by 1.0.18",
+  "physical_nfc": "not tested",
+  "api_changes": false,
+  "database_migration": false,
+  "changes": [
+    [
+      "Bugün",
+      "Antrenman kartı doğrudan yerel seansı açar. Tamamlanan/kalan hedef setler gösterilir. Eşitleme ayrıntısı yalnızca bekleyen veya reddedilen kayıt varsa görünür. Günlük hedefler iyi yaşam kartından önce gelir."
+    ],
+    [
+      "Programım",
+      "Haftalık takvim ana içeriktir. Seçilen günün ilk dört egzersizi görünür. Planlar varsayılan olarak kapalıdır. Yeni plan, kütüphane ve hedefler üst menüdedir; düzenle/kopyala/sürüm işlemleri ilgili planın içindedir."
+    ],
+    [
+      "Egzersiz kaydı",
+      "Girişte büyük hareket görseli kaldırılmış önceki düzen korunur. Sabit kaydet düğmesi ve Android adjustResize / iOS klavye kaçınma kullanılır. Kaydetme klavyeyi kapatır."
+    ],
+    [
+      "Kart ve program",
+      "Etkin ekipman eşleşmesi devam eden antrenmana veya bugünün kişisel planına yönlendirir. Yeni eşleşme seansı yerelde oluşturur. Başlatma ve set kaydı kullanıcı onayı ister; kartı okumak tek başına aktivite kaydetmez. Günlük egzersiz kaydının program setini tamamlamadığı belirtilir."
+    ],
+    [
+      "Kayıt sonucu",
+      "Egzersiz adı, set numarası, tamamlanan/toplam hedef set ve kalan set sayısı gösterilir. Plan dışı setin program hedefini değiştirmediği açıklanır. Günlük kart kayıtlarının mevcut miktar/hedef geri bildirimi korunur."
+    ],
+    [
+      "İlerleme",
+      "Tamamlanan ve kısmen tamamlanan son seanslar ayrı durum ve hedef set oranıyla listelenir. Ayrıntı satıra dokunarak açılır. Grafiklerde önceki sürümün açık tarih aralıkları korunur. Egzersiz karşılaştırmaları yalnızca iki günde de kayıtlı ölçümlerle yapılır. Haftalık rapor tarih formu üyede isteğe bağlı açılır."
+    ],
+    [
+      "Hedefler",
+      "Tek Hedeflerim girişinde programın sıradaki/etkin seans hedef setleri ile günlük salon egzersiz hedefleri ayrı bölümlerdir. Tekrar, süre ve plan setleri bir toplamda birleştirilmez. Günlük hedef düzenleyici koyu tasarıma taşınmıştır."
+    ],
+    [
+      "Antrenör",
+      "Atanan plan açılınca ilgili aktif antrenör, mevcut sürümün gerçek güncelleme tarihi/nedeni ve son sürüm yorumu gösterilir. Metadata hesap ve plan sürümüne özel saklanır; erişilebilir değilse tarih uydurulmaz. Mesaj düğmesi doğru antrenör ilişkisi ve sürüm bağlamıyla açılır. Roller ve sunucu yetki kontrolleri korunur."
+    ],
+    [
+      "Profil",
+      "Hesap, hedefler, geçmiş, iyi yaşam, mesajlar ve tercihler grupları korunur. Teknik eşitleme/test araçları kapalı alt bölümdedir. Profil başlığındaki kendine yönlenen gereksiz profil düğmesi kaldırılır."
+    ],
+    [
+      "Ortak düzen",
+      "Paylaşılan ayrıntı ekranlarında yerel üst başlık korunup tekrar eden içerik başlığı ve Profil düğmesi kaldırılır. Güvenli alanlar korunur. Egzersiz gelişim seçicisi uzun bir dikey düğme yığını yerine yatay kayar."
+    ]
+  ],
+  "manual_acceptance": [
+    "Bugün → ana düğme → seans: çevrimiçi ve uçuş modunda açılış, çift dokunma ve uygulamayı yeniden başlatma.",
+    "Programım → gün seç → egzersizler → plan aç → plan işlemleri. Boş, birden fazla plan ve büyük yazı boyutu.",
+    "Set girerken klavye açık → tekrar/kg/süre alanları → sabit kaydet → sonuçta doğru kalan set.",
+    "Program dışı ek egzersiz hedef set paydasını değiştirmemeli; yarım bitirme sonucu örneğin 2/8 kalmalı.",
+    "Günlük hedef düzenle → kaydet → Bugün/hedef/rapor ekranlarında güncellenme.",
+    "Antrenörlü hesapta plan sürümü → doğru isim/tarih → yorum → doğru sürüm ve doğru alıcı; ikinci antrenörle çapraz gönderim olmamalı.",
+    "Normal üyede antrenör/yönetim doğrudan bağlantıları yetki vermemeli.",
+    "NFC test kitindeki kayıtlı, tanımsız, plan eşleşen, plansız, çevrimdışı, yeniden başlatma, tekrar gönderim ve App Link denemeleri gerçek kartla yapılmalı.",
+    "Samsung üç tuşlu gezinme, büyük yazı ve uzun içerikte alt düğmeler; iOS klavye düzeni ayrıca doğrulanmalı.",
+    "İlk yerel ekranın hazır olma süresi, kayıt onayı ve çevrimiçi eşitleme süresi ayrı ölçülmeli; yeni sürüm için henüz cihaz ölçümü yok."
+  ],
+  "physical_issues": [
+    "Plan builder save button obscured by keyboard",
+    "Coaching sync details crashes due to query-key result-shape collision"
+  ],
+  "device_evidence": "../device-review/2026-11-08_12-54-59-1.0.17/"
+}

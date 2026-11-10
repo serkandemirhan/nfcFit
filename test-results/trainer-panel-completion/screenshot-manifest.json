@@ -1,0 +1,734 @@
+[
+  {
+    "path": "before/1280x800-assignment.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "b1d634afe3e39e476244db0afbf0a56d8d703e2b6616a2572f46ff6e94aa1902"
+  },
+  {
+    "path": "before/1280x800-dashboard.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "d7bded3ff5fcb9ebdd1eae0c42211ca6fd28d1242d5391d668455aa2dfafce2a"
+  },
+  {
+    "path": "before/1280x800-library.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "d67d6fc25285acb7bbc02b86a738149466ab44a2f39171e510028dc52cc3aade"
+  },
+  {
+    "path": "before/1280x800-program.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "7e0b34c07a7100a382da5f89c50fa14f2c3fbb088791e0c54f8f9e0801ce602f"
+  },
+  {
+    "path": "before/1280x800-progress.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "bdd3563916f7d0a6a377a5c0ebc7da2d8ee26929c5690cebbb4ee3bf1bc580b9"
+  },
+  {
+    "path": "before/1280x800-workout.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "df388e6640a1c60550fd4e9b5987fbdbda49804ff764df6e067d3fc36328845c"
+  },
+  {
+    "path": "before/1440x900-assignment.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "421045b9345e6ea959f5fae5c57fe3fa831b50e2281bb8e20e88779ba358a23f"
+  },
+  {
+    "path": "before/1440x900-dashboard.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "a755853174af154cad34620e766b7470690459b3ddf76b93042b4a4183fd3b18"
+  },
+  {
+    "path": "before/1440x900-library.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "9e00e03d78a82b0082d09aacde09988a59a815c58d4ce35765beaecba2453779"
+  },
+  {
+    "path": "before/1440x900-program-full.png",
+    "width": 1440,
+    "height": 904,
+    "sha256": "6c51a4b7cc25e5c42b25a4625c38b7721b4f9b9b856fc253d8afa9733fc1d8ed"
+  },
+  {
+    "path": "before/1440x900-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "a55010c1a1f5c8024c91fe24a3294f7911135ac93a581aee6b66330eb8941084"
+  },
+  {
+    "path": "before/1440x900-progress-full.png",
+    "width": 1440,
+    "height": 1462,
+    "sha256": "0c4be89c21ccb1c34b03cf4ca6c9a95505ff8b74fd7064083006de493272c446"
+  },
+  {
+    "path": "before/1440x900-progress.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "d04b56069a2bb60b8564b5cad108e1b795880a1a3ad4d7696df5be1f0397c181"
+  },
+  {
+    "path": "before/1440x900-workout-full.png",
+    "width": 1440,
+    "height": 904,
+    "sha256": "b59ddc4b82c1616abbe7e182d013bf936b47a4a3b4ef9c3750c221709b84460b"
+  },
+  {
+    "path": "before/1440x900-workout.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "1f2da6479f423dc2a5489e6dcdd0e2c8cc35614760ffa114938d11dd4a057f64"
+  },
+  {
+    "path": "before/375x667-assignment.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "23a1c6d83a761e678c182b20711828a7ed0c0889ea2b3eab40b328fd96aef493"
+  },
+  {
+    "path": "before/375x667-dashboard.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "2f924a8445419ab57faacd3c241f95a0ffcfca4e0390a4fe09c3946cd57e521c"
+  },
+  {
+    "path": "before/375x667-exercise-search.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "06cec7803e24e50cbf0990e28fb50f60e075c9c441e3cbbab109e6729ac0f891"
+  },
+  {
+    "path": "before/375x667-library.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "4e134c9a6fb0df2f87fb19c08a2368024663c9b6487943f72b23df6020b15e01"
+  },
+  {
+    "path": "before/375x667-program-full.png",
+    "width": 375,
+    "height": 728,
+    "sha256": "84f23de36f91b0bc2b9e5ded3c2064552a84c978b6934bfa8ecefc4ac4058cc9"
+  },
+  {
+    "path": "before/375x667-program.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "fcff66d855b4234be62a112f03bfa83146a29b63ef742d65e1ec111a31157343"
+  },
+  {
+    "path": "before/375x667-progress-full.png",
+    "width": 375,
+    "height": 1796,
+    "sha256": "6d0591458dc31480ef54ba5ed8f6ace13d51051a0cc5d577621d5d6cc712b317"
+  },
+  {
+    "path": "before/375x667-progress.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "0bde1bfdd6f23ab497f595b042a455d15c168bddb7a9535036571562eeaa847c"
+  },
+  {
+    "path": "before/375x667-selected-day.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "8ce43f4f23a883299a6010aaed1d3f22c0025d3739663cf807a61f12effb3407"
+  },
+  {
+    "path": "before/375x667-workout-full.png",
+    "width": 375,
+    "height": 973,
+    "sha256": "8a4134e6b78e6543f281196efa5bb6fec5535f03bfb6569481acadac8420588b"
+  },
+  {
+    "path": "before/375x667-workout.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "1f43ad3a522bf1e3c460f852f882208b90aa186a823921c8746e8e6fcce2851c"
+  },
+  {
+    "path": "before/390x844-assignment.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "3d3cfef9312f753e18c39a82105038949e8044eaedcbe27799c2ffb059818e20"
+  },
+  {
+    "path": "before/390x844-dashboard.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "f3d6740031290f8e28c168cb2c8a2fb9c97968db47ebf1356c61e35574f29c52"
+  },
+  {
+    "path": "before/390x844-exercise-search.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "a131ac9ac02e5c547282841156f1d4f5845b7d5c0f1ffdd047220f5efaae1610"
+  },
+  {
+    "path": "before/390x844-library.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "e5c0b94808213ee2f09801cb745a1d6def7588d979715f53711490b10cbc861e"
+  },
+  {
+    "path": "before/390x844-program.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "28d0f39925782eec2eb0deebd27ae9e4576536b5ff176bc26e29cedc0cc2f1ad"
+  },
+  {
+    "path": "before/390x844-progress.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "0e300f9641974b3be8fb0b35c6cb386c3811f7f1c4f69a5fc97e2d0b4b7926fe"
+  },
+  {
+    "path": "before/390x844-selected-day.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "67196d53ff8ff4aa14bde532992804613d5503e46649bd4740deba16e6dcfb17"
+  },
+  {
+    "path": "before/390x844-workout.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "9222e3cab48984588bcc6d82fff9a3b2c99c65fa1da034443ecbb90d5dadfdcb"
+  },
+  {
+    "path": "before/412x915-assignment.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "9f29a38199e1800ffe6ca2dabc26e0dc0d27e38dbaa23ab05ec98d77edeb4ae7"
+  },
+  {
+    "path": "before/412x915-dashboard.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "dcce2ee9a32bd74a65876a159e31cc06d7883aa16c151f9a422de8227b99521b"
+  },
+  {
+    "path": "before/412x915-exercise-search.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "0a6a09c9b2d8e8df6416e4809ac2b2960bcce6d97bd8c9cd55d468e49b962132"
+  },
+  {
+    "path": "before/412x915-library.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "6a8833335e148d84b8d1f37ac00163c942acd7b8261d2db5a5c6edc07bf02408"
+  },
+  {
+    "path": "before/412x915-program.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "2283c21a72b1acd160584b093125584ba085e77830e134a1b4ea8002930c8474"
+  },
+  {
+    "path": "before/412x915-progress.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "d140b6a32585d42a8f904680cc0c8804cac3cf991b26a62447668baafbb7931a"
+  },
+  {
+    "path": "before/412x915-selected-day.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "01c7a52eaa6c30409f0316f6eee3412a610cdfa69877ded27559e189ba210c3c"
+  },
+  {
+    "path": "before/412x915-workout.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "2f1505252d99d6e871569a166fa6cbe39563db1c0741d112dc7d277f514f768a"
+  },
+  {
+    "path": "after/1280x800-assignment.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "6829b59676ab0bad0140fdeed05939b16ec07385c4c21eeec84a3e9d4d56ca73"
+  },
+  {
+    "path": "after/1280x800-dashboard.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "8c7de9d74e15501c5b3a2e731d06fa37d2e801e8f23fa8f7ffef4a3242377dcf"
+  },
+  {
+    "path": "after/1280x800-library.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "af57808cd31178b9cec611394a6a2306e6370b0f5b4bee3ec33aad9854545fd2"
+  },
+  {
+    "path": "after/1280x800-program.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "b03c48912c3f97fe0f6e78c6f9cea13816bb78df6dfd11c2e312aedc46b34d51"
+  },
+  {
+    "path": "after/1280x800-progress.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "c46c675ff6d43925dfebf0eac99bc21dcb2710166be4f58fece23a8b030f09fb"
+  },
+  {
+    "path": "after/1280x800-workout.png",
+    "width": 1280,
+    "height": 800,
+    "sha256": "774c9bf233fb4ad2487e69e59ef2f65e07baea9a4fa23aa6da33e952bcdef7bb"
+  },
+  {
+    "path": "after/1440x900-assignment.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "85b24ca55da93188b3ac2547ac25830347c47265d96069a68c3097e49d310ac4"
+  },
+  {
+    "path": "after/1440x900-dashboard.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "256f7ab4625cec556bbbf9cee1a43d8a55fe372af6a8f48cc8877f8d310964bc"
+  },
+  {
+    "path": "after/1440x900-library.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "3a076d2bac0eb5113e2d97e3d829fa7bdbf52288aa78e12c0dfe826ee5f53f37"
+  },
+  {
+    "path": "after/1440x900-program-full.png",
+    "width": 1440,
+    "height": 921,
+    "sha256": "f0c29524054208c57a098a73207506f35a96321380796cee3c24f43bbd38d56d"
+  },
+  {
+    "path": "after/1440x900-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "3e3d29e20bde7ee274cb61f79e04ab6fa07f18613a9d3b2e4c4aac5bd80a8ae7"
+  },
+  {
+    "path": "after/1440x900-progress-full.png",
+    "width": 1440,
+    "height": 1572,
+    "sha256": "e9fa66aa34ee0d39a066da1224e6a564dcd7204ba50058d73ef15c7c833decc9"
+  },
+  {
+    "path": "after/1440x900-progress.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "848c7773b9577a710c4a0b31ce065f54f7cc1fd25c528a3653363095e3e68a4a"
+  },
+  {
+    "path": "after/1440x900-workout-full.png",
+    "width": 1440,
+    "height": 921,
+    "sha256": "e1b6ea7968c283d715b34bf0630a662915641605f9c0182b64be6ad920b5995b"
+  },
+  {
+    "path": "after/1440x900-workout.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "e60321fc89b9fc722fdecc8fb4c001c70f01f32f4ad27078965af418e0f06822"
+  },
+  {
+    "path": "after/375x667-assignment.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "8a80fb7e00f28a277435ffd7183d799c23b96221102cda1941fadc495afc2346"
+  },
+  {
+    "path": "after/375x667-dashboard.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "e5fefc2fb801b707e7e138a01752e155e8f4cf681f040cc643043892959d3fdf"
+  },
+  {
+    "path": "after/375x667-exercise-search.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "67909a66e5379c94843271e38dc821cf7edece95d53670d0869bc54269914c31"
+  },
+  {
+    "path": "after/375x667-library.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "3e2db06e385b4b5f2c43985ab33acc9d255a34192f8a6c0a78da84a59cf123e5"
+  },
+  {
+    "path": "after/375x667-program-full.png",
+    "width": 375,
+    "height": 781,
+    "sha256": "1f5cff7308e1222db162726d021a54e40864f33d0c31c7e578a5b14b3af1547e"
+  },
+  {
+    "path": "after/375x667-program.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "0ba619900ee7006b1f6704416d427435c5753caf634817d448020b3828cc9b89"
+  },
+  {
+    "path": "after/375x667-progress-full.png",
+    "width": 375,
+    "height": 1772,
+    "sha256": "5df31d07a34d45b4c5b9e726d2102bd9b3ec0526154a2f50e493bfdba4ae7a6c"
+  },
+  {
+    "path": "after/375x667-progress.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "0f0db8d5a1226e479c4a76ff0a3966d58632e553b9dfd7c3a7cdd16b6a7add97"
+  },
+  {
+    "path": "after/375x667-selected-day.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "c0ce2e4c54fcf21c0ca51800813e8a28496616a07c4fbfb58dcbf73b58584037"
+  },
+  {
+    "path": "after/375x667-workout-full.png",
+    "width": 375,
+    "height": 1046,
+    "sha256": "2291d375c83a9da817aa2ce80629f7a46740b640fcb9e4a88205aeda57b1b90d"
+  },
+  {
+    "path": "after/375x667-workout.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "093fdfd7dee5e1a2aa861d8619fe9aac6c72144910644c6989a20751f7443c71"
+  },
+  {
+    "path": "after/390x844-assignment.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "25cb422729e6c6d7d4bd229d7b93750e893e00bcfb860256d2851958ae9260b6"
+  },
+  {
+    "path": "after/390x844-dashboard.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "7082833cbecee570c91c03d94bd1b72c7900def8958bb191350e41896a9b0b56"
+  },
+  {
+    "path": "after/390x844-exercise-search.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "4f61877aa1ec910b16f456a63a26eb48ffa4537a0cbb003b5c1be638bde9bdda"
+  },
+  {
+    "path": "after/390x844-library.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "305068f1be4a624c407dedfdec86715bbac950e57411e8ce6f2468f680444b69"
+  },
+  {
+    "path": "after/390x844-program.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "9656e0122b2d5ece80da62639d46f3afeb42f9ea6f01dbc371dd8d2329853781"
+  },
+  {
+    "path": "after/390x844-progress.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "ee78b15076d2137f3dc183eafe1b80017195327a537ef8951af8300b033c4792"
+  },
+  {
+    "path": "after/390x844-selected-day.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "3dd2c7ba8af72ec819cd86425fe6af9bb22dca4ef6d6ec08f0e8f3aa8c2d788f"
+  },
+  {
+    "path": "after/390x844-workout.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "c5980daab2b60676fe55fa77cae2402b78e962478d3e3cb2be0ed6e697467604"
+  },
+  {
+    "path": "after/412x915-assignment.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "6b221aeb31a77f4c6ea4f5282c6babf06110eaa58719d50551a7f5ae955a8ca4"
+  },
+  {
+    "path": "after/412x915-dashboard.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "942db8d90a3449a373c87c3354c2f633ba6f655ba29457ae326206e2365b7251"
+  },
+  {
+    "path": "after/412x915-exercise-search.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "bee9a20f164168d54b89a605322a46f6e77d770ee458dc96663e54d271f64503"
+  },
+  {
+    "path": "after/412x915-library.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "086883deefb8a8ba5bdcb20bd9a4d0127b6afa33728d866cbaea6ec82a0a19d3"
+  },
+  {
+    "path": "after/412x915-program.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "ad33b4ffbadefa868dcdc7fc8f9679c3e9a9666f24192f48e39f50771dbe218f"
+  },
+  {
+    "path": "after/412x915-progress.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "27359d82d50a6eb444ec5e5ccbb4387b30d6914f4eafbf18b9b2093f462d744d"
+  },
+  {
+    "path": "after/412x915-selected-day.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "05b05d69670d4e43fdbb40b5ebd121efbf5a79d815107925e89bfaf5a85517b0"
+  },
+  {
+    "path": "after/412x915-workout.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "d6efa4342f78f459557d95e82e9e3acb1b6ba82d52c9648a20556765a13b9a2e"
+  },
+  {
+    "path": "admin/01-collapsed-sidebar.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "a6da321d6a5f4122754344c6ef03acbd214b7597b314889121606327de2c82c8"
+  },
+  {
+    "path": "admin/02-members-table.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "a3b1f876bf0be4d8ab1843663accc5bafa6ba06170faa114f3665979f73c9136"
+  },
+  {
+    "path": "admin/03-exercise-search.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "aac0fad9486135ffc45eb28b1ee565fe67475c87da8c3262de6ec7ebee7fb733"
+  },
+  {
+    "path": "admin/04-exercise-instructions.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "9853a6136847637b40d0c1dbe19fc8f69851d3a61ff58f85ef1d33fb365524aa"
+  },
+  {
+    "path": "admin/05-catalog-to-focused-workout.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "f1b08b401e3f9bd32d1cc2cbe13b619e41583ebf03e7dc1acce4a3ba1d1decf0"
+  },
+  {
+    "path": "admin/375-reduced-viewport-search.png",
+    "width": 375,
+    "height": 450,
+    "sha256": "bc430eb1494f33c5a93fe60ad313d225a14b22e3d77fae15d1bc8f79dd1ac331"
+  },
+  {
+    "path": "admin/375x667-exercise-detail.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "f7c69bdc33a3f9e0c763ce8884ca685bd49160d7841f15fbc0fff9e7a7540419"
+  },
+  {
+    "path": "admin/375x667-navigation.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "0d3aa2091a8ca9250518c014b92b077c7c8ae92a3ac8eb1f9ebdc1c4f223bf2d"
+  },
+  {
+    "path": "admin/390-reduced-viewport-search.png",
+    "width": 390,
+    "height": 450,
+    "sha256": "0d7b4f81c01bd9440b0a9509453a1b9af6482d157658a1d52508987e0d0ada6c"
+  },
+  {
+    "path": "admin/390x844-exercise-detail.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "ebce9239422fd960ad8d717480f892a02f23e338712e2e5fa5ed2b31d26a3143"
+  },
+  {
+    "path": "admin/390x844-navigation.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "3515d780bf7a4590d8904596b000f6f6aad1728d4d66722c6fab8c61425fced4"
+  },
+  {
+    "path": "admin/412-reduced-viewport-search.png",
+    "width": 412,
+    "height": 450,
+    "sha256": "4a04505c9b27e900ef478a8afd42ec3fb89fb05c86821de8af8ed8d6cf1ef8c9"
+  },
+  {
+    "path": "admin/412x915-exercise-detail.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "1f6d215b03201168530b7f9e2c022c6bf45d69bc6d5a6517dfba8310375fc215"
+  },
+  {
+    "path": "admin/412x915-navigation.png",
+    "width": 412,
+    "height": 915,
+    "sha256": "0fb439c8b5d38b878c350c5e21d4f6c7ac31c4293c3cc0a1153b156ce6a4e338"
+  },
+  {
+    "path": "workflows/01-unsaved-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "d3191efc6b3582aa70a555e8966c4393fe72ae110f466064088e8a0ddad6158b"
+  },
+  {
+    "path": "workflows/02-focused-exercise-targets.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "f4c93b7bd2ae1f0ac0797090b845914dc47821c4275aaaf69f24d43999184e74"
+  },
+  {
+    "path": "workflows/03-template-save-failed.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "371d599d759364d16294019704824008b066406c8bfe8e5813de284a25b198ec"
+  },
+  {
+    "path": "workflows/04-applied-to-day-not-persisted.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "80eb662f5adc98d0efe92a68860e74e44f0aa7775ec72324300f619b3f133c71"
+  },
+  {
+    "path": "workflows/05-saving-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "ea83e35724d44ee94a554c1a9a037be57323ab6c45a12f144360683ed02b8f69"
+  },
+  {
+    "path": "workflows/06-saved-draft.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "f5f94477b26d62c46779579fc4349f5b31e64d73ec6097dc30dfdee1f8f749c0"
+  },
+  {
+    "path": "workflows/07-published-program.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "325ba45f0a8a69815620ad59b61918e8e32f36612623a6121a9f3d425d60d23e"
+  },
+  {
+    "path": "workflows/08-published-with-unpublished-changes.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "8c194a42fe54c720ed6a1374d2f9c6664ce7cd5344f4c956cefbf4d6d06f6cee"
+  },
+  {
+    "path": "workflows/09-program-save-failed-retry.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "471dcd7bd506d200957da4accd9fc7cbc1d60caf59bf413225f0a5f814bd516f"
+  },
+  {
+    "path": "workflows/10-overlap-final-review.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "bc5ff4b75821ee6eaa2b78fe88c5171fc13b515c9b0f1b1e1770dcda21254214"
+  },
+  {
+    "path": "workflows/11-non-overlapping-final-review.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "3dddf6e02f9259de590957891fd995c4e9efc14a7f7bdffe11fcd0a13364e36b"
+  },
+  {
+    "path": "workflows/12-member-persisted-schedule.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "d9ea5d47cff7ab25327c3fdb3f4164246f0122175c857a9a65eefcc165e25426"
+  },
+  {
+    "path": "workflows/13-ada-five-of-four-extra.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "e8263f703d40f9d52f2cd2e4f327491a444c210dddc60ad35663df45ccad7309"
+  },
+  {
+    "path": "workflows/14-emre-four-of-four.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "2b9905d8bc7d63921c419047910c2e9aeda24163439e0bc0a88972b6ea094fcc"
+  },
+  {
+    "path": "refinements/01-selected-week-preview-desktop.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "8a3566499d88d2ae4b8b289a7f623f219277fd49189b6a478892fd14cba2c094"
+  },
+  {
+    "path": "refinements/02-safe-removal.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "5a7363168477d70206ed014dc6b14c338778be4b5a9c250823d8d5bed0e6d870"
+  },
+  {
+    "path": "refinements/03-incomplete-validation-1440x900.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "2a9f3ecd3b0fe7d4ed91d14b76c884fef1bff9eea602a2f7a744071abfd1f2c9"
+  },
+  {
+    "path": "refinements/04-incomplete-validation-375x667.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "9b3e946e41b9f6e8e07ebaddde3eaed05ae71e140bf03c2c9560d387d0f6bf51"
+  },
+  {
+    "path": "refinements/05-mobile-selected-day.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "d0ce77c2ba15cfd8028d6dd1e701d3b150fdc25f4b01658c054dab4faff2488f"
+  },
+  {
+    "path": "refinements/06-mobile-search-filters.png",
+    "width": 375,
+    "height": 667,
+    "sha256": "0edd9b39cb99013d309c781d5453c7cb4925ffd15700d5160478d48f0390e9b9"
+  },
+  {
+    "path": "refinements/07-mobile-reduced-viewport-target.png",
+    "width": 375,
+    "height": 450,
+    "sha256": "a1d82eb5ac3c598638113e97c3532c439909ac0b258276758a50f1072d822457"
+  },
+  {
+    "path": "refinements/08-explicitly-unpublished-saved-draft.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "43f6ee96103dcbc050458c3ecd7dc7629741b96a855fe7ded74010086dc831c4"
+  },
+  {
+    "path": "refinements/09-filtered-progress-empty-state.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "01129bd966c107145b3b6cdf9e7a49593abbc504736ae88c1d1ea0b771bfaea6"
+  },
+  {
+    "path": "refinements/10-explicit-future-programs.png",
+    "width": 1440,
+    "height": 900,
+    "sha256": "3ea860c0aa89ac3c63460f46b1a21fb35022543b2e202ec735bd23f1d8e1298b"
+  }
+]

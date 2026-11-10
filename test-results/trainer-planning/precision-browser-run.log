@@ -1,0 +1,36 @@
+PASS Test-provider login uses the normal Supabase client and real scoped APIs
+PASS Ordinary member remains denied trainer access
+PASS Exercise addition focuses its sets directly without losing selected day
+PASS Empty numeric text stays editable, validates, and decimal comma input is accepted
+PASS Accent-tolerant exercise search and filter clearing retain the selected workout
+PASS Keyboard-accessible reordering reports the resulting position
+SCREENSHOT S03-safe-exercise-removal.png
+PASS Removal requires confirmation; cancel and undo preserve IDs and targets
+SCREENSHOT S02-rest-versus-unconfigured-desktop.png
+PASS Intentional rest and unconfigured dates have distinct text and visual states
+SCREENSHOT S01-selected-week-day-workout-desktop.png
+SCREENSHOT S04-saved-draft.png
+PASS Four-week draft persists independent copied-week targets
+SCREENSHOT S05-actionable-incomplete-program.png
+PASS Validation links open the exact missing week/day without publishing
+SCREENSHOT S06-published-four-week-program.png
+SCREENSHOT S07-unpublished-changes.png
+PASS Draft, published and local unpublished edits remain separate; preview does not publish
+SCREENSHOT S08-assignment-final-confirmation.png
+PASS Publishing a template revision never overwrites its existing member assignment
+SCREENSHOT S13-emre-progress-4-of-4.png
+PASS Distinct Emre workout displays planned 4, completed 4, extra 0
+SCREENSHOT S14-ada-progress-5-of-4-extra-1.png
+PASS Distinct Ada workout displays planned 4, completed 5 and +1 extra in a separate screenshot
+PASS Future member adjustment preserves both completed workouts, targets and actual sets
+SCREENSHOT S09-overlap-affected-assignment.png
+SCREENSHOT S10-overlap-rescheduled-confirmation.png
+PASS Overlap resolves by a later start date while preserving the original assignment and history
+SCREENSHOT S11-explicit-overlap-coexistence.png
+PASS Explicit coexistence adds an independent copy and keeps existing 4/4 records intact
+SCREENSHOT S12-mobile-week-day-selection.png
+SCREENSHOT S15-mobile-exercise-search-filters.png
+PASS 375px search, filters, selection and focused target editing retain week/day context
+SCREENSHOT S16-mobile-focused-number-reduced-viewport.png
+PASS Essential 375px edits save/publish without page overflow or reduced-viewport input obstruction
+PASS No uncaught JavaScript errors during the precision journey

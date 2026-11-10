@@ -1,0 +1,1093 @@
+<!doctype html><html lang="tr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NFCFit — Club Roles Acceptance</title><style>body{margin:0;background:#0d1721;color:#e9f1f5;font:16px/1.55 system-ui}main{max-width:1100px;margin:auto;padding:32px 22px}h1{font-size:28px}h2{margin-top:36px}p{max-width:850px}.status{padding:18px;background:#173c30;border-radius:12px}.pending{background:#43381e;padding:16px;border-radius:12px}pre{font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere;background:#14232e;padding:18px;border-radius:10px}summary{cursor:pointer;font-weight:600;padding:14px}details{border:1px solid #375061;border-radius:10px;margin:14px 0}</style><main><h1>NFCFit — Kulüp rolleri kabul raporu</h1><p>8 Kasım 2026 · Yerel uygulama ve izole veritabanı doğrulaması</p><p class="status">160 test geçti: 99 mobil + 57 backend + 4 PostgreSQL. Web derlemesi, iki TypeScript kontrolü ve hedefli ESLint temiz.</p><p class="pending">Canlıya geçiş ve güncel panellerin fiziksel/görsel kabulü tamamlanmadı. Bağlı tarayıcı bulunamadı. Otomatik ödeme ve davet e-postası sağlayıcısı yapılandırılmadı. Bu rapor canlı pilot onayı değildir.</p><details><summary>Rol matrisi</summary><pre># NFCFit club roles and permission matrix
+
+Updated 2026-11-08. This is the current product contract; the migration and acceptance reports below explain compatibility and release status.
+
+NFCFit is club B2B SaaS. The only product roles are PLATFORM_ADMIN, CLUB_ADMIN, CLUB_MANAGER, TRAINER, and CLUB_MEMBER. There is no independent athlete account tier or consumer subscription. “Athlete” in existing schema/API identifiers describes a member participating in training, not an additional role. A member can maintain personal plans within an active club membership.
+
+| Action | PLATFORM_ADMIN without club staff grant | CLUB_ADMIN | CLUB_MANAGER | TRAINER | CLUB_MEMBER |
+| --- | --- | --- | --- | --- | --- |
+| SaaS overview, create/suspend club, platform subscription approval | Yes | No | No | No | No |
+| Club operational dashboard | No | Assigned club | Assigned club | No | No |
+| Billing profile, subscription usage, upgrade request | No through club API | Assigned club | No | No | No |
+| Club settings, operational audit log | No through club API | Assigned club | No | No | No |
+| Invite/create/deactivate/remove Club Managers | No | Yes | No | No | No |
+| Grant/revoke Club Admin | No | Verified target; last-admin protection | No | No | No |
+| Invite/create/deactivate/remove Trainers | No | Yes | Yes | No | No |
+| Invite/add/review/deactivate/remove Club Members | No | Yes | Yes | No | No |
+| Register/assign/edit/revoke/remove NFC cards | No | Yes | Yes | No | No |
+| Manage equipment and club exercise catalog | No | Yes | Yes | No | No |
+| Browse exercise library | Authenticated library access, not member data | Yes | Yes for equipment/catalog work | Yes | Yes |
+| Assign Trainer to member | No | Yes | Yes | No | No |
+| Coaching dashboard, create club plan templates | No | Yes | No | Yes | No |
+| Assigned member plan/performance/reviews/feedback | No | Active explicit Trainer assignment | No | Active explicit assignment | Own records |
+| View unrelated members&#x27; private training records | No | No | No | No | No |
+| Read another member&#x27;s wellness | No | Explicit assignment + metric-specific consent | No | Explicit assignment + metric-specific consent | Own records only |
+| Own plans, goals, history, wellness, permitted tracked edits | Only if separately a club member | If separately a member | If separately a member | If separately a member | Yes |
+| Record NFC activity / start new club workout | Separate active club membership required | Same | Same | Same | Active membership |
+| Access another club by changing tenant ID | No implicit access | No | No | No | No |
+
+Club Admin has full operational authority, not an exemption from protected training/wellness access. Club Manager is an operations role, not automatically a Trainer. Platform Admin manages subscription policy through `/platform/*`, without receiving club staff permissions. A platform administrator with an explicit staff record can separately switch into that authorized club workspace.
+
+Role resolution is per `(tenant_id, account_id)` staff row; memberships are separately club-scoped. One user can manage club A, train in club B, and be a member in club C. UI selection must never combine one club&#x27;s role with another club&#x27;s ID. Inactive staff/club rows confer no authority.
+
+## Compatibility and ownership
+
+Stored `owner` resolves to CLUB_ADMIN, `admin` to CLUB_MANAGER, and `coach` to TRAINER. They are legacy aliases, not additional product roles. Existing rows and histories are not rewritten. `/auth/me` and staff responses retain the stored `role` for compatibility and add `effective_role`; updated clients normalize both forms. Updated client writes use canonical roles. Legacy aliases remain accepted at the API boundary with identical permission checks. New platform-provisioned clubs receive CLUB_ADMIN.
+
+A Club Admin invitation is provisioned initially as Manager/Trainer. The target must sign in with a verified email before an existing Club Admin can promote them. Staff mutations serialize on the club row and re-check current actor/target roles. The last active Club Admin cannot be demoted, suspended, removed or deleted, including simultaneous database requests. Ownership handoff requires promoting a verified successor first, then revoking the former administrator. No emergency platform impersonation or last-admin bypass endpoint is introduced.
+
+Removal means access revocation (`removed`), not deletion of the account, workouts, versions or plan history. Card deletion retains activity records. Invitations provision an email-bound account/club relationship; they do not send an email automatically.
+
+## Enforcement and evidence
+
+Frontend navigation, protected native routes, API guards and PostgreSQL read policies all enforce tenant scope. Direct authenticated database mutations are denied; writes use checked backend transactions. Server roles are re-read on requests. Existing offline navigation can use cached identity; unseen revocations cannot take effect on an offline phone until synchronization. Rejected offline recordings remain visible.
+
+Staff invitations/transitions, membership invitations/reviews/transitions, NFC revocations/removals, billing-profile changes and subscription requests/reviews create transactional audit entries. Tax identifiers and billing addresses are not copied to audit details. PostgreSQL prevents audit alteration.
+
+See [migration plan](NFCFIT_CLUB_ROLE_MIGRATION.md), [screen inventory](NFCFIT_SCREEN_INVENTORY.md), and [pre-pilot acceptance report](NFCFIT_CLUB_ROLES_ACCEPTANCE.md).
+</pre></details><details><summary>Ekran envanteri ve UX incelemesi</summary><pre># NFCFit pre-pilot screen inventory
+
+Updated 2026-11-08 for the five-role B2B model. Web administrative entry: `/console`. Native entry: Yönetim. Tenant selection uses the user&#x27;s active scoped staff grants.
+
+| Screen / capability | CLUB_ADMIN panel | CLUB_MANAGER panel | Trainer / Member / Platform distinction |
+| --- | --- | --- | --- |
+| Workspace / club selector | Admin grants only for chosen club | Manager grants only for chosen club | Platform workspace separate; Trainer does not enter operational console |
+| Operational overview | Members/capacity, requests, card usage, recent operational activity | Same operational view | No blanket Trainer member/activity list |
+| Member list | Search, provision, approve/reject, suspend/reactivate, revoke membership | Same | Member sees own memberships; Trainer sees assigned members in coaching |
+| NFC list/details | Register unassigned or exercise-linked cards, edit/link/write/revoke/remove | Same | Member scan/record is separate from card administration |
+| Exercise catalog / equipment | Club catalog, equipment and card mappings | Same | Exercise library remains browseable; no equipment write by Trainer/Member |
+| Staff | Manager/Trainer invitations; verified Admin promotion; role/status changes; remove | Trainer invitation/status/removal only | Higher-role controls absent for Manager; APIs also deny forged calls |
+| Trainer assignment | Choose active Trainer and active member | Same, inside operational staff section | Does not grant Manager coaching access or wellness consent |
+| Subscription / usage | Plan, member/card limits and usage; requested changes and review status | Hidden | Platform reviews changes through its separate workspace/API |
+| Billing profile | Legal name, billing email, tax ID, address | Hidden | No card collection or fictitious invoice/payment portal |
+| Club settings | Club name | Hidden | Manager cannot edit Admin-only settings through API |
+| Audit log | Most recent 200 entries, no wellness payloads | Hidden | Member/Trainer/Platform without scoped Admin grant cannot read club audit API |
+| Coaching | Templates, assigned members/plans/reports/feedback; assignment and consent limits apply | Hidden | Trainer has coaching; Member has own plans, execution, goals/history |
+| Member Today/Plan/Progress/Wellness/Sync | Available if separately a member | Available if separately a member | Personal UX and offline data continue independently of staff administration |
+
+## Pre-pilot review applied to both administrative panels
+
+- Separate section navigation for overview, members, NFC cards, catalog, staff and operational activity. Subscription/settings/billing/audit only appear for Club Admin.
+- Manager Trainer assignment stays in staff operations; no detour into a protected coaching workspace.
+- Native selectors remove suspended clubs/staff and filter operators; web selectors remove inactive grants. Changing tenant/role remounts the relevant scoped console to avoid retaining another selected club&#x27;s UI state.
+- Search for member/card lists, compact section controls and existing card details sheet retained.
+- Destructive member/staff removals have confirmation and preserve historical records. Role changes have explicit role labels; the server explains last-admin/verified-successor failures.
+- Forms report errors and save state. Admin subscription requests remain pending until platform approval; approved capacity is explicit and cannot be below current usage.
+- Native Admin subscription form and web Admin billing form do not expose payment collection implementation details as a user action. Platform-managed billing is explained accurately.
+- Empty/error/retry states exist for subscription/audit loading. Database or API permission failures are not interpreted as a successful save.
+
+This is a source and functional permission review. Authenticated pixel/layout, keyboard, touch, screen-reader and physical-device checks of these newly changed panels remain pending because the connected browser was unavailable. Earlier Android screenshots describe earlier builds and are not evidence for this role release. See the acceptance report for current verified checks and external limitations.
+</pre></details><details><summary>Uyumluluk ve geçiş planı</summary><pre># Club role compatibility and rollout plan
+
+Date: 2026-11-08. Production data and deployments have not been changed by this implementation.
+
+## Inspect first
+
+Existing staff storage is a unique club/account row with `owner`, `admin`, `coach`; members are separate membership rows; platform administration is an account flag. Backend `_tenant_access` already required a scoped staff row, whereas some navigation and operational reads conflated responsibilities. Existing active Trainer assignments and granular wellness consent are preserved. Existing historical `actor_role` values describe the actor at the time; they must not be rewritten.
+
+The explicit alias mapping is owner → CLUB_ADMIN, admin → CLUB_MANAGER, coach → TRAINER. Manager no longer inherits Trainer plan/performance access. Any previous coaching assignments belonging to a legacy `admin` remain in history but do not authorize Trainer reads while that account is a Manager. An authorized Club Admin must deliberately choose the appropriate role and reassignment if that staff member will now train members. No automatic role promotion occurs.
+
+## Additive migration
+
+`backend/migrations/20261108_club_roles.sql` adds billing profiles, subscription requests and immutable audit records. It adds accepted-role validation, a last-admin trigger, scoped base-console read policies and canonical-role support in coaching helper functions. It makes no UPDATE to stored roles and deletes no business data. It is transactional and was tested twice consecutively against an isolated PostgreSQL cluster.
+
+The migration fails if an unexpected existing policy would combine with the new policy to widen access, or if unrecognized staff role values exist. Resolve discrepancies through an explicit reviewed mapping/policy decision rather than deleting or reclassifying rows automatically.
+
+## Release sequence
+
+1. Back up the target database and record schema/policy definitions and row counts. Explicitly select the target `DATABASE_URL` without printing it or committing environment files.
+2. Run `backend/.venv/bin/python backend/scripts/check_club_roles.py`. It opens a read-only PostgreSQL transaction and reports role counts, clubs lacking an active admin and unexpected base-console policies. Resolve any reported exception before rollout. It sends no invitations and performs no migration.
+3. Apply `20261108_club_roles.sql` as the schema owner after the existing coaching foundation migration. Runtime `create_all` alone does **not** install PostgreSQL security policies/triggers.
+4. Deploy the backend with canonical/legacy compatibility before updating web/mobile clients. Run authenticated tenant-isolation, direct API denial and last-admin checks in staging. Test an existing legacy-role account and a canonical-role account, including distinct roles in two clubs.
+5. Deploy web and distribute the updated Android build. Old clients can keep sending legacy aliases; new canonical roles may require the updated clients for navigation. A legacy Manager may still show an old Trainer entry but the new backend denies that access.
+6. Verify Admin billing/settings/Manager controls and Manager operational-only controls in authenticated web and Android sessions. Confirm current plan/workout history, offline queue replay and revoked membership handling. Acceptance must record the exact deployed builds, not infer production success from local tests.
+
+## Rollback and limits
+
+Keep the additive tables, protected ledger, role aliases and policies during an application rollback. Do not roll back to an API that does not understand canonical roles or that restores Manager coaching authority. Restore a compatible application release, or forward-fix permissions. Do not drop the audit/last-admin guards as a routine rollback.
+
+If a club has no active administrator before migration, the trigger cannot invent a secure owner. Resolve ownership using a verified business ownership process before rollout. To transfer a functioning club, have the verified successor sign in, promote them to CLUB_ADMIN, then revoke the former admin. Do not remove the sole admin first.
+
+Billing profiles and platform-reviewed subscription changes work without a payment provider. Automated payment collection, card management and invoice downloads require a configured provider/integration; no charged payment or generated invoice is claimed. Staff/member “invitations” are provisioning operations and do not currently send email.
+</pre></details><details><summary>Kabul ve sınırlar</summary><pre># Club roles — pre-pilot acceptance report
+
+Date: 2026-11-08. Scope: the existing Android application, web club console, FastAPI authorization and PostgreSQL policies. This is a local implementation/acceptance report, not evidence that production has been migrated or the changed panels installed on a phone.
+
+## Delivered behavior
+
+- Five product roles with tenant-scoped grants and explicit legacy compatibility; no independent athlete tier or consumer subscriptions.
+- Club Admin: operational dashboard, Manager/Trainer/member controls, verified Admin promotion, subscription usage/change requests, billing profile, club settings and audit log.
+- Club Manager: members, Trainers, cards, equipment, catalog and Trainer/member assignment. No billing/settings/Manager/Admin controls or inherited Trainer access.
+- Trainer: library, club templates, assigned-member plans/performance/reviews/feedback. Changing Trainer to Manager revokes coaching access on the next request, including old owned club templates; historical records remain stored.
+- Member: own plans, goals/history/wellness and permitted tracked changes; new personal plan creation requires an active club membership. Existing histories remain readable by their owner.
+- Platform Admin: platform subscription/tenant endpoints; no automatic club operations/coaching authority. An explicit scoped staff grant is honored independently of the platform flag.
+- API and database last-admin protection, including concurrent removal; verified successor promotion before ownership handoff.
+- Transactional invitation/role/membership/card/billing/subscription audit entries and an immutable PostgreSQL audit ledger.
+
+## Automated acceptance
+
+Final results are recorded in `artifacts/club-roles-2026-11-08/checks/`, including the exact command and exit status for each check. The standalone HTML report embeds these logs and source hashes.
+
+| Check | Result |
+| --- | --- |
+| Backend API/domain journeys, both legacy and canonical role fixtures | PASS — 57 executed; 4 PostgreSQL cases skipped here and executed separately |
+| Isolated PostgreSQL RLS/migration tests | PASS — 4 real PostgreSQL cases, including concurrent last-admin removal and populated migration reapplication |
+| Native regression suite, including web/native capability parity | PASS — 99 tests |
+| Mobile TypeScript and targeted ESLint | PASS — no TypeScript errors; targeted ESLint has zero errors/warnings |
+| Web TypeScript and production build | PASS — no TypeScript errors; Vite production build completed |
+
+The backend discovery command skips PostgreSQL cases unless pointed at an isolated database. The PostgreSQL runner executes those cases separately in a disposable socket-only cluster; it never uses the app database.
+
+### Allowed/forbidden scenarios covered
+
+1. Each role against operational reads and mutations; Admin/Manager catalog/equipment/assignment writes and forbidden Trainer/Member/Platform writes.
+2. Admin-only subscription, billing-profile, settings and audit access; Manager direct-call escalation/self-promotion denied, including legacy aliases.
+3. Different roles in different clubs, role-specific club navigation, cross-club record-ID substitution and platform flags without staff grants.
+4. Manager can create/change/revoke Trainers, but cannot grant or change Admin/Manager access. Removed account/history rows are retained.
+5. Sole Admin suspension/removal/demotion denied; two verified Admins permit ownership handoff; unverified successor promotion denied.
+6. Concurrent database removal of two Admins leaves exactly one active Admin.
+7. Direct authenticated SQL writes/password-hash reads denied; Admin billing/audit reads and Manager denials; Trainer privacy and granular wellness consent tested with both stored role generations.
+8. Club role downgrade removes template/performance access without deleting plan rows.
+9. Idempotent migration reapplication, accepted legacy rows preserved and unexpected permissive policy rejected transactionally.
+10. Member invitations/reviews/removals and card revocations/removals leave auditable results. Billing profile logs contain field names, not tax IDs/addresses.
+11. Subscription approval requires Platform Admin and explicit capacities; rejection leaves the current plan unchanged; a Club Admin cannot grant themselves limits through platform endpoints.
+12. Existing manual/NFC recording, durable SQLite queues, retry/idempotency, partial sets, session date handling, plan snapshots/history and local progress regressions remain in the mobile/backend suites.
+
+## Administrative UX audit
+
+The [screen inventory](NFCFIT_SCREEN_INVENTORY.md) records both panels&#x27; section placement, restricted controls, role labels, member/card search, loading/error/retry states, destructive confirmations, verified-successor errors and subscription request feedback. Trainer assignment was placed in operational staff management so a Manager does not need to open the Trainer area. Equipment management is available in web operations as well as native operations.
+
+Authenticated visual/interaction acceptance of the changed panels remains **pending**. The browser runtime returned no connected browsers. No screenshots from previous APKs are reused as current evidence. Keyboard, Samsung system navigation, touch targets, screen reader behavior and real network timings require the changed build on the physical device. No new Android APK was requested or generated for this role-only release.
+
+## Release constraints and outstanding external work
+
+- Production migration, deployment and authenticated staging/physical acceptance have not been performed. Follow the [explicit rollout/rollback plan](NFCFIT_CLUB_ROLE_MIGRATION.md); runtime model creation is not a replacement for PostgreSQL policy migration.
+- Billing profile edits, usage and platform-reviewed subscription changes are implemented. Automatic charges, payment-method changes and invoice downloads require a configured payment provider; the UI does not claim these exist.
+- Staff/member invitations provision relationships bound to verified-email sign-in. Automatic invitation email delivery is not configured and no real invitations were sent during tests.
+- An offline phone cannot instantly learn an unseen membership/staff revocation. Current server checks apply on reconnection; no offline queue/history is silently erased.
+- Existing production legacy fitness tables/policies were not rewritten by this scoped console migration. Their historical owner policies remain a separate baseline, not an inferred result of these isolated PostgreSQL tests.
+
+Automated permission acceptance may pass while visual/release acceptance is still pending. This report does not declare an unconditional pilot go-live.
+</pre></details><h2>Gerçek kontrol çıktıları</h2><details><summary>backend-tests · exit 0</summary><pre>{
+  &quot;command&quot;: [
+    &quot;/Users/user/NFCFit/backend/.venv/bin/python&quot;,
+    &quot;-m&quot;,
+    &quot;unittest&quot;,
+    &quot;discover&quot;,
+    &quot;-s&quot;,
+    &quot;backend/tests&quot;,
+    &quot;-v&quot;
+  ],
+  &quot;exit_code&quot;: 0
+}
+
+test_account_timezone_is_validated_private_and_used_by_report_worker (test_club_roles.CanonicalCoachingTests) ... ok
+test_assignment_independent_snapshots_revision_conflict_and_review (test_club_roles.CanonicalCoachingTests) ... ok
+test_coach_dashboard_requires_explicit_active_staff_not_ordinary_membership (test_club_roles.CanonicalCoachingTests) ... ok
+test_cron_authentication_and_idempotent_generation (test_club_roles.CanonicalCoachingTests) ... ok
+test_daily_reminders_are_authorized_deduplicated_and_stop_after_revocation (test_club_roles.CanonicalCoachingTests) ... ok
+test_equipment_can_map_multiple_exercises_and_never_creates_a_set (test_club_roles.CanonicalCoachingTests) ... ok
+test_library_filters_favorites_private_custom_and_media_guard (test_club_roles.CanonicalCoachingTests) ... ok
+test_long_workout_partial_skips_and_quantity_validation (test_club_roles.CanonicalCoachingTests) ... ok
+test_new_member_template_rebase_review_comment_and_isolation (test_club_roles.CanonicalCoachingTests) ... ok
+test_personal_plans_hidden_from_facility_coaches_and_scheduled_worker_protected (test_club_roles.CanonicalCoachingTests) ... ok
+test_prepared_future_workout_refresh_is_explicit_idempotent_and_preserves_actuals (test_club_roles.CanonicalCoachingTests) ... ok
+test_recorded_clock_excludes_pauses_and_completed_snapshot_survives_revision (test_club_roles.CanonicalCoachingTests) ... ok
+test_revoked_membership_prevents_new_workout_commands (test_club_roles.CanonicalCoachingTests) ... ok
+test_role_demotion_blocks_existing_templates_and_trainer_performance (test_club_roles.CanonicalCoachingTests) ... ok
+test_weekly_report_deterministic_scope_and_no_invented_volume (test_club_roles.CanonicalCoachingTests) ... ok
+test_wellness_private_granular_consent_revocation_and_context_messages (test_club_roles.CanonicalCoachingTests) ... ok
+test_workout_manual_sets_retry_immutable_terminal_and_plan_targets (test_club_roles.CanonicalCoachingTests) ... ok
+test_admin_only_subscription_settings_and_audit (test_club_roles.ClubRoleTests) ... ok
+test_billing_profile_and_platform_subscription_review (test_club_roles.ClubRoleTests) ... ok
+test_canonical_and_legacy_identity_roles_and_legacy_rows_are_not_rewritten (test_club_roles.ClubRoleTests) ... ok
+test_catalog_equipment_and_assignment_mutations_match_role_matrix (test_club_roles.ClubRoleTests) ... ok
+test_manager_can_invite_trainers_but_no_higher_roles_or_self_promotion (test_club_roles.ClubRoleTests) ... ok
+test_members_cards_and_audit_are_tenant_scoped (test_club_roles.ClubRoleTests) ... ok
+test_no_independent_athlete_plan_creation (test_club_roles.ClubRoleTests) ... ok
+test_operational_reads_for_every_role_and_cross_club (test_club_roles.ClubRoleTests) ... ok
+test_platform_admin_needs_explicit_club_grant (test_club_roles.ClubRoleTests) ... ok
+test_unverified_account_cannot_be_promoted_to_admin (test_club_roles.ClubRoleTests) ... ok
+test_verified_promotion_last_admin_and_history_preserving_removal (test_club_roles.ClubRoleTests) ... ok
+test_account_timezone_is_validated_private_and_used_by_report_worker (test_coaching.CoachingJourneyTests) ... ok
+test_assignment_independent_snapshots_revision_conflict_and_review (test_coaching.CoachingJourneyTests) ... ok
+test_coach_dashboard_requires_explicit_active_staff_not_ordinary_membership (test_coaching.CoachingJourneyTests) ... ok
+test_cron_authentication_and_idempotent_generation (test_coaching.CoachingJourneyTests) ... ok
+test_daily_reminders_are_authorized_deduplicated_and_stop_after_revocation (test_coaching.CoachingJourneyTests) ... ok
+test_equipment_can_map_multiple_exercises_and_never_creates_a_set (test_coaching.CoachingJourneyTests) ... ok
+test_library_filters_favorites_private_custom_and_media_guard (test_coaching.CoachingJourneyTests) ... ok
+test_long_workout_partial_skips_and_quantity_validation (test_coaching.CoachingJourneyTests) ... ok
+test_new_member_template_rebase_review_comment_and_isolation (test_coaching.CoachingJourneyTests) ... ok
+test_personal_plans_hidden_from_facility_coaches_and_scheduled_worker_protected (test_coaching.CoachingJourneyTests) ... ok
+test_prepared_future_workout_refresh_is_explicit_idempotent_and_preserves_actuals (test_coaching.CoachingJourneyTests) ... ok
+test_recorded_clock_excludes_pauses_and_completed_snapshot_survives_revision (test_coaching.CoachingJourneyTests) ... ok
+test_revoked_membership_prevents_new_workout_commands (test_coaching.CoachingJourneyTests) ... ok
+test_weekly_report_deterministic_scope_and_no_invented_volume (test_coaching.CoachingJourneyTests) ... ok
+test_wellness_private_granular_consent_revocation_and_context_messages (test_coaching.CoachingJourneyTests) ... ok
+test_workout_manual_sets_retry_immutable_terminal_and_plan_targets (test_coaching.CoachingJourneyTests) ... ok
+test_concurrent_admin_removal_keeps_one_active_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped &#x27;Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py&#x27;
+test_five_club_roles_database_boundaries_and_last_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped &#x27;Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py&#x27;
+test_role_migration_preserves_data_and_rejects_unknown_policy (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped &#x27;Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py&#x27;
+test_scoped_reads_wellness_consent_and_client_write_denial (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped &#x27;Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py&#x27;
+test_private_or_credential_urls_rejected (test_exercise_media.ExerciseMediaTests) ... ok
+test_verified_bytes_rights_and_scope_required (test_exercise_media.ExerciseMediaTests) ... ok
+test_email_already_linked_to_another_supabase_user_is_rejected (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_existing_console_accounts_table_gets_supabase_link_column (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_offline_catalog_deltas_record_replay_conflicts_and_history_pagination (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_postgres_urls_select_the_installed_psycopg_driver (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_supabase_auth_endpoint_identity_response_is_normalized (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_supabase_identity_lookup_requires_bearer_token (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_tenant_join_approval_nfc_record_and_isolation (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_uid_formats_preserve_hex_bytes_and_synthetic_identifiers (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unassigned_tag_can_be_assigned_detached_and_deleted_without_losing_activity (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unchanged_linked_identity_does_not_commit_or_refresh_account (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unverified_supabase_email_cannot_link_or_create_account (test_tenant_console.TenantConsoleFlowTests) ... ok
+
+----------------------------------------------------------------------
+Ran 61 tests in 47.242s
+
+OK (skipped=4)
+</pre></details><details><summary>postgres-rls · exit 0</summary><pre>{
+  &quot;command&quot;: [
+    &quot;/Users/user/NFCFit/backend/.venv/bin/python&quot;,
+    &quot;backend/scripts/test_rls.py&quot;
+  ],
+  &quot;exit_code&quot;: 0
+}
+
+test_concurrent_admin_removal_keeps_one_active_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+test_five_club_roles_database_boundaries_and_last_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+test_role_migration_preserves_data_and_rejects_unknown_policy (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+test_scoped_reads_wellness_consent_and_client_write_denial (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 16.494s
+
+OK
+</pre></details><details><summary>mobile-tests · exit 0</summary><pre>{
+  &quot;command&quot;: [
+    &quot;node&quot;,
+    &quot;--test&quot;,
+    &quot;tests/activity-workflow.test.cjs&quot;,
+    &quot;tests/coaching-sync.test.cjs&quot;,
+    &quot;tests/coaching.test.cjs&quot;,
+    &quot;tests/management-cache.test.cjs&quot;,
+    &quot;tests/member-activity.test.cjs&quot;,
+    &quot;tests/nfc-link.test.cjs&quot;,
+    &quot;tests/offline-api.test.cjs&quot;,
+    &quot;tests/offline-session.test.cjs&quot;,
+    &quot;tests/offline-store.test.cjs&quot;,
+    &quot;tests/offline-sync.test.cjs&quot;,
+    &quot;tests/starter-programs.test.cjs&quot;
+  ],
+  &quot;exit_code&quot;: 0
+}
+
+TAP version 13
+# Subtest: lost response and app restart retry the same persisted request
+ok 1 - lost response and app restart retry the same persisted request
+  ---
+  duration_ms: 3.490765
+  type: &#x27;test&#x27;
+  ...
+# Subtest: another quantity cannot overwrite an uncertain recording, and accounts are isolated
+ok 2 - another quantity cannot overwrite an uncertain recording, and accounts are isolated
+  ---
+  duration_ms: 0.677748
+  type: &#x27;test&#x27;
+  ...
+# Subtest: double taps do not issue parallel recording requests
+ok 3 - double taps do not issue parallel recording requests
+  ---
+  duration_ms: 151.947206
+  type: &#x27;test&#x27;
+  ...
+# Subtest: storage failure prevents sending, definitive validation failure clears pending, timeout preserves it
+ok 4 - storage failure prevents sending, definitive validation failure clears pending, timeout preserves it
+  ---
+  duration_ms: 5.267935
+  type: &#x27;test&#x27;
+  ...
+# Subtest: goal guidance never exceeds 100 percent and does not invent targets
+ok 5 - goal guidance never exceeds 100 percent and does not invent targets
+  ---
+  duration_ms: 0.381828
+  type: &#x27;test&#x27;
+  ...
+# Subtest: weekly chart compares record counts across 14 local days, without mixing quantities
+ok 6 - weekly chart compares record counts across 14 local days, without mixing quantities
+  ---
+  duration_ms: 14.278572
+  type: &#x27;test&#x27;
+  ...
+# Subtest: goal celebration is claimed once per account, exercise, unit and day, including after restart
+ok 7 - goal celebration is claimed once per account, exercise, unit and day, including after restart
+  ---
+  duration_ms: 0.747907
+  type: &#x27;test&#x27;
+  ...
+# Subtest: coaching offline worker performs zero HTTP requests
+ok 8 - coaching offline worker performs zero HTTP requests
+  ---
+  duration_ms: 891.287678
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a lost set acknowledgement replays its stable ID and merges one actual set after restart
+ok 9 - a lost set acknowledgement replays its stable ID and merges one actual set after restart
+  ---
+  duration_ms: 1859.543075
+  type: &#x27;test&#x27;
+  ...
+# Subtest: separate runtimes acquire one persistent coaching lease before uploading
+ok 10 - separate runtimes acquire one persistent coaching lease before uploading
+  ---
+  duration_ms: 946.755178
+  type: &#x27;test&#x27;
+  ...
+# Subtest: workout actuals survive reopening, pending snapshots resist stale pull and accounts stay isolated
+ok 11 - workout actuals survive reopening, pending snapshots resist stale pull and accounts stay isolated
+  ---
+  duration_ms: 202.609993
+  type: &#x27;test&#x27;
+  ...
+# Subtest: request retry is idempotent and another request cannot duplicate the same set slot
+ok 12 - request retry is idempotent and another request cannot duplicate the same set slot
+  ---
+  duration_ms: 268.150696
+  type: &#x27;test&#x27;
+  ...
+# Subtest: terminal actuals are immutable and partial finish requires explicit confirmation
+ok 13 - terminal actuals are immutable and partial finish requires explicit confirmation
+  ---
+  duration_ms: 261.439984
+  type: &#x27;test&#x27;
+  ...
+# Subtest: conflict preserves actuals and dependent jobs, archives before adopting canonical server workout
+ok 14 - conflict preserves actuals and dependent jobs, archives before adopting canonical server workout
+  ---
+  duration_ms: 270.697847
+  type: &#x27;test&#x27;
+  ...
+# Subtest: unplanned exercise metadata stays readable locally but only target fields upload
+ok 15 - unplanned exercise metadata stays readable locally but only target fields upload
+  ---
+  duration_ms: 353.76538
+  type: &#x27;test&#x27;
+  ...
+# Subtest: wellness and goal are immediate and receipts stay visible when next pull fails
+ok 16 - wellness and goal are immediate and receipts stay visible when next pull fails
+  ---
+  duration_ms: 233.832587
+  type: &#x27;test&#x27;
+  ...
+# Subtest: facility workout requires active membership in cached identity
+ok 17 - facility workout requires active membership in cached identity
+  ---
+  duration_ms: 178.793345
+  type: &#x27;test&#x27;
+  ...
+# Subtest: offline active duration excludes pauses and preserves occurrence time on replay
+ok 18 - offline active duration excludes pauses and preserves occurrence time on replay
+  ---
+  duration_ms: 117.783556
+  type: &#x27;test&#x27;
+  ...
+# Subtest: exercise performance separates movement IDs and missing weight while using actual local date
+ok 19 - exercise performance separates movement IDs and missing weight while using actual local date
+  ---
+  duration_ms: 428.993578
+  type: &#x27;test&#x27;
+  ...
+# Subtest: account timezone survives queue restart, stale pull and acknowledgement
+ok 20 - account timezone survives queue restart, stale pull and acknowledgement
+  ---
+  duration_ms: 515.022063
+  type: &#x27;test&#x27;
+  ...
+# Subtest: calendar days use account timezone at midnight and daylight-saving boundaries
+ok 21 - calendar days use account timezone at midnight and daylight-saving boundaries
+  ---
+  duration_ms: 1.701711
+  type: &#x27;test&#x27;
+  ...
+# Subtest: coach and facility access require staff roles, not membership or platform status
+ok 22 - coach and facility access require staff roles, not membership or platform status
+  ---
+  duration_ms: 23.424744
+  type: &#x27;test&#x27;
+  ...
+# Subtest: visual workout progress counts distinct completed target slots, not skipped or extra sets
+ok 23 - visual workout progress counts distinct completed target slots, not skipped or extra sets
+  ---
+  duration_ms: 239.941191
+  type: &#x27;test&#x27;
+  ...
+# Subtest: dashboard selects an unfinished future session and does not reuse terminal or rejected active sessions
+ok 24 - dashboard selects an unfinished future session and does not reuse terminal or rejected active sessions
+  ---
+  duration_ms: 267.34604
+  type: &#x27;test&#x27;
+  ...
+# Subtest: wellness tiles respect account date, preserve unknown mood, and exclude coffee from water
+ok 25 - wellness tiles respect account date, preserve unknown mood, and exclude coffee from water
+  ---
+  duration_ms: 154.483642
+  type: &#x27;test&#x27;
+  ...
+# Subtest: dashboard elapsed time includes only the running segment and tolerates clock rollback
+ok 26 - dashboard elapsed time includes only the running segment and tolerates clock rollback
+  ---
+  duration_ms: 229.969273
+  type: &#x27;test&#x27;
+  ...
+# Subtest: set entry fills missing slots and keeps edited skipped values
+ok 27 - set entry fills missing slots and keeps edited skipped values
+  ---
+  duration_ms: 550.652321
+  type: &#x27;test&#x27;
+  ...
+# Subtest: weekly schedule preserves missed history and scopes plans to the member
+ok 28 - weekly schedule preserves missed history and scopes plans to the member
+  ---
+  duration_ms: 203.359205
+  type: &#x27;test&#x27;
+  ...
+# Subtest: trend uses actual finish date and timezone and excludes rejected entries
+ok 29 - trend uses actual finish date and timezone and excludes rejected entries
+  ---
+  duration_ms: 103.186177
+  type: &#x27;test&#x27;
+  ...
+# Subtest: result highlights compare matching exercises to earlier real sets only
+ok 30 - result highlights compare matching exercises to earlier real sets only
+  ---
+  duration_ms: 140.388543
+  type: &#x27;test&#x27;
+  ...
+# Subtest: extra movements count as actual activity without changing planned progress or the saved plan
+ok 31 - extra movements count as actual activity without changing planned progress or the saved plan
+  ---
+  duration_ms: 112.197337
+  type: &#x27;test&#x27;
+  ...
+# Subtest: long-period trend labels include the actual last date and never extend past today
+ok 32 - long-period trend labels include the actual last date and never extend past today
+  ---
+  duration_ms: 216.662764
+  type: &#x27;test&#x27;
+  ...
+# Subtest: member timeline uses actual local date, retains distinct free records and excludes rejected or empty scheduled sessions
+ok 33 - member timeline uses actual local date, retains distinct free records and excludes rejected or empty scheduled sessions
+  ---
+  duration_ms: 20.363904
+  type: &#x27;test&#x27;
+  ...
+# Subtest: card matches only today&#x27;s own scheduled targets and never reopens terminal or rejected sessions
+ok 34 - card matches only today&#x27;s own scheduled targets and never reopens terminal or rejected sessions
+  ---
+  duration_ms: 0.594853
+  type: &#x27;test&#x27;
+  ...
+# Subtest: dashboard and sync-details cache coexist and invalidate together without sharing result shapes
+ok 35 - dashboard and sync-details cache coexist and invalidate together without sharing result shapes
+  ---
+  duration_ms: 345.818757
+  type: &#x27;test&#x27;
+  ...
+# Subtest: today keeps partial actual 2/8 above the future plan without changing records
+ok 36 - today keeps partial actual 2/8 above the future plan without changing records
+  ---
+  duration_ms: 2.006217
+  type: &#x27;test&#x27;
+  ...
+# Subtest: finished session does not imply achieved target sets or a completed multi-week plan
+ok 37 - finished session does not imply achieved target sets or a completed multi-week plan
+  ---
+  duration_ms: 0.968171
+  type: &#x27;test&#x27;
+  ...
+# Subtest: future paused sessions never replace today completed or partial results
+ok 38 - future paused sessions never replace today completed or partial results
+  ---
+  duration_ms: 6.949627
+  type: &#x27;test&#x27;
+  ...
+# Subtest: today execution from a previous planned day preserves both dates and actual immutable snapshot
+ok 39 - today execution from a previous planned day preserves both dates and actual immutable snapshot
+  ---
+  duration_ms: 63.54626
+  type: &#x27;test&#x27;
+  ...
+# Subtest: tomorrow planned session executed today is today result and is not offered again as upcoming
+ok 40 - tomorrow planned session executed today is today result and is not offered again as upcoming
+  ---
+  duration_ms: 16.978908
+  type: &#x27;test&#x27;
+  ...
+# Subtest: yesterday actual result attached to today planned date is not described as executed today
+ok 41 - yesterday actual result attached to today planned date is not described as executed today
+  ---
+  duration_ms: 2.500888
+  type: &#x27;test&#x27;
+  ...
+# Subtest: account timezone and midnight control today; finish date remains separate from planned date
+ok 42 - account timezone and midnight control today; finish date remains separate from planned date
+  ---
+  duration_ms: 6.798845
+  type: &#x27;test&#x27;
+  ...
+# Subtest: DST repeated hour and account zone differing from device do not move the calendar day
+ok 43 - DST repeated hour and account zone differing from device do not move the calendar day
+  ---
+  duration_ms: 2.990949
+  type: &#x27;test&#x27;
+  ...
+# Subtest: missed is past unstarted only; partial, skipped, active and future have distinct states
+ok 44 - missed is past unstarted only; partial, skipped, active and future have distinct states
+  ---
+  duration_ms: 132.601825
+  type: &#x27;test&#x27;
+  ...
+# Subtest: multiple results and an older paused session remain visible alongside today result
+ok 45 - multiple results and an older paused session remain visible alongside today result
+  ---
+  duration_ms: 2.152595
+  type: &#x27;test&#x27;
+  ...
+# Subtest: session names expand weekdays and infer workout type without mutating historical names
+ok 46 - session names expand weekdays and infer workout type without mutating historical names
+  ---
+  duration_ms: 121.421209
+  type: &#x27;test&#x27;
+  ...
+# Subtest: rejected and other athlete sessions do not become today approved results or missed substitutes
+ok 47 - rejected and other athlete sessions do not become today approved results or missed substitutes
+  ---
+  duration_ms: 0.475555
+  type: &#x27;test&#x27;
+  ...
+# Subtest: missing finish timestamp never falls back to an invented execution date from planned date
+ok 48 - missing finish timestamp never falls back to an invented execution date from planned date
+  ---
+  duration_ms: 0.361668
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a new local day moves prior results to history without converting partial sessions to missed
+ok 49 - a new local day moves prior results to history without converting partial sessions to missed
+  ---
+  duration_ms: 0.784465
+  type: &#x27;test&#x27;
+  ...
+# Subtest: achieving every target in one session still keeps future weeks separate from today result
+ok 50 - achieving every target in one session still keeps future weeks separate from today result
+  ---
+  duration_ms: 1.19442
+  type: &#x27;test&#x27;
+  ...
+# Subtest: mixed-offset execution timestamps are sorted by time, not timestamp spelling
+ok 51 - mixed-offset execution timestamps are sorted by time, not timestamp spelling
+  ---
+  duration_ms: 1.797826
+  type: &#x27;test&#x27;
+  ...
+# Subtest: goal card contexts identify upcoming, actual today and differing planned dates explicitly
+ok 52 - goal card contexts identify upcoming, actual today and differing planned dates explicitly
+  ---
+  duration_ms: 2.108039
+  type: &#x27;test&#x27;
+  ...
+# Subtest: Android keyboard viewport caps once using screen geometry instead of adding a second resize
+ok 53 - Android keyboard viewport caps once using screen geometry instead of adding a second resize
+  ---
+  duration_ms: 2.808878
+  type: &#x27;test&#x27;
+  ...
+# Subtest: canonical club roles enforce per-club navigation and platform has no implicit club authority
+ok 54 - canonical club roles enforce per-club navigation and platform has no implicit club authority
+  ---
+  duration_ms: 0.209932
+  type: &#x27;test&#x27;
+  ...
+# Subtest: web and native role capabilities match the five-role contract including legacy aliases
+ok 55 - web and native role capabilities match the five-role contract including legacy aliases
+  ---
+  duration_ms: 9.218096
+  type: &#x27;test&#x27;
+  ...
+# Subtest: confirmed deletion updates an active list without refetching or changing another club
+ok 56 - confirmed deletion updates an active list without refetching or changing another club
+  ---
+  duration_ms: 335.899806
+  type: &#x27;test&#x27;
+  ...
+# Subtest: repeated completion cannot decrement the capacity counter twice
+ok 57 - repeated completion cannot decrement the capacity counter twice
+  ---
+  duration_ms: 0.996983
+  type: &#x27;test&#x27;
+  ...
+# Subtest: completion after the cache was cleared does not recreate an old account list
+ok 58 - completion after the cache was cleared does not recreate an old account list
+  ---
+  duration_ms: 0.553897
+  type: &#x27;test&#x27;
+  ...
+# Subtest: an older in-flight refresh cannot bring a confirmed deleted card back
+ok 59 - an older in-flight refresh cannot bring a confirmed deleted card back
+  ---
+  duration_ms: 4.402926
+  type: &#x27;test&#x27;
+  ...
+# Subtest: confirmed card creation appears immediately without reloading management or identity
+ok 60 - confirmed card creation appears immediately without reloading management or identity
+  ---
+  duration_ms: 31.425905
+  type: &#x27;test&#x27;
+  ...
+# Subtest: confirmed exercise edit updates its linked cards without mixing clubs
+ok 61 - confirmed exercise edit updates its linked cards without mixing clubs
+  ---
+  duration_ms: 1.160226
+  type: &#x27;test&#x27;
+  ...
+# Subtest: salon exercises appear without personal selections, sorted and deduplicated
+ok 62 - salon exercises appear without personal selections, sorted and deduplicated
+  ---
+  duration_ms: 322.486351
+  type: &#x27;test&#x27;
+  ...
+# Subtest: personal IDs, club IDs, and units cannot merge unrelated exercise totals
+ok 63 - personal IDs, club IDs, and units cannot merge unrelated exercise totals
+  ---
+  duration_ms: 0.42599
+  type: &#x27;test&#x27;
+  ...
+# Subtest: confirmed save updates only the current member once and preserves older records
+ok 64 - confirmed save updates only the current member once and preserves older records
+  ---
+  duration_ms: 8.358105
+  type: &#x27;test&#x27;
+  ...
+# Subtest: old in-flight history response cannot overwrite a newly saved activity
+ok 65 - old in-flight history response cannot overwrite a newly saved activity
+  ---
+  duration_ms: 2.682297
+  type: &#x27;test&#x27;
+  ...
+# Subtest: completion after logout does not recreate a cleared member cache
+ok 66 - completion after logout does not recreate a cleared member cache
+  ---
+  duration_ms: 0.39198
+  type: &#x27;test&#x27;
+  ...
+# NFC read error: Error: NFC okuma iptal edildi.
+#     at NFCManagerService.readTag (/Users/user/NFCFit/mobile/nfc-task-tracker/lib/nfc-manager.ts:90:23)
+#     at async waitForActual (node:assert:644:5)
+#     at async Function.rejects (node:assert:767:25)
+#     at async TestContext.&lt;anonymous&gt; (/Users/user/NFCFit/mobile/nfc-task-tracker/tests/nfc-link.test.cjs:122:3)
+#     at async Test.run (node:internal/test_runner/test:1054:7)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+# Subtest: writes exactly one HTTPS URI record and reads it back
+ok 67 - writes exactly one HTTPS URI record and reads it back
+  ---
+  duration_ms: 1405.055351
+  type: &#x27;test&#x27;
+  ...
+# Subtest: refuses different physical card without writing and releases NFC
+ok 68 - refuses different physical card without writing and releases NFC
+  ---
+  duration_ms: 469.416477
+  type: &#x27;test&#x27;
+  ...
+# Subtest: refuses read-only card without writing and releases NFC
+ok 69 - refuses read-only card without writing and releases NFC
+  ---
+  duration_ms: 416.025584
+  type: &#x27;test&#x27;
+  ...
+# Subtest: refuses insufficient capacity without writing and releases NFC
+ok 70 - refuses insufficient capacity without writing and releases NFC
+  ---
+  duration_ms: 144.27786
+  type: &#x27;test&#x27;
+  ...
+# Subtest: cancellation before write leaves the card unchanged
+ok 71 - cancellation before write leaves the card unchanged
+  ---
+  duration_ms: 471.43672
+  type: &#x27;test&#x27;
+  ...
+# Subtest: does not report verification when the reread fails
+ok 72 - does not report verification when the reread fails
+  ---
+  duration_ms: 365.234717
+  type: &#x27;test&#x27;
+  ...
+# Subtest: TEXT containing the same URL is not a verified URI record
+ok 73 - TEXT containing the same URL is not a verified URI record
+  ---
+  duration_ms: 170.503736
+  type: &#x27;test&#x27;
+  ...
+# Subtest: separate verification reads the existing URI without writing
+ok 74 - separate verification reads the existing URI without writing
+  ---
+  duration_ms: 424.795782
+  type: &#x27;test&#x27;
+  ...
+# Subtest: rejects invalid IDs and nonphysical UIDs before requesting NFC
+ok 75 - rejects invalid IDs and nonphysical UIDs before requesting NFC
+  ---
+  duration_ms: 68.192273
+  type: &#x27;test&#x27;
+  ...
+# Subtest: Android reads NDEF or blank NFC-A in one session without the one-second cleanup delay
+ok 76 - Android reads NDEF or blank NFC-A in one session without the one-second cleanup delay
+  ---
+  duration_ms: 512.696268
+  type: &#x27;test&#x27;
+  ...
+# Subtest: aborted read does not start a new NFC session
+ok 77 - aborted read does not start a new NFC session
+  ---
+  duration_ms: 244.925865
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a switched account cannot upload or download the previous member offline data
+ok 78 - a switched account cannot upload or download the previous member offline data
+  ---
+  duration_ms: 1237.124594
+  type: &#x27;test&#x27;
+  ...
+# Subtest: legacy profile IDs map to their authenticated owner without changing the API bearer identity
+ok 79 - legacy profile IDs map to their authenticated owner without changing the API bearer identity
+  ---
+  duration_ms: 566.3704
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a previously authenticated member boots from local profile without a network dependency
+ok 80 - a previously authenticated member boots from local profile without a network dependency
+  ---
+  duration_ms: 1.805867
+  type: &#x27;test&#x27;
+  ...
+# Subtest: explicit logout prevents restoring the previous profile even if cached data remains
+ok 81 - explicit logout prevents restoring the previous profile even if cached data remains
+  ---
+  duration_ms: 0.587045
+  type: &#x27;test&#x27;
+  ...
+# Subtest: logout during a slow local read cannot resurrect the session, and mismatched profiles are rejected
+ok 82 - logout during a slow local read cannot resurrect the session, and mismatched profiles are rejected
+  ---
+  duration_ms: 0.488048
+  type: &#x27;test&#x27;
+  ...
+# Subtest: pending membership downloads cards but cannot record; active confirmation survives restart
+ok 83 - pending membership downloads cards but cannot record; active confirmation survives restart
+  ---
+  duration_ms: 320.30877
+  type: &#x27;test&#x27;
+  ...
+# Subtest: local goal and activity immediately update remaining quantity, reports, and timeline without network
+ok 84 - local goal and activity immediately update remaining quantity, reports, and timeline without network
+  ---
+  duration_ms: 378.31727
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a lost acknowledgement merges by request ID and never duplicates local totals
+ok 85 - a lost acknowledgement merges by request ID and never duplicates local totals
+  ---
+  duration_ms: 368.146689
+  type: &#x27;test&#x27;
+  ...
+# Subtest: catalog deltas and tombstones disable future reads without erasing history
+ok 86 - catalog deltas and tombstones disable future reads without erasing history
+  ---
+  duration_ms: 262.79854
+  type: &#x27;test&#x27;
+  ...
+# Subtest: revocation and changed exercise prevent recording; server rejection is retained and excluded from progress
+ok 87 - revocation and changed exercise prevent recording; server rejection is retained and excluded from progress
+  ---
+  duration_ms: 191.762569
+  type: &#x27;test&#x27;
+  ...
+# Subtest: malformed catalog application rolls back atomically and does not advance history cursor
+ok 88 - malformed catalog application rolls back atomically and does not advance history cursor
+  ---
+  duration_ms: 175.339727
+  type: &#x27;test&#x27;
+  ...
+# Subtest: history pagination checkpoints survive restart and retain complete local history over 100 rows
+ok 89 - history pagination checkpoints survive restart and retain complete local history over 100 rows
+  ---
+  duration_ms: 418.645676
+  type: &#x27;test&#x27;
+  ...
+# Subtest: editing a goal while its old acknowledgement arrives preserves the newer local value and updates the retry base
+ok 90 - editing a goal while its old acknowledgement arrives preserves the newer local value and updates the retry base
+  ---
+  duration_ms: 178.410686
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a rejected goal remains visible in the outbox and editing it explicitly uses the current cloud target
+ok 91 - a rejected goal remains visible in the outbox and editing it explicitly uses the current cloud target
+  ---
+  duration_ms: 155.137505
+  type: &#x27;test&#x27;
+  ...
+# Subtest: two runtimes cannot hold the same account sync lease, and a stale owner cannot release the new owner
+ok 92 - two runtimes cannot hold the same account sync lease, and a stale owner cannot release the new owner
+  ---
+  duration_ms: 121.57492
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a deleted UID can be registered again under a new card ID without reviving the old definition
+ok 93 - a deleted UID can be registered again under a new card ID without reviving the old definition
+  ---
+  duration_ms: 111.638561
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a unit changed during confirmation cannot reinterpret the entered quantity
+ok 94 - a unit changed during confirmation cannot reinterpret the entered quantity
+  ---
+  duration_ms: 135.37517
+  type: &#x27;test&#x27;
+  ...
+# Subtest: offline sync makes no network requests and leaves queued exercise and goals usable
+ok 95 - offline sync makes no network requests and leaves queued exercise and goals usable
+  ---
+  duration_ms: 426.574021
+  type: &#x27;test&#x27;
+  ...
+# Subtest: a response lost after server commit is recovered on the next pull without another upload
+ok 96 - a response lost after server commit is recovered on the next pull without another upload
+  ---
+  duration_ms: 843.967613
+  type: &#x27;test&#x27;
+  ...
+# Subtest: foreground and background workers share a database lease and cannot start two pulls for one account
+ok 97 - foreground and background workers share a database lease and cannot start two pulls for one account
+  ---
+  duration_ms: 364.758781
+  type: &#x27;test&#x27;
+  ...
+# Subtest: starter schedules cross months/leap days, reference real exercises and use independent target IDs
+ok 98 - starter schedules cross months/leap days, reference real exercises and use independent target IDs
+  ---
+  duration_ms: 18.42563
+  type: &#x27;test&#x27;
+  ...
+# Subtest: invalid preset or date cannot generate a partial schedule
+ok 99 - invalid preset or date cannot generate a partial schedule
+  ---
+  duration_ms: 3.937032
+  type: &#x27;test&#x27;
+  ...
+1..99
+# tests 99
+# suites 0
+# pass 99
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 22641.586203
+</pre></details><details><summary>mobile-typescript · exit 0</summary><pre>{
+  &quot;command&quot;: [
+    &quot;npx&quot;,
+    &quot;tsc&quot;,
+    &quot;--noEmit&quot;
+  ],
+  &quot;exit_code&quot;: 0
+}
+
+(No diagnostics)</pre></details><details><summary>web-typescript · exit 0</summary><pre>{
+  &quot;command&quot;: [
+    &quot;npx&quot;,
+    &quot;tsc&quot;,
+    &quot;--noEmit&quot;
+  ],
+  &quot;exit_code&quot;: 0
+}
+
+(No diagnostics)</pre></details><details><summary>web-build · exit 0</summary><pre>{
+  &quot;command&quot;: [
+    &quot;npm&quot;,
+    &quot;run&quot;,
+    &quot;build&quot;
+  ],
+  &quot;exit_code&quot;: 0
+}
+
+
+&gt; nfc-task-tracker@0.0.0 build
+&gt; vite build
+
+vite v6.4.1 building for production...
+transforming...
+✓ 132 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                            0.45 kB │ gzip:   0.31 kB
+dist/assets/CoachingConsole-DE8ttbV3.js   27.42 kB │ gzip:   8.40 kB
+dist/assets/index-Bxgup0XX.js            490.25 kB │ gzip: 136.95 kB
+✓ built in 18.07s
+</pre></details><details><summary>mobile-eslint · exit 0</summary><pre>{
+  &quot;command&quot;: [
+    &quot;npx&quot;,
+    &quot;eslint&quot;,
+    &quot;lib/club-roles.ts&quot;,
+    &quot;lib/console-access.ts&quot;,
+    &quot;lib/tenant-console.ts&quot;,
+    &quot;app/(drawer)/management.tsx&quot;,
+    &quot;app/coach.tsx&quot;,
+    &quot;app/equipment-manager.tsx&quot;,
+    &quot;components/management-ui.tsx&quot;
+  ],
+  &quot;exit_code&quot;: 0
+}
+
+(No diagnostics)</pre></details><details><summary>Kaynak ve kanıt SHA-256 manifesti</summary><pre>{
+  &quot;generated_at&quot;: &quot;2026-11-08T12:02:48.327789+00:00&quot;,
+  &quot;roles&quot;: [
+    &quot;PLATFORM_ADMIN&quot;,
+    &quot;CLUB_ADMIN&quot;,
+    &quot;CLUB_MANAGER&quot;,
+    &quot;TRAINER&quot;,
+    &quot;CLUB_MEMBER&quot;
+  ],
+  &quot;compatibility&quot;: {
+    &quot;owner&quot;: &quot;CLUB_ADMIN&quot;,
+    &quot;admin&quot;: &quot;CLUB_MANAGER&quot;,
+    &quot;coach&quot;: &quot;TRAINER&quot;
+  },
+  &quot;validation&quot;: {
+    &quot;backend_passed&quot;: 57,
+    &quot;backend_skipped_postgres&quot;: 4,
+    &quot;postgres_passed_separately&quot;: 4,
+    &quot;mobile_passed&quot;: 99,
+    &quot;total_executed_passed&quot;: 160,
+    &quot;checks&quot;: {
+      &quot;backend-tests&quot;: {
+        &quot;command&quot;: [
+          &quot;/Users/user/NFCFit/backend/.venv/bin/python&quot;,
+          &quot;-m&quot;,
+          &quot;unittest&quot;,
+          &quot;discover&quot;,
+          &quot;-s&quot;,
+          &quot;backend/tests&quot;,
+          &quot;-v&quot;
+        ],
+        &quot;exit_code&quot;: 0
+      },
+      &quot;postgres-rls&quot;: {
+        &quot;command&quot;: [
+          &quot;/Users/user/NFCFit/backend/.venv/bin/python&quot;,
+          &quot;backend/scripts/test_rls.py&quot;
+        ],
+        &quot;exit_code&quot;: 0
+      },
+      &quot;mobile-tests&quot;: {
+        &quot;command&quot;: [
+          &quot;node&quot;,
+          &quot;--test&quot;,
+          &quot;tests/activity-workflow.test.cjs&quot;,
+          &quot;tests/coaching-sync.test.cjs&quot;,
+          &quot;tests/coaching.test.cjs&quot;,
+          &quot;tests/management-cache.test.cjs&quot;,
+          &quot;tests/member-activity.test.cjs&quot;,
+          &quot;tests/nfc-link.test.cjs&quot;,
+          &quot;tests/offline-api.test.cjs&quot;,
+          &quot;tests/offline-session.test.cjs&quot;,
+          &quot;tests/offline-store.test.cjs&quot;,
+          &quot;tests/offline-sync.test.cjs&quot;,
+          &quot;tests/starter-programs.test.cjs&quot;
+        ],
+        &quot;exit_code&quot;: 0
+      },
+      &quot;mobile-typescript&quot;: {
+        &quot;command&quot;: [
+          &quot;npx&quot;,
+          &quot;tsc&quot;,
+          &quot;--noEmit&quot;
+        ],
+        &quot;exit_code&quot;: 0
+      },
+      &quot;web-typescript&quot;: {
+        &quot;command&quot;: [
+          &quot;npx&quot;,
+          &quot;tsc&quot;,
+          &quot;--noEmit&quot;
+        ],
+        &quot;exit_code&quot;: 0
+      },
+      &quot;web-build&quot;: {
+        &quot;command&quot;: [
+          &quot;npm&quot;,
+          &quot;run&quot;,
+          &quot;build&quot;
+        ],
+        &quot;exit_code&quot;: 0
+      },
+      &quot;mobile-eslint&quot;: {
+        &quot;command&quot;: [
+          &quot;npx&quot;,
+          &quot;eslint&quot;,
+          &quot;lib/club-roles.ts&quot;,
+          &quot;lib/console-access.ts&quot;,
+          &quot;lib/tenant-console.ts&quot;,
+          &quot;app/(drawer)/management.tsx&quot;,
+          &quot;app/coach.tsx&quot;,
+          &quot;app/equipment-manager.tsx&quot;,
+          &quot;components/management-ui.tsx&quot;
+        ],
+        &quot;exit_code&quot;: 0
+      }
+    }
+  },
+  &quot;acceptance&quot;: {
+    &quot;automated_permissions&quot;: &quot;passed&quot;,
+    &quot;authenticated_visual&quot;: &quot;pending: no connected browser&quot;,
+    &quot;production_migration&quot;: &quot;not applied&quot;,
+    &quot;production_deployment&quot;: &quot;not performed&quot;,
+    &quot;new_apk&quot;: &quot;not built&quot;,
+    &quot;provider_payments&quot;: &quot;not configured&quot;,
+    &quot;invitation_email_delivery&quot;: &quot;not configured&quot;
+  },
+  &quot;sha256_at_report_generation&quot;: {
+    &quot;backend/club_roles.py&quot;: &quot;eeb64b09d2be42eef9b3036406a71d6caa5892894533f0a7d75bdaf51b5d816a&quot;,
+    &quot;backend/tenant_console.py&quot;: &quot;3c83e1e892472ec4405d175db7ac6a2b1aebdb7bb98b7ef95990a004865f452e&quot;,
+    &quot;backend/coaching.py&quot;: &quot;b849473b7bd1466aa915fe0ac7dcff792e428b4a59d73ecdae63159226167ed2&quot;,
+    &quot;backend/migrations/20261108_club_roles.sql&quot;: &quot;20016b6f6466f2600840cd5f998e7397e99485251702b01aa21f478537e526bc&quot;,
+    &quot;backend/scripts/check_club_roles.py&quot;: &quot;4e12f377bd6f911d0000c9c1a13f62fc5c453dd8f7969b4c9a554d3b58a24302&quot;,
+    &quot;backend/tests/test_club_roles.py&quot;: &quot;25cabc0f6d9f7364be0923d66d2fa23a95f8975da7b34574b32ffbd050803e57&quot;,
+    &quot;backend/tests/test_tenant_console.py&quot;: &quot;07946412d80759a70eb4f23dd0d739730fb6596bf2eef5e9a6fccbd8ebe2fe9b&quot;,
+    &quot;backend/tests/test_coaching_rls.py&quot;: &quot;4f4d161a172d28a75fc1fdb5974749da3364eec18b10cb094fa8bcf7b0b1cc75&quot;,
+    &quot;web/club-roles.ts&quot;: &quot;67f831b3f2d66b4d757966d816168226f1b2043104c7acfae6663d69b756903f&quot;,
+    &quot;web/TenantConsole.tsx&quot;: &quot;3369805bede21e6bc5505b24f9707c60a0d9178168ac12a095f3ddc6e20811f6&quot;,
+    &quot;web/CoachingConsole.tsx&quot;: &quot;146ac9069c8bb32259bea5b54a3c23250b2ce65b9c878668ae347145adab4795&quot;,
+    &quot;mobile/nfc-task-tracker/lib/club-roles.ts&quot;: &quot;67f831b3f2d66b4d757966d816168226f1b2043104c7acfae6663d69b756903f&quot;,
+    &quot;mobile/nfc-task-tracker/lib/console-access.ts&quot;: &quot;f6c39f61c4ba4066f88f77ca224082c5b4e3b6a6f13ae10c038fbd5f2f878b9b&quot;,
+    &quot;mobile/nfc-task-tracker/lib/tenant-console.ts&quot;: &quot;19fd687e7d1142cf53dccad0fe43474bdf40d0f12a8d768bf4b7e88a7c84adb0&quot;,
+    &quot;mobile/nfc-task-tracker/components/management-ui.tsx&quot;: &quot;66ea09014bc749ddc88495109e03c1fdc8fb9ce6545d0d881885769f288a8548&quot;,
+    &quot;mobile/nfc-task-tracker/app/(drawer)/management.tsx&quot;: &quot;66fe058e96bb0f07562216c56694f9ecfb0530203254a8d9f8cc2b83440f34ad&quot;,
+    &quot;mobile/nfc-task-tracker/app/coach.tsx&quot;: &quot;ecd8831bea23b078635cdc6b60327988e0776f46e1e57be4855b7f8445700e19&quot;,
+    &quot;mobile/nfc-task-tracker/app/equipment-manager.tsx&quot;: &quot;1e55a34326ad39f2932c2d44ccfe509a48415ab3b496ec6ade74491b9e862cf8&quot;,
+    &quot;mobile/nfc-task-tracker/tests/coaching.test.cjs&quot;: &quot;6430859a7c85e27fe58b9812764b0f59b5015363f76f8e4b6aef83f46caa7702&quot;,
+    &quot;docs/NFCFIT_ROLE_ACCESS.md&quot;: &quot;612b3f66fc0dcb04110f64b2799844a9e555d6e1a2535aab16427a768799ac11&quot;,
+    &quot;docs/NFCFIT_CLUB_ROLE_MIGRATION.md&quot;: &quot;40a9f6a2ea0126d5a5101f48bbb96c2decee2a4eb5cab4bc4ce37eaeb64401d1&quot;,
+    &quot;docs/NFCFIT_SCREEN_INVENTORY.md&quot;: &quot;60aaaa31de1454d29355dc04a1279fec6e3eb20ada2d4e5f4260efbb5aeb57b7&quot;,
+    &quot;docs/NFCFIT_CLUB_ROLES_ACCEPTANCE.md&quot;: &quot;b5ffaa5b6f2a7cd23cd46c1c543283850041b345da3209352863fea0d5d50f82&quot;
+  },
+  &quot;check_log_sha256&quot;: {
+    &quot;backend-tests&quot;: &quot;d540ccc0127a11cfd6cf69d0157ebaf454bd0063614cfa2c2059ec77eee6bbab&quot;,
+    &quot;postgres-rls&quot;: &quot;7a974a3477b100e3886f90d1d85f283d31c8fc65691361cde9a1754dee422104&quot;,
+    &quot;mobile-tests&quot;: &quot;00ff406cb2eb3f8acb115ebc071860af2e46dffceb5bb77ca6689ba8cc64a44b&quot;,
+    &quot;mobile-typescript&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;,
+    &quot;web-typescript&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;,
+    &quot;web-build&quot;: &quot;88c9732685df9a7aaab7630f2af21a9669803b1f5cc774fe68ca8db7daa424d6&quot;,
+    &quot;mobile-eslint&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;
+  }
+}</pre></details></main></html>

@@ -1,0 +1,8 @@
+{
+  "source": "Observed adb am start -W output during offline restart",
+  "native_first_display_ms": 508,
+  "wait_ms": 529,
+  "launch_state": "COLD",
+  "network_wifi": 0,
+  "network_mobile_data": 0
+}

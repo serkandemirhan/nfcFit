@@ -1,0 +1,19 @@
+[
+  {
+    "action": "shutdown",
+    "device": "3C063355-7F11-423F-A1AE-1D0B483A6864",
+    "exit": 149,
+    "output": "An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):\nUnable to shutdown device in current state: Shutdown\n"
+  },
+  {
+    "action": "shutdown",
+    "device": "72CE2E4C-8A6F-476F-87A0-FACE6BF4B933",
+    "exit": 0,
+    "output": ""
+  },
+  {
+    "action": "delete_task_created_device",
+    "exit": 0,
+    "output": ""
+  }
+]

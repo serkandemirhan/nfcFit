@@ -1,0 +1,7 @@
+- Checking if 'appium-xcuitest-driver' is compatible
+✔ Checking if 'appium-xcuitest-driver' is compatible
+- Installing 'xcuitest@7.35.1'
+✔ Installing 'xcuitest@7.35.1'
+ℹ [32mDriver xcuitest@7.35.1 successfully installed
+[39m- automationName: [32mXCUITest[39m
+- platformNames: [32m["iOS","tvOS"][39m

@@ -1,0 +1,7 @@
+{
+  "command": [
+    "/Users/user/NFCFit/backend/.venv/bin/python",
+    "backend/scripts/test_rls.py"
+  ],
+  "exit_code": 0
+}

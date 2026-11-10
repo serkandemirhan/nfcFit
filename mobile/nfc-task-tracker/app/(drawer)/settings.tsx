@@ -1,190 +1,245 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Pressable, StyleSheet, Switch, View } from 'react-native';
-
-import { AppBottomNav, bottomNavHeight } from '@/components/app-bottom-nav';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { getSurfaceColors } from '@/constants/tasks';
-import { useAuth } from '@/hooks/use-auth';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useThemePreference } from '@/providers/color-scheme-provider';
+import { activeStaff } from "@/lib/console-access";
+import { useState } from "react";
+import { Alert, ScrollView, View, Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
+import { router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import Constants from "expo-constants";
+import { AccountTimezone } from "@/components/account-timezone";
+import { AppBottomNav } from "@/components/app-bottom-nav";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { CoachText as Text } from "@/components/coaching-ui";
+import {
+  BrandHeader,
+  FitCard,
+  FitButton,
+  FitChip,
+  f,
+  fit,
+  type FitnessIcon,
+} from "@/components/fitness-ui";
+import { useAuth } from "@/hooks/use-auth";
+import {
+  canOpenManagement,
+  canOpenCoachArea,
+  useTenantIdentity,
+} from "@/hooks/use-tenant-identity";
+import { useThemePreference } from "@/providers/color-scheme-provider";
+import { roleLabels, statusLabels } from "@/components/management-ui";
 
 export default function SettingsScreen() {
-  const surface = getSurfaceColors(useColorScheme());
-  const { colorScheme, mode, setMode } = useThemePreference();
-  const { logout, user } = useAuth();
-  const isDark = colorScheme === 'dark';
-
+  const { user, logout } = useAuth();
+  const identity = useTenantIdentity();
+  const profile = user as typeof user & {
+    height_cm?: number;
+    weight_kg?: number;
+    age?: number;
+  };
+  const { mode, setMode } = useThemePreference();
+  const [preferences, setPreferences] = useState(false);
+  const [technical, setTechnical] = useState(false);
+  const role = identity.data?.account.is_platform_admin
+    ? "Platform yöneticisi"
+    : [
+        ...new Set(
+          activeStaff(identity.data)
+            .map((s) => roleLabels[s.role]) ?? [],
+        ),
+      ].join(", ") || "Üye";
   return (
-    <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
-      <View style={styles.content}>
-        <View style={styles.header}>
-          <ThemedText style={styles.title}>Ayarlar</ThemedText>
-          <ThemedText style={[styles.subtitle, { color: surface.mutedText }]} numberOfLines={1}>
-            {getUserLabel(user)}
-          </ThemedText>
-        </View>
-
-        <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <ThemedText style={styles.sectionTitle}>Profil</ThemedText>
-          <ProfileRow label="İsim" value={user?.name ?? 'Serkan'} />
-          <ProfileRow label="Email" value={('email' in (user ?? {}) && user?.email) ? user.email : 'serkan@example.com'} />
-          <ProfileRow label="Boy" value={formatMetric((user as any)?.height_cm, 'cm')} />
-          <ProfileRow label="Kilo" value={formatMetric((user as any)?.weight_kg, 'kg')} />
-          <ProfileRow label="Yaş" value={(user as any)?.age ? String((user as any).age) : '—'} />
-        </View>
-
-        <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <View style={styles.settingRow}>
-            <View style={styles.settingLabel}>
-              <Ionicons name="moon-outline" size={20} color={surface.green} />
-              <View>
-                <ThemedText style={styles.settingTitle}>Tema</ThemedText>
-                <ThemedText style={[styles.settingHint, { color: surface.mutedText }]}>
-                  {mode === 'system' ? 'Sistem ayarı' : isDark ? 'Koyu' : 'Açık'}
-                </ThemedText>
-              </View>
+    <SafeAreaView edges={["top"]} style={f.page}>
+      <StatusBar style="light" />
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={f.content}>
+          <BrandHeader showProfile={false} />
+          <Text style={f.heading}>Profil</Text>
+          <FitCard>
+            <Text style={f.sectionTitle}>{user?.name || "NFCFit hesabım"}</Text>
+            <Text style={f.muted}>{user?.email ?? ""}</Text>
+            <Text style={f.badge}>{role}</Text>
+            <View style={[f.row, { flexWrap: "wrap" }]}>
+              <Text style={f.muted}>
+                Boy: {metric(profile?.height_cm, "cm")}
+              </Text>
+              <Text style={f.muted}>
+                Kilo: {metric(profile?.weight_kg, "kg")}
+              </Text>
+              <Text style={f.muted}>Yaş: {profile?.age ?? "—"}</Text>
             </View>
-            <Switch
-              value={isDark}
-              onValueChange={(value) => setMode(value ? 'dark' : 'light')}
-              thumbColor="#f8fafc"
-              trackColor={{ false: 'rgba(148,163,184,0.45)', true: surface.green }}
+          </FitCard>
+          <FitCard><Text style={f.sectionTitle}>Kulüp üyeliklerim</Text>{identity.isPending?<Text style={f.muted}>Üyelikler kontrol ediliyor…</Text>:identity.error?<Text style={f.muted}>Üyelik bilgileri alınamadı. Aşağıdan hesap bilgilerini yenileyebilirsin.</Text>:!identity.data?.memberships.length?<Text style={f.muted}>Henüz bir kulüp üyeliğin yok. Kulübündeki kayıtlı kartı okutarak katılım isteği gönderebilirsin.</Text>:identity.data.memberships.map(m=><View key={m.tenant_id} style={{gap:4}}><Text style={f.body}>{m.tenant_name}</Text><Text style={f.muted}>{statusLabels[m.status]??m.status}</Text></View>)}</FitCard>
+          {(canOpenManagement(identity.data) ||
+            canOpenCoachArea(identity.data)) && (
+            <FitCard>
+              <Text style={f.sectionTitle}>Çalışma alanım</Text>
+              {canOpenManagement(identity.data) && (
+                <ProfileLink
+                  title="Tesis yönetimi"
+                  detail="Kartlar, egzersizler ve üyelikler"
+                  icon="business-outline"
+                  href="/(drawer)/management"
+                />
+              )}
+              {canOpenCoachArea(identity.data) && (
+                <ProfileLink
+                  title="Antrenör alanı"
+                  detail="Sporcular, şablonlar ve plan atamaları"
+                  icon="people-outline"
+                  href="/coach"
+                />
+              )}
+            </FitCard>
+          )}
+          <FitCard>
+            <Text style={f.sectionTitle}>Antrenman ve iyi yaşam</Text>
+            <ProfileLink
+              title="İyi yaşam"
+              detail="Su, uyku, kahve ve ruh hali"
+              icon="heart-outline"
+              href="/(drawer)/wellness"
             />
-          </View>
-          <Pressable style={styles.secondaryButton} onPress={() => setMode('system')}>
-            <ThemedText style={styles.secondaryButtonText}>Sistem temasını kullan</ThemedText>
-          </Pressable>
-        </View>
-
-        <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <View style={styles.settingLabel}>
-            <Ionicons name="language-outline" size={20} color={surface.green} />
-            <ThemedText style={styles.settingTitle}>Dil</ThemedText>
-          </View>
-          <LanguageSwitcher />
-        </View>
-
-        <Pressable style={[styles.logoutButton, { backgroundColor: surface.cardRaised }]} onPress={logout}>
-          <Ionicons name="log-out-outline" size={20} color="#dc2626" />
-          <ThemedText style={styles.logoutText}>Çıkış yap</ThemedText>
-        </Pressable>
+            <ProfileLink
+              title="Egzersiz kütüphanesi"
+              detail="Hareketleri incele ve favorilerine ekle"
+              icon="library-outline"
+              href="/(drawer)/exercise-library"
+            />
+            <ProfileLink
+              title="Hedeflerim"
+              detail="Program hedefleri ve günlük egzersiz hedefleri"
+              icon="flag-outline"
+              href="/goals"
+            />
+            <ProfileLink
+              title="Aktivite geçmişi"
+              detail="Kartla ve elle kaydettiğin egzersizler"
+              icon="time-outline"
+              href="/(drawer)/history"
+            />
+            <ProfileLink
+              title="Antrenör mesajları"
+              detail="Program yorumları ve geri bildirimler"
+              icon="chatbubbles-outline"
+              href="/messages"
+            />
+          </FitCard>
+          <FitCard>
+            <FitButton
+              title="Dil, görünüm ve saat dilimi"
+              icon="options-outline"
+              secondary
+              onPress={() => setPreferences((v) => !v)}
+            />
+            {preferences && (
+              <>
+                <Text style={f.sectionTitle}>Dil</Text>
+                <LanguageSwitcher />
+                <Text style={f.sectionTitle}>Görünüm tercihi</Text>
+                <View style={[f.row, { flexWrap: "wrap" }]}>
+                  {(["system", "dark", "light"] as const).map((value, i) => (
+                    <FitChip
+                      key={value}
+                      label={["Sistem", "Koyu", "Açık"][i]}
+                      active={mode === value}
+                      onPress={() => setMode(value)}
+                    />
+                  ))}
+                </View>
+                <AccountTimezone />
+              </>
+            )}
+          </FitCard>
+          <FitCard>
+            <FitButton
+              title="Eşitleme ve cihaz testleri"
+              icon="construct-outline"
+              secondary
+              onPress={() => setTechnical((v) => !v)}
+            />
+            {technical && (
+              <>
+                <ProfileLink
+                  title="Salon kayıtlarını eşitle"
+                  detail="Çevrimdışı kart kayıtları ve bekleyen gönderimler"
+                  icon="cloud-upload-outline"
+                  href="/sync-status"
+                />
+                <ProfileLink
+                  title="Antrenman kayıtlarını eşitle"
+                  detail="Setler, programlar ve eşitleme sorunları"
+                  icon="sync-outline"
+                  href="/coaching-sync"
+                />
+                <ProfileLink
+                  title="NFC test kiti"
+                  detail="Kart bilgisi ve ayrı test kartıyla yazma denemesi"
+                  icon="hardware-chip-outline"
+                  href="/(drawer)/nfc-test"
+                />
+                {!!identity.error && (
+                  <Text accessibilityRole="alert" style={{ color: fit.orange }}>
+                    Hesap bilgileri yenilenemedi. Bağlantını kontrol edip
+                    yeniden deneyebilirsin.
+                  </Text>
+                )}
+                <FitButton
+                  title={
+                    identity.isFetching
+                      ? "Kontrol ediliyor…"
+                      : "Hesap bilgilerini yenile"
+                  }
+                  secondary
+                  disabled={identity.isFetching}
+                  onPress={() => void identity.refetch()}
+                />
+                <Text style={f.muted}>
+                  NFCFit {Constants.expoConfig?.version ?? "—"}
+                </Text>
+              </>
+            )}
+          </FitCard>
+          <FitButton
+            title="Çıkış yap"
+            secondary
+            icon="log-out-outline"
+            onPress={() => Alert.alert('Çıkış yap', 'Telefonundaki kayıtlar silinmez. Eşitlemeyi sürdürmek için aynı hesapla yeniden giriş yapman gerekir.', [{text:'Vazgeç',style:'cancel'},{text:'Çıkış yap',style:'destructive',onPress:()=>void logout()}])}
+          />
+        </ScrollView>
+        <AppBottomNav />
       </View>
-      <AppBottomNav />
-    </ThemedView>
+    </SafeAreaView>
   );
 }
-
-function getUserLabel(user: ReturnType<typeof useAuth>['user']) {
-  if (!user) return 'Oturum';
-  if ('username' in user && user.username) return user.username;
-  if ('email' in user && user.email) return user.email;
-  return user.name || 'Oturum';
+function metric(value: unknown, unit: string) {
+  return value === undefined || value === null || value === ""
+    ? "—"
+    : `${value} ${unit}`;
 }
-
-function ProfileRow({ label, value }: { label: string; value: string }) {
+function ProfileLink({
+  title,
+  detail,
+  icon,
+  href,
+}: {
+  title: string;
+  detail: string;
+  icon: FitnessIcon;
+  href: string;
+}) {
   return (
-    <View style={styles.profileRow}>
-      <ThemedText style={styles.profileLabel}>{label}</ThemedText>
-      <ThemedText style={styles.profileValue}>{value}</ThemedText>
-    </View>
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={title}
+      onPress={() => router.push(href as never)}
+      style={[f.row, { minHeight: 64, paddingVertical: 8 }]}
+    >
+      <Ionicons name={icon} size={23} color={fit.lime} />
+      <View style={{ flex: 1, gap: 3 }}>
+        <Text style={[f.body, { fontWeight: "700" }]}>{title}</Text>
+        <Text style={f.muted}>{detail}</Text>
+      </View>
+      <Ionicons name="chevron-forward" size={18} color={fit.muted} />
+    </Pressable>
   );
 }
-
-function formatMetric(value: unknown, unit: string) {
-  if (value === null || value === undefined || value === '') return '—';
-  return `${value} ${unit}`;
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    padding: 14,
-    paddingBottom: bottomNavHeight + 18,
-    gap: 12,
-  },
-  header: {
-    gap: 3,
-    paddingHorizontal: 2,
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: '800',
-  },
-  subtitle: {
-    fontSize: 13,
-  },
-  section: {
-    borderWidth: StyleSheet.hairlineWidth,
-    borderRadius: 12,
-    padding: 12,
-    gap: 12,
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
-  },
-  settingLabel: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  settingTitle: {
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  sectionTitle: {
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  profileRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 8,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: 'rgba(148,163,184,0.22)',
-  },
-  profileLabel: {
-    fontSize: 13,
-    opacity: 0.65,
-  },
-  profileValue: {
-    fontSize: 14,
-    fontWeight: '700',
-  },
-  settingHint: {
-    fontSize: 12,
-  },
-  secondaryButton: {
-    alignSelf: 'flex-start',
-    borderRadius: 999,
-    backgroundColor: 'rgba(53,211,83,0.12)',
-    paddingHorizontal: 12,
-    paddingVertical: 7,
-  },
-  secondaryButtonText: {
-    color: '#35D353',
-    fontWeight: '700',
-    fontSize: 12,
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    borderRadius: 12,
-    backgroundColor: 'rgba(220,38,38,0.08)',
-    minHeight: 44,
-    paddingHorizontal: 14,
-  },
-  logoutText: {
-    color: '#dc2626',
-    fontWeight: '800',
-  },
-});

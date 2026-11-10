@@ -1,0 +1,12 @@
+PASS Optional program filters clear independently from search
+SHOT 01-selected-week-preview-desktop
+PASS Preview expands selected week, reveals other weeks and never publishes/mutates
+AssertionError [ERR_ASSERTION]: false == true
+    at /Users/user/NFCFit/web/tests/trainer-quality.refinements.cjs:12:256 {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

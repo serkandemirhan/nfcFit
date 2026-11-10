@@ -1,0 +1,82 @@
+{
+  "device": "Samsung SM-S901B",
+  "android": 16,
+  "installed_version": "1.0.14",
+  "installed_code": 15,
+  "account_label": "member-test1",
+  "screen_images": 30,
+  "confirmed": [
+    "Installed over previous app; existing login and legacy records retained",
+    "Samsung three-button navigation remains outside app navigation",
+    "Home, Profile, empty My plan and ready-template selection open",
+    "Starter draft creates four exercises on selected Sundays",
+    "TEST-Telefon-QA-08.11.2026 personal plan created and edited",
+    "One manual squat set with 8 reps persisted locally and subsequently synced",
+    "Workout pause retained 1/8 sets and 2:06 duration",
+    "102 cached library exercises, info and muscle tab open",
+    "Progress shows 1 recorded set and 1 active day; session count stays 0 while paused"
+  ],
+  "test_data_created": {
+    "plan": "TEST-Telefon-QA-08.11.2026",
+    "dates": [
+      "2026-11-08",
+      "2026-11-15",
+      "2026-11-22",
+      "2026-11-29"
+    ],
+    "workout": "Paz",
+    "state": "paused",
+    "active_duration": "2:06",
+    "actual_sets": 1,
+    "reps": 8
+  },
+  "performance": {
+    "native_cold_first_display_ms": 549,
+    "gfx_frames": 745,
+    "gfx_janky_frames": 22,
+    "gfx_janky_percent": 2.95,
+    "frame_p50_ms": 9,
+    "frame_p90_ms": 14,
+    "frame_p95_ms": 18,
+    "frame_p99_ms": 27,
+    "pss_kib": 233103,
+    "rss_kib": 339513,
+    "limitations": "One cold native sample and cumulative rendering sample through plan opening. Not complete data readiness or per-screen latency. Save was still loading at 2.95s; next observation complete at 13.09s, so exact save duration is not known."
+  },
+  "findings": [
+    {
+      "issue": "Plan builder save only reachable after scrolling through every exercise",
+      "fix": "Fixed save action and visible error next to it in 1.0.15"
+    },
+    {
+      "issue": "Weekly schedule uses almost the first My plan screen before plan name appears",
+      "fix": "Horizontal weekday selection, selected-day session with plan name in 1.0.15"
+    },
+    {
+      "issue": "Large decorative image pushes weight control below the fold during set entry",
+      "fix": "Remove decorative image only while entering a set in 1.0.15"
+    }
+  ],
+  "pending": [
+    "1.0.15 installation and visual recheck after USB disconnected again",
+    "Offline save/restart/reconnect on physical device",
+    "Final/partial workout completion and report chart after finish",
+    "Member direct coach-route denial in physical UI",
+    "Live authenticated coach browser journey",
+    "NFC scenarios deliberately separate in manual kit"
+  ],
+  "followup_release": {
+    "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.15.apk",
+    "bytes": 100778458,
+    "sha256": "b3f3a402a87ebfd686137b6609563927f28d2f1f3fa41039754dff0da6e3db19",
+    "source_files_verified": 109,
+    "version": "1.0.15",
+    "versionCode": 16
+  },
+  "followup_checks": {
+    "mobile_tests": 75,
+    "typescript": "pass",
+    "targeted_lint": "pass",
+    "physical_installation": "pending: USB device absent"
+  }
+}

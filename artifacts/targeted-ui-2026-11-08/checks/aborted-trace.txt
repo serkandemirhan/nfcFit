@@ -1,0 +1,9 @@
+UI-03 — Aborted kaynak zinciri ve kanıt sınırı
+
+1. 005-sync-screen.png ve 006-sync-retry.png (1.0.20) ham Aborted metnini gösteriyor. Son başarılı zaman 13:45:58.
+2. İstek hatası lib/tenant-console.ts request/coachingRequest üzerinden syncCoaching catch bloğuna gelir. catch bunu kullanıcıya ait coaching-error belgesinde saklar. Eşitleme ekranı bu belgeyi gösterir; yeni bir tuşa basmadan önce dahi önceki arka plan hatası görünebilir.
+3. Önceki sürümden kalan tek Aborted metni istek rotası, timeout kaynağı, signal nedeni veya stack içermiyor. Tarihsel olayın kesinlikle timeout ya da kullanıcı iptali olduğu kanıtlanamadı. Bu gereksinimin kök tetikleyici doğrulaması BLOCKED. Önceki 1.0.21 işinde HTTP hazırlığı öncesindeki timeout penceresi düzeltilmişti; bu görev o düzeltmeyi değiştirmedi.
+4. Bu görevde somut ek hata bulundu: saveOverview son başarılı zamanı, kütüphane isteği bitmeden ilerletiyordu. Ayrıca worker offline veya başka süreç kilidinde void başarı gibi dönebiliyor. UI, Promise çözülmesini doğrudan başarı saymamalı.
+5. Yeni düzeltme: yalnız son başarılı eşitleme metadata yazımı tüm worker sonuna taşındı. Manual UI doğrulanmış yeni timestamp ve hata bulunmamasını kontrol eder. No-op, offline, hata ve eksik sonuç başarı değildir. Açık timeout/cancel/network/status türleri ayrı mesajlara dönüşür; eski kaynaksız Aborted için yalnız isteğin kesildiği söylenir.
+6. Pending/rejected kayıt sayıları gösterilir. Aynı tuşa ardışık basış UI kilidi ve mevcut worker single-flight ile tek işlemdir. Kuyruk payloadları, UUID, ack, retry, lease, çalışma geçmişi ve plan hesaplamaları değiştirilmedi.
+7. SQLite/network-adapter regresyonları başarılı; kayıp ack sonrası tek set ve özgün zaman korunuyor. Yeni gerçek backend senkronizasyonu ve fiziksel başarı/hata görüntüleri cihaz/oturum eksikliği nedeniyle BLOCKED. Public health=200 ve unauth identity=401 yalnız erişilebilirlik kanıtıdır.

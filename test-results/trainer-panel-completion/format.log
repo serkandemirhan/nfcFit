@@ -1,0 +1,7 @@
+web/TrainerAdminLayout.tsx 567ms
+web/TrainerExerciseLibrary.tsx 274ms
+web/components/trainer-ui/data-table.tsx 411ms
+web/components/trainer-ui/primitives.tsx 554ms
+web/components/trainer-ui/sidebar.tsx 252ms
+web/trainer-admin.css 1052ms
+web/trainer.tailwind.config.cjs 633ms

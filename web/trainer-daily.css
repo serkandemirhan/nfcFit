@@ -1,0 +1,56 @@
+.nfc-admin .nfc-member-tabs { display:flex; flex-wrap:wrap; gap:8px; padding:10px; border:1px solid #28364a; border-radius:10px; background:#0c1726; }
+.nfc-admin .nfc-member-tabs > [aria-current=page] { background:#bef264; color:#122008; border-color:#bef264; }
+.nfc-admin .nfc-member-switcher { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px; border:1px solid #28364a; background:#0c1726; padding:12px; border-radius:10px; }
+.nfc-admin .nfc-attention-intro { padding:12px 14px; border:1px solid #4d4832; background:#252218; border-radius:10px; margin-bottom:12px; }
+.nfc-admin .nfc-attention-intro p,.nfc-admin .nfc-muted { color:#9aaac0; font-size:12px; margin-top:4px; }
+.nfc-admin .nfc-reasons { display:flex; flex-direction:column; gap:4px; font-size:12px; color:#e3d3a8; min-width:140px; }
+.nfc-admin .nfc-member-actions { display:flex; align-items:center; gap:6px; flex-wrap:wrap; min-width:170px; }
+.nfc-admin .nfc-member-actions > button { font-size:12px; padding:8px 10px; }
+.nfc-admin .nfc-checkbox-hit { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; cursor:pointer; }
+.nfc-admin .nfc-row-checkbox { width:18px; height:18px; accent-color:#bef264; cursor:pointer; vertical-align:middle; }
+.nfc-admin .nfc-daily-members [data-column=selection] { width:48px; padding:6px; }
+.nfc-admin .nfc-bulk-bar { display:flex; gap:12px; align-items:center; flex-wrap:wrap; padding:12px; border:1px solid #48633b; background:#17291d; border-radius:10px; margin-bottom:12px; }
+.nfc-admin .nfc-assignment-options { display:flex; flex-direction:column; gap:8px; overflow:auto; min-height:0; }
+.nfc-admin .nfc-assignment-options > button { text-align:left; justify-content:space-between; flex:none; }
+.nfc-admin .nfc-assignment-options strong { display:block; font-size:13px; }
+.nfc-admin .nfc-assignment-options small { display:block; color:#9aaac0; font-weight:400; margin-top:4px; }
+.nfc-admin .nfc-quick-assignment header > div { min-width:0; }
+.nfc-admin .nfc-quick-assignment header p { color:#9aaac0; font-size:12px; margin-top:6px; overflow-wrap:anywhere; }
+.nfc-admin .nfc-quick-assignment label { display:block; }
+.nfc-admin .nfc-quick-assignment label > input { margin-top:6px; }
+.nfc-admin .nfc-members-table[data-compact=true] th:nth-child(4) { display:table-cell; }
+.nfc-admin .nfc-members-table[data-compact=true] th:nth-child(5) { display:none; }
+@media(max-width:767px) {
+ .nfc-admin .nfc-member-switcher { grid-template-columns:minmax(0,1fr); }
+ .nfc-admin .nfc-member-tabs > button { flex:1; }
+ .nfc-admin .nfc-daily-members [data-slot=table-row] { position:relative; padding-left:56px; }
+ .nfc-admin .nfc-daily-members [data-column=selection] { position:absolute; top:8px; left:4px; width:44px; padding:0; }
+ .nfc-admin .nfc-daily-members [data-column=action] { grid-column:1/-1; grid-row:auto; }
+ .nfc-admin .nfc-daily-members [data-column=action] .nfc-member-actions { display:flex; gap:6px; min-width:0; }
+ .nfc-admin .nfc-daily-members [data-column=action] .nfc-member-actions > button { width:auto; flex:1; font-size:12px; min-width:44px; }
+ .nfc-admin .nfc-daily-members [data-column=completion_rate] { grid-column:1/-1; }
+ .nfc-admin .nfc-attention-table [data-column=attention] { display:block; grid-column:1/-1; }
+ .nfc-admin .nfc-reasons { min-width:0; font-size:12px; }
+ .nfc-admin .nfc-bulk-bar > .nfc-button { flex:1; }
+ .nfc-admin.nfc-quick-assignment { width:100vw; height:100dvh; max-height:100dvh; border:0; border-radius:0; padding:16px; padding-bottom:calc(16px + env(safe-area-inset-bottom)); }
+}
+.nfc-admin .tp-member-impact > div { display:grid; gap:4px; }
+.nfc-admin .tp-member-impact small { display:block; margin:0; color:#acb9cc; }
+.nfc-admin .tp-member-picks small,
+.nfc-admin .tp-coverage-week > div > strong,
+.nfc-admin .tp-coverage-week > div > small { display:block; }
+/* Native checkboxes keep their size inside full-width admin input styling. */
+.nfc-admin .tp-check .nfc-input,
+.nfc-admin .tp-member-picks .nfc-input {
+ width:20px; min-width:20px; max-width:20px; height:20px; min-height:20px;
+ padding:0; flex:none; accent-color:#bef264;
+}
+.nfc-admin .nfc-program-state small { display:block; color:#a8b6c9; margin-top:5px; font-size:11px; overflow-wrap:anywhere; }
+.nfc-admin .tp-recovery-hint { color:#a8b6c9; font-size:12px; margin-bottom:8px; }
+.nfc-admin .nfc-assignment-audit { border:1px solid #334155; border-radius:10px; padding:12px; margin:16px 0; }
+.nfc-admin .nfc-assignment-audit > summary { cursor:pointer; min-height:44px; display:flex; align-items:center; font-weight:700; }
+.nfc-admin .nfc-assignment-audit p { font-size:12px; color:#a8b6c9; margin:10px 0; }
+.nfc-admin .nfc-assignment-audit small { display:block; color:#a8b6c9; }
+.nfc-admin.nfc-cancel-assignment header,.nfc-admin.nfc-cancel-assignment footer { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.nfc-admin.nfc-cancel-assignment textarea { width:100%; min-height:100px; background:#0b1524; color:#e7edf6; border:1px solid #334155; border-radius:8px; padding:12px; margin-top:8px; }
+@media(max-width:767px){.nfc-admin .trainer-scheduled-row { flex-wrap:wrap; }.nfc-admin .trainer-scheduled-row > span {flex-basis:100%;}}

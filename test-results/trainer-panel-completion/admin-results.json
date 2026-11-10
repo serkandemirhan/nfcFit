@@ -1,0 +1,41 @@
+{
+  "results": [
+    {
+      "name": "Collapsible shadcn sidebar retains accessible labels and tooltip",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Members table searches real assigned members and sorts by name",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Catalog search, Turkish normalization, filters, pagination, details, Escape/focus return and direct exercise handoff",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Canceling navigation preserves unsaved workout; accepting returns to Programs",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "390/375/412 responsive sheet, full-screen details, navigation closure and reduced viewport search; no page overflow",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Ordinary-member authorization, other-club template access and unassigned-member access rejected (member 403, unknown club 404, unassigned member 403)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "No uncaught JavaScript errors",
+      "status": "PASS",
+      "details": ""
+    }
+  ],
+  "errors": [],
+  "requests": []
+}

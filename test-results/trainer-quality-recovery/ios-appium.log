@@ -1,0 +1,918 @@
+[38;5;112m[Appium][0m Welcome to Appium v2.19.0
+[38;5;112m[Appium][0m Non-default server args:
+[38;5;112m[Appium][0m { address: [32m'127.0.0.1'[39m }
+[38;5;112m[Appium][0m The APPIUM_HOME environment variable: /tmp/nfcfit-ios-test/home
+[38;5;112m[Appium][0m Attempting to load driver xcuitest...
+[38;5;112m[Appium][0m Requiring driver at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/build/index.js
+[38;5;112m[Appium][0m XCUITestDriver has been successfully loaded in 42.975s
+[38;5;112m[Appium][0m Appium REST http interface listener started on http://127.0.0.1:4723
+[38;5;112m[Appium][0m Available drivers:
+[38;5;112m[Appium][0m   - xcuitest@7.35.1 (automationName 'XCUITest')
+[38;5;112m[Appium][0m No plugins have been installed. Use the "appium plugin" command to install the one(s) you want to use.
+[38;5;86m[HTTP][0m [37m-->[39m [37mPOST[39m [37m/session[39m [90m{"capabilities":{"alwaysMatch":{"platformName":"iOS","appium:automationName":"XCUITest","browserName":"Safari","appium:safariInitialUrl":"http://127.0.0.1:3000/console","appium:webviewConnectTimeout":60000,"appium:deviceName":"iPhone SE (3rd generation)","appium:udid":"3C063355-7F11-423F-A1AE-1D0B483A6864","appium:platformVersion":"17.2","appium:connectHardwareKeyboard":false,"appium:forceSimulatorSoftwareKeyboardPresence":true,"appium:nativeWebTap":true,"appium:derivedDataPath":"/tmp/nfcfit-ios-test/derived","appium:newCommandTimeout":600,"appium:showXcodeLog":false,"appium:wdaLaunchTimeout":300000,"appium:wdaStartupRetries":1,"appium:xcodeConfigFile":"/tmp/nfcfit-ios-test/automation.xcconfig"}}}[39m
+[38;5;219m[AppiumDriver@a4b8][0m Calling AppiumDriver.createSession() with args: [null,null,{"alwaysMatch":{"platformName":"iOS","appium:automationName":"XCUITest","browserName":"Safari","appium:safariInitialUrl":"http://127.0.0.1:3000/console","appium:webviewConnectTimeout":60000,"appium:deviceName":"iPhone SE (3rd generation)","appium:udid":"3C063355-7F11-423F-A1AE-1D0B483A6864","appium:platformVersion":"17.2","appium:connectHardwareKeyboard":false,"appium:forceSimulatorSoftwareKeyboardPresence":true,"appium:nativeWebTap":true,"appium:derivedDataPath":"/tmp/nfcfit-ios-test/derived","appium:newCommandTimeout":600,"appium:showXcodeLog":false,"appium:wdaLaunchTimeout":300000,"appium:wdaStartupRetries":1,"appium:xcodeConfigFile":"/tmp/nfcfit-ios-test/automation.xcconfig"}}]
+[38;5;219m[AppiumDriver@a4b8][0m Event 'newSessionRequested' logged at 1794223575587 (14:26:15 GMT+0300 (GMT+03:00))
+[38;5;112m[Appium][0m Attempting to find matching driver for automationName 'XCUITest' and platformName 'iOS'
+[38;5;112m[Appium][0m The 'xcuitest' driver was installed and matched caps.
+[38;5;112m[Appium][0m Will require it at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver
+[38;5;112m[Appium][0m Requiring driver at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/build/index.js
+[38;5;219m[AppiumDriver@a4b8][0m Appium v2.19.0 creating new XCUITestDriver (v7.35.1) session
+[38;5;219m[AppiumDriver@a4b8][0m Checking BaseDriver versions for Appium and XCUITestDriver
+[38;5;219m[AppiumDriver@a4b8][0m Appium's BaseDriver version is 9.18.0
+[38;5;219m[AppiumDriver@a4b8][0m XCUITestDriver's BaseDriver version is 9.18.0
+[38;5;190m[XCUITestDriver@3e1b][0m 
+[38;5;190m[XCUITestDriver@3e1b][0m Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "iOS",
+    "browserName": "Safari",
+    "appium:automationName": "XCUITest",
+    "appium:safariInitialUrl": "http://127.0.0.1:3000/console",
+    "appium:webviewConnectTimeout": 60000,
+    "appium:deviceName": "iPhone SE (3rd generation)",
+    "appium:udid": "3C063355-7F11-423F-A1AE-1D0B483A6864",
+    "appium:platformVersion": "17.2",
+    "appium:connectHardwareKeyboard": false,
+    "appium:forceSimulatorSoftwareKeyboardPresence": true,
+    "appium:nativeWebTap": true,
+    "appium:derivedDataPath": "/tmp/nfcfit-ios-test/derived",
+    "appium:newCommandTimeout": 600,
+    "appium:showXcodeLog": false,
+    "appium:wdaLaunchTimeout": 300000,
+    "appium:wdaStartupRetries": 1,
+    "appium:xcodeConfigFile": "/tmp/nfcfit-ios-test/automation.xcconfig"
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Session created with session id: 20b3d33e-fd9c-4d2f-bd87-56c38f88baa4
+[38;5;148m[20b3d33e][0m[38;5;135m[XCUITest][0m Current user: 'user'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Available real devices: 
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Constructing iOS simulator for Xcode version 15.2 with udid '3C063355-7F11-423F-A1AE-1D0B483A6864'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Determining device to run tests on: udid: '3C063355-7F11-423F-A1AE-1D0B483A6864', real device: false
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Event 'xcodeDetailsRetrieved' logged at 1794223586374 (14:26:26 GMT+0300 (GMT+03:00))
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Safari test requested
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Event 'appConfigured' logged at 1794223586375 (14:26:26 GMT+0300 (GMT+03:00))
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Event 'resetStarted' logged at 1794223586376 (14:26:26 GMT+0300 (GMT+03:00))
+[38;5;148m[20b3d33e][0m[38;5;176m[simctl][0m Error running 'terminate': An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=3):
+Simulator device returned an error for the requested operation.
+found nothing to terminate
+Underlying error (domain=NSPOSIXErrorDomain, code=3):
+	The request to terminate "com.apple.mobilesafari" failed. found nothing to terminate
+	found nothing to terminate
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Reset: failed to terminate Simulator application with id "com.apple.mobilesafari"
+[38;5;148m[20b3d33e][0m[38;5;176m[simctl][0m Error running 'terminate': An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=3):
+Simulator device returned an error for the requested operation.
+found nothing to terminate
+Underlying error (domain=NSPOSIXErrorDomain, code=3):
+	The request to terminate "com.apple.mobilesafari" failed. found nothing to terminate
+	found nothing to terminate
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Scrubbing Safari data files
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Event 'resetComplete' logged at 1794223594300 (14:26:34 GMT+0300 (GMT+03:00))
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Using WDA path: '/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Using WDA agent: '/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Starting log capture for iOS Simulator with udid '3C063355-7F11-423F-A1AE-1D0B483A6864' via simctl using the following arguments 'log stream --style compact'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Event 'logCaptureStarted' logged at 1794223601100 (14:26:41 GMT+0300 (GMT+03:00))
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Setting up simulator
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Setting preferences of 3C063355-7F11-423F-A1AE-1D0B483A6864 Simulator to {"ConnectHardwareKeyboard":false}
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Setting common Simulator preferences to {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false}
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Updated 3C063355-7F11-423F-A1AE-1D0B483A6864 Simulator preferences at '/Users/user/Library/Preferences/com.apple.iphonesimulator.plist' with {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false,"DevicePreferences":{"3C063355-7F11-423F-A1AE-1D0B483A6864":{"SimulatorExternalDisplay":2114,"ConnectHardwareKeyboard":false,"SimulatorWindowRotationAngle":0,"SimulatorWindowGeometry":{"412BE359-687C-42F4-9ADD-1312645E5063":{"WindowCenter":"{3096.5, 808.5}","WindowScale":1},"D3D4D0E1-3DB0-455A-807B-A91BAC51AA42":{"WindowCenter":"{719.5, 442.5}","WindowScale":0.8875140607424072}},"SimulatorWindowOrientation":"Portrait","ChromeTint":""}}}
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Got Simulator UI client PID: 19927
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Both Simulator with UDID '3C063355-7F11-423F-A1AE-1D0B483A6864' and the UI client are currently running
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Event 'simStarted' logged at 1794223666293 (14:27:46 GMT+0300 (GMT+03:00))
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m No obsolete cached processes from previous WDA sessions listening on port 8100 have been found
+[38;5;148m[20b3d33e][0m[38;5;23m[DevCon Factory][0m Requesting connection for device 3C063355-7F11-423F-A1AE-1D0B483A6864 on local port 8100
+[38;5;148m[20b3d33e][0m[38;5;23m[DevCon Factory][0m Cached connections count: 0
+[38;5;148m[20b3d33e][0m[38;5;23m[DevCon Factory][0m Successfully requested the connection for 3C063355-7F11-423F-A1AE-1D0B483A6864:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Starting WebDriverAgent initialization with the synchronization key 'XCUITestDriver'
+[38;5;148m[20b3d33e][0m[38;5;151m[WD Proxy][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;151m[WD Proxy][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;151m[WD Proxy][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m WDA is not listening at 'http://127.0.0.1:8100/'. Original error:: An unknown server-side error occurred while processing the command. Original error: Could not proxy command to the remote server. Original error: connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m WDA is currently not running. There is nothing to cache
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Trying to start WebDriverAgent 1 times with 10000ms interval
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Event 'wdaStartAttempted' logged at 1794223668033 (14:27:48 GMT+0300 (GMT+03:00))
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Launching WebDriverAgent on the device
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m There is no need to perform the project cleanup. A fresh install has been detected
+[38;5;148m[20b3d33e][0m[38;5;21m[WebDriverAgent][0m Killing running processes 'xcodebuild.*3C063355-7F11-423F-A1AE-1D0B483A6864, 3C063355-7F11-423F-A1AE-1D0B483A6864.*XCTRunner, xctest.*3C063355-7F11-423F-A1AE-1D0B483A6864' for the device 3C063355-7F11-423F-A1AE-1D0B483A6864...
+[38;5;148m[20b3d33e][0m[38;5;21m[WebDriverAgent][0m 'pgrep -if 3C063355-7F11-423F-A1AE-1D0B483A6864.*XCTRunner' didn't detect any matching processes. Return code: 1
+[38;5;148m[20b3d33e][0m[38;5;21m[WebDriverAgent][0m 'pgrep -if xcodebuild.*3C063355-7F11-423F-A1AE-1D0B483A6864' didn't detect any matching processes. Return code: 1
+[38;5;148m[20b3d33e][0m[38;5;21m[WebDriverAgent][0m 'pgrep -if xctest.*3C063355-7F11-423F-A1AE-1D0B483A6864' didn't detect any matching processes. Return code: 1
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Beginning test with command 'xcodebuild build-for-testing test-without-building -project /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner -derivedDataPath /tmp/nfcfit-ios-test/derived -destination id=3C063355-7F11-423F-A1AE-1D0B483A6864 IPHONEOS_DEPLOYMENT_TARGET=17.2 GCC_TREAT_WARNINGS_AS_ERRORS=0 COMPILER_INDEX_STORE_ENABLE=NO' in directory '/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Output from xcodebuild will not be logged. To change this, use 'showXcodeLog' desired capability
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Waiting up to 300000ms for WebDriverAgent to start
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;86m[HTTP][0m [37m<-- POST /session [39m[32m-[39m [90m- ms - -[39m [90m[39m
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Matched '/status' to command name 'getStatus'
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m Proxying [GET /status] to [GET http://127.0.0.1:8100/status] with no body
+[38;5;148m[20b3d33e][0m[38;5;190m[XCUITestDriver@3e1b][0m connect ECONNREFUSED 127.0.0.1:8100
+[38;5;112m[Appium][0m Received SIGTERM - shutting down
+[38;5;219m[AppiumDriver@a4b8][0m There are no active sessions for cleanup
+[38;5;86m[HTTP][0m Closing Appium HTTP server
+[38;5;86m[HTTP][0m Appium HTTP server has been successfully closed after 7ms

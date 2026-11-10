@@ -1,0 +1,2 @@
+/* Utilities are scoped to .nfc-admin. Existing non-Trainer interfaces are unaffected. */
+@tailwind utilities;

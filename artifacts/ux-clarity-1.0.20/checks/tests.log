@@ -1,0 +1,502 @@
+TAP version 13
+# Subtest: lost response and app restart retry the same persisted request
+ok 1 - lost response and app restart retry the same persisted request
+  ---
+  duration_ms: 9.33187
+  ...
+# Subtest: another quantity cannot overwrite an uncertain recording, and accounts are isolated
+ok 2 - another quantity cannot overwrite an uncertain recording, and accounts are isolated
+  ---
+  duration_ms: 1.042403
+  ...
+# Subtest: double taps do not issue parallel recording requests
+ok 3 - double taps do not issue parallel recording requests
+  ---
+  duration_ms: 13.302288
+  ...
+# Subtest: storage failure prevents sending, definitive validation failure clears pending, timeout preserves it
+ok 4 - storage failure prevents sending, definitive validation failure clears pending, timeout preserves it
+  ---
+  duration_ms: 1.021679
+  ...
+# Subtest: goal guidance never exceeds 100 percent and does not invent targets
+ok 5 - goal guidance never exceeds 100 percent and does not invent targets
+  ---
+  duration_ms: 0.264021
+  ...
+# Subtest: weekly chart compares record counts across 14 local days, without mixing quantities
+ok 6 - weekly chart compares record counts across 14 local days, without mixing quantities
+  ---
+  duration_ms: 2.684472
+  ...
+# Subtest: goal celebration is claimed once per account, exercise, unit and day, including after restart
+ok 7 - goal celebration is claimed once per account, exercise, unit and day, including after restart
+  ---
+  duration_ms: 0.532335
+  ...
+# Subtest: coaching offline worker performs zero HTTP requests
+ok 8 - coaching offline worker performs zero HTTP requests
+  ---
+  duration_ms: 618.304646
+  ...
+# Subtest: a lost set acknowledgement replays its stable ID and merges one actual set after restart
+ok 9 - a lost set acknowledgement replays its stable ID and merges one actual set after restart
+  ---
+  duration_ms: 729.750112
+  ...
+# Subtest: separate runtimes acquire one persistent coaching lease before uploading
+ok 10 - separate runtimes acquire one persistent coaching lease before uploading
+  ---
+  duration_ms: 402.21186
+  ...
+# Subtest: workout actuals survive reopening, pending snapshots resist stale pull and accounts stay isolated
+ok 11 - workout actuals survive reopening, pending snapshots resist stale pull and accounts stay isolated
+  ---
+  duration_ms: 409.582897
+  ...
+# Subtest: request retry is idempotent and another request cannot duplicate the same set slot
+ok 12 - request retry is idempotent and another request cannot duplicate the same set slot
+  ---
+  duration_ms: 109.330889
+  ...
+# Subtest: terminal actuals are immutable and partial finish requires explicit confirmation
+ok 13 - terminal actuals are immutable and partial finish requires explicit confirmation
+  ---
+  duration_ms: 106.928233
+  ...
+# Subtest: conflict preserves actuals and dependent jobs, archives before adopting canonical server workout
+ok 14 - conflict preserves actuals and dependent jobs, archives before adopting canonical server workout
+  ---
+  duration_ms: 160.934685
+  ...
+# Subtest: unplanned exercise metadata stays readable locally but only target fields upload
+ok 15 - unplanned exercise metadata stays readable locally but only target fields upload
+  ---
+  duration_ms: 126.622946
+  ...
+# Subtest: wellness and goal are immediate and receipts stay visible when next pull fails
+ok 16 - wellness and goal are immediate and receipts stay visible when next pull fails
+  ---
+  duration_ms: 104.755182
+  ...
+# Subtest: facility workout requires active membership in cached identity
+ok 17 - facility workout requires active membership in cached identity
+  ---
+  duration_ms: 90.589073
+  ...
+# Subtest: offline active duration excludes pauses and preserves occurrence time on replay
+ok 18 - offline active duration excludes pauses and preserves occurrence time on replay
+  ---
+  duration_ms: 113.524051
+  ...
+# Subtest: exercise performance separates movement IDs and missing weight while using actual local date
+ok 19 - exercise performance separates movement IDs and missing weight while using actual local date
+  ---
+  duration_ms: 155.021405
+  ...
+# Subtest: account timezone survives queue restart, stale pull and acknowledgement
+ok 20 - account timezone survives queue restart, stale pull and acknowledgement
+  ---
+  duration_ms: 131.584968
+  ...
+# Subtest: calendar days use account timezone at midnight and daylight-saving boundaries
+ok 21 - calendar days use account timezone at midnight and daylight-saving boundaries
+  ---
+  duration_ms: 3.338987
+  ...
+# Subtest: coach and facility access require staff roles, not membership or platform status
+ok 22 - coach and facility access require staff roles, not membership or platform status
+  ---
+  duration_ms: 10.802957
+  ...
+# Subtest: visual workout progress counts distinct completed target slots, not skipped or extra sets
+ok 23 - visual workout progress counts distinct completed target slots, not skipped or extra sets
+  ---
+  duration_ms: 143.952559
+  ...
+# Subtest: dashboard selects an unfinished future session and does not reuse terminal or rejected active sessions
+ok 24 - dashboard selects an unfinished future session and does not reuse terminal or rejected active sessions
+  ---
+  duration_ms: 96.731689
+  ...
+# Subtest: wellness tiles respect account date, preserve unknown mood, and exclude coffee from water
+ok 25 - wellness tiles respect account date, preserve unknown mood, and exclude coffee from water
+  ---
+  duration_ms: 96.847504
+  ...
+# Subtest: dashboard elapsed time includes only the running segment and tolerates clock rollback
+ok 26 - dashboard elapsed time includes only the running segment and tolerates clock rollback
+  ---
+  duration_ms: 82.278905
+  ...
+# Subtest: set entry fills missing slots and keeps edited skipped values
+ok 27 - set entry fills missing slots and keeps edited skipped values
+  ---
+  duration_ms: 217.817979
+  ...
+# Subtest: weekly schedule preserves missed history and scopes plans to the member
+ok 28 - weekly schedule preserves missed history and scopes plans to the member
+  ---
+  duration_ms: 92.202082
+  ...
+# Subtest: trend uses actual finish date and timezone and excludes rejected entries
+ok 29 - trend uses actual finish date and timezone and excludes rejected entries
+  ---
+  duration_ms: 94.080735
+  ...
+# Subtest: result highlights compare matching exercises to earlier real sets only
+ok 30 - result highlights compare matching exercises to earlier real sets only
+  ---
+  duration_ms: 81.050062
+  ...
+# Subtest: extra movements count as actual activity without changing planned progress or the saved plan
+ok 31 - extra movements count as actual activity without changing planned progress or the saved plan
+  ---
+  duration_ms: 95.290721
+  ...
+# Subtest: long-period trend labels include the actual last date and never extend past today
+ok 32 - long-period trend labels include the actual last date and never extend past today
+  ---
+  duration_ms: 94.012062
+  ...
+# Subtest: member timeline uses actual local date, retains distinct free records and excludes rejected or empty scheduled sessions
+ok 33 - member timeline uses actual local date, retains distinct free records and excludes rejected or empty scheduled sessions
+  ---
+  duration_ms: 14.206598
+  ...
+# Subtest: card matches only today's own scheduled targets and never reopens terminal or rejected sessions
+ok 34 - card matches only today's own scheduled targets and never reopens terminal or rejected sessions
+  ---
+  duration_ms: 0.841612
+  ...
+# Subtest: dashboard and sync-details cache coexist and invalidate together without sharing result shapes
+ok 35 - dashboard and sync-details cache coexist and invalidate together without sharing result shapes
+  ---
+  duration_ms: 50.433266
+  ...
+# Subtest: today keeps partial actual 2/8 above the future plan without changing records
+ok 36 - today keeps partial actual 2/8 above the future plan without changing records
+  ---
+  duration_ms: 1.610087
+  ...
+# Subtest: finished session does not imply achieved target sets or a completed multi-week plan
+ok 37 - finished session does not imply achieved target sets or a completed multi-week plan
+  ---
+  duration_ms: 1.15393
+  ...
+# Subtest: future paused sessions never replace today completed or partial results
+ok 38 - future paused sessions never replace today completed or partial results
+  ---
+  duration_ms: 1.133681
+  ...
+# Subtest: today execution from a previous planned day preserves both dates and actual immutable snapshot
+ok 39 - today execution from a previous planned day preserves both dates and actual immutable snapshot
+  ---
+  duration_ms: 13.18077
+  ...
+# Subtest: tomorrow planned session executed today is today result and is not offered again as upcoming
+ok 40 - tomorrow planned session executed today is today result and is not offered again as upcoming
+  ---
+  duration_ms: 2.166607
+  ...
+# Subtest: yesterday actual result attached to today planned date is not described as executed today
+ok 41 - yesterday actual result attached to today planned date is not described as executed today
+  ---
+  duration_ms: 1.589883
+  ...
+# Subtest: account timezone and midnight control today; finish date remains separate from planned date
+ok 42 - account timezone and midnight control today; finish date remains separate from planned date
+  ---
+  duration_ms: 4.357578
+  ...
+# Subtest: DST repeated hour and account zone differing from device do not move the calendar day
+ok 43 - DST repeated hour and account zone differing from device do not move the calendar day
+  ---
+  duration_ms: 1.748986
+  ...
+# Subtest: missed is past unstarted only; partial, skipped, active and future have distinct states
+ok 44 - missed is past unstarted only; partial, skipped, active and future have distinct states
+  ---
+  duration_ms: 7.588712
+  ...
+# Subtest: multiple results and an older paused session remain visible alongside today result
+ok 45 - multiple results and an older paused session remain visible alongside today result
+  ---
+  duration_ms: 1.155379
+  ...
+# Subtest: session names expand weekdays and infer workout type without mutating historical names
+ok 46 - session names expand weekdays and infer workout type without mutating historical names
+  ---
+  duration_ms: 3.4434
+  ...
+# Subtest: rejected and other athlete sessions do not become today approved results or missed substitutes
+ok 47 - rejected and other athlete sessions do not become today approved results or missed substitutes
+  ---
+  duration_ms: 0.513243
+  ...
+# Subtest: missing finish timestamp never falls back to an invented execution date from planned date
+ok 48 - missing finish timestamp never falls back to an invented execution date from planned date
+  ---
+  duration_ms: 0.468897
+  ...
+# Subtest: a new local day moves prior results to history without converting partial sessions to missed
+ok 49 - a new local day moves prior results to history without converting partial sessions to missed
+  ---
+  duration_ms: 2.827917
+  ...
+# Subtest: achieving every target in one session still keeps future weeks separate from today result
+ok 50 - achieving every target in one session still keeps future weeks separate from today result
+  ---
+  duration_ms: 0.761829
+  ...
+# Subtest: mixed-offset execution timestamps are sorted by time, not timestamp spelling
+ok 51 - mixed-offset execution timestamps are sorted by time, not timestamp spelling
+  ---
+  duration_ms: 0.648832
+  ...
+# Subtest: goal card contexts identify upcoming, actual today and differing planned dates explicitly
+ok 52 - goal card contexts identify upcoming, actual today and differing planned dates explicitly
+  ---
+  duration_ms: 2.445088
+  ...
+# Subtest: Android keyboard viewport caps once using screen geometry instead of adding a second resize
+ok 53 - Android keyboard viewport caps once using screen geometry instead of adding a second resize
+  ---
+  duration_ms: 3.09707
+  ...
+# Subtest: confirmed deletion updates an active list without refetching or changing another club
+ok 54 - confirmed deletion updates an active list without refetching or changing another club
+  ---
+  duration_ms: 7.520591
+  ...
+# Subtest: repeated completion cannot decrement the capacity counter twice
+ok 55 - repeated completion cannot decrement the capacity counter twice
+  ---
+  duration_ms: 5.984448
+  ...
+# Subtest: completion after the cache was cleared does not recreate an old account list
+ok 56 - completion after the cache was cleared does not recreate an old account list
+  ---
+  duration_ms: 0.332855
+  ...
+# Subtest: an older in-flight refresh cannot bring a confirmed deleted card back
+ok 57 - an older in-flight refresh cannot bring a confirmed deleted card back
+  ---
+  duration_ms: 2.737119
+  ...
+# Subtest: confirmed card creation appears immediately without reloading management or identity
+ok 58 - confirmed card creation appears immediately without reloading management or identity
+  ---
+  duration_ms: 21.870781
+  ...
+# Subtest: confirmed exercise edit updates its linked cards without mixing clubs
+ok 59 - confirmed exercise edit updates its linked cards without mixing clubs
+  ---
+  duration_ms: 0.685139
+  ...
+# Subtest: salon exercises appear without personal selections, sorted and deduplicated
+ok 60 - salon exercises appear without personal selections, sorted and deduplicated
+  ---
+  duration_ms: 87.120829
+  ...
+# Subtest: personal IDs, club IDs, and units cannot merge unrelated exercise totals
+ok 61 - personal IDs, club IDs, and units cannot merge unrelated exercise totals
+  ---
+  duration_ms: 0.463026
+  ...
+# Subtest: confirmed save updates only the current member once and preserves older records
+ok 62 - confirmed save updates only the current member once and preserves older records
+  ---
+  duration_ms: 4.858545
+  ...
+# Subtest: old in-flight history response cannot overwrite a newly saved activity
+ok 63 - old in-flight history response cannot overwrite a newly saved activity
+  ---
+  duration_ms: 2.038262
+  ...
+# Subtest: completion after logout does not recreate a cleared member cache
+ok 64 - completion after logout does not recreate a cleared member cache
+  ---
+  duration_ms: 0.345625
+  ...
+# NFC read error: Error: NFC okuma iptal edildi.
+#     at NFCManagerService.readTag (/Users/user/NFCFit/mobile/nfc-task-tracker/lib/nfc-manager.ts:90:23)
+#     at async waitForActual (node:assert:533:5)
+#     at async Function.rejects (node:assert:654:25)
+#     at async TestContext.<anonymous> (/Users/user/NFCFit/mobile/nfc-task-tracker/tests/nfc-link.test.cjs:122:3)
+#     at async Test.run (node:internal/test_runner/test:797:9)
+#     at async Test.processPendingSubtests (node:internal/test_runner/test:526:7)
+# Subtest: writes exactly one HTTPS URI record and reads it back
+ok 65 - writes exactly one HTTPS URI record and reads it back
+  ---
+  duration_ms: 1141.651603
+  ...
+# Subtest: refuses different physical card without writing and releases NFC
+ok 66 - refuses different physical card without writing and releases NFC
+  ---
+  duration_ms: 188.786141
+  ...
+# Subtest: refuses read-only card without writing and releases NFC
+ok 67 - refuses read-only card without writing and releases NFC
+  ---
+  duration_ms: 200.305878
+  ...
+# Subtest: refuses insufficient capacity without writing and releases NFC
+ok 68 - refuses insufficient capacity without writing and releases NFC
+  ---
+  duration_ms: 129.8787
+  ...
+# Subtest: cancellation before write leaves the card unchanged
+ok 69 - cancellation before write leaves the card unchanged
+  ---
+  duration_ms: 113.327173
+  ...
+# Subtest: does not report verification when the reread fails
+ok 70 - does not report verification when the reread fails
+  ---
+  duration_ms: 90.702982
+  ...
+# Subtest: TEXT containing the same URL is not a verified URI record
+ok 71 - TEXT containing the same URL is not a verified URI record
+  ---
+  duration_ms: 67.601003
+  ...
+# Subtest: separate verification reads the existing URI without writing
+ok 72 - separate verification reads the existing URI without writing
+  ---
+  duration_ms: 80.573279
+  ...
+# Subtest: rejects invalid IDs and nonphysical UIDs before requesting NFC
+ok 73 - rejects invalid IDs and nonphysical UIDs before requesting NFC
+  ---
+  duration_ms: 76.204567
+  ...
+# Subtest: Android reads NDEF or blank NFC-A in one session without the one-second cleanup delay
+ok 74 - Android reads NDEF or blank NFC-A in one session without the one-second cleanup delay
+  ---
+  duration_ms: 105.191462
+  ...
+# Subtest: aborted read does not start a new NFC session
+ok 75 - aborted read does not start a new NFC session
+  ---
+  duration_ms: 139.830904
+  ...
+# Subtest: a switched account cannot upload or download the previous member offline data
+ok 76 - a switched account cannot upload or download the previous member offline data
+  ---
+  duration_ms: 440.915791
+  ...
+# Subtest: legacy profile IDs map to their authenticated owner without changing the API bearer identity
+ok 77 - legacy profile IDs map to their authenticated owner without changing the API bearer identity
+  ---
+  duration_ms: 188.907027
+  ...
+# Subtest: a previously authenticated member boots from local profile without a network dependency
+ok 78 - a previously authenticated member boots from local profile without a network dependency
+  ---
+  duration_ms: 2.959933
+  ...
+# Subtest: explicit logout prevents restoring the previous profile even if cached data remains
+ok 79 - explicit logout prevents restoring the previous profile even if cached data remains
+  ---
+  duration_ms: 0.241422
+  ...
+# Subtest: logout during a slow local read cannot resurrect the session, and mismatched profiles are rejected
+ok 80 - logout during a slow local read cannot resurrect the session, and mismatched profiles are rejected
+  ---
+  duration_ms: 0.938506
+  ...
+# Subtest: pending membership downloads cards but cannot record; active confirmation survives restart
+ok 81 - pending membership downloads cards but cannot record; active confirmation survives restart
+  ---
+  duration_ms: 130.085584
+  ...
+# Subtest: local goal and activity immediately update remaining quantity, reports, and timeline without network
+ok 82 - local goal and activity immediately update remaining quantity, reports, and timeline without network
+  ---
+  duration_ms: 89.349276
+  ...
+# Subtest: a lost acknowledgement merges by request ID and never duplicates local totals
+ok 83 - a lost acknowledgement merges by request ID and never duplicates local totals
+  ---
+  duration_ms: 107.454862
+  ...
+# Subtest: catalog deltas and tombstones disable future reads without erasing history
+ok 84 - catalog deltas and tombstones disable future reads without erasing history
+  ---
+  duration_ms: 81.846206
+  ...
+# Subtest: revocation and changed exercise prevent recording; server rejection is retained and excluded from progress
+ok 85 - revocation and changed exercise prevent recording; server rejection is retained and excluded from progress
+  ---
+  duration_ms: 116.623057
+  ...
+# Subtest: malformed catalog application rolls back atomically and does not advance history cursor
+ok 86 - malformed catalog application rolls back atomically and does not advance history cursor
+  ---
+  duration_ms: 135.675724
+  ...
+# Subtest: history pagination checkpoints survive restart and retain complete local history over 100 rows
+ok 87 - history pagination checkpoints survive restart and retain complete local history over 100 rows
+  ---
+  duration_ms: 142.581723
+  ...
+# Subtest: editing a goal while its old acknowledgement arrives preserves the newer local value and updates the retry base
+ok 88 - editing a goal while its old acknowledgement arrives preserves the newer local value and updates the retry base
+  ---
+  duration_ms: 64.525369
+  ...
+# Subtest: a rejected goal remains visible in the outbox and editing it explicitly uses the current cloud target
+ok 89 - a rejected goal remains visible in the outbox and editing it explicitly uses the current cloud target
+  ---
+  duration_ms: 66.758163
+  ...
+# Subtest: two runtimes cannot hold the same account sync lease, and a stale owner cannot release the new owner
+ok 90 - two runtimes cannot hold the same account sync lease, and a stale owner cannot release the new owner
+  ---
+  duration_ms: 60.756117
+  ...
+# Subtest: a deleted UID can be registered again under a new card ID without reviving the old definition
+ok 91 - a deleted UID can be registered again under a new card ID without reviving the old definition
+  ---
+  duration_ms: 62.111699
+  ...
+# Subtest: a unit changed during confirmation cannot reinterpret the entered quantity
+ok 92 - a unit changed during confirmation cannot reinterpret the entered quantity
+  ---
+  duration_ms: 58.716981
+  ...
+# Subtest: offline sync makes no network requests and leaves queued exercise and goals usable
+ok 93 - offline sync makes no network requests and leaves queued exercise and goals usable
+  ---
+  duration_ms: 129.085827
+  ...
+# Subtest: a response lost after server commit is recovered on the next pull without another upload
+ok 94 - a response lost after server commit is recovered on the next pull without another upload
+  ---
+  duration_ms: 237.625202
+  ...
+# Subtest: foreground and background workers share a database lease and cannot start two pulls for one account
+ok 95 - foreground and background workers share a database lease and cannot start two pulls for one account
+  ---
+  duration_ms: 147.243891
+  ...
+# Subtest: starter schedules cross months/leap days, reference real exercises and use independent target IDs
+ok 96 - starter schedules cross months/leap days, reference real exercises and use independent target IDs
+  ---
+  duration_ms: 4.60826
+  ...
+# Subtest: invalid preset or date cannot generate a partial schedule
+ok 97 - invalid preset or date cannot generate a partial schedule
+  ---
+  duration_ms: 0.44711
+  ...
+1..97
+# tests 97
+# suites 0
+# pass 97
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9324.084249

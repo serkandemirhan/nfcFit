@@ -1,0 +1,14 @@
+{
+  "Kurulum": "Geçti — Samsung SM-S901B, Android 16, 1.0.20 / versionCode 21; metrics/installed-package.txt",
+  "Bugünün gerçek sonucu": "Geçti — 8 Kasım kısmi 2/8; 15 Kasım ayrı gelecek kartı. 001-today-result.png",
+  "Açıklayıcı seans adı": "Geçti — Pazar · Tüm Vücut; eski kaydın hedefleri değişmeden gösteriliyor. 001, 007",
+  "Tarihli hedefler": "Geçti — 8 Kasım 2/8 gerçek sonuç, 15 Kasım 0/8 gelecek hedef; günlük hedefler Bugün · 8 Kasım. 007, 008",
+  "İlerleme durumları": "Geçti — 0 tamamlanan · 1 kısmi · 0 kaçırılan; bitirilen seans ve program tamamlama ayrımı açık. 009",
+  "Plan oluşturucu ve işlevler": "Geçti — tek başlık, daraltılan alanlar; açılan ayarlarda amaç, başlangıç, hafta ve seviye erişilebilir. 002, 004",
+  "Klavye ve kaydet düğmesi": "Geçti — düğme klavyenin hemen üzerinde; eski büyük boşluk yok. PNG 003 görsel olarak incelendi. Klavye açıkken XML bazı ekran dışı düğümlerde güvenilir değil; PNG esas alındı.",
+  "Eşitleme ekranında kapanma": "Geçti — Bugün önbelleği doldurulduktan sonra 005 ve 006 ekranları açıldı; ardından hedef ve ilerleme ekranları aynı oturumda çalıştı. Önceki undefined length kapanması oluşmadı.",
+  "Taze sunucu eşitlemesi": "Doğrulanamadı — ekranda Aborted istek iptali mesajı ve Bekleyen kayıt yok görüldü. İstek iptalinin nedeni bu turda belirlenmedi; başarı olarak işaretlenmedi.",
+  "Kayıtların korunması": "Gözlenen veriler korundu — kısmi seans 2/8, 4:01 aktif süre, günlük şınav 30/50. Bu turda yeni aktivite veya plan kaydedilmedi.",
+  "Ek cihaz denemeleri": "009 görüntüsünden sonra USB aygıtı kayboldu. Ek haftalık gezinme ve taze ağ eşitlemesi tekrarları tamamlanamadı; daha önce 1.0.19 temel seans gezinmesi ayrıca denenmişti.",
+  "Fiziksel olmayan sınır senaryoları": "Gece yarısı, DST, tamamlanan/kaçırılan ve farklı planlanan/yapılan gün senaryoları regresyon testleriyle doğrulandı; telefon saatine veya mevcut kayıtlara müdahale edilmedi."
+}

@@ -1,0 +1,102 @@
+{
+  "url": "https://nfc-fit.vercel.app",
+  "checks": [
+    {
+      "path": "/",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 804,
+      "status": "PASS"
+    },
+    {
+      "path": "/console",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 327,
+      "status": "PASS"
+    },
+    {
+      "path": "/tag/00000000-0000-0000-0000-000000000000",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 336,
+      "status": "PASS"
+    },
+    {
+      "path": "/.well-known/assetlinks.json",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 426,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/users",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 469,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/locations",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 310,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/tasks",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 500,
+      "elapsed_ms": 442,
+      "status": "FAIL"
+    },
+    {
+      "path": "/api/cards",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 453,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/layouts",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 320,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/users/00000000-0000-0000-0000-000000000000/password",
+      "method": "POST",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 304,
+      "status": "PASS"
+    },
+    {
+      "path": "/assets/index-CkmPghUH.js",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 455,
+      "status": "PASS"
+    }
+  ],
+  "deployed_assets": [
+    {
+      "path": "/assets/index-CkmPghUH.js",
+      "sha256": "285e2afefa0fed234a99f6a9dab79044be813d0c4eeb3cec4273ae9fc5e52353",
+      "matches_prebuilt_asset": true,
+      "bytes": 420680
+    }
+  ],
+  "limits": "Actual public HTTP and prebuilt-asset verification; does not prove signed-in role interactions or responsive rendering."
+}

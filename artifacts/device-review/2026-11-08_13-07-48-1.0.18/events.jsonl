@@ -1,0 +1,6 @@
+{"at": "2026-11-08T13:19:42.902609+03:00", "event": "cold-launch", "adb_wall_seconds": 0.628, "native_result": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 529\nWaitTime: 533\nComplete\n"}
+{"at": "2026-11-08T13:19:46.291790+03:00", "event": "capture", "name": "001-return-today", "observer_seconds": 3.284}
+{"at": "2026-11-08T13:20:11.064024+03:00", "event": "capture", "name": "002-sync-details", "observer_seconds": 3.064}
+{"at": "2026-11-08T13:20:20.097604+03:00", "event": "capture", "name": "003-builder", "observer_seconds": 3.056}
+{"at": "2026-11-08T13:20:24.113460+03:00", "event": "tap", "x": 300, "y": 775, "dispatch_seconds": 0.198, "label": "Plan-adi"}
+{"at": "2026-11-08T13:20:27.268063+03:00", "event": "capture", "name": "004-builder-keyboard", "observer_seconds": 3.066}

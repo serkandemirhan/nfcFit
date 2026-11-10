@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-08",
+  "version": "1.0.14",
+  "member_navigation": [
+    "Bugün",
+    "Programım",
+    "Kart okut",
+    "İlerleme",
+    "Profil"
+  ],
+  "automated_checks": {
+    "mobile": 75,
+    "backend_api_media": 29,
+    "postgres_rls": 1,
+    "mobile_typescript": "passed",
+    "mobile_targeted_lint": "passed",
+    "web_targeted_typescript": "passed",
+    "web_build": "passed"
+  },
+  "coverage": {
+    "new_members": "Isolated database with controlled test identities; no live-account creation or assignment.",
+    "coach_flow": "Template -> new start date -> two independent member copies -> one member revision -> contextual comment, request replay and access isolation.",
+    "live_browser": "Unavailable: in-app Browser has no available backend.",
+    "physical_phone": "Samsung baseline on 1.0.13 only; USB disconnected before new review.",
+    "new_emulator_screens": "Unavailable: emulator did not complete system boot. Preview fixtures removed; no preview artifact is a deliverable APK.",
+    "nfc": "Deferred at user request; manual test kit has 12 cases, all initially untested.",
+    "deployment": "Web and API published to the existing test environment. API health 200, start_date schema verified, unauthenticated dashboard 401. Published web entry/coaching bytes match the local build; Android assetlinks certificate matches the APK. Authenticated browser journey remains unverified."
+  },
+  "performance": {
+    "physical_baseline_version": "1.0.13",
+    "native_cold_first_display_ms": 535,
+    "total_pss_kib": 189357,
+    "total_rss_kib": 288289,
+    "limitations": "Native first display is not full data readiness. UIAutomator capture latency is observer overhead. Zero-frame gfx percentiles are invalid and excluded. No 1.0.14 physical performance claim."
+  },
+  "android_release": {
+    "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.14.apk",
+    "bytes": 100777258,
+    "sha256": "26e68ab74df1315d65cc94b685cfeaf2ff35883ebcf188a52a8a2af3ef225325",
+    "source_files_verified": 109,
+    "version": "1.0.14",
+    "versionCode": 15
+  },
+  "deployment_checks": {
+    "production": "https://nfc-fit.vercel.app/console",
+    "entry": "/assets/index-A8he0fIv.js",
+    "coaching_chunk": "CoachingConsole-B-_3nsCA.js",
+    "bytes_match": true,
+    "assetlinks_certificate_match": true,
+    "api": "https://nfcfit-tenant-api.vercel.app",
+    "api_health": 200,
+    "api_new_start_date_schema": true,
+    "api_protected_dashboard": 401
+  }
+}

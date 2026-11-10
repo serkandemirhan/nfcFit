@@ -7,7 +7,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     res.setHeader('Allow', 'POST');
     return err(res, 405, 'Method not allowed');
   }
-  const supabase = getSupabase();
+  const supabase = await getSupabase(req, res);
+  if (!supabase) return;
   const { id } = req.query as { id: string };
   const body = await readJson(req);
   let tempPassword: string | null = null;

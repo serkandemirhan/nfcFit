@@ -1,0 +1,7 @@
+web/TrainerPlanning.tsx 1634ms
+web/TrainerPlanningUI.tsx 423ms
+web/CoachingConsole.tsx 985ms
+web/lib/trainer-planning.ts 89ms
+web/trainer-planning.css 1057ms
+web/tests/trainer-planning.browser.cjs 266ms
+web/tests/trainer-planning.test.cjs 19ms

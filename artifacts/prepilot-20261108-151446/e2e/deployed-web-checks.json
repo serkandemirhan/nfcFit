@@ -1,0 +1,131 @@
+{
+  "url": "https://nfc-fit.vercel.app",
+  "deployment": "https://nfc-f70y0wjzg-serkan-demirhans-projects.vercel.app",
+  "checks": [
+    {
+      "path": "/",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 562,
+      "status": "PASS"
+    },
+    {
+      "path": "/console",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 302,
+      "status": "PASS"
+    },
+    {
+      "path": "/tag/00000000-0000-0000-0000-000000000000",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 292,
+      "status": "PASS"
+    },
+    {
+      "path": "/.well-known/assetlinks.json",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 422,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/users",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 457,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/locations",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 479,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/tasks",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 320,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/cards",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 302,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/layouts",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 300,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/users/00000000-0000-0000-0000-000000000000",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 485,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/tasks/00000000-0000-0000-0000-000000000000",
+      "method": "GET",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 301,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/users/00000000-0000-0000-0000-000000000000/password",
+      "method": "POST",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 297,
+      "status": "PASS"
+    },
+    {
+      "path": "/api/tasks/00000000-0000-0000-0000-000000000000/complete",
+      "method": "POST",
+      "expected": 401,
+      "http_status": 401,
+      "elapsed_ms": 318,
+      "status": "PASS"
+    },
+    {
+      "path": "/assets/index-CkmPghUH.js",
+      "method": "GET",
+      "expected": 200,
+      "http_status": 200,
+      "elapsed_ms": 396,
+      "status": "PASS"
+    },
+    {
+      "name": "assetlinks includes matching Android signing certificate",
+      "status": "PASS"
+    }
+  ],
+  "deployed_assets": [
+    {
+      "path": "/assets/index-CkmPghUH.js",
+      "sha256": "285e2afefa0fed234a99f6a9dab79044be813d0c4eeb3cec4273ae9fc5e52353",
+      "matches_prebuilt_asset": true,
+      "bytes": 420680
+    }
+  ],
+  "limits": "Actual public HTTP, certificate declaration and prebuilt-asset verification only; signed-in UI or OS link routing not inferred."
+}

@@ -1,0 +1,25 @@
+{
+  "value" : {
+    "build" : {
+      "upgradedAt" : "1794217118422",
+      "version" : "8.12.0",
+      "time" : "Nov  9 2026 12:55:51",
+      "productBundleIdentifier" : "com.facebook.WebDriverAgentRunner"
+    },
+    "os" : {
+      "testmanagerdVersion" : 65535,
+      "name" : "iOS",
+      "sdkVersion" : "17.0",
+      "version" : "17.2"
+    },
+    "device" : "iphone",
+    "ios" : {
+      "simulatorVersion" : "17.2",
+      "ip" : "192.168.1.105"
+    },
+    "message" : "WebDriverAgent is ready to accept commands",
+    "state" : "success",
+    "ready" : true
+  },
+  "sessionId" : "ADF25B57-5CA8-47D5-A422-C4ACB1937FD8"
+}

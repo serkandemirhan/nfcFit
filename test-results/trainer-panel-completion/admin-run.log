@@ -1,0 +1,7 @@
+PASS Collapsible shadcn sidebar retains accessible labels and tooltip
+PASS Members table searches real assigned members and sorts by name
+PASS Catalog search, Turkish normalization, filters, pagination, details, Escape/focus return and direct exercise handoff
+PASS Canceling navigation preserves unsaved workout; accepting returns to Programs
+PASS 390/375/412 responsive sheet, full-screen details, navigation closure and reduced viewport search; no page overflow
+PASS Ordinary-member authorization, other-club template access and unassigned-member access rejected (member 403, unknown club 404, unassigned member 403)
+PASS No uncaught JavaScript errors

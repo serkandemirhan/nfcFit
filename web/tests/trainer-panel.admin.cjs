@@ -1,0 +1,42 @@
+const { launch, login, api, raw } = require('./trainer-browser-fixture.cjs');
+const fs = require('fs'), path = require('path'), assert = require('assert/strict');
+const out = path.resolve(__dirname,'../../test-results/trainer-panel-completion'), shots = path.join(out,'admin'); fs.mkdirSync(shots,{recursive:true});
+const results=[]; let e;
+const pass=(name,details='')=>{results.push({name,status:'PASS',details}); console.log('PASS',name);};
+(async()=>{
+ e=await launch(); const p=e.page; p.setDefaultTimeout(30000); const b=name=>p.getByRole('button',{name,exact:true});
+ const nav=async name=>{if(!await b(name).isVisible())await b('Menüyü aç').click();await b(name).click();};
+ const shot=async name=>p.screenshot({path:path.join(shots,name+'.png')});
+ await login(p,'trainer@planning.test'); await p.locator('.nfc-page-header').waitFor();
+ await b('Menüyü daralt').click(); assert.equal(await p.locator('[data-slot=sidebar]').getAttribute('data-state'),'collapsed');
+ await b('Egzersiz kütüphanesi').hover(); await p.getByRole('tooltip').waitFor(); await shot('01-collapsed-sidebar'); await b('Menüyü genişlet').click();
+ pass('Collapsible shadcn sidebar retains accessible labels and tooltip');
+ await nav('Üyelerim'); await p.getByRole('table',{name:'Üye listesi'}).waitFor();
+ await p.getByLabel('Sporcu ara',{exact:true}).fill('Ada'); assert.equal(await p.locator('tbody tr').count(),1); assert((await p.locator('tbody').innerText()).includes('Ada Yılmaz'));
+ await p.getByLabel('Sporcu ara',{exact:true}).fill(''); await p.getByRole('columnheader').getByRole('button',{name:/Üye/}).click(); await shot('02-members-table');
+ pass('Members table searches real assigned members and sorts by name');
+ await nav('Egzersiz kütüphanesi'); await p.getByRole('table',{name:'Egzersiz listesi'}).waitFor();
+ const catalog=await api('trainer@planning.test','/coaching/library'); assert(catalog.length>10); await b('Sonraki sayfa').click(); assert((await p.locator('.nfc-table-footer').innerText()).includes('Sayfa 2')); await b('Önceki sayfa').click();
+ await p.getByLabel('Egzersiz ara',{exact:true}).fill('sinav'); assert((await p.locator('tbody').innerText()).includes('Şınav'));
+ await b('Temizle').click(); await p.getByLabel('Kas grubu',{exact:true}).selectOption(catalog[0].muscle);
+ const expected=catalog.filter(c=>c.muscle===catalog[0].muscle); assert((await p.locator('.nfc-table-footer').innerText()).includes(expected.length+' kayıt'));
+ await b('Temizle').click(); await p.getByLabel('Egzersiz ara',{exact:true}).fill('Bench press'); await shot('03-exercise-search'); await b('Bench press detayları').click(); await p.getByRole('dialog').waitFor(); await shot('04-exercise-instructions');
+ await p.keyboard.press('Escape'); assert.equal(await p.getByRole('dialog').count(),0); assert(await b('Bench press detayları').evaluate(n=>n===document.activeElement));
+ await b('Bench press detayları').click(); await b('Antrenmanda kullan').click(); await p.locator('.tp-target.selected').waitFor(); assert.equal(await p.getByLabel('Set',{exact:true}).inputValue(),'3'); assert((await p.locator('.tp-target.selected').innerText()).includes('Bench press')); assert(await p.getByLabel('Set',{exact:true}).evaluate(n=>n===document.activeElement)); await shot('05-catalog-to-focused-workout');
+ pass('Catalog search, Turkish normalization, filters, pagination, details, Escape/focus return and direct exercise handoff');
+ p.removeAllListeners('dialog'); p.once('dialog',d=>d.dismiss()); await nav('Programlar'); assert.equal(await p.locator('.tp-target.selected').count(),1);
+ p.once('dialog',d=>d.accept()); await nav('Programlar'); await p.locator('.tp-program-card').first().waitFor(); pass('Canceling navigation preserves unsaved workout; accepting returns to Programs');
+ for(const [width,height] of [[390,844],[375,667],[412,915]]) {
+  await p.setViewportSize({width,height}); await nav('Egzersiz kütüphanesi'); await p.getByLabel('Egzersiz ara',{exact:true}).fill('Bench press'); await b('Bench press detayları').click(); await p.getByRole('dialog').waitFor(); await shot(`${width}x${height}-exercise-detail`); assert.equal(await p.getByRole('dialog').evaluate(n=>Math.round(n.getBoundingClientRect().width)),width); await b('Detayları kapat').click();
+  await b('Menüyü aç').click(); await p.getByRole('dialog',{name:'Antrenör menüsü'}).waitFor(); await shot(`${width}x${height}-navigation`); await b('İlerleme').click(); await p.getByRole('dialog').waitFor({state:'hidden'}); assert((await p.locator('.nfc-page-breadcrumb').innerText()).includes('İlerleme'));
+  assert(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await p.setViewportSize({width,height:450}); await nav('Egzersiz kütüphanesi'); await p.getByLabel('Egzersiz ara',{exact:true}).fill('Lat'); await shot(`${width}-reduced-viewport-search`); assert(await p.getByLabel('Egzersiz ara',{exact:true}).isVisible()); await p.setViewportSize({width,height});
+ }
+ pass('390/375/412 responsive sheet, full-screen details, navigation closure and reduced viewport search; no page overflow');
+ assert.equal((await raw('member@planning.test','/coaching/dashboard')).status,403);
+ assert.equal((await raw('trainer@planning.test','/coaching/workout-templates?tenant_id=another-club')).status,404);
+ const outsider=await api('outsider@planning.test','/coaching/overview'); assert.equal((await raw('trainer@planning.test','/coaching/overview?athlete_id='+outsider.account_id)).status,403);
+ pass('Ordinary-member authorization, other-club template access and unassigned-member access rejected (member 403, unknown club 404, unassigned member 403)');
+ assert.equal(e.errors.length,0);pass('No uncaught JavaScript errors');
+ fs.writeFileSync(path.join(out,'admin-results.json'),JSON.stringify({results,errors:e.errors,requests:e.failures},null,2)); await e.browser.close();
+})().catch(async error=>{console.error(error);results.push({name:error.message,status:'FAIL'});fs.writeFileSync(path.join(out,'admin-results.json'),JSON.stringify({results,errors:e?.errors},null,2));if(e){await e.page.screenshot({path:path.join(out,'diagnostics/admin-failure.png')}).catch(()=>{});await e.browser.close();}process.exitCode=1;});

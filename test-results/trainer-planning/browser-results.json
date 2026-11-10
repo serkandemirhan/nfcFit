@@ -1,0 +1,196 @@
+{
+  "results": [
+    {
+      "name": "Trainer login UI with test auth provider and real trainer authorization",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Member denied trainer dashboard",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Create program and configure duration",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Unsaved-change navigation guard retains draft when dismissed",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Publish empty program validation",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Configure weighted and bodyweight targets without required weight",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Accessible exercise reorder",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Failed request preserves workout edits and allows retry",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Save reusable workout template",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Duplicate entire training day",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Copy complete week",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Edit second week independently",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Rest day distinguished from unconfigured day",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Reuse saved workout template and move session between days",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Persist draft",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Incomplete publication lists empty weeks, requires acknowledgement and returns to selected week without publishing",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Publish valid program",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Member schedule preview",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Program library search",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Assign published program to authorized member",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Overlap blocked without explicit acknowledgement",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Member receives correct dated assignment through real API",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Record completed workout and an extra set through existing member commands",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Trainer progress shows recorded planned, completed and extra sets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Selected member view hides other member cards and opens that member's future plan directly",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Future plan modification preserves completed workout snapshot and actuals",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Member program and Today render persisted schedule in UI",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Responsive workflows 1440×900",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Responsive workflows 1280×800",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Responsive workflows 1024×768",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Mobile publication review and on-demand settings/templates remain accessible",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Reduced-height viewport keeps focused numeric input and both save actions visible",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Responsive workflows 390×844",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Responsive workflows 375×667",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Responsive workflows 412×915",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Fully configured training/rest schedule publishes without an unnecessary gap warning",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS",
+      "details": ""
+    }
+  ],
+  "consoleErrors": [],
+  "networkFailures": [
+    {
+      "status": 503,
+      "url": "http://127.0.0.1:3000/api/console/coaching/workout-templates"
+    }
+  ]
+}

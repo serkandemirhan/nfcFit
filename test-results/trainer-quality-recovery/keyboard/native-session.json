@@ -1,0 +1,27 @@
+{
+  "value": {
+    "capabilities": {
+      "webStorageEnabled": false,
+      "locationContextEnabled": false,
+      "browserName": "",
+      "platform": "MAC",
+      "javascriptEnabled": true,
+      "databaseEnabled": false,
+      "takesScreenshot": true,
+      "networkConnectionEnabled": false,
+      "platformName": "iOS",
+      "automationName": "XCUITest",
+      "bundleId": "com.apple.mobilesafari",
+      "udid": "3C063355-7F11-423F-A1AE-1D0B483A6864",
+      "deviceName": "iPhone SE (3rd generation)",
+      "platformVersion": "17.2",
+      "webDriverAgentUrl": "http://127.0.0.1:8100",
+      "noReset": true,
+      "autoWebview": false,
+      "connectHardwareKeyboard": false,
+      "forceSimulatorSoftwareKeyboardPresence": true,
+      "newCommandTimeout": 600
+    },
+    "sessionId": "97b957a2-7554-48da-9e5e-6f1539ef29d7"
+  }
+}

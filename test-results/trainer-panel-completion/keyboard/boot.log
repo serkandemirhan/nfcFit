@@ -1,0 +1,7 @@
+Monitoring boot status for iPhone SE (3rd generation) (3C063355-7F11-423F-A1AE-1D0B483A6864).
+[2026-11-09 15:03:52 +0000] Status=1, isTerminal=NO, Elapsed=00:04.
+	Waiting on BackBoard
+
+[2026-11-09 15:04:03 +0000] Status=3, isTerminal=YES, Elapsed=00:15.
+	Data Migration Failed
+

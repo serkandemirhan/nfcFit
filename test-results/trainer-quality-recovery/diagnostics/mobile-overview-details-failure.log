@@ -1,0 +1,49 @@
+PASS Optional program filters clear independently from search
+SHOT 01-selected-week-preview-desktop
+PASS Preview expands selected week, reveals other weeks and never publishes/mutates
+PASS Collapsing optional desktop summary expands dominant editor
+SHOT 02-safe-removal
+PASS Reordering reports position; cancellation and undo preserve exercise ID/targets
+SHOT 03-incomplete-validation-1440x900
+SHOT 04-incomplete-validation-375x667
+PASS Incomplete review has visible reserved footer and exact mobile day links; rest is intentional
+locator.fill: Timeout 20000ms exceeded.
+Call log:
+[2m  - waiting for getByLabel('Program adı', { exact: true })[22m
+[2m    - locator resolved to <input id="_r_6_" maxlength="160" placeholder="Örn. Güç temelleri" value="Kuvvet ve Denge · Ada · Kopya"/>[22m
+[2m    - fill("Mobil Düzenleme · 103623")[22m
+[2m  - attempting fill action[22m
+[2m    2 × waiting for element to be visible, enabled and editable[22m
+[2m      - element is not visible[22m
+[2m    - retrying fill action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and editable[22m
+[2m      - element is not visible[22m
+[2m    - retrying fill action[22m
+[2m      - waiting 100ms[22m
+[2m    40 × waiting for element to be visible, enabled and editable[22m
+[2m       - element is not visible[22m
+[2m     - retrying fill action[22m
+[2m       - waiting 500ms[22m
+
+    at /Users/user/NFCFit/web/tests/trainer-quality.refinements.cjs:16:442 {
+  log: [
+    "  - waiting for getByLabel('Program adı', { exact: true })",
+    '    - locator resolved to <input id="_r_6_" maxlength="160" placeholder="Örn. Güç temelleri" value="Kuvvet ve Denge · Ada · Kopya"/>',
+    '    - fill("Mobil Düzenleme · 103623")',
+    '  - attempting fill action',
+    '    2 × waiting for element to be visible, enabled and editable',
+    '      - element is not visible',
+    '    - retrying fill action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and editable',
+    '      - element is not visible',
+    '    - retrying fill action',
+    '      - waiting 100ms',
+    '    40 × waiting for element to be visible, enabled and editable',
+    '       - element is not visible',
+    '     - retrying fill action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}

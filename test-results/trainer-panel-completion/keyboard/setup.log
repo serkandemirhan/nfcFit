@@ -1,0 +1,11 @@
+TypeError: fetch failed
+    at node:internal/deps/undici/undici:13510:13
+    at async /private/tmp/nfcfit-ios-test/start-panel-native.cjs:2:27 {
+  [cause]: HeadersTimeoutError: Headers Timeout Error
+      at FastTimer.onParserTimeout [as _onTimeout] (node:internal/deps/undici/undici:6249:32)
+      at Timeout.onTick [as _onTimeout] (node:internal/deps/undici/undici:2210:17)
+      at listOnTimeout (node:internal/timers:588:17)
+      at process.processTimers (node:internal/timers:523:7) {
+    code: 'UND_ERR_HEADERS_TIMEOUT'
+  }
+}

@@ -1,0 +1,15 @@
+PASS Optional program filters clear independently from search
+SHOT 01-selected-week-preview-desktop
+PASS Preview expands selected week, reveals other weeks and never publishes/mutates
+PASS Collapsing optional desktop summary expands dominant editor
+SHOT 02-safe-removal
+PASS Reordering reports position; cancellation and undo preserve exercise ID/targets
+SHOT 03-incomplete-validation-1440x900
+SHOT 04-incomplete-validation-375x667
+PASS Incomplete review has visible reserved footer and exact mobile day links; rest is intentional
+SHOT 05-mobile-selected-day
+SHOT 06-mobile-search-filters
+SHOT 07-mobile-reduced-viewport-target
+PASS 375px focused mobile views/search/numeric edits persist after reload without horizontal overflow or reduced-viewport input obstruction
+PASS Source template remains unchanged by copied-program mobile edits
+PASS No uncaught JavaScript errors during refinement cases

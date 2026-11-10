@@ -1,0 +1,9 @@
+web/TrainerPlanning.tsx 4304ms
+web/TrainerPlanningUI.tsx 307ms (unchanged)
+web/CoachingConsole.tsx 1258ms (unchanged)
+web/lib/trainer-planning.ts 25ms
+web/trainer-planning.css 1287ms (unchanged)
+web/tests/trainer-planning.test.cjs 139ms
+web/tests/trainer-planning.browser.cjs 360ms (unchanged)
+web/tests/trainer-browser-fixture.cjs 30ms
+web/tests/trainer-precision.browser.cjs 842ms

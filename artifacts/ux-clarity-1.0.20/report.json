@@ -1,0 +1,90 @@
+{
+  "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.20.apk",
+  "bytes": 100811826,
+  "sha256": "f3c5341db02348840d3d876eb62e05dd7798de9a57f17ae5b9fe8878713ca109",
+  "source_files_verified": 117,
+  "version": "1.0.20",
+  "versionCode": 21,
+  "tests": {
+    "passed": 97,
+    "failed": 0,
+    "new_session_regressions": 18,
+    "typescript": "passed",
+    "lint": "passed",
+    "scenario_names": [
+      "account timezone survives queue restart, stale pull and acknowledgement",
+      "calendar days use account timezone at midnight and daylight-saving boundaries",
+      "dashboard and sync-details cache coexist and invalidate together without sharing result shapes",
+      "today keeps partial actual 2/8 above the future plan without changing records",
+      "finished session does not imply achieved target sets or a completed multi-week plan",
+      "future paused sessions never replace today completed or partial results",
+      "today execution from a previous planned day preserves both dates and actual immutable snapshot",
+      "tomorrow planned session executed today is today result and is not offered again as upcoming",
+      "yesterday actual result attached to today planned date is not described as executed today",
+      "account timezone and midnight control today; finish date remains separate from planned date",
+      "DST repeated hour and account zone differing from device do not move the calendar day",
+      "missed is past unstarted only; partial, skipped, active and future have distinct states",
+      "multiple results and an older paused session remain visible alongside today result",
+      "session names expand weekdays and infer workout type without mutating historical names",
+      "rejected and other athlete sessions do not become today approved results or missed substitutes",
+      "missing finish timestamp never falls back to an invented execution date from planned date",
+      "a new local day moves prior results to history without converting partial sessions to missed",
+      "achieving every target in one session still keeps future weeks separate from today result",
+      "mixed-offset execution timestamps are sorted by time, not timestamp spelling",
+      "goal card contexts identify upcoming, actual today and differing planned dates explicitly",
+      "Android keyboard viewport caps once using screen geometry instead of adding a second resize"
+    ]
+  },
+  "physical_acceptance": {
+    "Kurulum": "Geçti — Samsung SM-S901B, Android 16, 1.0.20 / versionCode 21; metrics/installed-package.txt",
+    "Bugünün gerçek sonucu": "Geçti — 8 Kasım kısmi 2/8; 15 Kasım ayrı gelecek kartı. 001-today-result.png",
+    "Açıklayıcı seans adı": "Geçti — Pazar · Tüm Vücut; eski kaydın hedefleri değişmeden gösteriliyor. 001, 007",
+    "Tarihli hedefler": "Geçti — 8 Kasım 2/8 gerçek sonuç, 15 Kasım 0/8 gelecek hedef; günlük hedefler Bugün · 8 Kasım. 007, 008",
+    "İlerleme durumları": "Geçti — 0 tamamlanan · 1 kısmi · 0 kaçırılan; bitirilen seans ve program tamamlama ayrımı açık. 009",
+    "Plan oluşturucu ve işlevler": "Geçti — tek başlık, daraltılan alanlar; açılan ayarlarda amaç, başlangıç, hafta ve seviye erişilebilir. 002, 004",
+    "Klavye ve kaydet düğmesi": "Geçti — düğme klavyenin hemen üzerinde; eski büyük boşluk yok. PNG 003 görsel olarak incelendi. Klavye açıkken XML bazı ekran dışı düğümlerde güvenilir değil; PNG esas alındı.",
+    "Eşitleme ekranında kapanma": "Geçti — Bugün önbelleği doldurulduktan sonra 005 ve 006 ekranları açıldı; ardından hedef ve ilerleme ekranları aynı oturumda çalıştı. Önceki undefined length kapanması oluşmadı.",
+    "Taze sunucu eşitlemesi": "Doğrulanamadı — ekranda Aborted istek iptali mesajı ve Bekleyen kayıt yok görüldü. İstek iptalinin nedeni bu turda belirlenmedi; başarı olarak işaretlenmedi.",
+    "Kayıtların korunması": "Gözlenen veriler korundu — kısmi seans 2/8, 4:01 aktif süre, günlük şınav 30/50. Bu turda yeni aktivite veya plan kaydedilmedi.",
+    "Ek cihaz denemeleri": "009 görüntüsünden sonra USB aygıtı kayboldu. Ek haftalık gezinme ve taze ağ eşitlemesi tekrarları tamamlanamadı; daha önce 1.0.19 temel seans gezinmesi ayrıca denenmişti.",
+    "Fiziksel olmayan sınır senaryoları": "Gece yarısı, DST, tamamlanan/kaçırılan ve farklı planlanan/yapılan gün senaryoları regresyon testleriyle doğrulandı; telefon saatine veya mevcut kayıtlara müdahale edilmedi."
+  },
+  "device_artifacts": "/Users/user/NFCFit/artifacts/device-review/2026-11-08_13-47-54-1.0.20",
+  "changes": [
+    [
+      "Bugünün sonucu",
+      "Bugün yapılan veya bugün planlanan seans önceliklidir. Kısmi ve tamamlanan sonuçlar gelecek planla değiştirilmez. Birden fazla bugünkü sonuç saklanır; önceki günden açık seans ayrıca gösterilir."
+    ],
+    [
+      "Planlanan ve yapılan tarih",
+      "Gerçek kayıt/bitiş anları kullanıcının saat diliminde güne çevrilir. Planlanan takvim tarihi ayrı tutulur. Geçmişe planlanıp bugün yapılan veya geleceğe planlanıp erken yapılan seanslarda iki tarih birlikte görünür. Bilinmeyen tarih plan tarihiyle doldurulmaz."
+    ],
+    [
+      "Seans adı",
+      "Paz gibi kısa adlar görünümde Pazar · Tüm Vücut gibi açıklayıcı hale gelir. Özel seans adları korunur. Eski kayıtların ve plan sürümlerinin adı veya hedefleri veritabanında değiştirilmez."
+    ],
+    [
+      "Hedef bağlamı",
+      "Her seans hedefinde bugünkü sonuç / bugün planlanan / sıradaki antrenman bağlamı ve tarih vardır. Günlük kart/egzersiz hedefleri kendi yerel günlük bağlamıyla ayrı gösterilir. Program hedef seti ve günlük tekrar/süre miktarı toplanmaz."
+    ],
+    [
+      "İlerleme",
+      "Tamamlanan, kısmi ve kaçırılan seans sayıları seçilen dönemde ayrı gösterilir. Kaçırılan yalnızca plan tarihi geçmiş ve başlamamış seanstır. Gelecek, devam eden, atlanan ve kısmi seanslar kaçırılan sayılmaz. Bir seansı bitirmek, bütün programı veya tüm hedef setleri başarmak değildir."
+    ],
+    [
+      "Ekran yoğunluğu",
+      "Plan oluşturucudaki tekrar başlık kaldırıldı. Amaç/takvim/seviye ve gün ekleme seçenekleri açılır; işlevler korunur. Alan ve kart aralıkları daraltıldı. Hedef düzenleme satır içine taşındı. Android klavye alanı ölçülerek görünüm yüksekliği bir kez sınırlanır; zaten küçülmüş alandan klavye yüksekliği tekrar çıkarılmaz."
+    ],
+    [
+      "Güvenli kayıt",
+      "Kayıt modeli, çevrimdışı kuyruk, istek kimlikleri, plan geçmişi ve kısmi tamamlanma akışı korunur. Seans görünümü salt okunur hesaplanır. Eşitleme ekranı ve Bugün ekranı farklı veri tiplerini ayrı önbellek anahtarlarıyla tutar."
+    ]
+  ],
+  "limitations": [
+    "No physical NFC read/write in this scope",
+    "No physical iOS validation",
+    "Fresh server sync was not verified: Aborted request message was observed; USB later disconnected",
+    "Unit scenarios include synthetic completed/missed/cross-midnight data; phone screenshots use actual existing test-account records",
+    "Native first-display and frame timing are not full server/data-readiness measurements"
+  ]
+}

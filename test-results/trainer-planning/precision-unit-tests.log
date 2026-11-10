@@ -1,0 +1,74 @@
+
+> nfc-task-tracker@0.0.0 test:trainer-planning
+> node --test tests/trainer-planning.test.cjs
+
+TAP version 13
+# Subtest: editing a recurring legacy date detaches that week and preserves old targets
+ok 1 - editing a recurring legacy date detaches that week and preserves old targets
+  ---
+  duration_ms: 25.88829
+  type: 'test'
+  ...
+# Subtest: week copying replaces destination, shifts leap dates and creates independent IDs
+ok 2 - week copying replaces destination, shifts leap dates and creates independent IDs
+  ---
+  duration_ms: 36.074945
+  type: 'test'
+  ...
+# Subtest: copying a later week backwards drops destination rest markers without mutating source
+ok 3 - copying a later week backwards drops destination rest markers without mutating source
+  ---
+  duration_ms: 0.4102
+  type: 'test'
+  ...
+# Subtest: publication review lists empty weeks and counts distinct unconfigured dates
+ok 4 - publication review lists empty weeks and counts distinct unconfigured dates
+  ---
+  duration_ms: 0.978355
+  type: 'test'
+  ...
+# Subtest: a deliberately configured recovery week is not mistaken for an empty week
+ok 5 - a deliberately configured recovery week is not mistaken for an empty week
+  ---
+  duration_ms: 12.12507
+  type: 'test'
+  ...
+# Subtest: assignment impact respects interval boundaries and excludes draft/archive plans
+ok 6 - assignment impact respects interval boundaries and excludes draft/archive plans
+  ---
+  duration_ms: 2.651738
+  type: 'test'
+  ...
+# Subtest: recorded progress distinguishes 4/4 without mutating history
+ok 7 - recorded progress distinguishes 4/4 without mutating history
+  ---
+  duration_ms: 15.380099
+  type: 'test'
+  ...
+# Subtest: recorded progress distinguishes 5/4 without mutating history
+ok 8 - recorded progress distinguishes 5/4 without mutating history
+  ---
+  duration_ms: 17.494059
+  type: 'test'
+  ...
+# Subtest: member-added exercises have no invented prescription
+ok 9 - member-added exercises have no invented prescription
+  ---
+  duration_ms: 0.526546
+  type: 'test'
+  ...
+# Subtest: exercise search accepts Turkish accents and dotless i without changing library identity
+ok 10 - exercise search accepts Turkish accents and dotless i without changing library identity
+  ---
+  duration_ms: 24.586744
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2607.144831

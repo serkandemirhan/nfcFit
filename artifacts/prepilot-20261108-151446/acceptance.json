@@ -1,0 +1,1506 @@
+{
+  "generated_at": "2026-11-08T16:03:14.873682+03:00",
+  "product": "NFCFit B2B pre-pilot",
+  "overall_status": "BLOCKED",
+  "readiness": "Pilot onayı verilmedi: gerçek rol ve yeni Android fiziksel akışları doğrulanamadı.",
+  "automated_passes": 174,
+  "release": {
+    "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.21.apk",
+    "bytes": 100841202,
+    "sha256": "b0bd27a02a4bb39bb48097e762eb92f5f52df3fc8839075dcd82abda8f506b7f",
+    "source_files_verified": 121,
+    "version": "1.0.21",
+    "versionCode": 22
+  },
+  "checks": [
+    {
+      "name": "Mobil regresyonlar",
+      "status": "PASS",
+      "count": 107,
+      "evidence": "checks/mobile-tests.log",
+      "scope": "Kalıcı test SQLite verileri; ağ/oturum sınırları simüle edilir. Gerçek telefon kabulü değildir."
+    },
+    {
+      "name": "Backend API ve iş kuralları",
+      "status": "PASS",
+      "count": 58,
+      "evidence": "checks/backend-tests.log",
+      "scope": "Gerçek SQLite kalıcılığı; kimlik sağlayıcı test düzeneğinde değiştirilir. 4 PostgreSQL vakası burada atlanır, ayrı çalışır."
+    },
+    {
+      "name": "PostgreSQL RLS / göç / son yönetici",
+      "status": "PASS",
+      "count": 4,
+      "evidence": "checks/rls.log",
+      "scope": "Ayrı, gerçek PostgreSQL kümesinde doğrudan rol/politika ve eşzamanlılık testleri."
+    },
+    {
+      "name": "Web oturum ve derlenmiş Node ESM",
+      "status": "PASS",
+      "count": 5,
+      "evidence": "checks/web-tests.log",
+      "scope": "4 yetkilendirme testi ve gerçek Node ESM yükleyicisinde derlenmiş görev servislerinin açılması; gerçek kullanıcı oturum testi değildir."
+    },
+    {
+      "name": "Mobil ve web TypeScript",
+      "status": "PASS",
+      "evidence": "checks/typescript.log",
+      "scope": "Her iki projede npx tsc --noEmit; hata yok."
+    },
+    {
+      "name": "Hedefli ESLint",
+      "status": "PASS",
+      "evidence": "checks/final-eslint.log",
+      "scope": "Değiştirilen kritik dosyalar; önceki geniş kontrol checks/eslint.log."
+    },
+    {
+      "name": "Android release ve paket doğrulaması",
+      "status": "PASS",
+      "evidence": "checks/android-release.json",
+      "scope": "1.0.21 / 22; APK içindeki 121 proje kaynağı disk ile eşleşiyor; imza ve SQLite dört ABI kontrol edildi."
+    },
+    {
+      "name": "Web üretim derlemesi",
+      "status": "PASS",
+      "evidence": "checks/web-vercel-build.log",
+      "scope": "Vercel prebuilt üretim derlemesi; gerçek dağıtım HTTP kontrolü ayrıca raporlanır."
+    },
+    {
+      "name": "Üretim rol göçü",
+      "status": "PASS",
+      "evidence": "e2e/production-role-migration.json",
+      "scope": "Özel yedek ve işlem öncesi/sonrası parmak izi: 24 mevcut console tablosu değişmedi. Yeni koruma ve tablolar eklendi; roller yeniden yazılmadı."
+    },
+    {
+      "name": "Yeni APK fiziksel kabulü",
+      "status": "BLOCKED",
+      "evidence": "checks/device-connection.txt",
+      "scope": "Telefon başlangıçta görüldü, sonra USB ve ADB’den kayboldu. Yeni APK kurulmadı."
+    },
+    {
+      "name": "Giriş yapılmış web kabulü",
+      "status": "BLOCKED",
+      "evidence": "checks/browser-connection.json",
+      "scope": "Browser runtime bağlı tarayıcı döndürmedi. Gerçek Admin/Manager/Trainer/Platform oturumları test edilmedi."
+    },
+    {
+      "name": "NFC fiziksel okutma/yazma",
+      "status": "BLOCKED",
+      "scope": "Bağlı telefon ve eş zamanlı gerçek kart testi yok; yeni fiziksel okutma iddiası yok."
+    },
+    {
+      "name": "Gerçek ödeme / otomatik davet e-postası",
+      "status": "BLOCKED",
+      "scope": "Ödeme sağlayıcısı ve otomatik davet e-posta teslimi yapılandırılmamış. UI ödeme/teslim başarısı uydurmaz; ilişki oluşturma ve platform incelemeli abonelik talebi mevcut."
+    }
+  ],
+  "implemented_fixes": [
+    {
+      "area": "HTTP zaman aşımı ve Aborted",
+      "finding": "Oturum hazırlığı sırasında HTTP süresi dolabiliyordu; ham Aborted kullanıcıya gösterilebiliyordu.",
+      "correction": "Süre sayacı gerçek HTTP aşamasına taşındı; iptal, ağ ve zaman aşımı ayrıldı. Mutasyonun sonucunun belirsiz olduğu açıklanır; otomatik kör tekrar yok.",
+      "sources": "lib/console-transport.ts; lib/tenant-console.ts; app/coaching-sync.tsx"
+    },
+    {
+      "area": "Yerel kayıt hız yolu",
+      "finding": "Her yerel set/kart kaydı kimlik isteğini de tetikleyebiliyordu.",
+      "correction": "Yerel olaylar yerel sorguları yeniler; başarılı uzak çekim doğrulanmış kimliği uygular. Çıkış/hesap değişiminden sonra eski kimlik uygulanmaz.",
+      "sources": "lib/offline-refresh.ts; providers/offline-sync-provider.tsx"
+    },
+    {
+      "area": "Sunucu sorgu sayısı",
+      "finding": "Plan sayısıyla artan yetki/sürüm sorguları.",
+      "correction": "Yetkili kulüpler ve plan sürümleri toplu sorgulanır. 1 plan ile 40 plan arasında sorgu büyümesi için regresyon var; veri geçmişi kısaltılmadı.",
+      "sources": "backend/coaching.py; backend/tests/test_club_roles.py"
+    },
+    {
+      "area": "Plan oluşturma ve atama",
+      "finding": "İlk personel kulübü sessizce seçilebiliyor, üye için hazırlanan plan yanlış ekrana dönebiliyordu.",
+      "correction": "Kulüp bağlamı açık seçilir; Manager şablon hazırlayamaz. Atanmış üyeden doğrudan oluştur/ata, sabit istek kimlikleri ve üye detayına dönüş.",
+      "sources": "app/plan-builder.tsx; app/athlete.tsx; lib/plan-draft.ts"
+    },
+    {
+      "area": "Plan formu yoğunluğu ve doğrulama",
+      "finding": "Uzun hedef formları; geçersiz takvim günleri, hedefler ve ondalık giriş sorunları.",
+      "correction": "Daraltılabilir egzersiz hedefleri, haftalık önizleme, ondalık metin taslağı; tarih, dönem, set, tekrar, kg, süre ve dinlenme doğrulaması; silme onayı.",
+      "sources": "app/plan-builder.tsx; web/CoachingConsole.tsx"
+    },
+    {
+      "area": "Üyelik ve B2B giriş",
+      "finding": "Aktif kulübü olmayan hesap plan düğmesinden yetki hatasına gidiyordu; web kökü eski görev UI’sini açıyordu.",
+      "correction": "Üyelik/onay yönlendirmesi; web / ve /console kulüp panelini açar. Eski görev UI’si yalnız geliştirmede /legacy; eski kayıtlar korunur.",
+      "sources": "app/(drawer)/plans.tsx; app/plan-setup.tsx; web/index.tsx"
+    },
+    {
+      "area": "NFC ve bilinmeyen kart",
+      "finding": "Tanımsız kulüp kartı kişisel karta dönüşebiliyor; NFC olmayan cihazda manuel form açılmıyordu.",
+      "correction": "Kulüp kataloğundan UID çözümü; bilinmeyen kart için yöneticiye yönlendirme. Yalnız hesabın zaten sahip olduğu eski kişisel karta uyum; otomatik kişisel kart yok.",
+      "sources": "app/(drawer)/nfc.tsx; lib/tag-link.ts"
+    },
+    {
+      "area": "Ekran durumları",
+      "finding": "Yükleme/hata sırasında boş hesap veya bekleyen kayıt yok mesajları görülebiliyordu.",
+      "correction": "Bugün/hedef/ilerleme/mesajlarda ortak yükleme-hata-tekrar durumu; iki eşitleme ekranı ve antrenör raporlarında yanlış boş durum düzeltildi.",
+      "sources": "components/coaching-ui.tsx; app/sync-status.tsx; app/coach-reports.tsx"
+    },
+    {
+      "area": "İlerleme, profil ve wellness",
+      "finding": "Uzun durum açıklamaları, belirsiz üyelik, korumasız kayıt geri bildirimi.",
+      "correction": "Kompakt grafik ve açılır açıklama; kulüp bazlı üyelik ve etkin rol; onaylı çıkış; wellness kaydında bekleme, başarı ve hata.",
+      "sources": "app/progress.tsx; app/(drawer)/settings.tsx; app/(drawer)/wellness.tsx"
+    },
+    {
+      "area": "Yönetim işlem sonrası tutarlılık",
+      "finding": "Üye/personel işlemi ardından sayı ve listelerin görünmesi için tüm panel yenileniyordu.",
+      "correction": "Sunucu onayından sonra ilgili satır ve aktif/bekleyen/askıda sayıları hemen güncellenir. Kulüp ayarı hedefli yenilenir; formlar klavyeye uyarlanır.",
+      "sources": "lib/management-cache.ts; components/management-form-sheet.tsx"
+    },
+    {
+      "area": "Web aktivite tekrar güvenliği",
+      "finding": "Belirsiz ağ yanıtı veya yeniden açılış yeni POST kimliği yaratabiliyordu.",
+      "correction": "Mevcut ortak aktivite iş akışıyla hesap bazlı kalıcı bekleyen niyet ve aynı request ID; çift tıklama engeli; farklı kart önceki belirsiz kaydı ezmez.",
+      "sources": "web/TenantConsole.tsx; lib/activity-workflow.ts"
+    },
+    {
+      "area": "Web eski API yetkisi",
+      "finding": "Origin kontrolüyle geniş service-role veri istemcisine ulaşılabiliyordu.",
+      "correction": "Doğrulanmış bearer oturumu; public anahtar ve çağıran JWT ile RLS. Tüm 9 korumalı handler yetkisiz istekte veri/şifre işleminden önce durur.",
+      "sources": "web/api/_supabase.ts; web/tests/legacy-api-auth.test.cjs"
+    },
+    {
+      "area": "Canlı Node ESM hatası",
+      "finding": "Canlı /api/tasks 500 döndü; log ERR_MODULE_NOT_FOUND /web/types gösterdi.",
+      "correction": "Sunucu dosyalarının göreli importlarına .js eklendi; CommonJS test yükleyicisinin kaçırdığı hata için derlenmiş dosyalar gerçek ESM yükleyicisinde test edilir.",
+      "sources": "web/api/tasks/index.ts; web/api/tasks/[id]/complete.ts; web/lib/status.ts"
+    }
+  ],
+  "screen_review": [
+    {
+      "screen": "Bugün",
+      "source": "app/(drawer)/index.tsx",
+      "finding_and_change": "Gerçek bugünkü/yarım antrenman önceliği korunur; gelecek seans ayrı. Üyelik ve sorgu durumu eklendi.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Programım",
+      "source": "app/(drawer)/plans.tsx",
+      "finding_and_change": "Haftalık program, açıklayıcı seans/tarih bağlamı ve üyelik yönlendirmesi.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Program başlangıcı",
+      "source": "app/plan-setup.tsx",
+      "finding_and_change": "Aktif kulüp koşulu açıklanır; hazır plan ve kişisel hazırlama mevcut üyelik içinde.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Plan oluşturucu",
+      "source": "app/plan-builder.tsx",
+      "finding_and_change": "Açık kulüp/üye bağlamı, hedef doğrulaması, daraltılabilir alanlar, haftalık önizleme, onaylı çıkarma.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Aktif antrenman",
+      "source": "app/workout/[id].tsx",
+      "finding_and_change": "Mevcut set/gerçek değer, duraklat/devam, kısmi bitirme, plan snapshot ve offline kuyruk korunur.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Egzersiz kütüphanesi",
+      "source": "app/(drawer)/exercise-library.tsx",
+      "finding_and_change": "Arama/filtre/detay mevcut; seçim formunda klavye, custom doğrulama ve medya hata durumu düzeltildi.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "İlerleme",
+      "source": "app/progress.tsx",
+      "finding_and_change": "Kompakt grafik, durum sayıları, açılır tamam/yarım/kaçan açıklaması; eski APK’da gerçek görüntü mevcut.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Hedefler",
+      "source": "app/goals.tsx",
+      "finding_and_change": "Günlük miktar ile program hedefi ayrı; yükleme/hata/tekrar durumu.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Salon hedefleri",
+      "source": "app/(drawer)/fitness.tsx",
+      "finding_and_change": "Yerel hedef ve gerçekleşen aktivite; birim/tarih bağlamı korunur.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Eski kişisel hedefler",
+      "source": "app/(drawer)/personal-goals.tsx",
+      "finding_and_change": "Uyumluluk görünümü; yeni bağımsız sporcu rolü oluşturulmadı.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Wellness",
+      "source": "app/(drawer)/wellness.tsx",
+      "finding_and_change": "Kontrollü kayıt, bekleme/yerel onay/hata ve erişilebilir ekle kontrolü.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Profil",
+      "source": "app/(drawer)/settings.tsx",
+      "finding_and_change": "Kulüp bazlı üyelik durumu, etkin roller, onaylı çıkış ve yerel veriyi koruma.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "NFC tarama",
+      "source": "app/(drawer)/nfc.tsx",
+      "finding_and_change": "Üye katalog çözümü, tanımsız kartı kişisel karta çevirmeme; manuel UID yolu.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Kart bağlantısı",
+      "source": "app/tag/[id].tsx",
+      "finding_and_change": "HTTPS deep-link ve izinli üye egzersiz akışı mevcut; gerçek OS yönlendirme kabulü bekliyor.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Aktivite geçmişi",
+      "source": "app/(drawer)/history.tsx",
+      "finding_and_change": "Gerçek aktivite ve zaman korunur; plan hedefiyle karıştırılmaz.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Antrenman eşitleme",
+      "source": "app/coaching-sync.tsx",
+      "finding_and_change": "Ayrı jobs cache key, okunur hatalar, Türkçe işlem etiketleri, yükleme/boş ayrımı.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Kart/aktivite eşitleme",
+      "source": "app/sync-status.tsx",
+      "finding_and_change": "Yerel pending/rejected kayıtları korunur; hata sırasında boş liste başarısı gösterilmez.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Mesajlar",
+      "source": "app/messages.tsx",
+      "finding_and_change": "Atanmış antrenör/üye bağlamı, ortak yükleme-hata durumları.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Antrenör ana ekran",
+      "source": "app/coach.tsx",
+      "finding_and_change": "StaffArea kontrolü; kulüp bazlı şablon oluşturma ve atanmış üye listesi.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Üye antrenör detayı",
+      "source": "app/athlete.tsx",
+      "finding_and_change": "Atanmış üyeye yeni plan hazırla; aynı üyeye atama/dönüş.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Antrenör raporları",
+      "source": "app/coach-reports.tsx",
+      "finding_and_change": "Yetki kapsamı; sunucu hatasında atanmış üye yok mesajı önlendi.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Plan sürümleri",
+      "source": "app/plan-versions.tsx",
+      "finding_and_change": "Eski/yeniyi karşılaştırma, üye değişikliğini inceleme ve tarihsel antrenmanı koruma.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Ekipman yönetimi",
+      "source": "app/equipment-manager.tsx",
+      "finding_and_change": "Kulüp operasyon yetkisi; Manager ve Admin, Trainer/Member yazamaz.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Club Admin paneli",
+      "source": "app/(drawer)/management.tsx",
+      "finding_and_change": "Operasyon + faturalama/abonelik/Manager/ayar/denetim; onay sonrası hedefli liste/sayı güncelleme.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Club Manager paneli",
+      "source": "app/(drawer)/management.tsx",
+      "finding_and_change": "Günlük üye/Trainer/kart/katalog/ekipman; üst rol/abonelik/ayar ekranları yok.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Web kulüp paneli",
+      "source": "web/TenantConsole.tsx",
+      "finding_and_change": "B2B giriş, rol bazlı operasyonlar; doğrulanmış istek sonucu, çift işlem koruması.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Web antrenör paneli",
+      "source": "web/CoachingConsole.tsx",
+      "finding_and_change": "Aynı hedef/tarih doğrulaması ve HTTP transport; plan, atama, revizyon mevcut.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Web kart fallback",
+      "source": "web/TagLanding.tsx",
+      "finding_and_change": "Uygulama bağlantısı ve web yolu mevcut; kurulu/kurulu değil fiziksel Android kabulü bekliyor.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Platform yönetimi",
+      "source": "web/TenantConsole.tsx",
+      "finding_and_change": "SaaS kulüp/abonelik çalışma alanı; kulüplerde örtük Admin yetkisi yok.",
+      "source_review": "PASS",
+      "visual_acceptance": "BLOCKED",
+      "reason": "Yeni build/rol oturumu erişilemiyor; yalnız ilerleme ve sync için eski sürüm baseline görüntüsü var."
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/cards.tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/card/[id].tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/create-task.tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/layouts.tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/layout/[id].tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/users.tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/tags.tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/new-tag.tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    },
+    {
+      "screen": "Korunan eski/yardımcı rota",
+      "source": "app/(drawer)/nfc-test.tsx",
+      "finding_and_change": "Ana B2B akışının dışındaki mevcut uyumluluk/test yüzeyi korunur. Yeni görsel kabul tamamlandı iddiası yok.",
+      "source_review": "UNTESTED",
+      "visual_acceptance": "UNTESTED"
+    }
+  ],
+  "all_native_routes": [
+    "app/(drawer)/_layout.tsx",
+    "app/(drawer)/card/[id].tsx",
+    "app/(drawer)/cards.tsx",
+    "app/(drawer)/create-task.tsx",
+    "app/(drawer)/exercise-library.tsx",
+    "app/(drawer)/fitness.tsx",
+    "app/(drawer)/history.tsx",
+    "app/(drawer)/index.tsx",
+    "app/(drawer)/layout/[id].tsx",
+    "app/(drawer)/layouts.tsx",
+    "app/(drawer)/management.tsx",
+    "app/(drawer)/new-tag.tsx",
+    "app/(drawer)/nfc-test.tsx",
+    "app/(drawer)/nfc.tsx",
+    "app/(drawer)/personal-goals.tsx",
+    "app/(drawer)/plans.tsx",
+    "app/(drawer)/settings.tsx",
+    "app/(drawer)/tags.tsx",
+    "app/(drawer)/users.tsx",
+    "app/(drawer)/wellness.tsx",
+    "app/_layout.tsx",
+    "app/athlete.tsx",
+    "app/athletes.tsx",
+    "app/coach-reports.tsx",
+    "app/coach.tsx",
+    "app/coaching-sync.tsx",
+    "app/equipment-manager.tsx",
+    "app/goals.tsx",
+    "app/messages.tsx",
+    "app/modal.tsx",
+    "app/plan-builder.tsx",
+    "app/plan-setup.tsx",
+    "app/plan-versions.tsx",
+    "app/progress.tsx",
+    "app/record-activity.tsx",
+    "app/sync-status.tsx",
+    "app/tag/[id].tsx",
+    "app/workout/[id].tsx"
+  ],
+  "real_e2e": [
+    {
+      "id": "A",
+      "scenario": "Platform kulüp açar; Admin erişir",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "B",
+      "scenario": "Admin Manager oluşturur; Manager doğru yetkiyle giriş yapar",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "C",
+      "scenario": "Manager Trainer oluşturur; Trainer giriş yapar",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "D",
+      "scenario": "Üye ekleme/onay ve kulüp erişimi",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "E",
+      "scenario": "Manager kart kaydeder ve egzersize bağlar",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "F",
+      "scenario": "Member fiziksel kart okutur ve aktivite kaydeder",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok. Fiziksel telefon/kart gerekiyor.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "G",
+      "scenario": "Trainer plan oluşturur/atar; Member görür",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "H",
+      "scenario": "Member birkaç set yapar ve kısmi bitirir",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok. Fiziksel telefon/kart gerekiyor.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "I",
+      "scenario": "Trainer gerçek sonucu görür ve geri bildirim verir",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "J",
+      "scenario": "Revizyon üyeye gelir; geçmiş sonuç değişmez",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "K",
+      "scenario": "Admin abonelik kullanır; Manager reddedilir",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    },
+    {
+      "id": "L",
+      "scenario": "İki kulüp tüm veri ve rollerinde izole kalır",
+      "status": "BLOCKED",
+      "reason": "Gerçek doğrulanmış rol oturumları yok.",
+      "automated_contract": "PASS",
+      "automated_note": "İlgili yetki/kalıcılık/plan/kuyruk regresyonları geçti; bu gerçek A–L oturum kabulünün yerine geçmez."
+    }
+  ],
+  "blockers": [
+    {
+      "status": "BLOCKED",
+      "item": "1.0.21 kurulumu, cold restart, Samsung alt navigasyon ve klavye kabulü",
+      "next": "R5CTB21F4LH cihazı ADB’de sürekli görünmeli; adb install -r ile veri silmeden güncelle. Mevcut 2/8 kısmi antrenman ve kuyruğu tekrar kontrol et."
+    },
+    {
+      "status": "BLOCKED",
+      "item": "Admin, Manager, Trainer, Member ve Platform gerçek oturum testleri",
+      "next": "Codex Browser’a bağlı panel ve doğrulanmış test hesaplarıyla A–L senaryolarını yürüt; ilgili ekranları aynı sürümde görüntüle. Şifre/token çıkarma veya parola sıfırlama yapılmadı."
+    },
+    {
+      "status": "BLOCKED",
+      "item": "Gerçek offline kayıt → restart → yeniden bağlanma → tek sunucu kaydı",
+      "next": "Yeni APK’da gerçek oturumla ölç; aynı request ID ile receipt ve özgün occurred_at kanıtını topla."
+    },
+    {
+      "status": "BLOCKED",
+      "item": "Kart UID, tanımsız kart, NDEF yazma ve Android App Link açılışı",
+      "next": "Kayıtlı/tanımsız kartlar ile fiziksel NFC; web fallback ve varsayılan uygulama yönlendirmesini doğrula."
+    },
+    {
+      "status": "BLOCKED",
+      "item": "Responsive web, klavye, dokunma ve ekran okuyucu kabulü",
+      "next": "Oturum açılmış gerçek browser ve telefonda görsel/etkileşim testi."
+    },
+    {
+      "status": "BLOCKED",
+      "item": "Ödeme ve otomatik davet e-postası",
+      "next": "Sağlayıcı/teslim entegrasyonu olmadan başarılı ödeme veya e-posta teslimi iddia edilmez. Mevcut platform incelemeli talepler ve ilişki oluşturma kullanılabilir."
+    }
+  ],
+  "source_sha256": [
+    {
+      "path": "backend/club_roles.py",
+      "sha256": "eeb64b09d2be42eef9b3036406a71d6caa5892894533f0a7d75bdaf51b5d816a"
+    },
+    {
+      "path": "backend/index.py",
+      "sha256": "ddb912f4373b2ba6fdd7d975bde55d1a7096e573d40f20ae0e92700c89cba8ca"
+    },
+    {
+      "path": "backend/tenant_console.py",
+      "sha256": "0fafcfe00b51791db1e0a49c37fcf00e0ce3a989421c3976e68e61d83757a081"
+    },
+    {
+      "path": "backend/coaching.py",
+      "sha256": "d3fe639d1fc85123055385ef9471c98714a4c3fdb94db0da3d9047ddd458d39b"
+    },
+    {
+      "path": "backend/app.py",
+      "sha256": "3cce19a622645d1301dace15443c8d76daaa6970683db54cfacc98c15a000e5b"
+    },
+    {
+      "path": "backend/exercise_media.py",
+      "sha256": "4387a8738addf0bbebe9455e3b9d17451c9cc74cb97862af6d07481ef91f754e"
+    },
+    {
+      "path": "backend/migrations/20261107_offline_sync.sql",
+      "sha256": "ff5851cadf02bf2e114d27a55eb68527e8f8f47b54e338d9640ff66dc855bb25"
+    },
+    {
+      "path": "backend/migrations/20261107_coaching_foundation.sql",
+      "sha256": "e89b84f0dd7b2c502e6deaa6b6f8f1cacbe080807196df26d251e95a2849eb2d"
+    },
+    {
+      "path": "backend/migrations/20261107_optional_tag_exercise.sql",
+      "sha256": "5bef9bcf12fa2ee0c346d104eaef98afade2e1a58ea566a4ab738d9b3f5adc02"
+    },
+    {
+      "path": "backend/migrations/20261107_account_timezone.sql",
+      "sha256": "074563b4340083ac209650b26de2218a1e70890a392184ae5a568313c150f597"
+    },
+    {
+      "path": "backend/migrations/20261108_club_roles.sql",
+      "sha256": "20016b6f6466f2600840cd5f998e7397e99485251702b01aa21f478537e526bc"
+    },
+    {
+      "path": "backend/migrations/20261107_activity_requests.sql",
+      "sha256": "0f0cb38e85b78a96ad876ed7ee8a7e67a5536057a22191a7d9821de0cd684b60"
+    },
+    {
+      "path": "backend/migrations/20261107_member_exercise_goals.sql",
+      "sha256": "e9f3b400ec20fcd00c422705d553031039d1e1209003d3d55692530875e76d6d"
+    },
+    {
+      "path": "backend/tests/test_exercise_media.py",
+      "sha256": "047dc52b577d7f150164b1062e1ecc344e4b38271db387827c5935818ec7bca7"
+    },
+    {
+      "path": "backend/tests/test_tenant_console.py",
+      "sha256": "07946412d80759a70eb4f23dd0d739730fb6596bf2eef5e9a6fccbd8ebe2fe9b"
+    },
+    {
+      "path": "backend/tests/test_coaching.py",
+      "sha256": "c4b2d3a63eecacbd3f75c2757bd578938f873c0bcd043da72f7269186eeb3254"
+    },
+    {
+      "path": "backend/tests/test_club_roles.py",
+      "sha256": "af3de4bbf3ac3a80688693fbd632bdb8a73dd90eaea3c9e5e8b5f6fdcf437ee6"
+    },
+    {
+      "path": "backend/tests/test_coaching_rls.py",
+      "sha256": "4f4d161a172d28a75fc1fdb5974749da3364eec18b10cb094fa8bcf7b0b1cc75"
+    },
+    {
+      "path": "backend/scripts/check_club_roles.py",
+      "sha256": "4e12f377bd6f911d0000c9c1a13f62fc5c453dd8f7969b4c9a554d3b58a24302"
+    },
+    {
+      "path": "backend/scripts/test_rls.py",
+      "sha256": "9f449bfd0e00938669a20c466f211503b4a11dde0e02f07ad62849ce3224ef61"
+    },
+    {
+      "path": "backend/scripts/import_exercise_media.py",
+      "sha256": "ff072e3aa169c10471067eaa1a518ef321ac7f66948ae469adffcac01dc94202"
+    },
+    {
+      "path": "web/index.tsx",
+      "sha256": "2acce12ae0c5eb52b3bd5c69e695c365f23658382fb7c65e36882350fbf56642"
+    },
+    {
+      "path": "web/App.tsx",
+      "sha256": "f9660708fd3be0ecda516a2245e0b0c3a7b71f3b86c636a372597fbd19e28f92"
+    },
+    {
+      "path": "web/supabaseClient.ts",
+      "sha256": "060abed44b7d77d5e5d802a0e15d866f5faf72fdbf48f386bb4d2183a468b81d"
+    },
+    {
+      "path": "web/CoachingConsole.tsx",
+      "sha256": "e96e2c4a38ab2a2cf548a9a5a313d710ecddf0815a5e02f99c64a96db7ef590b"
+    },
+    {
+      "path": "web/old_App.tsx",
+      "sha256": "5afac432e051238e6e0ba29ed7c987f5b631e3dcec41b7df483737700aba5d02"
+    },
+    {
+      "path": "web/TenantConsole.tsx",
+      "sha256": "47df5ba8f73698ec9e74f7fd897813e19fd726c0aa96f95b7bc57dac94de7b71"
+    },
+    {
+      "path": "web/club-roles.ts",
+      "sha256": "67f831b3f2d66b4d757966d816168226f1b2043104c7acfae6663d69b756903f"
+    },
+    {
+      "path": "web/types.ts",
+      "sha256": "48f8f7804124e2cea66607cf680d4e84e5e5e67d75bf353372d6bec80ae81818"
+    },
+    {
+      "path": "web/Icons.tsx",
+      "sha256": "77c0e9febd8e4aea3eb245551b4eadd750bb2b2c5739109726a64507568a1c1d"
+    },
+    {
+      "path": "web/vite.config.ts",
+      "sha256": "48bc8916c02cfd98606a31e9928c493daa1cadf3360b7fe6a911259a9ae97237"
+    },
+    {
+      "path": "web/TagLanding.tsx",
+      "sha256": "d66b73d8645f0fe4416a52aa4e99f603788814449b5d20e46c5d6ced5186d9dd"
+    },
+    {
+      "path": "web/Modal.tsx",
+      "sha256": "e7735d94920e8b61672dfe4d43143f0f63605ce6df1282655f9ff64f8f8f0cf0"
+    },
+    {
+      "path": "web/tests/legacy-api-auth.test.cjs",
+      "sha256": "62f6e7bff81626a2bf32073129b4108ab0f2abd7e1276ffd7862e3175191088a"
+    },
+    {
+      "path": "web/components/DynamicTaskStatusLabel.tsx",
+      "sha256": "5671c8d1e047caa6f5eb03fd07a46da4810ddd3a4f1b4ab49b3f3b7100616af0"
+    },
+    {
+      "path": "web/components/StatCard.tsx",
+      "sha256": "ae42499d8dc343f1bfa36a05b90054bf528ec1e687afbb2df2653bc135682498"
+    },
+    {
+      "path": "web/components/Icons.tsx",
+      "sha256": "77c0e9febd8e4aea3eb245551b4eadd750bb2b2c5739109726a64507568a1c1d"
+    },
+    {
+      "path": "web/components/Modal.tsx",
+      "sha256": "e7735d94920e8b61672dfe4d43143f0f63605ce6df1282655f9ff64f8f8f0cf0"
+    },
+    {
+      "path": "web/components/web-ui.tsx",
+      "sha256": "6d4a27c2ed195293345b738ea154e07769ea880df8b20895bc9b6d031d7cc619"
+    },
+    {
+      "path": "web/lib/status.ts",
+      "sha256": "96859e62e4bb496f94929c59783ba72730cfc682948e37335d7dab0283af1118"
+    },
+    {
+      "path": "web/api/health.ts",
+      "sha256": "0e9d6570f741c1caa44f8fc6ae47bd129ec6edb813c4fab3b3f6bc20235cf706"
+    },
+    {
+      "path": "web/api/_supabase.ts",
+      "sha256": "1c0fe912d950715d70b27fa72d805af86926da83ce44b9b456750e73fdb4c4a5"
+    },
+    {
+      "path": "web/api/tasks/index.ts",
+      "sha256": "7bcd8036ee95646b2934d050f628f4120139b6e013950c7e9161cffb6823f2b5"
+    },
+    {
+      "path": "web/api/tasks/[id]/complete.ts",
+      "sha256": "131ef759a7a9fafe5646c9387a26d97e1c2d476703c061923d7c71fd17f102da"
+    },
+    {
+      "path": "web/api/tasks/[id]/index.ts",
+      "sha256": "f42e261c80e4f7738f7c3579d2d3ca8a2187d2bb2752243d91f070a5d8e324a5"
+    },
+    {
+      "path": "web/api/cards/index.ts",
+      "sha256": "a1a924813e6aaad0f446132640ac99655b47f1b6fdfe010a4a760ee66e670a4a"
+    },
+    {
+      "path": "web/api/layouts/index.ts",
+      "sha256": "5d8c2b3dfd593c8cce62d96e1b46a744de13a169aff57aebedeed36c3f400fa0"
+    },
+    {
+      "path": "web/api/locations/index.ts",
+      "sha256": "7b06dec753044ed1075790f9bbcf4aad2f9671a47dfada20125db0ca591e6505"
+    },
+    {
+      "path": "web/api/users/index.ts",
+      "sha256": "d235eb68e1b27f23528aa1bf0feb47836feebe29a72dac52956c790b8fa2e203"
+    },
+    {
+      "path": "web/api/users/[id]/password.ts",
+      "sha256": "5bf77fe4bf4f173536935bd9aab8825a96fd96d234ddf243ea0560aef84732f0"
+    },
+    {
+      "path": "web/api/users/[id]/index.ts",
+      "sha256": "0d39aab56537ca4031ffeb94912b22a37eba05f5aea56c4dfaed18eac6a977ab"
+    },
+    {
+      "path": "web/i18n/tr.ts",
+      "sha256": "05c7478f1484e3295faa5cbb7c1584601499a04fc0b8b56615e1c6fb5d47044a"
+    },
+    {
+      "path": "web/i18n/en.ts",
+      "sha256": "7719a44122cc821e7242e04eb2093a5116df3ccb4ea269a57c80f8133f0c908f"
+    },
+    {
+      "path": "web/i18n/context.ts",
+      "sha256": "8e4b7e8db0f2776c6758a3ff432336e462e74d7cb96dd1a43a71ca17cf3623d5"
+    },
+    {
+      "path": "web/i18n/index.ts",
+      "sha256": "5f5d0539aecf47756a4fd48d228082c711b8f1684eb09848876408bbf68e8321"
+    },
+    {
+      "path": "web/data/fallbackCards.ts",
+      "sha256": "67f2bc0e8914df564728ca20f3963a0c22493235fd88c238731bdcbf879382a7"
+    },
+    {
+      "path": "web/data/fallbackExerciseTypes.ts",
+      "sha256": "ddb34142a38d7776ae2164d0118ddd24f0b5f17e270df73bcc3e951007fda9de"
+    },
+    {
+      "path": "web/data/fallbackWellness.ts",
+      "sha256": "5a8b10898e3008f40644ac3ecc26124b7bd2979e1bb15d78fb60dc451e3abb56"
+    },
+    {
+      "path": "web/pages/LoginPage.tsx",
+      "sha256": "1ee24c7f76aa637f7058a1c1e6a3723138d5be85665e67b46ad31c79ddffcb5e"
+    },
+    {
+      "path": "web/pages/MembersPage.tsx",
+      "sha256": "27a8f7b6a8784b950fb21272b3519bfe18270574f1546c650dccc2cdd55c9055"
+    },
+    {
+      "path": "web/pages/FitnessPage.tsx",
+      "sha256": "03fe4d01a9c2efe4c254e3fba06931a0ee3a4c6a7496355d4a172a43fe45b0ff"
+    },
+    {
+      "path": "web/pages/ExercisesPage.tsx",
+      "sha256": "066de655c5f398be2e64e7cc71671b48d986128f23982d1062135d84b3e345be"
+    },
+    {
+      "path": "web/pages/UsersPage.tsx",
+      "sha256": "a3e6a2b8cb02c0c12c835f26db1ebe7831ec046f65167d0003a0d8812a8a47ab"
+    },
+    {
+      "path": "web/pages/AccountPages.tsx",
+      "sha256": "8616ccdae1dbd76dc543caa5917a88e6b296f3dbb3049c3ce2373fb394604da7"
+    },
+    {
+      "path": "web/pages/MobileUserView.tsx",
+      "sha256": "3b8e6df22d7883967fdb475e1cd6b689ece38713ddc73ba6c0c01064c6d64a5b"
+    },
+    {
+      "path": "web/pages/TasksPage.tsx",
+      "sha256": "3ce9750d86db6250b93852f675cda4b24deb4df578571ff21f7cf00216646575"
+    },
+    {
+      "path": "web/pages/WellnessPage.tsx",
+      "sha256": "de790ea6500be608d80472c04f7f345fd2a0a1c15ac08558fb2414e47adeeeef"
+    },
+    {
+      "path": "web/pages/DashboardPage.tsx",
+      "sha256": "189aa354476b0c6bb19f601fe0247558e5a0bfd9f39b7b3dd721bb90f2bc8336"
+    },
+    {
+      "path": "web/pages/CardsPage.tsx",
+      "sha256": "625640a2f1c9fe0459d31343a4d2493698456b480c459f6a2f003ceb6cf3d2ea"
+    },
+    {
+      "path": "web/pages/KanbanPage.tsx",
+      "sha256": "561c68a9693034bb460538f6b9096c1a00354300dc3d4b1a427fbcb4dfd48151"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/expo-env.d.ts",
+      "sha256": "6fc02634da46d3edc5a88eec9173ba6bf709726be3cba83c73ebd8e859d5c147"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/.expo/types/router.d.ts",
+      "sha256": "d150f06ab063f1347855d2d37300ced4cf3fac5363a2e2be75a5add4625bcc30"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/coaching-sync.tsx",
+      "sha256": "c8357a934f7946ec5b647870c1619b20cfb1325eabccade68b5ceab63ed2dce4"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/goals.tsx",
+      "sha256": "cb9645a38164528857326b4ff832e65d8a748a6d3adc0761a5bf0253bf055ac0"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/plan-versions.tsx",
+      "sha256": "734f0db871689b4c3d8fdbd951022beb82adeab36363c3536035d830af21a8f5"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/progress.tsx",
+      "sha256": "74d1c1ab6dc789fd862f1f46d16bbeb2816473aaa43c07c47ec2d846770a87e4"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/sync-status.tsx",
+      "sha256": "5e2dd0a75897b3f1857857bdbabacb3965ee36a827624d1a5c11a6083d5fb1a3"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/athlete.tsx",
+      "sha256": "4e2fa75da68c81456cae74317507bde5aeb98a2c4ed773c55c40787cacb2f2a2"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/coach-reports.tsx",
+      "sha256": "d758108a31ddbf690cfbc9f8c0322a865b06dd7175360b1edf962a2fdb3b020b"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/plan-builder.tsx",
+      "sha256": "2a62bea6ec7dbf1c7b53bd69f9ae5e3ddd122e6cbd628aea1a279d5bddcb40cd"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/record-activity.tsx",
+      "sha256": "cacf1d7e25ee002cf3cc173679ca0d82f5a5b22b6c3336b392b3b407f242e26e"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/_layout.tsx",
+      "sha256": "22a2be1f55ba926c9fd3449379ff654726ef7899a2a7176e4a013f07f873825b"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/plan-setup.tsx",
+      "sha256": "2331d79e110d7c633fe5439ff1032d99447b0a59197aa496025ed369c9329853"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/messages.tsx",
+      "sha256": "8f11d66d8fb76da7b7f0487e7e90c4365508998f15539afcf7d8fff575cadb44"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/coach.tsx",
+      "sha256": "9f1e80e5d81d4e2939d284aa8f66c6ef3b69082b2dcbf019f02f32644ef4901c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/modal.tsx",
+      "sha256": "6afb9ac24b5ffac90c0e6ea69b75f4b800180dc7baa1448b7fef68a661f472e7"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/athletes.tsx",
+      "sha256": "b4a253c5df41c683d0e33e380eee6f2ebc2bae95be24fd72531422e1e1c6dd6c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/equipment-manager.tsx",
+      "sha256": "1e55a34326ad39f2932c2d44ccfe509a48415ab3b496ec6ade74491b9e862cf8"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/settings.tsx",
+      "sha256": "a94dea1049a529c436383bf5f9a2c164b26c3bfcd6d0bce72a866a8eed06fd85"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/index.tsx",
+      "sha256": "ec665763fbf017a47a7b9518409ba257a5a561635b05ad7110d5b7037001453c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/plans.tsx",
+      "sha256": "41d44619ce5350b58a668a9c09c13f476cfbe71f6bc39ab26722d3443d52820d"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/management.tsx",
+      "sha256": "e33135c27d4cd4b1aca72257a5812288dd529e9527fe3a2bc7762b8a59a73787"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/wellness.tsx",
+      "sha256": "83c036f54bb4eb8247cd7edf87585c4822920db59152d184a7e81f68e9c2005c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/new-tag.tsx",
+      "sha256": "cee8bd99a1e3baef8a79ab0e943d438799027ba1d4d986352bdd7baec0a56996"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/nfc.tsx",
+      "sha256": "51abe9d7d2d6ff626f1b8a120438412ef441e4a32234406184bee8339b2bea36"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/tags.tsx",
+      "sha256": "48343e26668b5e11bd09b9b5824682e4f78f50feafb9b16a43c9d9b3821ca6b3"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/layouts.tsx",
+      "sha256": "c409a31620af460c655613c41fefb3d097a277bb4011d6131d6d2adc9fd7620f"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/exercise-library.tsx",
+      "sha256": "cacc5b4bb8fd50c50596ea98358477d0124c1413231a37dd7d3c713d3c8d25fc"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/personal-goals.tsx",
+      "sha256": "5cd747d65f370aaf7c7a00b23c0ca66030ce07fa321a979714736123157bc791"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/create-task.tsx",
+      "sha256": "315c4d4588056df03734f9aaa8a1cb5a6fee794e5674e99eaa42cc69e1f32c95"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/cards.tsx",
+      "sha256": "94b198101ffbadc599ceb470fc972ec8c856d4339ffb62e758e9c22f0a4a85ac"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/history.tsx",
+      "sha256": "ffd0a43754aa5e0a10b2bebbd11ccbc8748b470885a5993779fdd0512311a7ac"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/users.tsx",
+      "sha256": "6369d9293a4e4fa37c37465b831b3cb7fdf14c2d2606c2b2aea3647dc4f5cc57"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/_layout.tsx",
+      "sha256": "80c32989e80572ab9db8f32dadccfd8dc1b595ccedaf3b4ec390e28e6c2c8b39"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/nfc-test.tsx",
+      "sha256": "983ae726adcd59e7bb57b9ad613e3221cf7e450a4fa9db4cc2b64645a8b01cc2"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/fitness.tsx",
+      "sha256": "76cac0e0687dbfbc0fb6fb8e5a8e88c9a47569d2156de39a574eb441fd4115df"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/card/[id].tsx",
+      "sha256": "a1900145d04b6fafecd3a45c5e606b76fc4b3b277a65c76701c4370e9251ac48"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/(drawer)/layout/[id].tsx",
+      "sha256": "71940679874a1b2097a40c8ca144980dff1a7e77936f7123213b8fd4b8fc6b91"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/workout/[id].tsx",
+      "sha256": "5dc46f856687c5461ccc69c80ccd86f2aac7bfa0aab3414ef4d9bcde3902af47"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/app/tag/[id].tsx",
+      "sha256": "2a398da277b376f2e02667f6d77d487fe9e8f02940b06771ae235816ddec8d75"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/plugins/with-nfc-links.cjs",
+      "sha256": "cce0a8b4302440abf0601e9f528175c02e2c050771fa4a9124a81070f6e69f3b"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/constants/fitness.ts",
+      "sha256": "4b696196054c948f0bd383724d79e3fd06476d13816bbe7758e74aabc0f4a75c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/constants/theme.ts",
+      "sha256": "6f5606c1e363f9b2da6bc6131c7fdc37f4dc3ed80b9530c60854f34351fa2da2"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/constants/tasks.ts",
+      "sha256": "06f3079a032a18a862dbf08f25db4034062c10229d3910b73416bd5a4b953dba"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/providers/color-scheme-provider.tsx",
+      "sha256": "56e47d73b3a6680499eed9f1e517a7f1a0ba4bc71b0b16cdda3b846556c692ef"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/providers/auth-provider.tsx",
+      "sha256": "88d00b17d4ee093075e0e1395e71ad45ba8751a1e797ed5759a2ab7f39266b5a"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/providers/offline-sync-provider.tsx",
+      "sha256": "0fdb2cf4491bf91b63600da3f311366499b4481a98cfe98eb633e66204729dc3"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/sqlite-bridge.py",
+      "sha256": "9924664c93cf378442c9dd0ebebe808d0dca1c5932ea2d762565beabd5c81b4b"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/member-activity.test.cjs",
+      "sha256": "45d135f88e950c6c3ec196ce54dd3d215a054860cdbda3b2399342f96fa9273e"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/offline-sync.test.cjs",
+      "sha256": "665493fcef5ad614a18263c9ab4349884ee0168e514240b7f4c06d26783324f8"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/nfc-link.test.cjs",
+      "sha256": "a1ebfb000cb2d9855c7cf5d4ec9b8cead730355648174affa74940a37922fb61"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/management-cache.test.cjs",
+      "sha256": "e769a078a63309e72013609eebcf7ac9d9a55d931c293e87b066d256428ce549"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/offline-fixture.cjs",
+      "sha256": "e5410b48f52e1ae6febef37311b29889f3a786acfade4d34b30adcd748960105"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/offline-store.test.cjs",
+      "sha256": "96afffadd62f90e616e346ab6909ce43854d9d2387e407b2c7022bf6e17901d8"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/prepilot-refinements.test.cjs",
+      "sha256": "94ce78babfd57aa90d6cadf885493b7162b2ecd3a8d3a65772ba15d69f7487c4"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/starter-programs.test.cjs",
+      "sha256": "c34d489da72977b9930e2411c9dc97d8effeaefc9f4b00ed5c71b9115f5de890"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/offline-session.test.cjs",
+      "sha256": "6923a8f243bc3d0d281fd3af44d8a7a752456b4c54b82cd954f36e62f7044136"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/coaching.test.cjs",
+      "sha256": "6430859a7c85e27fe58b9812764b0f59b5015363f76f8e4b6aef83f46caa7702"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/coaching-sync.test.cjs",
+      "sha256": "646235cddbde6923611bb840ded47534ccfa21f311900b41e3ab7ac27d681bb1"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/offline-api.test.cjs",
+      "sha256": "9ddf0b1d7d2f7359a0953987b51d2bfccc04643b54fc1a2ddde6bc5787fa41de"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/tests/activity-workflow.test.cjs",
+      "sha256": "012daf192a1383802bcf95e0911874cbe4661f2ffbe552646f3c1e8174fc939f"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/supabase/migrations/normalize_task_statuses.sql",
+      "sha256": "926f73735684b1ac6427bca2ec26cd10a203b93a1f1b83a92722cad13292d8ee"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/themed-text.tsx",
+      "sha256": "06d02c5a33dd258563726e8586a4b588e2df7c087ac291be6a225f89bf1ac974"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/hello-wave.tsx",
+      "sha256": "2f0b9b1f7740f0de0c1aed071142a2251ceb9936cca0d210f69bc85ce08dd579"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/activity-trends.tsx",
+      "sha256": "6c3a16cac14da4bed4d9d2ed9bd1d6dfe0f38799dfb71bfd18fcd9536ea5b085"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/management-tag-list.tsx",
+      "sha256": "cbfdd8973284c9bd6220497fd2d8462dbdf99b9b953ddd90255530302e9e7f12"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/parallax-scroll-view.tsx",
+      "sha256": "37857f0334e989274920465789c9665327ffaba2688292c26dd484db7d95feb9"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/member-weekly-trend.tsx",
+      "sha256": "5dfa7500f826381d1b48cded24524a19ef8bc5e20ec5d12f5ab0858d5142288d"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/member-week.tsx",
+      "sha256": "ef3654c19a698397202d0af91bd9a8daefaa5f25ede46b1b90a3c4b435a2b3cb"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/app-bottom-nav.tsx",
+      "sha256": "6678c2ccee4e0099705a6ef387c879b13352b9fcf891138337ca86001d93aa33"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/exercise-selector.tsx",
+      "sha256": "0526bfaf52b6d2d1ba6184876ac88d91f5406a06dafbaac975bb96ed612e7aa2"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/member-daily-guide.tsx",
+      "sha256": "92ef4a3e7159f7d4a0557a7eac71477e35384fc812037161ed21f87140a220b3"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/workout-controls.tsx",
+      "sha256": "4cc01b9ce4eb05f04acfe2830cb565731e1f9b7a58b9197ec6221a84a7b9ba7b"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/management-ui.tsx",
+      "sha256": "c41de995c9b559ed86d667ede1bab5069a88cd239022a1304a3cd5a1873a4357"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/exercise-performance.tsx",
+      "sha256": "645c0847b1caf6f75633e95c8387738bee4ac0f36e717d2df8bfad359fa59fe2"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/themed-view.tsx",
+      "sha256": "b95ec1df30abf73d26593db2b6e6280af33b39f3f3b6d960765e99fb6f6843c8"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/account-timezone.tsx",
+      "sha256": "b5e8ae0243d42945ffb68bc9f36511d929fa793092ea6d3ee9ed5d9e941e739d"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/staff-area.tsx",
+      "sha256": "d8c8e5e7b239af271718bf1eeb4f4e55b97ef48ae34f6df24c8366d137452778"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/workout-nfc-context.tsx",
+      "sha256": "11be2eea19b23fbb6b8b5c02b4d3e2c92cf306a072b09488e266c433ebd6134e"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/athlete-dashboard.tsx",
+      "sha256": "7debea21eb242afe981e3924916ae3587f197435e1f6446bf399b26f08426ce0"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/nfc-link-writer.tsx",
+      "sha256": "9ed1c2a94e5adde09e74f185aa51bd071379499aad0e574368b253b8eaacf831"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/plan-coach-context.tsx",
+      "sha256": "4292fe0015e719e2176d7df27ae2198e2529b4cdb576587edb4e9859e02de9b1"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/pending-activity-notice.tsx",
+      "sha256": "f1a237c857cac0241a75accacbe47e8dd985f118dc0a2aab1d861788f49d66ea"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/external-link.tsx",
+      "sha256": "2838582e2dc21877652b710d4aee5f4ba5a795b17fcf63bd7ac9c25a749c8c26"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/haptic-tab.tsx",
+      "sha256": "eeb1860d6e4edb647e1ebeb116ff81393ec50e2d721560c1fe2d686716a518f8"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/keyboard-frame.tsx",
+      "sha256": "fc3a84ae7ab6fd0ca5f31a1787c05fe7cd84700f624c2f8a621d496c93720215"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/fitness-art.tsx",
+      "sha256": "254c5ee97b682dba9f9a6c7873b2beb36f0ebf34fced6721393552294cd8adf5"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/coaching-ui.tsx",
+      "sha256": "f977c4d61ce54dcb5fabf95727a34c980abca687ec597ed1ab7aa77931f0f394"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/offline-sync-status.tsx",
+      "sha256": "3368c9b86f93274b85b073af5c82b24c8c340aee50152d8b74895fa498edc63a"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/today-program.tsx",
+      "sha256": "9ca51aa37d330b485c7707118237250fb7b3c2ba4b23e55af0defd527e299aec"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/member-tenant-goals.tsx",
+      "sha256": "b5ce1cc8bb6ab11c8ad7e97d26617ffb891a8c15cff6bfe1967e798f84397f47"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/activity-recorder.tsx",
+      "sha256": "79473b1c7bae1049c6f4adb679994e5ae1dc7d06715f70244be72c660385834e"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/expanded-wellness.tsx",
+      "sha256": "7c9900fadfecd11e76a86ea830f0ddb2235c1611af9b930cf2706d5943fec4a7"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/fitness-ui.tsx",
+      "sha256": "527f5949421caa5aca9dec5494c49ced540876835f3818507507b0798f65adb1"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/exercise-media.tsx",
+      "sha256": "5a6843ce14b00550e08ff4fa7ab4fb8a01c5fdf2c232a28d225d2611f72e4231"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/LanguageSwitcher.tsx",
+      "sha256": "0231941006efb338f091056de81e92d295c656e6a067a55121874790b246e805"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/LoginScreen.tsx",
+      "sha256": "6e0e2cd4ae65b35e830613ff9f15d7b56d2fcb9d339174aa10bccc3713929551"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/LanguageInitializer.tsx",
+      "sha256": "c53e29a12ef81ebddd1f43f31a02066110050825c28a40a946153294f6753658"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/ui/icon-symbol.ios.tsx",
+      "sha256": "c4e56fc2c481f0964d06ff0c9dda51eeba1ca7f6f554336dfdceb4a75c80eb2c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/ui/icon-symbol.tsx",
+      "sha256": "5cf33b25a381429479bb5f56e744111bcd8b81f99969e9cb56e14988293e338f"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/components/ui/collapsible.tsx",
+      "sha256": "edf4096c1dd0b7e2835773ec327a69ab8b333f459710fd3590334daaec41739c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-color-scheme.web.ts",
+      "sha256": "dba3ccec727ad5c236f41ec839d607ef75896882a2277812a3ba5c7e4f7711fa"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-auth.ts",
+      "sha256": "e94cf9c771eafdb651065a878bcb5721bcd13fde0f8e9b5fd06ecd555754381d"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-member-fitness.ts",
+      "sha256": "457f61a6cc1ca58c8aa1ba93a82afd825e8ea3f86e62f15c64e494d74c741f93"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-color-scheme.ts",
+      "sha256": "82eba3220e8a7b4a9f01712a8ba39dde99f4b623cae09b8451673b23dcf22b13"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-coaching.ts",
+      "sha256": "5142392f1d90c2b9b107b6a19414c99c806cf1b8f790185783b4e972f412ee58"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-member-activities.ts",
+      "sha256": "5873eaf9d351979253b1962c4ba0decb429604bcf280ad542ff8ee29e02982d7"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-session-clock.ts",
+      "sha256": "02a5e1c6d765856c8649bd4ec2637bd630a8b9aeabd19582820ec4e154f03bd3"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-tenant-identity.ts",
+      "sha256": "a92e6f7c5d7015a764a1a724bb219ddd6b20d75259cd658421cb0b77cdc6b028"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/useLanguage.ts",
+      "sha256": "6fc6f4906a6114d4caa6eaeb9f2fd6ac72139415fbe0b4bd5bca5e1d71e6ec64"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/hooks/use-theme-color.ts",
+      "sha256": "49ec7d86e952e315f8172e7994a879d3c63023f2955f667fedba6ab5c89c1710"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/scripts/configure-ios-links.cjs",
+      "sha256": "f061543cda78da2a47641f1d7707e1e70fa46cd2a68730f00cc8e468df838d36"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/offline-store-core.ts",
+      "sha256": "6263bd9f9efcf99e8489f99fb2661dd5a5737ec50965fa7d3e5d8542e01d486c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/workout-experience.ts",
+      "sha256": "57b0b7e4438394119fc05af66e9ae1e77a9dbbc89d893b0c385490c3e341c35e"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/coaching-reducer.ts",
+      "sha256": "a2650a46dc84420e7eb9273732c2dca33ae625adbbcd41774747cb08b1b28bb3"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/coaching-types.ts",
+      "sha256": "467321b910f8df5c5fe8dd303f1f0b56e5a24e9760144616b1f6369f98837ed6"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/offline-member.ts",
+      "sha256": "c216b1ab009b136bda2450680605bb9d13798c7b09369655b492cf9497ecf7a2"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/console-access.ts",
+      "sha256": "f6c39f61c4ba4066f88f77ca224082c5b4e3b6a6f13ae10c038fbd5f2f878b9b"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/offline-sync.ts",
+      "sha256": "02c44c3eaf232a4fa6ac74b701c067d41fe7d9d352eaf6da4c31d247e6adfc1d"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/keyboard-frame.ts",
+      "sha256": "c895918a30f8f952d213d9b63b76159e3c2ef7c635aeeb2aa0d8dc8cb4e0f559"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/offline-background.ts",
+      "sha256": "2f05dc910dffaaef59fe69651014992b568889eb536956f9d6e435411d9bc3a2"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/offline-store.ts",
+      "sha256": "f66724fd974b8d304a0a28db9cc0e5cf2cfecf09e122f163bd2ab0ba236d8794"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/console-transport.ts",
+      "sha256": "4c90c18c018d3c2bccfc70456fdda40d9e1ada39da08ef9431deb88a7d06a569"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/tag-link.ts",
+      "sha256": "a64c595ef21e5f65d79b07c829155ba731467d9fbd715e33230a83ff74f37a4e"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/club-roles.ts",
+      "sha256": "67f831b3f2d66b4d757966d816168226f1b2043104c7acfae6663d69b756903f"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/coaching-performance.ts",
+      "sha256": "c558c0b06458470ee888d067ead48bca4d715ad2c5fc33ad4bf23fde152bd755"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/offline-refresh.ts",
+      "sha256": "646a719c3c2984f36fb0b852d258667cec80fbbf429ceaaef7a9e7d0f26fa252"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/coaching.ts",
+      "sha256": "eeecaf990e71c6b99ccd9a561960f06c70d73757b28542db1161b75b3252bb6c"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/management-cache.ts",
+      "sha256": "2e9f2d5bf2469904e1a171e91dd4213fc4942f3de8be860cb70f491449079cae"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/activity-submission.ts",
+      "sha256": "3f7b4210c1931cde4a12caba973a165305a21ab0b065ef94e1ac3b278fa73747"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/tenant-console.ts",
+      "sha256": "75ecceb68d6bb8964f700dab91577a0b8b77e8a8931dbdf3bf7ea42fc76cee7f"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/api.ts",
+      "sha256": "74adaa82af4166febbea2c7a0103f99e6cf3098a5e8286d49354b4842ba83b84"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/session-presentation.ts",
+      "sha256": "18127022630296a2dbaf0308d4ae27da840b31fd0daf023f3927970243a27ebc"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/plan-draft.ts",
+      "sha256": "6a6995c525afbb5bb7b0cb4ce850621cc5852755c235f154193f44d566538669"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/athlete-presentation.ts",
+      "sha256": "4c38a89cfa1e5fd1d48b2ed4ebf4c194421a669010563b7a4a2e357898d05e9d"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/member-activity.ts",
+      "sha256": "26c5c98411e8b64d80095eb77cf34d2d7f79e92f454ecc2342aa3402efb43b06"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/supabase.ts",
+      "sha256": "cc422a93199aa4c7f621daf3d1b4dad65184215fd628837dca8de6c0d8634fd5"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/activity-workflow.ts",
+      "sha256": "95735bbb82bd0768b07279d00f5bc5ab3d5e44400ac9bf4f4fc33447e3b17e99"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/starter-programs.ts",
+      "sha256": "f155ad367581b8c9006769b7cc8289bc8baf513223e2262358d9f135828143e5"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/coaching-store-core.ts",
+      "sha256": "6150f0a241a59ab184df3ec6ed25e9225f225a3bf0aa119d783e0d3ad18b5ae9"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/coaching-query-keys.ts",
+      "sha256": "f3b4518f03c5cefb7d06371e84a51179ce44f7c24b85c57cf0f670d65968c19b"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/offline-session-core.ts",
+      "sha256": "37cd350ac3ed25f57167affc5a47f93775abd7ac2253ca8ab8bde1ea699a4d6f"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/member-experience.ts",
+      "sha256": "7a7aa1a77591849847510e28f7490974b8d01642688a44690401068b0ad13118"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/nfc-manager.ts",
+      "sha256": "8af61484959b7ffd3e9b41b604751402b5696db379099b1f4c6983d145e761aa"
+    },
+    {
+      "path": "mobile/nfc-task-tracker/lib/i18n/index.ts",
+      "sha256": "a6c6ecd40cf68ed52301d195017b81ef729ac2eef214810d777994921a03ec1b"
+    }
+  ]
+}

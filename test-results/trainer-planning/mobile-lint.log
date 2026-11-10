@@ -1,0 +1,14 @@
+
+> nfc-task-tracker@1.0.0 lint
+> expo lint
+
+env: load .env.local .env
+env: export EXPO_PUBLIC_SUPABASE_URL EXPO_PUBLIC_SUPABASE_ANON_KEY EXPO_PUBLIC_TENANT_API_URL
+
+/Users/user/NFCFit/mobile/nfc-task-tracker/app/(drawer)/nfc.tsx
+   1:41  warning  '/Users/user/NFCFit/mobile/nfc-task-tracker/lib/tenant-console.ts' imported multiple times  import/no-duplicates
+  30:34  warning  '/Users/user/NFCFit/mobile/nfc-task-tracker/lib/tenant-console.ts' imported multiple times  import/no-duplicates
+
+✖ 2 problems (0 errors, 2 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+

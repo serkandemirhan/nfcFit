@@ -1,0 +1,42 @@
+Vercel CLI 65.12.1
+  Inspect         https://vercel.com/serkan-demirhans-projects/nfc-fit/2MS4hQFLqbXNkTjb1hCkyD5rwNxS
+  Production      https://nfc-l8c8dhbl4-serkan-demirhans-projects.vercel.app
+▲ Aliased         https://nfc-fit.vercel.app
+{
+  "status": "ok",
+  "deployment": {
+    "id": "dpl_2MS4hQFLqbXNkTjb1hCkyD5rwNxS",
+    "url": "https://nfc-l8c8dhbl4-serkan-demirhans-projects.vercel.app",
+    "productionUrl": "https://nfc-fit.vercel.app",
+    "inspectorUrl": "https://vercel.com/serkan-demirhans-projects/nfc-fit/2MS4hQFLqbXNkTjb1hCkyD5rwNxS",
+    "readyState": "READY",
+    "target": "production",
+    "environment": "production",
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_2MS4hQFLqbXNkTjb1hCkyD5rwNxS",
+    "buildMachine": {
+      "cores": 2,
+      "memory": 8192,
+      "machine": "basic",
+      "selectionType": "fixed",
+      "selectionSource": "plan-default"
+    },
+    "deploymentProtection": [
+      "vercel_authentication"
+    ]
+  },
+  "message": "Deployment nfc-l8c8dhbl4-serkan-demirhans-projects.vercel.app ready. Production URL: https://nfc-fit.vercel.app",
+  "next": [
+    {
+      "command": "vercel curl https://nfc-fit.vercel.app",
+      "when": "Verify deployment, including when Deployment Protection is enabled"
+    },
+    {
+      "command": "vercel inspect nfc-l8c8dhbl4-serkan-demirhans-projects.vercel.app",
+      "when": "Inspect deployment"
+    },
+    {
+      "command": "vercel deploy --prod",
+      "when": "Promote to production"
+    }
+  ]
+}

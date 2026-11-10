@@ -1,6 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+import coachingTr from './locales/coaching-tr.json';
+import coachingEn from './locales/coaching-en.json';
 import en from './locales/en.json';
 import tr from './locales/tr.json';
 
@@ -11,8 +13,8 @@ i18n
   .init({
     compatibilityJSON: 'v4',
     resources: {
-      en: { translation: en },
-      tr: { translation: tr },
+      en: { translation: en,coaching:coachingEn },
+      tr: { translation: tr,coaching:coachingTr },
     },
     lng: 'tr', // Default language
     fallbackLng: 'tr',

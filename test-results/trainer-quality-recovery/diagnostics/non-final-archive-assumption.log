@@ -1,0 +1,8 @@
+locator.getAttribute: Timeout 20000ms exceeded.
+Call log:
+[2m  - waiting for locator('.trainer-archived-programs')[22m
+
+    at /Users/user/NFCFit/web/tests/trainer-quality.archive.cjs:2:610 {
+  log: [ "  - waiting for locator('.trainer-archived-programs')" ],
+  name: 'TimeoutError'
+}

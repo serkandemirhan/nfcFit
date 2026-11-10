@@ -1,0 +1,14 @@
+{
+  "command": [
+    "npx",
+    "eslint",
+    "lib/club-roles.ts",
+    "lib/console-access.ts",
+    "lib/tenant-console.ts",
+    "app/(drawer)/management.tsx",
+    "app/coach.tsx",
+    "app/equipment-manager.tsx",
+    "components/management-ui.tsx"
+  ],
+  "exit_code": 0
+}

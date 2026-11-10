@@ -1,0 +1,14 @@
+{"at": "2026-11-08T10:29:28.457958+03:00", "event": "capture", "name": "001-initial", "observer_seconds": 4.697}
+{"at": "2026-11-08T10:30:00.170934+03:00", "event": "frame-counter-reset"}
+{"at": "2026-11-08T10:30:00.587374+03:00", "event": "metrics", "name": "baseline"}
+{"at": "2026-11-08T10:30:00.889746+03:00", "event": "tap", "x": 330, "y": 2080, "dispatch_seconds": 0.192, "label": "Programim"}
+{"at": "2026-11-08T10:30:04.340062+03:00", "event": "capture", "name": "002-plans-empty", "observer_seconds": 3.349}
+{"at": "2026-11-08T10:32:45.248277+03:00", "event": "cold-launch", "adb_wall_seconds": 0.633, "native_result": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 535\nWaitTime: 537\nComplete\n"}
+{"at": "2026-11-08T10:32:50.256454+03:00", "event": "capture", "name": "003-cold-start", "observer_seconds": 4.773}
+{"at": "2026-11-08T10:32:50.706985+03:00", "event": "metrics", "name": "cold-start"}
+{"at": "2026-11-08T10:33:48.328953+03:00", "event": "tap", "x": 530, "y": 1100, "dispatch_seconds": 0.135, "label": "Home-plan-olustur"}
+{"at": "2026-11-08T10:33:51.685751+03:00", "event": "capture", "name": "004-home-create-plan-route", "observer_seconds": 3.27}
+{"at": "2026-11-08T10:33:52.104039+03:00", "event": "metrics", "name": "home-to-builder"}
+{"at": "2026-11-08T10:34:23.849105+03:00", "event": "tap", "x": 330, "y": 2080, "dispatch_seconds": 0.138, "label": "Programim"}
+{"at": "2026-11-08T10:34:24.056985+03:00", "event": "tap", "x": 960, "y": 390, "dispatch_seconds": 0.113, "label": "Yeni-plan"}
+{"at": "2026-11-08T10:34:27.200659+03:00", "event": "capture", "name": "005-plan-setup-goal", "observer_seconds": 3.051}

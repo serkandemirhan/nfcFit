@@ -1,0 +1,9 @@
+test_empty_draft_publish_validation_and_archive_assignment (test_trainer_planning.TrainerPlanningTests) ... ok
+test_overlap_requires_acknowledgement_and_preserves_independent_copies (test_trainer_planning.TrainerPlanningTests) ... ok
+test_rest_day_conflicts_and_program_range (test_trainer_planning.TrainerPlanningTests) ... ok
+test_workout_template_scopes_idempotency_and_concurrent_edit (test_trainer_planning.TrainerPlanningTests) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 2.351s
+
+OK

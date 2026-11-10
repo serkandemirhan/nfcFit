@@ -1,0 +1,32 @@
+{
+  "value": {
+    "capabilities": {
+      "webStorageEnabled": false,
+      "locationContextEnabled": false,
+      "browserName": "Safari",
+      "platform": "MAC",
+      "javascriptEnabled": true,
+      "databaseEnabled": false,
+      "takesScreenshot": true,
+      "networkConnectionEnabled": false,
+      "platformName": "iOS",
+      "automationName": "XCUITest",
+      "safariInitialUrl": "http://127.0.0.1:3000/console",
+      "webviewConnectTimeout": 60000,
+      "webDriverAgentUrl": "http://127.0.0.1:8100",
+      "deviceName": "iPhone SE (3rd generation)",
+      "udid": "3C063355-7F11-423F-A1AE-1D0B483A6864",
+      "platformVersion": "17.2",
+      "connectHardwareKeyboard": false,
+      "forceSimulatorSoftwareKeyboardPresence": true,
+      "nativeWebTap": true,
+      "derivedDataPath": "/tmp/nfcfit-ios-test/derived",
+      "newCommandTimeout": 600,
+      "showXcodeLog": false,
+      "wdaLaunchTimeout": 300000,
+      "wdaStartupRetries": 1,
+      "xcodeConfigFile": "/tmp/nfcfit-ios-test/automation.xcconfig"
+    },
+    "sessionId": "3f543c2f-0a4b-4948-83ad-82630a458e10"
+  }
+}

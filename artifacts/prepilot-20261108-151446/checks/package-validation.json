@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "embedded_pngs": 3,
+  "external_asset_dependencies": 0,
+  "real_e2e_honestly_blocked": true,
+  "latest_public_http_checks_pass": true,
+  "apk_hash_matches": true,
+  "note": "Structural artifact verification; no browser rendering claim."
+}

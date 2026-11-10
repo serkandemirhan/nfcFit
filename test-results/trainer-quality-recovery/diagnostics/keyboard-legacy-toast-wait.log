@@ -1,0 +1,4 @@
+SESSION 09fbbe18-f58b-4cc5-91ab-cc958c4a959b [ 'NATIVE_APP', 'WEBVIEW_40518.1' ]
+Error: wait failed return document.body.textContent.includes('Antrenman şablonu kaydedildi.')
+    at wait (/Users/user/NFCFit/web/tests/trainer-keyboard.ios.cjs:29:9)
+    at async /Users/user/NFCFit/web/tests/trainer-keyboard.ios.cjs:154:3

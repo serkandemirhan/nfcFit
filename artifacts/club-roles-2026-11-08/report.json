@@ -1,0 +1,142 @@
+{
+  "generated_at": "2026-11-08T12:02:48.327789+00:00",
+  "roles": [
+    "PLATFORM_ADMIN",
+    "CLUB_ADMIN",
+    "CLUB_MANAGER",
+    "TRAINER",
+    "CLUB_MEMBER"
+  ],
+  "compatibility": {
+    "owner": "CLUB_ADMIN",
+    "admin": "CLUB_MANAGER",
+    "coach": "TRAINER"
+  },
+  "validation": {
+    "backend_passed": 57,
+    "backend_skipped_postgres": 4,
+    "postgres_passed_separately": 4,
+    "mobile_passed": 99,
+    "total_executed_passed": 160,
+    "checks": {
+      "backend-tests": {
+        "command": [
+          "/Users/user/NFCFit/backend/.venv/bin/python",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "backend/tests",
+          "-v"
+        ],
+        "exit_code": 0
+      },
+      "postgres-rls": {
+        "command": [
+          "/Users/user/NFCFit/backend/.venv/bin/python",
+          "backend/scripts/test_rls.py"
+        ],
+        "exit_code": 0
+      },
+      "mobile-tests": {
+        "command": [
+          "node",
+          "--test",
+          "tests/activity-workflow.test.cjs",
+          "tests/coaching-sync.test.cjs",
+          "tests/coaching.test.cjs",
+          "tests/management-cache.test.cjs",
+          "tests/member-activity.test.cjs",
+          "tests/nfc-link.test.cjs",
+          "tests/offline-api.test.cjs",
+          "tests/offline-session.test.cjs",
+          "tests/offline-store.test.cjs",
+          "tests/offline-sync.test.cjs",
+          "tests/starter-programs.test.cjs"
+        ],
+        "exit_code": 0
+      },
+      "mobile-typescript": {
+        "command": [
+          "npx",
+          "tsc",
+          "--noEmit"
+        ],
+        "exit_code": 0
+      },
+      "web-typescript": {
+        "command": [
+          "npx",
+          "tsc",
+          "--noEmit"
+        ],
+        "exit_code": 0
+      },
+      "web-build": {
+        "command": [
+          "npm",
+          "run",
+          "build"
+        ],
+        "exit_code": 0
+      },
+      "mobile-eslint": {
+        "command": [
+          "npx",
+          "eslint",
+          "lib/club-roles.ts",
+          "lib/console-access.ts",
+          "lib/tenant-console.ts",
+          "app/(drawer)/management.tsx",
+          "app/coach.tsx",
+          "app/equipment-manager.tsx",
+          "components/management-ui.tsx"
+        ],
+        "exit_code": 0
+      }
+    }
+  },
+  "acceptance": {
+    "automated_permissions": "passed",
+    "authenticated_visual": "pending: no connected browser",
+    "production_migration": "not applied",
+    "production_deployment": "not performed",
+    "new_apk": "not built",
+    "provider_payments": "not configured",
+    "invitation_email_delivery": "not configured"
+  },
+  "sha256_at_report_generation": {
+    "backend/club_roles.py": "eeb64b09d2be42eef9b3036406a71d6caa5892894533f0a7d75bdaf51b5d816a",
+    "backend/tenant_console.py": "3c83e1e892472ec4405d175db7ac6a2b1aebdb7bb98b7ef95990a004865f452e",
+    "backend/coaching.py": "b849473b7bd1466aa915fe0ac7dcff792e428b4a59d73ecdae63159226167ed2",
+    "backend/migrations/20261108_club_roles.sql": "20016b6f6466f2600840cd5f998e7397e99485251702b01aa21f478537e526bc",
+    "backend/scripts/check_club_roles.py": "4e12f377bd6f911d0000c9c1a13f62fc5c453dd8f7969b4c9a554d3b58a24302",
+    "backend/tests/test_club_roles.py": "25cabc0f6d9f7364be0923d66d2fa23a95f8975da7b34574b32ffbd050803e57",
+    "backend/tests/test_tenant_console.py": "07946412d80759a70eb4f23dd0d739730fb6596bf2eef5e9a6fccbd8ebe2fe9b",
+    "backend/tests/test_coaching_rls.py": "4f4d161a172d28a75fc1fdb5974749da3364eec18b10cb094fa8bcf7b0b1cc75",
+    "web/club-roles.ts": "67f831b3f2d66b4d757966d816168226f1b2043104c7acfae6663d69b756903f",
+    "web/TenantConsole.tsx": "3369805bede21e6bc5505b24f9707c60a0d9178168ac12a095f3ddc6e20811f6",
+    "web/CoachingConsole.tsx": "146ac9069c8bb32259bea5b54a3c23250b2ce65b9c878668ae347145adab4795",
+    "mobile/nfc-task-tracker/lib/club-roles.ts": "67f831b3f2d66b4d757966d816168226f1b2043104c7acfae6663d69b756903f",
+    "mobile/nfc-task-tracker/lib/console-access.ts": "f6c39f61c4ba4066f88f77ca224082c5b4e3b6a6f13ae10c038fbd5f2f878b9b",
+    "mobile/nfc-task-tracker/lib/tenant-console.ts": "19fd687e7d1142cf53dccad0fe43474bdf40d0f12a8d768bf4b7e88a7c84adb0",
+    "mobile/nfc-task-tracker/components/management-ui.tsx": "66ea09014bc749ddc88495109e03c1fdc8fb9ce6545d0d881885769f288a8548",
+    "mobile/nfc-task-tracker/app/(drawer)/management.tsx": "66fe058e96bb0f07562216c56694f9ecfb0530203254a8d9f8cc2b83440f34ad",
+    "mobile/nfc-task-tracker/app/coach.tsx": "ecd8831bea23b078635cdc6b60327988e0776f46e1e57be4855b7f8445700e19",
+    "mobile/nfc-task-tracker/app/equipment-manager.tsx": "1e55a34326ad39f2932c2d44ccfe509a48415ab3b496ec6ade74491b9e862cf8",
+    "mobile/nfc-task-tracker/tests/coaching.test.cjs": "6430859a7c85e27fe58b9812764b0f59b5015363f76f8e4b6aef83f46caa7702",
+    "docs/NFCFIT_ROLE_ACCESS.md": "612b3f66fc0dcb04110f64b2799844a9e555d6e1a2535aab16427a768799ac11",
+    "docs/NFCFIT_CLUB_ROLE_MIGRATION.md": "40a9f6a2ea0126d5a5101f48bbb96c2decee2a4eb5cab4bc4ce37eaeb64401d1",
+    "docs/NFCFIT_SCREEN_INVENTORY.md": "60aaaa31de1454d29355dc04a1279fec6e3eb20ada2d4e5f4260efbb5aeb57b7",
+    "docs/NFCFIT_CLUB_ROLES_ACCEPTANCE.md": "b5ffaa5b6f2a7cd23cd46c1c543283850041b345da3209352863fea0d5d50f82"
+  },
+  "check_log_sha256": {
+    "backend-tests": "d540ccc0127a11cfd6cf69d0157ebaf454bd0063614cfa2c2059ec77eee6bbab",
+    "postgres-rls": "7a974a3477b100e3886f90d1d85f283d31c8fc65691361cde9a1754dee422104",
+    "mobile-tests": "00ff406cb2eb3f8acb115ebc071860af2e46dffceb5bb77ca6689ba8cc64a44b",
+    "mobile-typescript": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "web-typescript": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "web-build": "88c9732685df9a7aaab7630f2af21a9669803b1f5cc774fe68ca8db7daa424d6",
+    "mobile-eslint": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

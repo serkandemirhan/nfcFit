@@ -1,0 +1,432 @@
+/* Trainer list density: bounded collections, explicit actions and >=44px controls. */
+.nfc-admin .nfc-row-menu {
+  min-width: 185px;
+  padding: 5px;
+  border: 1px solid #35465c;
+  border-radius: 9px;
+  background: #101b2c;
+  box-shadow: 0 14px 40px #0008;
+  z-index: 230;
+}
+.nfc-admin.nfc-row-menu {
+  min-width: 185px;
+  padding: 5px;
+  border: 1px solid #35465c;
+  border-radius: 9px;
+  background: #101b2c;
+  box-shadow: 0 14px 40px #0008;
+  z-index: 230;
+}
+.nfc-admin.nfc-row-menu [role="menuitem"] {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+}
+.nfc-admin.nfc-row-menu [role="menuitem"][data-highlighted] {
+  background: #213449;
+  color: #fff;
+}
+.nfc-admin.nfc-row-menu [role="menuitem"][data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.nfc-admin.nfc-row-menu .nfc-menu-destructive {
+  color: #fda4af;
+}
+.nfc-admin .nfc-list-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+.nfc-admin .nfc-list-actions .nfc-button {
+  white-space: nowrap;
+}
+.nfc-admin .nfc-page-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9aaac0;
+  font-size: 12px;
+}
+.nfc-admin .nfc-page-size select {
+  width: 64px;
+  min-height: 44px;
+  padding: 8px;
+  border: 1px solid #28364a;
+  border-radius: 8px;
+  background: #0b1524;
+  color: #e7edf6;
+}
+.nfc-admin .nfc-page-size + .nfc-button {
+  margin-left: 8px;
+}
+.nfc-admin .trainer-area .nfc-programs-table h3,
+.nfc-admin .trainer-area .nfc-workouts-table h3 {
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 0;
+}
+.nfc-admin .nfc-programs-table [data-slot="table-cell"],
+.nfc-admin .nfc-workouts-table [data-slot="table-cell"],
+.nfc-admin .nfc-members-table [data-slot="table-cell"] {
+  padding: 10px 14px;
+}
+.nfc-admin .nfc-programs-table [data-column="name"] {
+  width: 43%;
+}
+.nfc-admin .nfc-programs-table .nfc-program-goal {
+  max-width: 330px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nfc-admin .nfc-programs-table [data-column="weeks"] {
+  white-space: nowrap;
+}
+.nfc-admin .trainer-area .tp[data-view="library"] {
+  gap: 12px;
+}
+.nfc-admin .trainer-area .tp[data-view="library"] > .tp-heading {
+  min-height: 0;
+  height: 0;
+  margin: 0;
+}
+.nfc-admin .trainer-area .tp[data-view="library"] > .tp-heading > button {
+  position: relative;
+  top: -57px;
+  margin-top: 0;
+}
+.nfc-admin .trainer-area .tp-library-tools {
+  padding: 12px;
+}
+.nfc-admin .nfc-workout-tools {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 12px;
+  background: #0c1726;
+  border: 1px solid #28364a;
+  border-radius: 10px;
+}
+.nfc-admin .nfc-workout-tools > .tp-field:first-child {
+  flex: 1;
+}
+.nfc-admin .nfc-workout-tools > .tp-field:nth-child(2) {
+  width: 190px;
+}
+.nfc-admin .nfc-workout-tools > span {
+  align-self: center;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.nfc-admin .trainer-area .trainer-overview-hero {
+  padding: 12px 16px;
+}
+.nfc-admin .trainer-area .trainer-overview-hero h3 {
+  font-size: 17px;
+}
+.nfc-admin .trainer-area .trainer-overview-hero p {
+  display: none;
+}
+.nfc-admin .trainer-area .trainer-kpis {
+  gap: 12px;
+}
+.nfc-admin .trainer-area .trainer-kpis .nfc-button {
+  min-height: 80px;
+  padding: 12px 16px;
+  gap: 2px;
+}
+.nfc-admin .trainer-area .trainer-kpis strong {
+  font-size: 26px;
+}
+.nfc-admin .nfc-overview-lists {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+}
+.nfc-admin .nfc-overview-lists > article {
+  padding: 14px;
+}
+.nfc-admin .nfc-overview-lists > article > h3 {
+  font-size: 14px;
+}
+.nfc-admin .nfc-overview-lists > article > * + * {
+  margin-top: 8px;
+}
+.nfc-admin .nfc-overview-row {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+  font-size: 12px;
+  min-width: 0;
+}
+.nfc-admin .nfc-overview-row > span:first-child {
+  min-width: 0;
+}
+.nfc-admin .nfc-overview-row strong {
+  display: block;
+  font-size: 12px;
+}
+.nfc-admin .nfc-overview-row small {
+  display: block;
+  color: #9aaac0;
+  font-size: 11px;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 300px;
+}
+.nfc-admin .nfc-overview-row > span:last-child {
+  flex: none;
+}
+.nfc-admin .nfc-overview-member-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.nfc-admin .nfc-overview-member-title h3 {
+  font-size: 16px;
+}
+.nfc-admin .trainer-area .nfc-member-toolbar {
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.nfc-admin .nfc-members-table[data-compact="true"] [data-column="attention"] {
+  display: none;
+}
+.nfc-admin .nfc-members-table[data-compact="true"] th:nth-child(4) {
+  display: none;
+}
+@media (min-width: 768px) {
+  .nfc-admin .nfc-programs-table th:last-child,
+  .nfc-admin .nfc-workouts-table th:last-child {
+    text-align: right;
+  }
+  .nfc-admin .nfc-workouts-table [data-column="action"] {
+    text-align: right;
+  }
+  .nfc-admin .nfc-programs-table [data-slot="table-cell"] {
+    height: 80px;
+  }
+}
+@media (max-width: 767px) {
+  .nfc-admin .trainer-area .tp[data-view="library"] > .tp-heading {
+    height: auto;
+    min-height: 44px;
+  }
+  .nfc-admin .trainer-area .tp[data-view="library"] > .tp-heading > button {
+    top: 0;
+  }
+  .nfc-admin .nfc-page-size {
+    justify-content: flex-start;
+  }
+  .nfc-admin .nfc-page-size + .nfc-button {
+    margin-left: 0;
+  }
+  .nfc-admin .nfc-table-footer > div {
+    flex-wrap: wrap;
+  }
+  .nfc-admin .nfc-table-footer > div > .nfc-page-size {
+    flex: 1 1 100%;
+  }
+  .nfc-admin .nfc-page-size select {
+    margin-left: auto;
+    width: 84px;
+  }
+  .nfc-admin .nfc-programs-table [data-slot="table-row"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 10px;
+    padding: 12px;
+  }
+  .nfc-admin .nfc-programs-table [data-slot="table-cell"] {
+    padding: 0;
+    width: auto;
+    min-width: 0;
+  }
+  .nfc-admin .nfc-programs-table [data-column="name"] {
+    grid-column: 1;
+  }
+  .nfc-admin .nfc-programs-table [data-column="status"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .nfc-admin .nfc-programs-table [data-column="weeks"] {
+    grid-column: 1/-1;
+    font-size: 12px;
+  }
+  .nfc-admin .nfc-programs-table [data-column="weeks"] small,
+  .nfc-admin .nfc-programs-table .nfc-program-goal {
+    display: none;
+  }
+  .nfc-admin .nfc-programs-table [data-column="action"] {
+    grid-column: 1/-1;
+  }
+  .nfc-admin .nfc-list-actions {
+    justify-content: flex-start;
+  }
+  .nfc-admin .nfc-programs-table [data-slot="table-cell"] .nfc-button {
+    width: auto;
+    margin-top: 2px;
+  }
+  .nfc-admin .nfc-programs-table .nfc-list-actions > .nfc-button:first-child {
+    flex: 1;
+  }
+  .nfc-admin .nfc-programs-table .nfc-list-actions > .nfc-button.tp-primary {
+    flex: 1;
+  }
+  .nfc-admin .nfc-programs-table .nfc-list-actions > .nfc-icon {
+    width: 44px;
+    flex: none;
+  }
+  .nfc-admin .nfc-workout-tools {
+    flex-wrap: wrap;
+  }
+  .nfc-admin .nfc-workout-tools > .tp-field:first-child {
+    flex: 1 1 100%;
+  }
+  .nfc-admin .nfc-workout-tools > .tp-field:nth-child(2) {
+    flex: 1;
+    width: auto;
+  }
+  .nfc-admin .nfc-workouts-table [data-slot="table-row"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 8px;
+    padding: 12px;
+  }
+  .nfc-admin .nfc-workouts-table [data-slot="table-cell"] {
+    padding: 0;
+  }
+  .nfc-admin .nfc-workouts-table [data-column="name"] {
+    grid-column: 1/-1;
+  }
+  .nfc-admin .nfc-workouts-table [data-column="exercises"] {
+    grid-column: 1/-1;
+    font-size: 12px;
+  }
+  .nfc-admin .nfc-workouts-table [data-column="action"] {
+    grid-column: 1/-1;
+  }
+  .nfc-admin .nfc-workouts-table [data-column="name"] small {
+    display: none;
+  }
+  .nfc-admin .nfc-members-table [data-slot="table-row"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 6px 10px;
+    padding: 12px;
+  }
+  .nfc-admin .nfc-members-table [data-slot="table-cell"] {
+    padding: 0;
+  }
+  .nfc-admin .nfc-members-table [data-column="name"] {
+    grid-column: 1;
+  }
+  .nfc-admin .nfc-members-table [data-column="name"] small {
+    display: none;
+  }
+  .nfc-admin .nfc-members-table [data-column="active_plans"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .nfc-admin .nfc-members-table [data-column="completion_rate"] {
+    grid-column: 1;
+    font-size: 12px;
+    color: #9aaac0;
+  }
+  .nfc-admin .nfc-members-table [data-column="attention"] {
+    display: none;
+  }
+  .nfc-admin .nfc-members-table [data-column="action"] {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .nfc-admin .nfc-members-table [data-column="action"] .nfc-button {
+    width: auto;
+    margin: 0;
+    min-width: 44px;
+    font-size: 11px;
+    padding: 8px;
+  }
+  .nfc-admin .nfc-overview-lists {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+  .nfc-admin .trainer-area .trainer-overview-hero {
+    padding: 12px;
+  }
+  .nfc-admin .trainer-area .trainer-overview-hero h3 {
+    font-size: 15px;
+  }
+  .nfc-admin .trainer-area .trainer-kpis .nfc-button {
+    min-height: 76px;
+    padding: 10px 12px;
+  }
+}
+.nfc-admin .nfc-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.nfc-admin .nfc-overview-secondary {
+  border: 1px solid #28364a;
+  border-radius: 9px;
+  background: #0c1726;
+}
+.nfc-admin .nfc-overview-secondary > summary {
+  min-height: 48px;
+  padding: 13px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.nfc-admin .nfc-overview-secondary > .nfc-overview-lists {
+  padding: 0 12px 12px;
+}
+.nfc-admin .nfc-overview-secondary > .nfc-overview-lists > article {
+  margin: 0;
+}
+@media (min-width: 768px) {
+  .nfc-admin .nfc-programs-table [data-slot="table-cell"] {
+    height: 64px;
+  }
+}
+@media (max-width: 767px) {
+  .nfc-admin .nfc-page-title {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .nfc-admin .nfc-page-title > .nfc-button {
+    width: 100%;
+  }
+}
+/* Header actions occupy real header space; never offset over wrapping descriptions. */
+.nfc-admin .trainer-area .tp[data-view="library"] > .tp-heading {
+  display: none;
+}
+.nfc-admin .nfc-header-action-slot:empty {
+  display: none;
+}
+.nfc-admin .nfc-header-action-slot > .tp-primary {
+  background: #bef264;
+  color: #122008;
+  border-color: #bef264;
+}
+@media (max-width: 767px) {
+  .nfc-admin .nfc-header-action-slot,
+  .nfc-admin .nfc-header-action-slot > button {
+    width: 100%;
+  }
+}

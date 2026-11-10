@@ -1,0 +1,45 @@
+TAP version 13
+# Subtest: UI-05 sparse chart keeps 4:01, two actual sets and separate partial/completed/missed counts above its compact chart
+ok 1 - UI-05 sparse chart keeps 4:01, two actual sets and separate partial/completed/missed counts above its compact chart
+  ---
+  duration_ms: 386.664058
+  ...
+# Subtest: UI-05 empty and populated charts plus 7/30/90 selectors use existing trend data without mutating workouts
+ok 2 - UI-05 empty and populated charts plus 7/30/90 selectors use existing trend data without mutating workouts
+  ---
+  duration_ms: 120.18201
+  ...
+# Subtest: UI-04 daily goals precede program sessions and preserve dated 2/8 actual versus 0/8 upcoming
+ok 3 - UI-04 daily goals precede program sessions and preserve dated 2/8 actual versus 0/8 upcoming
+  ---
+  duration_ms: 172.728656
+  ...
+# Subtest: UI-04 Plank and push-up quantities stay separate from program sets with explicit target, actual, remaining and progress
+ok 4 - UI-04 Plank and push-up quantities stay separate from program sets with explicit target, actual, remaining and progress
+  ---
+  duration_ms: 380.378721
+  ...
+# Subtest: UI-04 edit still saves a goal through the existing durable SQLite path
+ok 5 - UI-04 edit still saves a goal through the existing durable SQLite path
+  ---
+  duration_ms: 388.810968
+  ...
+# Subtest: UI-01 compact result keeps Pazar, partial 2/8, outcome action and separate 15 November future without touching history
+ok 6 - UI-01 compact result keeps Pazar, partial 2/8, outcome action and separate 15 November future without touching history
+  ---
+  duration_ms: 82.826785
+  ...
+# Subtest: UI-02 real builder handlers add once, reopen selected days, preserve renamed/redated sessions and keep save outside the scrolling list
+ok 7 - UI-02 real builder handlers add once, reopen selected days, preserve renamed/redated sessions and keep save outside the scrolling list
+  ---
+  duration_ms: 145.82486
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2134.518922

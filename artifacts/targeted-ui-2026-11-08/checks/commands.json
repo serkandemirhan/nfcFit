@@ -1,0 +1,51 @@
+{
+  "cwd": "mobile/nfc-task-tracker (Android command: android/)",
+  "commands": [
+    {
+      "check": "UI-03",
+      "command": "node --test tests/targeted-ui.test.cjs tests/coaching-sync.test.cjs tests/offline-sync.test.cjs",
+      "passes": 11
+    },
+    {
+      "check": "UI-02",
+      "command": "node --test tests/targeted-ui.test.cjs tests/starter-programs.test.cjs tests/coaching.test.cjs",
+      "passes": 53
+    },
+    {
+      "check": "UI-05",
+      "command": "node --test tests/targeted-ui-render.test.cjs tests/coaching.test.cjs",
+      "passes": 47
+    },
+    {
+      "check": "UI-04",
+      "command": "node --test tests/targeted-ui-render.test.cjs tests/offline-store.test.cjs",
+      "passes": 17
+    },
+    {
+      "check": "UI-01",
+      "command": "node --test tests/targeted-ui-render.test.cjs tests/coaching.test.cjs",
+      "passes": 51
+    },
+    {
+      "check": "Son bileşen olay testleri",
+      "command": "node --test tests/targeted-ui-render.test.cjs",
+      "passes": 7
+    },
+    {
+      "check": "Son tam mobil suite",
+      "command": "node --test tests/*.test.cjs",
+      "passes": 122
+    },
+    {
+      "check": "TypeScript",
+      "command": "./node_modules/.bin/tsc --noEmit",
+      "exit_code": 0
+    },
+    {
+      "check": "Android",
+      "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew assembleRelease --offline --console=plain",
+      "exit_code": 0
+    }
+  ],
+  "note": "Batch runs overlap; do not sum them. Only final all-tests count is 122. Component event tests use host/hook adapters and do not prove Android layout."
+}

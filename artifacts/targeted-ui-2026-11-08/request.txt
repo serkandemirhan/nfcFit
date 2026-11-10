@@ -1,0 +1,191 @@
+# NFCFit 1.0.20 — Targeted Android UI Corrections
+
+Implement ONLY the following changes in the existing NFCFit application.
+
+These findings are based on actual Android screenshots 001–009 from the 1.0.20 device review.
+
+Do not perform a general redesign, role refactor, navigation restructure, or unrelated cleanup.
+
+The existing five roles have already been implemented. Role acceptance testing is a separate task.
+
+## TASK UI-01 — Today Screen
+
+Reference: `001-today-result.png`
+
+Current verified behavior:
+- Today's partial workout 2/8 appears above the future workout.
+- Planned and actual dates are correctly separated.
+
+Keep this logic unchanged.
+
+Required changes:
+1. Retain the title "Pazar · Tüm Vücut".
+2. Retain the status "Kısmen tamamlandı".
+3. Retain the progress indicator showing 2/8.
+4. Reduce repetitive explanatory text.
+5. Replace the long paragraph explaining completed versus planned sessions with a concise secondary line or accessible help detail.
+6. Reduce excessive vertical padding within the result card.
+7. Keep the "Seans sonucunu gör" action clearly accessible.
+8. Ensure the upcoming workout card is visible earlier in the scroll.
+
+Acceptance:
+- The 2/8 result remains unchanged.
+- The 15 November upcoming workout remains separate.
+- No historical data is modified.
+- The screen uses less vertical space without reducing readability.
+
+## TASK UI-02 — Workout Plan Builder
+
+References:
+- `002-builder-compact.png`
+- `003-builder-keyboard-viewport.png`
+- `004-expanded-plan-settings.png`
+
+Current issue:
+Seven separate "Pzt ekle", "Sal ekle", etc. buttons occupy too much space and do not clearly communicate selection state.
+
+Required changes:
+1. Replace the seven large add-day buttons with a compact seven-day selector.
+2. Use labels: Pzt, Sal, Çar, Per, Cum, Cmt, Paz.
+3. Clearly distinguish selected and unselected days.
+4. Tapping an unselected day must add it using the existing plan data model.
+5. Tapping a selected day must open its existing session configuration. Do not silently delete the day.
+6. Preserve the existing ability to edit session names and dates.
+7. Add an example placeholder to the purpose field.
+8. Validate an empty program name with a specific Turkish message.
+9. Preserve the existing collapsible advanced settings.
+10. Preserve the keyboard-safe save button behavior.
+
+Acceptance:
+- All seven days remain accessible.
+- Adding and editing days works.
+- No day is deleted accidentally.
+- The save button remains visible with the keyboard open.
+- Existing plan history and backend payloads remain compatible.
+
+## TASK UI-03 — Synchronization Screen
+
+References:
+- `005-sync-screen.png`
+- `006-sync-retry.png`
+
+Observed issue:
+The screen displays raw "Aborted" text and does not clearly explain the result of a synchronization attempt.
+
+Required changes:
+1. Trace the exact origin of the Aborted state.
+2. Distinguish cancellation, timeout, offline, and server failure.
+3. Do not display raw exception text as the primary user message.
+4. Show "Eşitleniyor..." while a real request is in progress.
+5. Disable duplicate manual synchronization requests while active.
+6. Show success only after a confirmed successful synchronization.
+7. Preserve the last successful synchronization timestamp.
+8. Clearly show pending and failed record counts where available.
+9. Display a concise recovery action when synchronization fails.
+10. Preserve existing offline retry and idempotency mechanisms.
+
+Acceptance:
+- The cause of the observed Aborted state is documented.
+- A new real backend synchronization is tested.
+- A successful attempt and a failed attempt produce visibly different UI states.
+- No duplicate records are created.
+- If backend testing is unavailable, mark acceptance BLOCKED.
+
+## TASK UI-04 — Goals Screen
+
+References:
+- `007-dated-goals.png`
+- `008-daily-goals.png`
+
+Current issue:
+Daily exercise goals and workout program summaries occupy the same long page without enough separation.
+
+Required changes:
+1. Keep all existing daily and program goal calculations.
+2. Introduce a clear hierarchy between daily exercise goals and workout session summaries.
+3. Place the most actionable daily goals prominently.
+4. Keep actual and upcoming workout dates explicit.
+5. For each daily goal, display exercise name, target, actual quantity, remaining quantity, and progress.
+6. Reduce repetitive explanatory text.
+7. Avoid multiple competing navigation buttons.
+8. Preserve the ability to edit each goal.
+9. Do not combine daily repetitions or durations with program set totals.
+
+Acceptance:
+- 8 November actual 2/8 remains correct.
+- 15 November upcoming 0/8 remains correct.
+- Plank and push-up quantities remain correct.
+- Goal editing continues to work.
+- The page becomes easier to scan without losing information.
+
+## TASK UI-05 — Progress Screen
+
+Reference: `009-progress-states.png`
+
+Current issue:
+The weekly chart dominates the screen even when only one session exists.
+
+Required changes:
+1. Replace ambiguous "Bitirilen seans" wording with "Sonlandırılan seans" where it refers to all terminal workout sessions.
+2. Clearly distinguish fully completed and partially completed workouts.
+3. Preserve the separate missed-workout count.
+4. Move the most important performance summary above or closer to the chart.
+5. When the dataset is sparse, use a more compact chart presentation.
+6. Keep weekly, 30-day, and 90-day period selection.
+7. Preserve the 4:01 active duration.
+8. Preserve the 2/8 actual set count.
+9. Never modify historical records or workout classification rules solely for presentation.
+
+Acceptance:
+- One partially completed workout is not reported as one fully achieved workout.
+- The chart and summary use the same underlying data.
+- Empty, sparse, and populated datasets render correctly.
+- Period switching continues to work.
+
+## GLOBAL RESTRICTIONS
+
+Do not modify:
+- Role definitions
+- Club Admin or Club Manager permissions
+- Trainer authorization
+- Club membership architecture
+- Workout completion calculations
+- Historical workout records
+- Plan versioning
+- Account timezone calculations
+- Existing NFC logic
+- Offline queue semantics
+
+Do not change any other screens unless a shared component correction is strictly necessary. Document any such change.
+
+## IMPLEMENTATION ORDER
+
+1. UI-03 synchronization state and backend verification.
+2. UI-02 plan builder.
+3. UI-05 progress.
+4. UI-04 goals.
+5. UI-01 today.
+
+Implement in separate, reviewable batches.
+
+After each batch:
+- Run relevant existing tests.
+- Add focused regression tests.
+- Capture real Android screenshots if a device is connected.
+- Compare the result against the original reference screenshot.
+- Report changed files and exact behavior.
+
+Do not claim physical acceptance based on automated tests.
+
+## FINAL DELIVERABLE
+
+Create a self-contained ZIP report containing:
+- Before/after screenshots for each modified screen
+- Actual test results
+- Changed source files
+- Remaining blockers
+- PASS / FAIL / BLOCKED / UNTESTED per task
+
+Do not mark the work complete if a required behavior remains unverified.
+
+Begin with UI-03. Do not expand the scope beyond these five tasks.

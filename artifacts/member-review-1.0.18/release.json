@@ -1,0 +1,39 @@
+{
+  "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.18.apk",
+  "bytes": 100795054,
+  "sha256": "8e495dc4c8b95ccd2db372089fbb375e4397503f58ddfd135fcf5531d74ae983",
+  "source_files_verified": 113,
+  "version": "1.0.18",
+  "versionCode": 19,
+  "installed_on": "Samsung SM-S901B / Android 16",
+  "baseline": "1.0.17",
+  "native_cold_launch_ms_17": 556,
+  "native_cold_launch_18": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 529\nWaitTime: 533\nComplete\n",
+  "checks": {
+    "mobile_tests": 79,
+    "typescript": "passed",
+    "lint": "passed",
+    "signature": "verified",
+    "bundled_sources": "match disk"
+  },
+  "fixed": [
+    "Plan builder keyboard obscured save footer",
+    "Coaching sync query key shape collision"
+  ],
+  "physical_acceptance": {
+    "builder_keyboard_save_visible": true,
+    "keyboard_excess_space_observed": true,
+    "coaching_sync_opens_without_crash": true,
+    "evidence": [
+      "screens/002-sync-details.png",
+      "screens/004-builder-keyboard.png"
+    ]
+  },
+  "limitations": [
+    "No real NFC read/write in this run",
+    "No positive coach assignment/comment test using a staff account",
+    "No fresh offline activity upload test in this run",
+    "Native first-display time is not full data readiness time",
+    "Frame statistics cover observed navigation and keyboard interactions, not a controlled before/after benchmark"
+  ]
+}

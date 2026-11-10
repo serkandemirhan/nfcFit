@@ -1,0 +1,43 @@
+[
+  {
+    "check": "mobile regressions",
+    "cwd": "mobile/nfc-task-tracker",
+    "command": "node --test tests/*.test.cjs",
+    "exit_code": 0
+  },
+  {
+    "check": "backend domain/API",
+    "command": "backend/.venv/bin/python -m unittest discover -s backend/tests -v",
+    "exit_code": 0,
+    "note": "58 executed; 4 isolated PostgreSQL tests skipped here and executed separately"
+  },
+  {
+    "check": "PostgreSQL RLS",
+    "command": "backend/.venv/bin/python backend/scripts/test_rls.py",
+    "exit_code": 0,
+    "note": "Disposable PostgreSQL cluster, separate from application database."
+  },
+  {
+    "check": "web security and Node ESM",
+    "cwd": "web",
+    "command": "node --test tests/*.test.cjs",
+    "exit_code": 0
+  },
+  {
+    "check": "TypeScript",
+    "cwd": "mobile/nfc-task-tracker and web independently",
+    "command": "npx tsc --noEmit",
+    "exit_code": 0
+  },
+  {
+    "check": "Android",
+    "cwd": "mobile/nfc-task-tracker/android",
+    "command": "JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home ./gradlew assembleRelease --offline --console=plain",
+    "exit_code": 0
+  },
+  {
+    "check": "web prebuilt",
+    "command": "npx --yes vercel@latest build --prod --yes",
+    "exit_code": 0
+  }
+]

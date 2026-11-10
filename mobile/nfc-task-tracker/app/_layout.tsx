@@ -1,3 +1,5 @@
+import '@/lib/offline-background';
+import { OfflineSyncProvider } from '@/providers/offline-sync-provider';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
@@ -37,13 +39,18 @@ function RootLayoutContent() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <LanguageInitializer />
+            <OfflineSyncProvider>
             <AuthGate>
               <Stack>
                 <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+                <Stack.Screen name="sync-status" options={{ headerShown: false }} />
+                <Stack.Screen name="record-activity" options={{ headerShown: false }} />
+                <Stack.Screen name="tag/[id]" options={{ headerShown: false }} />
                 <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
               </Stack>
             </AuthGate>
-            <StatusBar style="auto" />
+            </OfflineSyncProvider>
+            <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
           </AuthProvider>
         </QueryClientProvider>
       </ThemeProvider>

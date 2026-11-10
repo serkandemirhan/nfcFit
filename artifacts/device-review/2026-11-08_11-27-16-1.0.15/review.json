@@ -1,0 +1,84 @@
+{
+  "device": "Samsung SM-S901B",
+  "android": 16,
+  "installed_and_tested_version": "1.0.15",
+  "installed_code": 16,
+  "account": "member-test1",
+  "native_first_display_ms": {
+    "online": 583,
+    "offline_restart": 508
+  },
+  "performance_limit": "Native first display samples, not full data readiness; no 1.0.15 frame metrics captured before USB disconnect.",
+  "confirmed": [
+    "Upgrade preserved plan, one previously recorded set and pause time 2:06",
+    "Compact weekly day selection shows selected session and plan name",
+    "Rest-day selection updates detail without changing data",
+    "Plan save remains visible at top; missing day error appears beside save, no new plan created",
+    "Direct member coach and management links deny access",
+    "Set-entry rep and weight controls fit above save after art removal",
+    "With Wi-Fi and mobile data both 0, resumed workout and saved second squat set",
+    "Force-stopped and cold-reopened offline: 2/8 sets, 25%, pending state and logged-in account retained",
+    "Wi-Fi restored to 1, mobile data kept at original 0",
+    "After reconnect, workout showed synced and exactly two saved sets",
+    "Explicit partial finish retained 2 sets, 16 repetitions, 4:01 active time",
+    "Progress updated to one completed-or-partial session, 2 sets and 4:01",
+    "30/90-day range totals remain one session; exercise detail shows two sets/16 reps and no fabricated weight",
+    "Wellness and existing personal goals open; facility push-up goal remains 30/50"
+  ],
+  "test_data": {
+    "plan": "TEST-Telefon-QA-08.11.2026",
+    "plan_version": 2,
+    "dates": [
+      "2026-11-08",
+      "2026-11-15",
+      "2026-11-22",
+      "2026-11-29"
+    ],
+    "session": "Paz",
+    "state": "partial",
+    "sets": 2,
+    "reps": 16,
+    "active_seconds": 241
+  },
+  "network": {
+    "original": {
+      "wifi": 1,
+      "mobile_data": 0
+    },
+    "offline_at_save": {
+      "wifi": 0,
+      "mobile_data": 0
+    },
+    "restored_and_verified": {
+      "wifi": 1,
+      "mobile_data": 0
+    },
+    "device_watchdog": "Bounded restore fallback was used; restored marker observed. No pending network change remains."
+  },
+  "screenshots": 24,
+  "followup_release": {
+    "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.16.apk",
+    "bytes": 100779854,
+    "sha256": "476039f543e0334aafeb39d59d0e63d38ff7f983fd3321e986121748e36b680e",
+    "source_files_verified": 110,
+    "version": "1.0.16",
+    "versionCode": 17
+  },
+  "followup_fixes": [
+    "Trend bars label inclusive beginning/end dates; final bin ends at today, with daily/7-day/30-day grouping legend",
+    "Plan card counts scheduled sessions instead of duplicated historical/future day definitions",
+    "Profile Goals opens a dedicated facility goal editor; other personal records remain a separate link"
+  ],
+  "validation": {
+    "mobile_tests": 76,
+    "typescript": "pass",
+    "targeted_lint": "pass",
+    "bundled_sources": 110
+  },
+  "remaining": [
+    "1.0.16 installation and physical recheck: USB disappeared again",
+    "Authenticated browser trainer flow: Browser backend unavailable",
+    "Positive coach/manager login UI journeys",
+    "Separate physical NFC card acceptance kit"
+  ]
+}

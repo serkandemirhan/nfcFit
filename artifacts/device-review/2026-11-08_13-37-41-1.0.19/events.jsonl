@@ -1,0 +1,22 @@
+{"at": "2026-11-08T13:37:42.778503+03:00", "event": "cold-launch", "adb_wall_seconds": 0.654, "native_result": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 557\nWaitTime: 559\nComplete\n"}
+{"at": "2026-11-08T13:37:42.986697+03:00", "event": "frame-counter-reset"}
+{"at": "2026-11-08T13:37:51.049517+03:00", "event": "capture", "name": "001-today-partial", "observer_seconds": 3.919}
+{"at": "2026-11-08T13:37:59.695953+03:00", "event": "tap", "x": 500, "y": 1540, "dispatch_seconds": 0.137, "label": "Seans-sonucu"}
+{"at": "2026-11-08T13:38:02.847367+03:00", "event": "capture", "name": "002-preserved-partial", "observer_seconds": 3.068}
+{"at": "2026-11-08T13:38:12.445300+03:00", "event": "capture", "name": "003-dated-goals", "observer_seconds": 2.893}
+{"at": "2026-11-08T13:38:12.912026+03:00", "event": "metrics", "name": "early-clarity"}
+{"at": "2026-11-08T13:38:25.770399+03:00", "event": "capture", "name": "004-daily-goals-compact", "observer_seconds": 3.083}
+{"at": "2026-11-08T13:38:32.245798+03:00", "event": "tap", "x": 910, "y": 940, "dispatch_seconds": 0.149, "label": "Plank-hedef-duzenle"}
+{"at": "2026-11-08T13:38:35.655705+03:00", "event": "capture", "name": "005-inline-goal-editor", "observer_seconds": 3.134}
+{"at": "2026-11-08T13:38:42.230329+03:00", "event": "tap", "x": 750, "y": 2080, "dispatch_seconds": 0.157, "label": "Ilerleme"}
+{"at": "2026-11-08T13:38:45.387718+03:00", "event": "capture", "name": "006-progress-states", "observer_seconds": 3.06}
+{"at": "2026-11-08T13:38:51.049903+03:00", "event": "tap", "x": 700, "y": 535, "dispatch_seconds": 0.165, "label": "90-gun"}
+{"at": "2026-11-08T13:38:54.121431+03:00", "event": "capture", "name": "007-progress-90days", "observer_seconds": 2.984}
+{"at": "2026-11-08T13:38:58.650165+03:00", "event": "capture", "name": "008-progress-history", "observer_seconds": 3.94}
+{"at": "2026-11-08T13:39:08.254298+03:00", "event": "capture", "name": "009-sync-open", "observer_seconds": 3.207}
+{"at": "2026-11-08T13:39:32.524260+03:00", "event": "capture", "name": "010-today-after-sync", "observer_seconds": 2.928}
+{"at": "2026-11-08T13:39:35.883543+03:00", "event": "capture", "name": "011-sync-after-dashboard-cache", "observer_seconds": 3.154}
+{"at": "2026-11-08T13:39:43.811823+03:00", "event": "capture", "name": "012-compact-builder", "observer_seconds": 2.864}
+{"at": "2026-11-08T13:39:49.084326+03:00", "event": "tap", "x": 300, "y": 590, "dispatch_seconds": 0.209, "label": "Plan-adi"}
+{"at": "2026-11-08T13:39:52.135054+03:00", "event": "capture", "name": "013-builder-keyboard", "observer_seconds": 2.971}
+{"at": "2026-11-08T13:42:16.222390+03:00", "event": "metrics", "name": "before-keyboard-followup"}

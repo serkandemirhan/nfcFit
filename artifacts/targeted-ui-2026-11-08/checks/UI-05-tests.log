@@ -1,0 +1,245 @@
+TAP version 13
+# Subtest: workout actuals survive reopening, pending snapshots resist stale pull and accounts stay isolated
+ok 1 - workout actuals survive reopening, pending snapshots resist stale pull and accounts stay isolated
+  ---
+  duration_ms: 213.039179
+  ...
+# Subtest: request retry is idempotent and another request cannot duplicate the same set slot
+ok 2 - request retry is idempotent and another request cannot duplicate the same set slot
+  ---
+  duration_ms: 117.288196
+  ...
+# Subtest: terminal actuals are immutable and partial finish requires explicit confirmation
+ok 3 - terminal actuals are immutable and partial finish requires explicit confirmation
+  ---
+  duration_ms: 84.450867
+  ...
+# Subtest: conflict preserves actuals and dependent jobs, archives before adopting canonical server workout
+ok 4 - conflict preserves actuals and dependent jobs, archives before adopting canonical server workout
+  ---
+  duration_ms: 74.89211
+  ...
+# Subtest: unplanned exercise metadata stays readable locally but only target fields upload
+ok 5 - unplanned exercise metadata stays readable locally but only target fields upload
+  ---
+  duration_ms: 65.481592
+  ...
+# Subtest: wellness and goal are immediate and receipts stay visible when next pull fails
+ok 6 - wellness and goal are immediate and receipts stay visible when next pull fails
+  ---
+  duration_ms: 56.741356
+  ...
+# Subtest: facility workout requires active membership in cached identity
+ok 7 - facility workout requires active membership in cached identity
+  ---
+  duration_ms: 61.622784
+  ...
+# Subtest: offline active duration excludes pauses and preserves occurrence time on replay
+ok 8 - offline active duration excludes pauses and preserves occurrence time on replay
+  ---
+  duration_ms: 62.753041
+  ...
+# Subtest: exercise performance separates movement IDs and missing weight while using actual local date
+ok 9 - exercise performance separates movement IDs and missing weight while using actual local date
+  ---
+  duration_ms: 48.430548
+  ...
+# Subtest: account timezone survives queue restart, stale pull and acknowledgement
+ok 10 - account timezone survives queue restart, stale pull and acknowledgement
+  ---
+  duration_ms: 63.82473
+  ...
+# Subtest: calendar days use account timezone at midnight and daylight-saving boundaries
+ok 11 - calendar days use account timezone at midnight and daylight-saving boundaries
+  ---
+  duration_ms: 1.693967
+  ...
+# Subtest: coach and facility access require staff roles, not membership or platform status
+ok 12 - coach and facility access require staff roles, not membership or platform status
+  ---
+  duration_ms: 18.384927
+  ...
+# Subtest: visual workout progress counts distinct completed target slots, not skipped or extra sets
+ok 13 - visual workout progress counts distinct completed target slots, not skipped or extra sets
+  ---
+  duration_ms: 97.362434
+  ...
+# Subtest: dashboard selects an unfinished future session and does not reuse terminal or rejected active sessions
+ok 14 - dashboard selects an unfinished future session and does not reuse terminal or rejected active sessions
+  ---
+  duration_ms: 65.010445
+  ...
+# Subtest: wellness tiles respect account date, preserve unknown mood, and exclude coffee from water
+ok 15 - wellness tiles respect account date, preserve unknown mood, and exclude coffee from water
+  ---
+  duration_ms: 57.762023
+  ...
+# Subtest: dashboard elapsed time includes only the running segment and tolerates clock rollback
+ok 16 - dashboard elapsed time includes only the running segment and tolerates clock rollback
+  ---
+  duration_ms: 59.402274
+  ...
+# Subtest: set entry fills missing slots and keeps edited skipped values
+ok 17 - set entry fills missing slots and keeps edited skipped values
+  ---
+  duration_ms: 120.00458
+  ...
+# Subtest: weekly schedule preserves missed history and scopes plans to the member
+ok 18 - weekly schedule preserves missed history and scopes plans to the member
+  ---
+  duration_ms: 79.096924
+  ...
+# Subtest: trend uses actual finish date and timezone and excludes rejected entries
+ok 19 - trend uses actual finish date and timezone and excludes rejected entries
+  ---
+  duration_ms: 58.325802
+  ...
+# Subtest: result highlights compare matching exercises to earlier real sets only
+ok 20 - result highlights compare matching exercises to earlier real sets only
+  ---
+  duration_ms: 62.854057
+  ...
+# Subtest: extra movements count as actual activity without changing planned progress or the saved plan
+ok 21 - extra movements count as actual activity without changing planned progress or the saved plan
+  ---
+  duration_ms: 64.168554
+  ...
+# Subtest: long-period trend labels include the actual last date and never extend past today
+ok 22 - long-period trend labels include the actual last date and never extend past today
+  ---
+  duration_ms: 57.703138
+  ...
+# Subtest: member timeline uses actual local date, retains distinct free records and excludes rejected or empty scheduled sessions
+ok 23 - member timeline uses actual local date, retains distinct free records and excludes rejected or empty scheduled sessions
+  ---
+  duration_ms: 19.503014
+  ...
+# Subtest: card matches only today's own scheduled targets and never reopens terminal or rejected sessions
+ok 24 - card matches only today's own scheduled targets and never reopens terminal or rejected sessions
+  ---
+  duration_ms: 0.44842
+  ...
+# Subtest: dashboard and sync-details cache coexist and invalidate together without sharing result shapes
+ok 25 - dashboard and sync-details cache coexist and invalidate together without sharing result shapes
+  ---
+  duration_ms: 100.498751
+  ...
+# Subtest: today keeps partial actual 2/8 above the future plan without changing records
+ok 26 - today keeps partial actual 2/8 above the future plan without changing records
+  ---
+  duration_ms: 1.644451
+  ...
+# Subtest: finished session does not imply achieved target sets or a completed multi-week plan
+ok 27 - finished session does not imply achieved target sets or a completed multi-week plan
+  ---
+  duration_ms: 0.997912
+  ...
+# Subtest: future paused sessions never replace today completed or partial results
+ok 28 - future paused sessions never replace today completed or partial results
+  ---
+  duration_ms: 1.361491
+  ...
+# Subtest: today execution from a previous planned day preserves both dates and actual immutable snapshot
+ok 29 - today execution from a previous planned day preserves both dates and actual immutable snapshot
+  ---
+  duration_ms: 4.951486
+  ...
+# Subtest: tomorrow planned session executed today is today result and is not offered again as upcoming
+ok 30 - tomorrow planned session executed today is today result and is not offered again as upcoming
+  ---
+  duration_ms: 1.434567
+  ...
+# Subtest: yesterday actual result attached to today planned date is not described as executed today
+ok 31 - yesterday actual result attached to today planned date is not described as executed today
+  ---
+  duration_ms: 1.421543
+  ...
+# Subtest: account timezone and midnight control today; finish date remains separate from planned date
+ok 32 - account timezone and midnight control today; finish date remains separate from planned date
+  ---
+  duration_ms: 3.449237
+  ...
+# Subtest: DST repeated hour and account zone differing from device do not move the calendar day
+ok 33 - DST repeated hour and account zone differing from device do not move the calendar day
+  ---
+  duration_ms: 1.106045
+  ...
+# Subtest: missed is past unstarted only; partial, skipped, active and future have distinct states
+ok 34 - missed is past unstarted only; partial, skipped, active and future have distinct states
+  ---
+  duration_ms: 8.434457
+  ...
+# Subtest: multiple results and an older paused session remain visible alongside today result
+ok 35 - multiple results and an older paused session remain visible alongside today result
+  ---
+  duration_ms: 1.104183
+  ...
+# Subtest: session names expand weekdays and infer workout type without mutating historical names
+ok 36 - session names expand weekdays and infer workout type without mutating historical names
+  ---
+  duration_ms: 0.941139
+  ...
+# Subtest: rejected and other athlete sessions do not become today approved results or missed substitutes
+ok 37 - rejected and other athlete sessions do not become today approved results or missed substitutes
+  ---
+  duration_ms: 0.461162
+  ...
+# Subtest: missing finish timestamp never falls back to an invented execution date from planned date
+ok 38 - missing finish timestamp never falls back to an invented execution date from planned date
+  ---
+  duration_ms: 0.408352
+  ...
+# Subtest: a new local day moves prior results to history without converting partial sessions to missed
+ok 39 - a new local day moves prior results to history without converting partial sessions to missed
+  ---
+  duration_ms: 0.966472
+  ...
+# Subtest: achieving every target in one session still keeps future weeks separate from today result
+ok 40 - achieving every target in one session still keeps future weeks separate from today result
+  ---
+  duration_ms: 0.714304
+  ...
+# Subtest: mixed-offset execution timestamps are sorted by time, not timestamp spelling
+ok 41 - mixed-offset execution timestamps are sorted by time, not timestamp spelling
+  ---
+  duration_ms: 0.588941
+  ...
+# Subtest: goal card contexts identify upcoming, actual today and differing planned dates explicitly
+ok 42 - goal card contexts identify upcoming, actual today and differing planned dates explicitly
+  ---
+  duration_ms: 2.31507
+  ...
+# Subtest: Android keyboard viewport caps once using screen geometry instead of adding a second resize
+ok 43 - Android keyboard viewport caps once using screen geometry instead of adding a second resize
+  ---
+  duration_ms: 3.926232
+  ...
+# Subtest: canonical club roles enforce per-club navigation and platform has no implicit club authority
+ok 44 - canonical club roles enforce per-club navigation and platform has no implicit club authority
+  ---
+  duration_ms: 0.274542
+  ...
+# Subtest: web and native role capabilities match the five-role contract including legacy aliases
+ok 45 - web and native role capabilities match the five-role contract including legacy aliases
+  ---
+  duration_ms: 11.651059
+  ...
+# Subtest: UI-05 sparse chart keeps 4:01, two actual sets and separate partial/completed/missed counts above its compact chart
+ok 46 - UI-05 sparse chart keeps 4:01, two actual sets and separate partial/completed/missed counts above its compact chart
+  ---
+  duration_ms: 935.99738
+  ...
+# Subtest: UI-05 empty and populated charts plus 7/30/90 selectors use existing trend data without mutating workouts
+ok 47 - UI-05 empty and populated charts plus 7/30/90 selectors use existing trend data without mutating workouts
+  ---
+  duration_ms: 141.402691
+  ...
+1..47
+# tests 47
+# suites 0
+# pass 47
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3782.0032

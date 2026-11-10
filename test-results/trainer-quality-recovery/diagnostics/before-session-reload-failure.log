@@ -1,0 +1,13 @@
+1440x900-dashboard
+1440x900-library
+locator.waitFor: Timeout 45000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: 'Programlar', exact: true }) to be visible[22m
+
+    at ready (/Users/user/NFCFit/web/tests/trainer-quality.capture.cjs:13:71)
+    at async /Users/user/NFCFit/web/tests/trainer-quality.capture.cjs:19:3 {
+  log: [
+    "  - waiting for getByRole('button', { name: 'Programlar', exact: true }) to be visible"
+  ],
+  name: 'TimeoutError'
+}

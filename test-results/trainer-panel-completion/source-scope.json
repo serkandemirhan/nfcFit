@@ -1,0 +1,26 @@
+[
+  {
+    "file": "web/CoachingConsole.tsx",
+    "before_sha256": "3c33b37cb9cf51d9afc4b451f25cf2c4b7c8c7b94577143b4d6aea4aac1e803e",
+    "after_sha256": "e895131bc4dd0299ad732707b3e04f3f6c6b79548eed36b1007360eab98ac43b",
+    "changed": true
+  },
+  {
+    "file": "web/TrainerPlanning.tsx",
+    "before_sha256": "bb17eabe6b3610d4f7f01c084aff629cb26160f5876036f20b1576a0a9737abc",
+    "after_sha256": "f0d0890a92358560e23b39050ef3a6dfafbbaa35b0a002cb6087fd06a02e5d30",
+    "changed": true
+  },
+  {
+    "file": "web/TrainerPlanningUI.tsx",
+    "before_sha256": "e77180130e2f95b64ffb6df71c69757b111bffc410432fc874555571d0fda1e2",
+    "after_sha256": "e77180130e2f95b64ffb6df71c69757b111bffc410432fc874555571d0fda1e2",
+    "changed": false
+  },
+  {
+    "file": "web/TenantConsole.tsx",
+    "before_sha256": "799e5b53c0b4e0c334c41de1f8d41f4c21b120fa461c96db663f21bad860edc0",
+    "after_sha256": "799e5b53c0b4e0c334c41de1f8d41f4c21b120fa461c96db663f21bad860edc0",
+    "changed": false
+  }
+]

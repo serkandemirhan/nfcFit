@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "name": "Cancelling explicit unpublish/draft confirmation changes no persisted version or publication",
+      "status": "PASS"
+    },
+    {
+      "name": "Explicit draft save unpublishes only source, says what changed, preserves member copies and can republish",
+      "status": "PASS"
+    },
+    {
+      "name": "Empty filtered progress shows explicit no-record state instead of invented set/performance values",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

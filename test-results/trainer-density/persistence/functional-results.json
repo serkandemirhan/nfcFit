@@ -1,0 +1,98 @@
+{
+  "results": [
+    {
+      "name": "Trainer authorization remains scoped; ordinary member receives 403",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "1 Create program: unsaved state is explicit and no phantom persistence exists",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "2–4 Add workout/exercises and configure sets/reps with continuous focus and Turkish search",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "7 Reusable template retry persists real targets; saving template does not claim program persistence",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "5 Apply workout to selected day changes local program draft only and says what to save next",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "6 Reload verifies persisted day, exercise, sets, repetitions and decimal weight",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "8 Reusable template appears in library and reopens persisted targets",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "9–10 Modify program and independently copied week: persistent unsaved feedback remains",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "11–12 Publish fully configured four-week program and confirm published state after reload; redundant publish action is absent",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "13–14 Published local edits explicitly remain unpublished; assignment is blocked until persisted",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "15 Failed publish preserves edits/version, Retry persists and reload confirms new version",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "16 Final assignment names member/program/dates/affected programs; later-start resolution preserves existing assignments/history",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "17 Member schedule renders assigned persisted targets on the actual start date",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "18 Progress retains distinct 4/4 and 5/4 (+1 extra), frozen targets, actuals and independent member copies",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Repeated authenticated reload restores Trainer without duplicate-session loading deadlock",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "No uncaught JavaScript errors in the complete workflow",
+      "status": "PASS",
+      "details": ""
+    }
+  ],
+  "sourceId": "f716b009-daf4-4e23-b3cd-878d9f08de5a",
+  "sourceName": "Kalite İncelemesi · Güç ve Denge 696310",
+  "assignedId": "024925f8-423b-5ab2-a727-70b767f2e2f0",
+  "errors": [],
+  "requests": [
+    {
+      "status": 503,
+      "url": "http://127.0.0.1:3000/api/console/coaching/workout-templates"
+    },
+    {
+      "status": 503,
+      "url": "http://127.0.0.1:3000/api/console/coaching/plans/f716b009-daf4-4e23-b3cd-878d9f08de5a"
+    }
+  ]
+}

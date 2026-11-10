@@ -3,7 +3,7 @@
     "name": "NFCFit",
     "slug": "nfcfit",
     "owner": "sdemirhan",
-    "version": "1.0.0",
+    "version": "1.0.22",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "nfcfit",
@@ -12,9 +12,11 @@
     "ios": {
       "bundleIdentifier": "com.serkandemirhan.nfcfit",
       "supportsTablet": true,
+      "associatedDomains": [
+        "applinks:nfc-fit.vercel.app"
+      ],
       "entitlements": {
         "com.apple.developer.nfc.readersession.formats": [
-          "TAG",
           "TAG"
         ]
       },
@@ -24,6 +26,24 @@
       }
     },
     "android": {
+      "versionCode": 23,
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "nfc-fit.vercel.app",
+              "pathPrefix": "/tag/"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
       "package": "com.serkandemirhan.nfcfit",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -43,6 +63,7 @@
     },
     "plugins": [
       "expo-router",
+      "./plugins/with-nfc-links.cjs",
       [
         "expo-splash-screen",
         {
@@ -54,7 +75,9 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-sqlite",
+      "expo-background-task"
     ],
     "experiments": {
       "typedRoutes": true,

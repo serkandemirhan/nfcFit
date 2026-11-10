@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "name": "Overview bounded to five members, secondary content explicitly expandable",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "36-member pagination,10/25 page sizes, search from later page resets pagination",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Program list search/pagination, history and cancelable archive retain source data",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Program duplicate/editor and assignment member search remain reachable from list",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Crowded template search, size filter, empty state and persisted target editor",
+      "status": "PASS",
+      "details": {
+        "savedSets": "5"
+      }
+    },
+    {
+      "name": "Member detail retains independent Ada5/4(+1) and Emre4/4 records",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "375px mobile program row/menu/editor/search remains usable, reduced viewport does not cover Set",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Same-section navigation respects cancel/discard; shared header creates program and workout on mobile",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Authorization and tenant boundary unchanged; no uncaught page errors",
+      "status": "PASS",
+      "details": ""
+    }
+  ],
+  "errors": []
+}

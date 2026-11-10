@@ -1,0 +1,11 @@
+{
+  "production": "https://nfc-fit.vercel.app/console",
+  "entry": "/assets/index-A8he0fIv.js",
+  "coaching_chunk": "CoachingConsole-B-_3nsCA.js",
+  "bytes_match": true,
+  "assetlinks_certificate_match": true,
+  "api": "https://nfcfit-tenant-api.vercel.app",
+  "api_health": 200,
+  "api_new_start_date_schema": true,
+  "api_protected_dashboard": 401
+}

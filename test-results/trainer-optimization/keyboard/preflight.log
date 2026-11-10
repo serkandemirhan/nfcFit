@@ -1,0 +1,26 @@
+Current attempt: 2026-11-10T00:10:38.258813
+Command: ['xcrun', 'simctl', 'list', 'devices', 'booted', '-j'] exit: 0 
+ {
+  "devices" : {
+    "com.apple.CoreSimulator.SimRuntime.iOS-17-2" : [
+      {
+        "lastBootedAt" : "2026-11-09T20:15:14Z",
+        "dataPath" : "\/Users\/user\/Library\/Developer\/CoreSimulator\/Devices\/3C063355-7F11-423F-A1AE-1D0B483A6864\/data",
+        "dataPathSize" : 1505447936,
+        "logPath" : "\/Users\/user\/Library\/Logs\/CoreSimulator\/3C063355-7F11-423F-A1AE-1D0B483A6864",
+        "udid" : "3C063355-7F11-423F-A1AE-1D0B483A6864",
+        "isAvailable" : true,
+        "logPathSize" : 172032,
+        "deviceTypeIdentifier" : "com.apple.CoreSimulator.SimDeviceType.iPhone-SE-3rd-generation",
+        "state" : "Booted",
+        "name" : "iPhone SE (3rd generation)"
+      }
+    ]
+  }
+}
+ 
+Command: ['xcrun', 'simctl', 'bootstatus', '3C063355-7F11-423F-A1AE-1D0B483A6864', '-b'] exit: 0 
+ Monitoring boot status for iPhone SE (3rd generation) (3C063355-7F11-423F-A1AE-1D0B483A6864).
+Device already booted, nothing to do.
+
+ 

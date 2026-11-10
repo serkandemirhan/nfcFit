@@ -1,0 +1,65 @@
+TAP version 13
+# Subtest: coaching offline worker performs zero HTTP requests
+ok 1 - coaching offline worker performs zero HTTP requests
+  ---
+  duration_ms: 519.245671
+  ...
+# Subtest: a lost set acknowledgement replays its stable ID and merges one actual set after restart
+ok 2 - a lost set acknowledgement replays its stable ID and merges one actual set after restart
+  ---
+  duration_ms: 437.071311
+  ...
+# Subtest: separate runtimes acquire one persistent coaching lease before uploading
+ok 3 - separate runtimes acquire one persistent coaching lease before uploading
+  ---
+  duration_ms: 253.690976
+  ...
+# Subtest: UI-03 only a fully successful worker advances last success; an overview followed by library failure preserves it
+ok 4 - UI-03 only a fully successful worker advances last success; an overview followed by library failure preserves it
+  ---
+  duration_ms: 139.844161
+  ...
+# Subtest: offline sync makes no network requests and leaves queued exercise and goals usable
+ok 5 - offline sync makes no network requests and leaves queued exercise and goals usable
+  ---
+  duration_ms: 504.308172
+  ...
+# Subtest: a response lost after server commit is recovered on the next pull without another upload
+ok 6 - a response lost after server commit is recovered on the next pull without another upload
+  ---
+  duration_ms: 290.830896
+  ...
+# Subtest: foreground and background workers share a database lease and cannot start two pulls for one account
+ok 7 - foreground and background workers share a database lease and cannot start two pulls for one account
+  ---
+  duration_ms: 249.934416
+  ...
+# Subtest: UI-03 offline and no-op lease returns never produce a false success
+ok 8 - UI-03 offline and no-op lease returns never produce a false success
+  ---
+  duration_ms: 2.303031
+  ...
+# Subtest: UI-03 immediate repeated taps launch only one real worker and release the UI lock
+ok 9 - UI-03 immediate repeated taps launch only one real worker and release the UI lock
+  ---
+  duration_ms: 0.450435
+  ...
+# Subtest: UI-03 success requires a new confirmed stamp with no retained error; rejected records stay visible
+ok 10 - UI-03 success requires a new confirmed stamp with no retained error; rejected records stay visible
+  ---
+  duration_ms: 8.476353
+  ...
+# Subtest: UI-03 cancellation, timeout, offline network, authentication and server errors get distinct safe primary text
+ok 11 - UI-03 cancellation, timeout, offline network, authentication and server errors get distinct safe primary text
+  ---
+  duration_ms: 0.507941
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3597.153646

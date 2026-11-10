@@ -1,0 +1,6 @@
+{
+  "connected_browsers": [],
+  "status": "BLOCKED",
+  "checked_at": "2026-11-08T15:58:17.631777+03:00",
+  "reason": "Browser runtime returned no connected browsers; signed-in sessions unavailable."
+}

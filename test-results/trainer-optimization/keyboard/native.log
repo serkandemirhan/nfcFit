@@ -1,0 +1,2 @@
+Native Safari session 973bf4bc-3bb7-4d0a-b7e9-a3774ed11f62
+PASS actual iOS key 5 edits 4→5 sets; input/save clear keyboard; persisted API 5 sets/20kg and UI saved status verified {"input":{"y":116,"x":36,"width":146,"height":46},"save":{"y":329,"x":29,"width":317,"height":45},"keyboard":{"y":451,"x":0,"width":375,"height":216}}

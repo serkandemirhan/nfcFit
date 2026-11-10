@@ -1,0 +1,62 @@
+{"at": "2026-11-08T11:08:33.924674+03:00", "event": "frame-counter-reset"}
+{"at": "2026-11-08T11:08:34.859467+03:00", "event": "cold-launch", "adb_wall_seconds": 0.675, "native_result": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 549\nWaitTime: 553\nComplete\n"}
+{"at": "2026-11-08T11:08:43.232806+03:00", "event": "capture", "name": "001-today", "observer_seconds": 4.188}
+{"at": "2026-11-08T11:08:47.930672+03:00", "event": "tap", "x": 954, "y": 2080, "dispatch_seconds": 0.154, "label": "Profil"}
+{"at": "2026-11-08T11:08:55.859791+03:00", "event": "capture", "name": "002-profile", "observer_seconds": 2.898}
+{"at": "2026-11-08T11:09:27.088702+03:00", "event": "tap", "x": 330, "y": 2080, "dispatch_seconds": 0.148, "label": "Programim"}
+{"at": "2026-11-08T11:09:34.644726+03:00", "event": "capture", "name": "003-programim-empty", "observer_seconds": 3.042}
+{"at": "2026-11-08T11:09:40.257085+03:00", "event": "tap", "x": 520, "y": 1035, "dispatch_seconds": 0.189, "label": "Yeni-plan"}
+{"at": "2026-11-08T11:09:46.011366+03:00", "event": "capture", "name": "004-ready-templates", "observer_seconds": 2.822}
+{"at": "2026-11-08T11:09:52.517417+03:00", "event": "tap", "x": 520, "y": 1110, "dispatch_seconds": 0.107, "label": "Tam-vucut"}
+{"at": "2026-11-08T11:09:59.498505+03:00", "event": "capture", "name": "005-week-setup", "observer_seconds": 3.002}
+{"at": "2026-11-08T11:10:08.558687+03:00", "event": "tap", "x": 128, "y": 1360, "dispatch_seconds": 0.118, "label": "Pzt-kapat"}
+{"at": "2026-11-08T11:10:08.791815+03:00", "event": "tap", "x": 664, "y": 1360, "dispatch_seconds": 0.153, "label": "Per-kapat"}
+{"at": "2026-11-08T11:10:08.969826+03:00", "event": "tap", "x": 325, "y": 1520, "dispatch_seconds": 0.092, "label": "Paz-sec"}
+{"at": "2026-11-08T11:10:15.973899+03:00", "event": "capture", "name": "006-sunday-selected", "observer_seconds": 3.008}
+{"at": "2026-11-08T11:10:21.925434+03:00", "event": "tap", "x": 530, "y": 1840, "dispatch_seconds": 0.132, "label": "Egzersizleri-belirle"}
+{"at": "2026-11-08T11:10:28.484911+03:00", "event": "capture", "name": "007-template-builder", "observer_seconds": 2.996}
+{"at": "2026-11-08T11:10:38.029633+03:00", "event": "tap", "x": 450, "y": 850, "dispatch_seconds": 0.199, "label": "Plan-adi"}
+{"at": "2026-11-08T11:10:46.456681+03:00", "event": "capture", "name": "008-builder-targets", "observer_seconds": 2.983}
+{"at": "2026-11-08T11:11:19.418780+03:00", "event": "capture", "name": "009-builder-save", "observer_seconds": 2.903}
+{"at": "2026-11-08T11:11:33.198283+03:00", "event": "tap", "x": 540, "y": 1975, "dispatch_seconds": 0.161, "label": "TEST-plan-kaydet"}
+{"at": "2026-11-08T11:11:36.149342+03:00", "event": "capture", "name": "010-plan-save-result", "observer_seconds": 2.87}
+{"at": "2026-11-08T11:11:46.292563+03:00", "event": "capture", "name": "011-plan-saved", "observer_seconds": 2.804}
+{"at": "2026-11-08T11:12:21.862095+03:00", "event": "capture", "name": "012-plan-detail-list", "observer_seconds": 3.093}
+{"at": "2026-11-08T11:12:36.495404+03:00", "event": "tap", "x": 520, "y": 1275, "dispatch_seconds": 0.153, "label": "Bugunku-seans"}
+{"at": "2026-11-08T11:12:44.901620+03:00", "event": "capture", "name": "013-workout-not-started", "observer_seconds": 2.933}
+{"at": "2026-11-08T11:12:50.303192+03:00", "event": "tap", "x": 530, "y": 795, "dispatch_seconds": 0.125, "label": "Antrenman-baslat"}
+{"at": "2026-11-08T11:13:08.394351+03:00", "event": "capture", "name": "014-workout-active", "observer_seconds": 12.539}
+{"at": "2026-11-08T11:13:23.888112+03:00", "event": "metrics", "name": "after-plan-open"}
+{"at": "2026-11-08T11:13:38.906769+03:00", "event": "tap", "x": 520, "y": 1000, "dispatch_seconds": 0.116, "label": "Ilk-egzersiz"}
+{"at": "2026-11-08T11:13:44.433735+03:00", "event": "quick-capture", "name": "015-exercise-detail"}
+{"at": "2026-11-08T11:13:54.052006+03:00", "event": "tap", "x": 500, "y": 1570, "dispatch_seconds": 0.114, "label": "Ilk-set"}
+{"at": "2026-11-08T11:14:00.157279+03:00", "event": "quick-capture", "name": "016-set-entry"}
+{"at": "2026-11-08T11:14:18.566712+03:00", "event": "tap", "x": 530, "y": 2080, "dispatch_seconds": 0.156, "label": "Test-setini-kaydet"}
+{"at": "2026-11-08T11:14:22.061581+03:00", "event": "quick-capture", "name": "017-set-saved"}
+{"at": "2026-11-08T11:14:38.461981+03:00", "event": "tap", "x": 119, "y": 170, "dispatch_seconds": 0.123, "label": "Egzersiz-listesine-don"}
+{"at": "2026-11-08T11:14:44.481473+03:00", "event": "quick-capture", "name": "018-return-to-list"}
+{"at": "2026-11-08T11:14:57.252888+03:00", "event": "tap", "x": 957, "y": 910, "dispatch_seconds": 0.11, "label": "Antrenmani-duraklat"}
+{"at": "2026-11-08T11:15:04.814918+03:00", "event": "capture", "name": "019-paused", "observer_seconds": 3.015}
+{"at": "2026-11-08T11:15:28.167457+03:00", "event": "tap", "x": 120, "y": 170, "dispatch_seconds": 0.163, "label": "Program-listesine-don"}
+{"at": "2026-11-08T11:15:35.183960+03:00", "event": "capture", "name": "020-plan-actions", "observer_seconds": 3.335}
+{"at": "2026-11-08T11:15:49.324636+03:00", "event": "capture", "name": "021-actions-visible", "observer_seconds": 3.157}
+{"at": "2026-11-08T11:15:57.471487+03:00", "event": "tap", "x": 240, "y": 1810, "dispatch_seconds": 0.178, "label": "Plan-islemleri"}
+{"at": "2026-11-08T11:16:05.820695+03:00", "event": "capture", "name": "022-plan-edit-options", "observer_seconds": 3.647}
+{"at": "2026-11-08T11:16:09.402272+03:00", "event": "tap", "x": 235, "y": 1075, "dispatch_seconds": 0.181, "label": "Test-planini-duzenle"}
+{"at": "2026-11-08T11:16:17.999769+03:00", "event": "capture", "name": "023-edit-plan-header", "observer_seconds": 3.121}
+{"at": "2026-11-08T11:16:27.028232+03:00", "event": "tap", "x": 480, "y": 850, "dispatch_seconds": 0.177, "label": "Plan-test-etiketi"}
+{"at": "2026-11-08T11:16:35.020445+03:00", "event": "capture", "name": "024-plan-label-corrected", "observer_seconds": 3.052}
+{"at": "2026-11-08T11:16:46.547580+03:00", "event": "capture", "name": "025-plan-edit-save", "observer_seconds": 3.034}
+{"at": "2026-11-08T11:16:54.449891+03:00", "event": "tap", "x": 450, "y": 1790, "dispatch_seconds": 0.187, "label": "Test-duzenleme-nedeni"}
+{"at": "2026-11-08T11:16:58.214746+03:00", "event": "tap", "x": 540, "y": 1975, "dispatch_seconds": 0.161, "label": "Plan-duzenlemesini-kaydet"}
+{"at": "2026-11-08T11:18:15.297537+03:00", "event": "capture", "name": "026-plan-after-edit", "observer_seconds": 3.225}
+{"at": "2026-11-08T11:18:27.222293+03:00", "event": "tap", "x": 954, "y": 2080, "dispatch_seconds": 0.115, "label": "Profil"}
+{"at": "2026-11-08T11:18:46.965573+03:00", "event": "tap", "x": 500, "y": 1480, "dispatch_seconds": 0.178, "label": "Kutuphane"}
+{"at": "2026-11-08T11:19:00.418574+03:00", "event": "capture", "name": "027-library", "observer_seconds": 3.21}
+{"at": "2026-11-08T11:19:18.975141+03:00", "event": "tap", "x": 500, "y": 1190, "dispatch_seconds": 0.229, "label": "Kutuphane-egzersiz-detayi"}
+{"at": "2026-11-08T11:19:26.904507+03:00", "event": "capture", "name": "028-library-exercise-info", "observer_seconds": 4.295}
+{"at": "2026-11-08T11:19:33.151226+03:00", "event": "tap", "x": 350, "y": 615, "dispatch_seconds": 0.174, "label": "Kaslar"}
+{"at": "2026-11-08T11:19:40.462082+03:00", "event": "capture", "name": "029-library-muscles", "observer_seconds": 2.904}
+{"at": "2026-11-08T11:19:56.234677+03:00", "event": "tap", "x": 955, "y": 205, "dispatch_seconds": 0.214, "label": "Kutuphaneyi-kapat"}
+{"at": "2026-11-08T11:20:04.072471+03:00", "event": "tap", "x": 750, "y": 2080, "dispatch_seconds": 0.197, "label": "Ilerleme"}
+{"at": "2026-11-08T11:20:10.736753+03:00", "event": "capture", "name": "030-progress-after-set", "observer_seconds": 3.374}

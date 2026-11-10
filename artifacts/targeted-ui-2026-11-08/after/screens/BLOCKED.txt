@@ -1,0 +1,3 @@
+Yeni 1.0.22 Android ekran görüntüleri alınamadı: ADB bağlı cihaz göstermiyor.
+1.0.20 referansları before/screens içindedir. Yeni görüntü olarak kullanılmadı.
+Kaynak bileşen testleri Android ekran görüntüsü veya fiziksel kabul değildir.

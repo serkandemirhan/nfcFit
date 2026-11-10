@@ -24,3 +24,14 @@ Thumbs.db
 
 # Claude Code settings (optional - remove if you want to commit)
 .claude/
+
+# Local configuration and Python caches
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*

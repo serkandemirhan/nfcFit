@@ -19,7 +19,7 @@ export const KanbanPage: FC<{
         if (selectedUserId === 'all') {
             return tasks;
         }
-        return tasks.filter(task => task.userid === selectedUserId);
+        return tasks.filter(task => task.userId === selectedUserId);
     }, [tasks, selectedUserId]);
 
     const handleTaskDrop = (taskId: string, newStatus: TaskStatus) => {
@@ -35,7 +35,7 @@ export const KanbanPage: FC<{
             let tasksToReturn = [...currentTasks];
 
             if (newStatus === TaskStatus.Completed) {
-                updatedTask.lastcompletedat = new Date();
+                updatedTask.lastCompletedAt = new Date();
                 
                 if (taskToUpdate.repeat) {
                     const now = new Date();
@@ -50,9 +50,9 @@ export const KanbanPage: FC<{
                         ...taskToUpdate,
                         id: `t_${Date.now()}`,
                         status: TaskStatus.ToDo,
-                        createdat: now,
-                        duedate: newDueDate,
-                        lastcompletedat: undefined,
+                        createdAt: now,
+                        dueDate: newDueDate,
+                        lastCompletedAt: undefined,
                     };
                     tasksToReturn.push(repeatedTask);
                 }
@@ -64,9 +64,9 @@ export const KanbanPage: FC<{
     };
 
     const TaskCard: FC<{ task: Task }> = ({ task }) => {
-        const user = users.find(u => u.id === task.userid);
-        const location = locations.find(l => l.id === task.locationid);
-        const isOverdue = task.status === TaskStatus.ToDo && task.duedate < new Date();
+        const user = users.find(u => u.id === task.userId);
+        const location = locations.find(l => l.id === task.locationId);
+        const isOverdue = task.status === TaskStatus.ToDo && task.dueDate < new Date();
         const timeFormatter = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short' });
 
         return (
@@ -100,7 +100,7 @@ export const KanbanPage: FC<{
                         )}
                     </div>
                     <span className="font-mono">
-                        {task.duedate && !isNaN(new Date(task.duedate).getTime()) ? timeFormatter.format(new Date(task.duedate)) : '---'}
+                        {task.dueDate && !isNaN(new Date(task.dueDate).getTime()) ? timeFormatter.format(new Date(task.dueDate)) : '---'}
                     </span>
                 </div>
             </div>
@@ -109,7 +109,7 @@ export const KanbanPage: FC<{
 
     const KanbanColumn: FC<{ status: TaskStatus, title: string, color: string }> = ({ status, title, color }) => {
         const [isDragOver, setIsDragOver] = useState(false);
-        const tasksInColumn = filteredTasks.filter(t => t.status === status).sort((a, b) => a.duedate.getTime() - b.duedate.getTime());
+        const tasksInColumn = filteredTasks.filter(t => t.status === status).sort((a, b) => a.dueDate.getTime() - b.dueDate.getTime());
 
         const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
             e.preventDefault();

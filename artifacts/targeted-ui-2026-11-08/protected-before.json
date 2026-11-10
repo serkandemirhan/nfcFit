@@ -1,0 +1,17 @@
+{
+  "backend/club_roles.py": "eeb64b09d2be42eef9b3036406a71d6caa5892894533f0a7d75bdaf51b5d816a",
+  "backend/tenant_console.py": "0fafcfe00b51791db1e0a49c37fcf00e0ce3a989421c3976e68e61d83757a081",
+  "backend/coaching.py": "d3fe639d1fc85123055385ef9471c98714a4c3fdb94db0da3d9047ddd458d39b",
+  "mobile/nfc-task-tracker/lib/club-roles.ts": "67f831b3f2d66b4d757966d816168226f1b2043104c7acfae6663d69b756903f",
+  "mobile/nfc-task-tracker/lib/console-access.ts": "f6c39f61c4ba4066f88f77ca224082c5b4e3b6a6f13ae10c038fbd5f2f878b9b",
+  "mobile/nfc-task-tracker/lib/coaching-reducer.ts": "a2650a46dc84420e7eb9273732c2dca33ae625adbbcd41774747cb08b1b28bb3",
+  "mobile/nfc-task-tracker/lib/coaching-performance.ts": "c558c0b06458470ee888d067ead48bca4d715ad2c5fc33ad4bf23fde152bd755",
+  "mobile/nfc-task-tracker/lib/session-presentation.ts": "18127022630296a2dbaf0308d4ae27da840b31fd0daf023f3927970243a27ebc",
+  "mobile/nfc-task-tracker/lib/athlete-presentation.ts": "4c38a89cfa1e5fd1d48b2ed4ebf4c194421a669010563b7a4a2e357898d05e9d",
+  "mobile/nfc-task-tracker/lib/workout-experience.ts": "57b0b7e4438394119fc05af66e9ae1e77a9dbbc89d893b0c385490c3e341c35e",
+  "mobile/nfc-task-tracker/lib/offline-store-core.ts": "6263bd9f9efcf99e8489f99fb2661dd5a5737ec50965fa7d3e5d8542e01d486c",
+  "mobile/nfc-task-tracker/lib/offline-sync.ts": "02c44c3eaf232a4fa6ac74b701c067d41fe7d9d352eaf6da4c31d247e6adfc1d",
+  "mobile/nfc-task-tracker/lib/nfc-manager.ts": "8af61484959b7ffd3e9b41b604751402b5696db379099b1f4c6983d145e761aa",
+  "mobile/nfc-task-tracker/app/(drawer)/nfc.tsx": "51abe9d7d2d6ff626f1b8a120438412ef441e4a32234406184bee8339b2bea36",
+  "mobile/nfc-task-tracker/app/workout/[id].tsx": "5dc46f856687c5461ccc69c80ccd86f2aac7bfa0aab3414ef4d9bcde3902af47"
+}

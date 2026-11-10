@@ -16,12 +16,23 @@ from sqlalchemy.orm import Mapped, Session, declarative_base, mapped_column, ses
 
 # --- App & CORS ---
 load_dotenv()
-app = FastAPI(title="NFC Task Tracker Backend", version="0.2.0")
+from tenant_console import initialize_console_schema, router as tenant_console_router
 
+app = FastAPI(title="NFC Task Tracker Backend", version="0.2.0")
+app.include_router(tenant_console_router)
+from coaching import router as coaching_router, seed_catalog
+app.include_router(coaching_router)
+
+environment = os.getenv("ENVIRONMENT", "development")
+if environment == "production" and not os.getenv("FRONTEND_ORIGIN"):
+    raise RuntimeError("FRONTEND_ORIGIN must be explicitly configured in production.")
 frontend_origin = os.getenv("FRONTEND_ORIGIN", "http://localhost:3000")
+allowed_origins = [frontend_origin]
+if environment != "production":
+    allowed_origins.append("http://127.0.0.1:3000")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[frontend_origin, "http://127.0.0.1:3000"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -277,6 +288,10 @@ def seed_if_empty(db: Session):
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(engine)
+    initialize_console_schema()
+    from tenant_console import ConsoleSession
+    with ConsoleSession.begin() as db:
+        seed_catalog(db)
     # Ensure lightweight dev columns exist for existing DBs without migrations.
     try:
         insp = inspect(engine)

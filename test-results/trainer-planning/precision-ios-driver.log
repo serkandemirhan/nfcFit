@@ -1,0 +1,49 @@
+- Installing '/tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver'
+✖ Installing '/tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver'
+[31mError: ✖ Encountered an error when installing package: npm command 'link --save-dev --no-progress --no-audit /tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver --json' failed with code 1.
+
+STDOUT:
+{
+  "error": {
+    "code": 1,
+    "summary": "command failed",
+    "detail": "sh -c npm run rebuild\nerror TS5083: Cannot read file '/private/tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver/tsconfig.json'.\nerror TS5083: Cannot read file '/private/tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver/tsconfig.json'.\n{\n  \"error\": {\n    \"code\": 1,\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n{\n  \"error\": {\n    \"code\": 1,\n    \"summary\": \"\",\n    \"detail\": \"\"\n  }\n}\n> appium-xcuitest-driver@7.35.1 rebuild\n> npm run clean; npm run build\n\n\n> appium-xcuitest-driver@7.35.1 clean\n> npm run build -- --clean\n\n\n> appium-xcuitest-driver@7.35.1 build\n> tsc -b --clean\n\n\n> appium-xcuitest-driver@7.35.1 build\n> tsc -b"
+  }
+}
+
+STDERR:
+npm error code 1
+npm error path /private/tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver
+npm error command failed
+npm error command sh -c npm run rebuild
+npm error error TS5083: Cannot read file '/private/tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver/tsconfig.json'.
+npm error error TS5083: Cannot read file '/private/tmp/nfcfit-ios-test/node_modules/appium-xcuitest-driver/tsconfig.json'.
+npm error {
+npm error   "error": {
+npm error     "code": 1,
+npm error     "summary": "",
+npm error     "detail": ""
+npm error   }
+npm error }
+npm error {
+npm error   "error": {
+npm error     "code": 1,
+npm error     "summary": "",
+npm error     "detail": ""
+npm error   }
+npm error }
+npm error > appium-xcuitest-driver@7.35.1 rebuild
+npm error > npm run clean; npm run build
+npm error
+npm error
+npm error > appium-xcuitest-driver@7.35.1 clean
+npm error > npm run build -- --clean
+npm error
+npm error
+npm error > appium-xcuitest-driver@7.35.1 build
+npm error > tsc -b --clean
+npm error
+npm error
+npm error > appium-xcuitest-driver@7.35.1 build
+npm error > tsc -b
+npm error A complete log of this run can be found in: /Users/user/.npm/_logs/2026-11-09T09_36_37_282Z-debug-0.log[39m

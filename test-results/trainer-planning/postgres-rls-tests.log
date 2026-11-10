@@ -1,0 +1,10 @@
+test_concurrent_admin_removal_keeps_one_active_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+test_five_club_roles_database_boundaries_and_last_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+test_planning_templates_deny_direct_client_access (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+test_role_migration_preserves_data_and_rejects_unknown_policy (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+test_scoped_reads_wellness_consent_and_client_write_denial (test_coaching_rls.PostgreSQLCoachingRLSTests) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 4.961s
+
+OK

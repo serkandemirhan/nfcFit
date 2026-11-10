@@ -1,0 +1,16 @@
+{"at": "2026-11-08T13:47:55.611114+03:00", "event": "cold-launch", "adb_wall_seconds": 0.631, "native_result": "Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: com.serkandemirhan.nfcfit/.MainActivity\nTotalTime: 507\nWaitTime: 509\nComplete\n"}
+{"at": "2026-11-08T13:47:55.813326+03:00", "event": "frame-counter-reset"}
+{"at": "2026-11-08T13:48:04.375399+03:00", "event": "capture", "name": "001-today-result", "observer_seconds": 3.511}
+{"at": "2026-11-08T13:48:13.005849+03:00", "event": "capture", "name": "002-builder-compact", "observer_seconds": 3.308}
+{"at": "2026-11-08T13:48:13.275916+03:00", "event": "tap", "x": 300, "y": 590, "dispatch_seconds": 0.179, "label": "Plan-adi"}
+{"at": "2026-11-08T13:48:16.339522+03:00", "event": "capture", "name": "003-builder-keyboard-viewport", "observer_seconds": 2.981}
+{"at": "2026-11-08T13:48:23.089537+03:00", "event": "tap", "x": 530, "y": 760, "dispatch_seconds": 0.112, "label": "Plan-ayarlari"}
+{"at": "2026-11-08T13:48:26.084872+03:00", "event": "capture", "name": "004-expanded-plan-settings", "observer_seconds": 2.91}
+{"at": "2026-11-08T13:48:36.641363+03:00", "event": "capture", "name": "005-sync-screen", "observer_seconds": 3.111}
+{"at": "2026-11-08T13:48:45.023975+03:00", "event": "tap", "x": 530, "y": 590, "dispatch_seconds": 0.191, "label": "Simdi-esitle"}
+{"at": "2026-11-08T13:48:48.149144+03:00", "event": "capture", "name": "006-sync-retry", "observer_seconds": 2.976}
+{"at": "2026-11-08T13:49:10.112506+03:00", "event": "capture", "name": "007-dated-goals", "observer_seconds": 2.998}
+{"at": "2026-11-08T13:49:10.557378+03:00", "event": "metrics", "name": "after-ui-checks"}
+{"at": "2026-11-08T13:49:24.170875+03:00", "event": "capture", "name": "008-daily-goals", "observer_seconds": 3.971}
+{"at": "2026-11-08T13:49:24.417362+03:00", "event": "tap", "x": 750, "y": 2080, "dispatch_seconds": 0.152, "label": "Ilerleme"}
+{"at": "2026-11-08T13:49:27.571367+03:00", "event": "capture", "name": "009-progress-states", "observer_seconds": 3.062}

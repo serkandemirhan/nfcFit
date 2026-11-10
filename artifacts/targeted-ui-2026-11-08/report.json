@@ -1,0 +1,224 @@
+{
+  "generated_at": "2026-11-08T17:35:16.123379+03:00",
+  "overall": "BLOCKED",
+  "reason": "Kod/test/derleme PASS; yeni fiziksel ekran ve doğrulanmış backend sync kabulü tamamlanmadı.",
+  "code_baseline": "Existing 1.0.21, without reverting prior working changes",
+  "screenshot_baseline": "Actual 1.0.20 review screenshots 001–009",
+  "release": {
+    "apk": "/Users/user/NFCFit/mobile/nfc-task-tracker/android/app/build/outputs/apk/release/NFCFit-1.0.22.apk",
+    "bytes": 100849046,
+    "sha256": "2c9c2e80325d4247a471bd3863c4e6f3d300bce484fdd7b4291c73e8c9da4826",
+    "source_files_verified": 123,
+    "version": "1.0.22",
+    "versionCode": 23
+  },
+  "final_mobile_tests": 122,
+  "tasks": [
+    {
+      "id": "UI-03",
+      "name": "Antrenman eşitlemesi",
+      "code": "PASS",
+      "automated": "PASS",
+      "acceptance": "BLOCKED",
+      "before": [
+        "005-sync-screen.png",
+        "006-sync-retry.png"
+      ],
+      "changes": "Tür bazlı güvenli mesaj, gerçek işlem sırasında Eşitleniyor..., anlık tekrar tıklama kilidi, doğrulanmış başarı ve korunmuş son başarılı zaman; bekleyen/inceleme sayıları ve yeniden deneme.",
+      "files": [
+        "app/coaching-sync.tsx",
+        "lib/manual-sync-status.ts",
+        "lib/coaching.ts",
+        "lib/coaching-store-core.ts"
+      ],
+      "blocker": "Yeni gerçek backend sync ve fiziksel başarı/hata görüntüleri yok. Eski Aborted olayının kesin signal tetikleyicisi kayıtlı değil."
+    },
+    {
+      "id": "UI-02",
+      "name": "Plan oluşturucu",
+      "code": "PASS",
+      "automated": "PASS",
+      "acceptance": "BLOCKED",
+      "before": [
+        "002-builder-compact.png",
+        "003-builder-keyboard-viewport.png",
+        "004-expanded-plan-settings.png"
+      ],
+      "changes": "Pzt–Paz kompakt seçici. Seçili güne basmak aynı seans kimliğini açar; gün silinmez veya çoğalmaz. Seans adı/tarihleri ve çoklu seans erişimi korunur. Amaç örneği ve boş ad için Program adını girin. mesajı. Gelişmiş ayarlar ve KeyboardFrame içindeki sabit kaydet alanı korunur.",
+      "files": [
+        "app/plan-builder.tsx",
+        "lib/plan-day-selector.ts",
+        "components/coaching-ui.tsx"
+      ],
+      "blocker": "Yeni APK’da fiziksel klavye açıkken kaydet erişimi ve piksel yerleşimi doğrulanamadı."
+    },
+    {
+      "id": "UI-05",
+      "name": "İlerleme",
+      "code": "PASS",
+      "automated": "PASS",
+      "acceptance": "BLOCKED",
+      "before": [
+        "009-progress-states.png"
+      ],
+      "changes": "Sonlandırılan seans etiketi; tamamlanan/kısmi/kaçırılan sayıları ayrı. Aktif süre ve gerçek set özeti grafikten önce. 0 kayıtta boş durum, 1–2 kayıtta 80 birim minimum yükseklik ve kısa barlar, dolu veride 104. Haftalık/30/90 seçimi aynı hesaplamaları kullanır.",
+      "files": [
+        "components/activity-trends.tsx"
+      ],
+      "blocker": "Yeni görünümün fiziksel ekran karşılaştırması alınamadı."
+    },
+    {
+      "id": "UI-04",
+      "name": "Hedefler",
+      "code": "PASS",
+      "automated": "PASS",
+      "acceptance": "BLOCKED",
+      "before": [
+        "007-dated-goals.png",
+        "008-daily-goals.png"
+      ],
+      "changes": "Günlük egzersiz hedefleri önce, program seansları ayrı başlık altında. Egzersiz adı, hedef, yapılan, kalan, birim, yüzde ve düzenleme korunur. 8 Kasım 2/8 ile 15 Kasım 0/8 ayrı; tekrar/saniye ile program setleri birleştirilmez. Tek program düğmesi ve düşük vurgulu eski hedef bağlantısı.",
+      "files": [
+        "app/goals.tsx",
+        "components/member-tenant-goals.tsx"
+      ],
+      "blocker": "Fiziksel ekran ve gerçek hesapta hedef düzenleme kabulü yok; gerçek test SQLite’ında düzenleme başarılı."
+    },
+    {
+      "id": "UI-01",
+      "name": "Bugün sonucu",
+      "code": "PASS",
+      "automated": "PASS",
+      "acceptance": "BLOCKED",
+      "before": [
+        "001-today-result.png"
+      ],
+      "changes": "Sonuç kartında mevcut compact boşluklar ve tek kısa açıklama. Pazar · Tüm Vücut, Kısmen tamamlandı, 2/8 ve Seans sonucunu gör korunur; 15 Kasım seansı aynı seçim mantığıyla ayrı kalır.",
+      "files": [
+        "components/today-program.tsx"
+      ],
+      "blocker": "Gerçek son görünüm ve sıradaki kartın görünür yüksekliği ölçülemedi."
+    }
+  ],
+  "shared_changes": [
+    {
+      "file": "components/coaching-ui.tsx",
+      "change": "Optional CoachField placeholder only; all existing defaults unchanged."
+    },
+    {
+      "file": "components/member-tenant-goals.tsx",
+      "change": "focused prop enabled only in Goals; fitness and personal-goals retain their prior default UI."
+    },
+    {
+      "file": "lib/coaching.ts + lib/coaching-store-core.ts",
+      "change": "Last-success metadata stamping moved after complete successful worker; no queue/record/date rules changed."
+    },
+    {
+      "file": "app.json + android/app/build.gradle",
+      "change": "Release metadata only: 1.0.22 / 23, preserving 1.0.20 and 1.0.21 archives."
+    }
+  ],
+  "scope_protection": {
+    "status": "PASS",
+    "protected_files": 15,
+    "changed_protected_files": []
+  },
+  "source_files": [
+    {
+      "path": "app/coaching-sync.tsx",
+      "before_sha256": "c8357a934f7946ec5b647870c1619b20cfb1325eabccade68b5ceab63ed2dce4",
+      "after_sha256": "20df6862c6ba6e2995a0cc6eca75a582251e0ccbffbc4cfbe90af9ae3df12853",
+      "changed": true
+    },
+    {
+      "path": "lib/manual-sync-status.ts",
+      "before_sha256": null,
+      "after_sha256": "d11fc6bb0f61a0e1286b8cf24b06360c71df24b7fdba4129127f896f8789c219",
+      "changed": true
+    },
+    {
+      "path": "lib/coaching.ts",
+      "before_sha256": "eeecaf990e71c6b99ccd9a561960f06c70d73757b28542db1161b75b3252bb6c",
+      "after_sha256": "882188ffa6a797118587bdc6740bc832db39f7ef31f55dc33fe47fbf42f0760f",
+      "changed": true
+    },
+    {
+      "path": "lib/coaching-store-core.ts",
+      "before_sha256": "6150f0a241a59ab184df3ec6ed25e9225f225a3bf0aa119d783e0d3ad18b5ae9",
+      "after_sha256": "cd08c2d792306b5dd0ed924dbdf04e9b310cf2df8cb3d01b10ee1b42a53d11c4",
+      "changed": true
+    },
+    {
+      "path": "app/plan-builder.tsx",
+      "before_sha256": "2a62bea6ec7dbf1c7b53bd69f9ae5e3ddd122e6cbd628aea1a279d5bddcb40cd",
+      "after_sha256": "001a3eb6ca013d28c1a3cc61a94e9b51bfdf162548ab08c4b26844533b13b9c2",
+      "changed": true
+    },
+    {
+      "path": "lib/plan-day-selector.ts",
+      "before_sha256": null,
+      "after_sha256": "948055aac58b51454ec0bb21f9ac209ac382b98e6237a3df5e7b36bbb70522d7",
+      "changed": true
+    },
+    {
+      "path": "components/coaching-ui.tsx",
+      "before_sha256": "f977c4d61ce54dcb5fabf95727a34c980abca687ec597ed1ab7aa77931f0f394",
+      "after_sha256": "42cc75024207bb76c72fd467e0522f7b8b74a2665e1314b7a75cd2b2a7f7a1a3",
+      "changed": true
+    },
+    {
+      "path": "components/activity-trends.tsx",
+      "before_sha256": "6c3a16cac14da4bed4d9d2ed9bd1d6dfe0f38799dfb71bfd18fcd9536ea5b085",
+      "after_sha256": "b19f557d1aadd2cabd7002d65037c295553cb94112be81dba823cb11459e2f93",
+      "changed": true
+    },
+    {
+      "path": "app/goals.tsx",
+      "before_sha256": "cb9645a38164528857326b4ff832e65d8a748a6d3adc0761a5bf0253bf055ac0",
+      "after_sha256": "154e5f7fec7f397e4b337e09d6e7f91b8a7117da9a0997defd0d1539b064a46c",
+      "changed": true
+    },
+    {
+      "path": "components/member-tenant-goals.tsx",
+      "before_sha256": "b5ce1cc8bb6ab11c8ad7e97d26617ffb891a8c15cff6bfe1967e798f84397f47",
+      "after_sha256": "273483c9a8695486b477808450a0bf32828db0407af77ed172b1bae974dbabcc",
+      "changed": true
+    },
+    {
+      "path": "components/today-program.tsx",
+      "before_sha256": "9ca51aa37d330b485c7707118237250fb7b3c2ba4b23e55af0defd527e299aec",
+      "after_sha256": "99038e3ef923e178bb55eeaefc6f9f284e497e3a07dcbffa0b89c240ff86229e",
+      "changed": true
+    },
+    {
+      "path": "tests/coaching-sync.test.cjs",
+      "before_sha256": "646235cddbde6923611bb840ded47534ccfa21f311900b41e3ab7ac27d681bb1",
+      "after_sha256": "f23117821f269aee3fc57bba88b3a3bde1800c349cd469a1539308bc047f7876",
+      "changed": true
+    },
+    {
+      "path": "tests/targeted-ui.test.cjs",
+      "before_sha256": null,
+      "after_sha256": "5515f8929f56faee789be3f050b72e8a9346c4ff3010960008234659bc1fac7a",
+      "changed": true
+    },
+    {
+      "path": "tests/targeted-ui-render.test.cjs",
+      "before_sha256": null,
+      "after_sha256": "bb6f660177863151f0b99358494356b497de26aed8e1a74b21a96e624914c02c",
+      "changed": true
+    },
+    {
+      "path": "app.json",
+      "before_sha256": "34c78f99185abd314a93c0029103be842ee8f5137b391510cbbf2315180675cc",
+      "after_sha256": "c418167d68736ebd7cf33b448e4c71e91f201634fec4d1853a0e9cca71758960",
+      "changed": true
+    },
+    {
+      "path": "android/app/build.gradle",
+      "before_sha256": "de10a1afe589d140bdef1c2d2a5b28bb916d7046761d41f6de8be55659ed0dc1",
+      "after_sha256": "53f3e2e7218673fa3b87f0747e4b9b6e76385ddf9c7c9f6b9525e009714a1518",
+      "changed": true
+    }
+  ]
+}

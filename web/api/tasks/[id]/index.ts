@@ -26,7 +26,8 @@ const toDbRepeat = (repeat: any) => {
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (!ensureOriginAllowed(req, res)) return;
-  const supabase = getSupabase();
+  const supabase = await getSupabase(req, res);
+  if (!supabase) return;
   const { id } = req.query as { id: string };
 
   if (req.method === 'GET') {

@@ -1,6 +1,6 @@
 import { getSupabase, readJson, ok, err, ApiRequest, ApiResponse, ensureOriginAllowed } from '../../_supabase.js';
-import { TaskStatus } from '../../../types';
-import { normalizeStatus } from '../../../lib/status';
+import { TaskStatus } from '../../../types.js';
+import { normalizeStatus } from '../../../lib/status.js';
 
 const normalizeTask = (row: any) => ({
   id: row.id,
@@ -37,7 +37,8 @@ export default async function handler(req: ApiRequest, res: ApiResponse) {
     return err(res, 405, 'Method not allowed');
   }
 
-  const supabase = getSupabase();
+  const supabase = await getSupabase(req, res);
+  if (!supabase) return;
   const { id } = req.query as { id: string };
   const body = await readJson(req);
   const nowIso = new Date().toISOString();

@@ -1,0 +1,4 @@
+
+added 2 packages in 3s
+Failed to install browsers
+Error: ERROR: Playwright does not support chromium on mac13

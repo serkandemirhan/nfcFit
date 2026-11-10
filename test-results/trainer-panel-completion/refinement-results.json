@@ -1,0 +1,37 @@
+{
+  "results": [
+    {
+      "name": "Optional program filters clear independently from search",
+      "status": "PASS"
+    },
+    {
+      "name": "Preview expands selected week, reveals other weeks and never publishes/mutates",
+      "status": "PASS"
+    },
+    {
+      "name": "Collapsing optional desktop summary expands dominant editor",
+      "status": "PASS"
+    },
+    {
+      "name": "Reordering reports position; cancellation and undo preserve exercise ID/targets",
+      "status": "PASS"
+    },
+    {
+      "name": "Incomplete review has visible reserved footer and exact mobile day links; rest is intentional",
+      "status": "PASS"
+    },
+    {
+      "name": "375px focused mobile views/search/numeric edits persist after reload without horizontal overflow or reduced-viewport input obstruction",
+      "status": "PASS"
+    },
+    {
+      "name": "Source template remains unchanged by copied-program mobile edits",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught JavaScript errors during refinement cases",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}

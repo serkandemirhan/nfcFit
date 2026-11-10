@@ -1,0 +1,4 @@
+adb install -r NFCFit-1.0.18.apk
+Performing Streamed Install
+Success
+USB connection disappeared before post-install package and UI verification.

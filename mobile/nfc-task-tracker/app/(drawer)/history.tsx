@@ -1,3 +1,6 @@
+import { OfflineSyncStatus } from '@/components/offline-sync-status';
+import { useMemberActivities } from '@/hooks/use-member-activities';
+import { combineMemberExerciseLogs } from '@/lib/member-activity';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useQuery } from '@tanstack/react-query';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
@@ -10,6 +13,7 @@ import { getSurfaceColors } from '@/constants/tasks';
 import { useAuth } from '@/hooks/use-auth';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { ExerciseLog, fetchExerciseLogs, fetchWellnessLogs, WellnessLog } from '@/lib/api';
+import { tenantConsoleConfigured } from '@/lib/tenant-console';
 
 export default function HistoryScreen() {
   const surface = getSurfaceColors(useColorScheme());
@@ -18,21 +22,23 @@ export default function HistoryScreen() {
   const [filter, setFilter] = useState<'all' | 'fitness' | 'wellness'>('all');
   const logsQuery = useQuery({ queryKey: ['exercise_logs', userId], queryFn: () => fetchExerciseLogs(userId) });
   const wellnessQuery = useQuery({ queryKey: ['wellness_logs', userId], queryFn: () => fetchWellnessLogs(userId) });
+  const tenantActivitiesQuery = useMemberActivities();
   const logs = useMemo(() => {
-    const fitness = (logsQuery.data ?? []).map((log) => ({ type: 'fitness' as const, date: log.createdat, log }));
+    const fitness = combineMemberExerciseLogs(logsQuery.data ?? [], tenantActivitiesQuery.data ?? [], userId, true).map((log) => ({ type: 'fitness' as const, date: log.createdat, log }));
     const wellness = (wellnessQuery.data ?? []).map((log) => ({ type: 'wellness' as const, date: log.createdat, log }));
     return [...fitness, ...wellness]
       .filter((item) => filter === 'all' || item.type === filter)
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  }, [filter, logsQuery.data, wellnessQuery.data]);
+  }, [filter, logsQuery.data, wellnessQuery.data, tenantActivitiesQuery.data, userId]);
 
   return (
     <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
       <ScrollView
         contentContainerStyle={styles.content}
-        refreshControl={<RefreshControl refreshing={logsQuery.isRefetching || wellnessQuery.isRefetching} onRefresh={() => {
+        refreshControl={<RefreshControl refreshing={logsQuery.isRefetching || wellnessQuery.isRefetching || tenantActivitiesQuery.isRefetching} onRefresh={() => {
           logsQuery.refetch();
           wellnessQuery.refetch();
+          if (tenantConsoleConfigured) tenantActivitiesQuery.refetch();
         }} />}>
         <View style={styles.header}>
           <ThemedText style={styles.title}>Egzersiz Geçmişi</ThemedText>
@@ -45,27 +51,30 @@ export default function HistoryScreen() {
               key={value}
               onPress={() => setFilter(value)}
               style={[styles.filterChip, filter === value && { backgroundColor: surface.green, color: '#fff', opacity: 1 }]}>
-              {value === 'all' ? 'All' : value === 'fitness' ? 'Fitness' : 'Wellness'}
+              {value === 'all' ? 'Tümü' : value === 'fitness' ? 'Egzersiz' : 'İyi yaşam'}
             </ThemedText>
           ))}
         </View>
 
+        {tenantActivitiesQuery.isError && <ThemedText style={{ color: '#ef4444' }}>Salon aktiviteleri yüklenemedi. Yenilemek için aşağı çekin.</ThemedText>}
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {logs.length === 0 ? (
-            <ThemedText style={{ color: surface.mutedText }}>Henüz egzersiz kaydı yok.</ThemedText>
+            <ThemedText style={{ color: surface.mutedText }}>{tenantActivitiesQuery.isLoading || logsQuery.isLoading ? 'Kayıtlar yükleniyor…' : 'Bu filtrede henüz kayıt yok.'}</ThemedText>
           ) : (
             logs.map((item) => item.type === 'fitness'
-              ? <FitnessHistoryRow key={`f-${item.log.id}`} log={item.log as ExerciseLog} muted={surface.mutedText} accent={surface.green} />
+              ? <FitnessHistoryRow key={`f-${item.log.id}`} log={item.log} muted={surface.mutedText} accent={surface.green} />
                   : <WellnessHistoryRow key={`w-${item.log.id}`} log={item.log as WellnessLog} muted={surface.mutedText} accent={surface.green} />)
           )}
         </View>
+
+        <OfflineSyncStatus />
       </ScrollView>
       <AppBottomNav />
     </ThemedView>
   );
 }
 
-function FitnessHistoryRow({ log, muted, accent }: { log: ExerciseLog; muted: string; accent: string }) {
+function FitnessHistoryRow({ log, muted, accent }: { log: ExerciseLog & { tenant_name?: string; sync_state?: string; sync_error?: string | null }; muted: string; accent: string }) {
   return (
     <View style={styles.row}>
       <View style={styles.iconWrap}>
@@ -74,10 +83,11 @@ function FitnessHistoryRow({ log, muted, accent }: { log: ExerciseLog; muted: st
       <View style={{ flex: 1 }}>
         <ThemedText style={styles.rowTitle}>{formatQuantity(log.quantity, log.unit)} {log.exercise_name}</ThemedText>
         <ThemedText style={[styles.rowMeta, { color: muted }]}>
-          {formatDate(log.createdat)} · {log.source === 'nfc' ? 'NFC Tag ile kaydedildi' : 'Manuel kaydedildi'}
+          {log.tenant_name ? `${log.tenant_name} · ` : ''}{formatDate(log.createdat)} · {log.sync_state === 'rejected' ? 'Eşitlemede kabul edilmedi' : log.sync_state === 'pending' ? 'Telefonda · eşitleme bekliyor' : log.source === 'nfc' ? 'Kartla kaydedildi' : 'Manuel kaydedildi'}
         </ThemedText>
+        {log.sync_error && <ThemedText style={{color:'#B91C1C'}}>{log.sync_error}</ThemedText>}
       </View>
-      <ThemedText style={[styles.kcal, { color: accent }]}>{Math.round(Number(log.calorie_estimate ?? 0))} kcal</ThemedText>
+      <ThemedText style={[styles.kcal, { color: accent }]}>{log.calorie_estimate == null ? '—' : `${Math.round(Number(log.calorie_estimate))} kcal`}</ThemedText>
     </View>
   );
 }
@@ -132,6 +142,7 @@ const styles = StyleSheet.create({
   filters: { flexDirection: 'row', borderWidth: StyleSheet.hairlineWidth, borderRadius: 12, padding: 4, gap: 4 },
   filterChip: { flex: 1, textAlign: 'center', paddingVertical: 8, borderRadius: 9, fontSize: 12, fontWeight: '800', opacity: 0.7 },
   section: { borderWidth: StyleSheet.hairlineWidth, borderRadius: 16, paddingHorizontal: 12 },
+  sectionTitle: { fontSize: 16, fontWeight: '900', paddingTop: 12 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 13, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: 'rgba(148,163,184,0.22)' },
   iconWrap: { width: 36, height: 36, borderRadius: 12, backgroundColor: 'rgba(53,211,83,0.12)', alignItems: 'center', justifyContent: 'center' },
   rowTitle: { fontSize: 15, fontWeight: '800' },

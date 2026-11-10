@@ -1,0 +1,122 @@
+[
+  {
+    "screen": "1440x900-overview",
+    "beforePageHeight": 1729,
+    "afterPageHeight": 1081,
+    "reductionPercent": 37.5
+  },
+  {
+    "screen": "1440x900-members",
+    "beforePageHeight": 1323,
+    "afterPageHeight": 1171,
+    "reductionPercent": 11.5
+  },
+  {
+    "screen": "1440x900-programs",
+    "beforePageHeight": 3817,
+    "afterPageHeight": 1296,
+    "reductionPercent": 66.0
+  },
+  {
+    "screen": "1440x900-workouts",
+    "beforePageHeight": 2837,
+    "afterPageHeight": 1191,
+    "reductionPercent": 58.0
+  },
+  {
+    "screen": "1280x800-overview",
+    "beforePageHeight": 1849,
+    "afterPageHeight": 1081,
+    "reductionPercent": 41.5
+  },
+  {
+    "screen": "1280x800-members",
+    "beforePageHeight": 1323,
+    "afterPageHeight": 1171,
+    "reductionPercent": 11.5
+  },
+  {
+    "screen": "1280x800-programs",
+    "beforePageHeight": 3837,
+    "afterPageHeight": 1296,
+    "reductionPercent": 66.2
+  },
+  {
+    "screen": "1280x800-workouts",
+    "beforePageHeight": 2904,
+    "afterPageHeight": 1191,
+    "reductionPercent": 59.0
+  },
+  {
+    "screen": "390x844-overview",
+    "beforePageHeight": 3887,
+    "afterPageHeight": 1349,
+    "reductionPercent": 65.3
+  },
+  {
+    "screen": "390x844-members",
+    "beforePageHeight": 2937,
+    "afterPageHeight": 1522,
+    "reductionPercent": 48.2
+  },
+  {
+    "screen": "390x844-programs",
+    "beforePageHeight": 8899,
+    "afterPageHeight": 2068,
+    "reductionPercent": 76.8
+  },
+  {
+    "screen": "390x844-workouts",
+    "beforePageHeight": 7335,
+    "afterPageHeight": 1854,
+    "reductionPercent": 74.7
+  },
+  {
+    "screen": "375x667-overview",
+    "beforePageHeight": 3887,
+    "afterPageHeight": 1349,
+    "reductionPercent": 65.3
+  },
+  {
+    "screen": "375x667-members",
+    "beforePageHeight": 2937,
+    "afterPageHeight": 1522,
+    "reductionPercent": 48.2
+  },
+  {
+    "screen": "375x667-programs",
+    "beforePageHeight": 8899,
+    "afterPageHeight": 2068,
+    "reductionPercent": 76.8
+  },
+  {
+    "screen": "375x667-workouts",
+    "beforePageHeight": 7335,
+    "afterPageHeight": 1854,
+    "reductionPercent": 74.7
+  },
+  {
+    "screen": "412x915-overview",
+    "beforePageHeight": 3868,
+    "afterPageHeight": 1349,
+    "reductionPercent": 65.1
+  },
+  {
+    "screen": "412x915-members",
+    "beforePageHeight": 2937,
+    "afterPageHeight": 1522,
+    "reductionPercent": 48.2
+  },
+  {
+    "screen": "412x915-programs",
+    "beforePageHeight": 8899,
+    "afterPageHeight": 2068,
+    "reductionPercent": 76.8
+  },
+  {
+    "screen": "412x915-workouts",
+    "beforePageHeight": 7335,
+    "afterPageHeight": 1854,
+    "reductionPercent": 74.7
+  }
+]

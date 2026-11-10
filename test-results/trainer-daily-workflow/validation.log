@@ -1,0 +1,27 @@
+VALIDATION Yayınlamadan önce takvimi kontrol et
+×
+
+Demo · Eksik takvim kontrolü · 4 hafta
+
+Tamamen boş haftalar: 2, 3, 4. Bu haftalarda antrenman veya dinlenme günü tanımlı değil.
+
+26 gün henüz planlanmadı. Boş günler dinlenme günü olarak gösterilmez.
+
+1. hafta
+1 antrenman günü · 1 dinlenme · 5 planlanmamış
+1. haftayı düzenle
+Planlanmamış günleri göster (5)
+2. hafta
+0 antrenman günü · 0 dinlenme · 7 planlanmamış
+2. haftayı düzenle
+Planlanmamış günleri göster (7)
+3. hafta
+0 antrenman günü · 0 dinlenme · 7 planlanmamış
+3. haftayı düzenle
+Planlanmamış günleri göster (7)
+4. hafta
+0 antrenman günü · 0 dinlenme · 7 planlanmamış
+4. haftayı düzenle
+Planlanmamış günleri göster (7)
+Boş hafta ve günleri inceledim
+PASS intentional rest differs from unconfigured day; incomplete publish blocked; issue links return to affected day

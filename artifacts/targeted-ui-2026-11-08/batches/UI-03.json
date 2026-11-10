@@ -1,0 +1,14 @@
+{
+  "implementation": "PASS",
+  "focused_tests": 11,
+  "device_acceptance": "BLOCKED",
+  "real_backend_sync": "BLOCKED",
+  "cause_trace": "HTTP request failure reaches syncCoaching catch, is persisted in coaching-error, then rendered on sync screen. Original device evidence only contains Aborted without timing, signal source or stack, so exact timeout vs cancellation for that historical attempt cannot be established. Existing HTTP-only deadline retained. New correction: last-success timestamp only advances after overview and library both finish; no-op/timeout/failure cannot produce a success notice.",
+  "changed_files": [
+    "app/coaching-sync.tsx",
+    "lib/manual-sync-status.ts",
+    "lib/coaching.ts",
+    "lib/coaching-store-core.ts"
+  ],
+  "shared_change": "Only successful-sync display metadata write moved from saveOverview to the end of the worker. Queue acknowledgements, retries, lease, records and history unchanged."
+}

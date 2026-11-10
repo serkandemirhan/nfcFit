@@ -1,0 +1,13 @@
+const {launch,login}=require('./trainer-browser-fixture.cjs');const fs=require('fs'),path=require('path'),assert=require('assert/strict');
+const phase=process.argv[2]||'after',root=path.resolve(__dirname,'../../test-results/trainer-density'),out=path.join(root,phase);fs.mkdirSync(out,{recursive:true});
+(async()=>{const env=await launch(),p=env.page,results=[];p.setDefaultTimeout(30000);const b=n=>p.getByRole('button',{name:n,exact:true});const nav=async n=>{if(!await b(n).isVisible())await b('Menüyü aç').click();await b(n).click();await p.getByText('Yükleniyor…',{exact:true}).waitFor({state:'hidden'});};
+ await login(p,'trainer@planning.test');await p.locator('.nfc-page-header').waitFor();await p.getByText('Yükleniyor…',{exact:true}).waitFor({state:'hidden'});
+ for(const [w,h] of [[1440,900],[1280,800],[390,844],[375,667],[412,915]]){
+  await p.setViewportSize({width:w,height:h});
+  for(const [name,file] of [['Genel bakış','overview'],['Üyelerim','members'],['Programlar','programs'],['Antrenmanlar','workouts']]){
+   await nav(name);if(file==='programs')await p.locator('.tp-program-card').first().waitFor();if(file==='workouts')await b('Antrenmanı düzenle').first().waitFor();await p.evaluate(()=>document.fonts.ready);await p.mouse.move(0,0);await p.evaluate(()=>scrollTo(0,0));
+   await p.screenshot({path:path.join(out,`${w}x${h}-${file}.png`)});const metrics=await p.evaluate(()=>({width:innerWidth,scrollWidth:document.documentElement.scrollWidth,documentHeight:document.documentElement.scrollHeight,rows:document.querySelectorAll('tbody tr').length,action:(()=>{const b=document.querySelector('.nfc-header-action-slot button')?.getBoundingClientRect();return b?{top:b.top,bottom:b.bottom}:null})(),descriptionBottom:document.querySelector('.nfc-page-title p')?.getBoundingClientRect().bottom,cards:document.querySelectorAll('.tp-grid>article').length,tiny:[...document.querySelectorAll('.nfc-admin button')].filter(n=>n.checkVisibility({checkVisibilityCSS:true})&&n.getBoundingClientRect().width>0).map(n=>({text:n.textContent.trim(),width:n.getBoundingClientRect().width,height:n.getBoundingClientRect().height})).filter(n=>n.width<43.8||n.height<43.8)}));assert(metrics.scrollWidth<=w,`${w}-${file}: overflow`);if(phase==='after'&&w<768){assert.equal(metrics.tiny.length,0,JSON.stringify(metrics.tiny));if(metrics.action)assert(metrics.action.top>=metrics.descriptionBottom,`${w}-${file}: action overlaps description`);}results.push({name:`${w}x${h}-${file}`,status:'PASS',...metrics});console.log(`${w}x${h}-${file}`);
+  }
+ }
+ assert.equal(env.errors.length,0);fs.writeFileSync(path.join(out,'results.json'),JSON.stringify({results,errors:env.errors},null,2));await env.browser.close();
+})().catch(e=>{console.error(e);process.exitCode=1;});

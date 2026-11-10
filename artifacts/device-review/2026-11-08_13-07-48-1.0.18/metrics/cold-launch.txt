@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.serkandemirhan.nfcfit/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.serkandemirhan.nfcfit/.MainActivity
+TotalTime: 529
+WaitTime: 533
+Complete

@@ -1,0 +1,7 @@
+{
+  "status_at_initial_check": "FAIL",
+  "corrected_in_final_deployment": true,
+  "runtime_messages": [
+    "Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/web/types' imported from /var/task/web/api/tasks/index.js\n    at finalizeResolution (node:internal/modules/esm/resolve:278:11)\n    at moduleResolve (node:internal/modules/esm/resolve:885:10)\n    at moduleResolveWithNodePath (node:internal/modules/esm/resolve:1012:14)\n    at defaultResolve (node:internal/modules/esm/resolve:1055:79)\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:705:20)\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:725:38)\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:763:56)\n    at #resolve (node:internal/modules/esm/loader:687:17)\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:607:35)\n    at ModuleJob.syncLink (node:internal/modules/esm/module_job:276:33) {\n  code: 'ERR_MODULE_NOT_FOUND',\n  url: 'file:///var/task/web/types'\n}\nNode.js process exited with exit status: 1. The logs above can help with debugging the issue."
+  ]
+}

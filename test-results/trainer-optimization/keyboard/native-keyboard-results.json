@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "device": "iPhone SE (3rd generation)",
+  "os": "iOS 17.2 simulator",
+  "cssWidth": 375,
+  "nativeKeyPressed": "5",
+  "beforeSets": 4,
+  "savedSets": 5,
+  "savedWeightKg": 20,
+  "geometry": {
+    "input": {
+      "y": 116,
+      "x": 36,
+      "width": 146,
+      "height": 46
+    },
+    "save": {
+      "y": 329,
+      "x": 29,
+      "width": 317,
+      "height": 45
+    },
+    "keyboard": {
+      "y": 451,
+      "x": 0,
+      "width": 375,
+      "height": 216
+    }
+  }
+}

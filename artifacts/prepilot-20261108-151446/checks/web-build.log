@@ -1,0 +1,14 @@
+
+> nfc-task-tracker@0.0.0 build
+> vite build
+
+vite v6.4.1 building for production...
+transforming...
+✓ 136 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                            0.45 kB │ gzip:   0.32 kB
+dist/assets/CoachingConsole-CO9zknEF.js   29.23 kB │ gzip:   9.06 kB
+dist/assets/App-BtdkwaFu.js               74.04 kB │ gzip:  19.43 kB
+dist/assets/index-DiTBeA82.js            420.62 kB │ gzip: 119.64 kB
+✓ built in 12.45s

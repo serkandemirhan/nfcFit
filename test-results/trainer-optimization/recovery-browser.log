@@ -1,0 +1,3 @@
+PASS reload restores unfinished program and focused numeric values; saving clears local recovery only after persistence
+PASS stale local draft becomes independent source; current server version remains intact
+PASS 375px independent workout recovery, no overflow, explicit discard clears copy

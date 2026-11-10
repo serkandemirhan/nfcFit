@@ -1,0 +1,12 @@
+{
+  "implementation": "PASS",
+  "focused_tests": 17,
+  "device_acceptance": "BLOCKED",
+  "changes": [
+    "Daily exercise goals first, then separately headed program sessions.",
+    "Daily rows explicitly label target, actual, remaining, unit and progress; editing retains original SQLite save path.",
+    "8 November actual 2/8 and 15 November upcoming 0/8 are unchanged.",
+    "One program navigation button; legacy goal link has secondary text-link presentation."
+  ],
+  "shared_change": "MemberTenantGoals focused prop is enabled only on Goals. Default presentation and behavior in fitness/personal-goals are unchanged."
+}

@@ -1,0 +1,31 @@
+{
+  "device": "iPhone SE (3rd generation)",
+  "os": "iOS 17.2 simulator",
+  "contexts": [
+    "NATIVE_APP",
+    "WEBVIEW_40518.1"
+  ],
+  "keyboard": {
+    "y": 451,
+    "x": 0,
+    "width": 375,
+    "height": 216
+  },
+  "geometry": {
+    "width": 375,
+    "scrollWidth": 375,
+    "input": {
+      "top": 159,
+      "bottom": 205
+    },
+    "bar": {
+      "top": 258.5,
+      "bottom": 364.5
+    },
+    "viewport": {
+      "top": 28.5,
+      "height": 364.5
+    },
+    "active": "<input id=\"_r_7_\" inputmode=\"numeric\" enterkeyhint=\"done\" autocomplete=\"off\" type=\"text\" value=\"5\">"
+  }
+}

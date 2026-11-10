@@ -1,0 +1,111 @@
+PASS remote overview pagination, no eager overview/dashboard
+SEARCH 1
+PASS member program/progress/history and actual extra sets
+DIALOG Üyelere program ata
+
+Zeynep Kılıç · 1 üye
+
+×
+Yayındaki programı ara
+Kuvvet ve Denge · Ada
+4 hafta · Yayında
+Seç →
+Temel Kuvvet · Emre
+1 hafta · Yayında
+Seç →
+Tüm Vücut · Adaptasyon
+4 hafta · Yayında
+Seç →
+Üst Alt · Dengeli Gelişim
+4 hafta · Yayında
+Seç →
+Hareket Kalitesi · Mobilite
+4 hafta · Yayında
+Seç →
+Koşuya Destek · Kuvvet
+4 hafta · Yayında
+Seç →
+Fonksiyonel Güç · Denge
+4 hafta · Yayında
+Seç →
+Alt Gövde · Temel
+4 hafta · Yayında
+Seç →
+Sporcu Hazırlık · Kuvvet
+4 hafta · Yayında
+Seç →
+İleri Kuvvet · Dört Hafta
+4 hafta · Yayında
+Seç →
+Dambıl · Tüm Vücut
+4 hafta · Yayında
+Seç →
+Dayanıklılık · İstasyon
+4 hafta · Yayında
+Seç →
+Sırt ve Postür · Destek
+4 hafta · Yayında
+Seç →
+Kontrollü Dönüş · Adaptasyon
+4 hafta · Yayında
+Seç →
+Teknik Gelişim · Temel
+4 hafta · Yayında
+Seç →
+Güç ve Kondisyon · Kombine
+4 hafta · Yayında
+Seç →
+Kişisel Hedef · Performans
+4 hafta · Yayında
+Seç →
+
+Sonraki adımda başlangıç tarihi, çakışmalar ve son onay gösterilir.
+ASSIGN Programı üyelere ata
+×
+Yayında · Sürüm 5
+Kuvvet ve Denge · Ada
+
+4 hafta · 8 seans. Her üyeye bağımsız kopya oluşturulur.
+
+Başlangıç tarihi
+Üye ara
+Ada Yılmaz1 aktif program · Tarihler kontrolden geçirilecek
+Ayşe Demir1 aktif program · Tarihler kontrolden geçirilecek
+Berk İnceAktif programı yok
+Burak Yıldız1 aktif program · Tarihler kontrolden geçirilecek
+Can Öztürk1 aktif program · Tarihler kontrolden geçirilecek
+Ceren Aydın1 aktif program · Tarihler kontrolden geçirilecek
+Deniz Arslan1 aktif program · Tarihler kontrolden geçirilecek
+Derya Çelik1 aktif program · Tarihler kontrolden geçirilecek
+Ece Şahin1 aktif program · Tarihler kontrolden geçirilecek
+Efe Koç1 aktif program · Tarihler kontrolden geçirilecek
+Elif Aksoy1 aktif program · Tarihler kontrolden geçirilecek
+Emir Yalçın1 aktif program · Tarihler kontrolden geçirilecek
+Emre Demir2 aktif program · Tarihler kontrolden geçirilecek
+Esra Güneş1 aktif program · Tarihler kontrolden geçirilecek
+Furkan Kaya1 aktif program · Tarihler kontrolden geçirilecek
+Gizem PolatAktif programı yok
+Hakan YılmazAktif programı yok
+İrem TekinAktif programı yok
+Kaan AcarAktif programı yok
+Leyla KeskinAktif programı yok
+Melis YavuzAktif programı yok
+Mert ErenAktif programı yok
+Nazlı DoğanAktif programı yok
+Oğuz BulutAktif programı yok
+Öykü SezerAktif programı yok
+Pelin KaracaAktif programı yok
+Seda UsluAktif programı yok
+Selin ErdemAktif programı yok
+Serkan TunçAktif programı yok
+Sıla ÇetinAktif programı yok
+Tolga AslanAktif programı yok
+Tuğçe GülerAktif programı yok
+Umut TaşAktif programı yok
+Yağmur YücelAktif programı yok
+Yiğit SarıAktif programı yok
+Zeynep KılıçAktif programı yok
+Güncel atamaları yeniden kontrol et
+Atama özetini incele
+PASS direct assignment reuses date and member review dialog
+PASS five widths and no JS errors

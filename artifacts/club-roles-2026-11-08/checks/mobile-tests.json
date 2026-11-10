@@ -1,0 +1,18 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "tests/activity-workflow.test.cjs",
+    "tests/coaching-sync.test.cjs",
+    "tests/coaching.test.cjs",
+    "tests/management-cache.test.cjs",
+    "tests/member-activity.test.cjs",
+    "tests/nfc-link.test.cjs",
+    "tests/offline-api.test.cjs",
+    "tests/offline-session.test.cjs",
+    "tests/offline-store.test.cjs",
+    "tests/offline-sync.test.cjs",
+    "tests/starter-programs.test.cjs"
+  ],
+  "exit_code": 0
+}

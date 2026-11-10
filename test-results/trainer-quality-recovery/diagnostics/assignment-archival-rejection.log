@@ -1,0 +1,18 @@
+Archived disposable QA plan 12da0857-c98d-4038-92b6-6b3583293a42 Kalite İncelemesi · Güç ve Denge 312289
+Archived disposable QA plan 036bec88-876a-4b3f-b693-ccb3c1b926de Kalite İncelemesi · Güç ve Denge 484199
+Archived disposable QA plan 68e3821d-3370-4df7-a607-1c16517bf00c Mobil Düzenleme · 281669
+Archived disposable QA plan f6f68967-7e0c-4545-8244-730b9f6bb8bd Kalite İncelemesi · Güç ve Denge 396204
+Archived disposable QA plan e88a0660-9ec3-49b2-b896-eae2fafa3da4 Kalite İncelemesi · Güç ve Denge 781175
+Archived disposable QA plan 32160ca3-77cb-4819-bc18-5d6b587908a9 Kalite İncelemesi · Güç ve Denge 949311
+PASS original member workout records preserved; original Kuvvet/Temel source programs left active
+AssertionError [ERR_ASSERTION]: 422 /coaching/plans/f3c4b9ab-2ed7-5528-a073-ec616da84c40: {"detail":"Atanmış program yayınlanmış kalmalı."}
+    at api (/Users/user/NFCFit/web/tests/trainer-browser-fixture.cjs:33:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async [stdin]:1:515 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}

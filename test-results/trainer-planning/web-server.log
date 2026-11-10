@@ -1,0 +1,22 @@
+
+> nfc-task-tracker@0.0.0 dev
+> vite --host 127.0.0.1
+
+11:29:00 AM [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v6.4.1  ready in 1035 ms
+
+  ➜  Local:   http://127.0.0.1:3000/
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+11:31:00 AM [vite] (client) hmr update /TenantConsole.tsx
+11:35:32 AM [vite] (client) hmr update /TrainerPlanning.tsx
+11:35:32 AM [vite] (client) hmr update /CoachingConsole.tsx
+11:38:19 AM [vite] (client) hmr update /CoachingConsole.tsx
+11:38:19 AM [vite] (client) hmr update /TrainerPlanning.tsx
+11:38:19 AM [vite] (client) hmr update /TenantConsole.tsx
+11:38:19 AM [vite] (client) hmr update /trainer-planning.css
+11:38:23 AM [vite] (client) hmr update /TrainerPlanning.tsx
+11:38:23 AM [vite] (client) hmr update /MemberProgramSchedule.tsx
+11:38:23 AM [vite] (client) hmr update /CoachingConsole.tsx
+11:38:23 AM [vite] (client) hmr update /trainer-planning.css
+11:38:23 AM [vite] (client) hmr update /TrainerPlanning.tsx

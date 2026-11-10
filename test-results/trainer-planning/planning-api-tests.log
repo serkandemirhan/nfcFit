@@ -1,0 +1,25 @@
+test_account_timezone_is_validated_private_and_used_by_report_worker (test_coaching.CoachingJourneyTests) ... ok
+test_assignment_independent_snapshots_revision_conflict_and_review (test_coaching.CoachingJourneyTests) ... ok
+test_coach_dashboard_requires_explicit_active_staff_not_ordinary_membership (test_coaching.CoachingJourneyTests) ... ok
+test_cron_authentication_and_idempotent_generation (test_coaching.CoachingJourneyTests) ... ok
+test_daily_reminders_are_authorized_deduplicated_and_stop_after_revocation (test_coaching.CoachingJourneyTests) ... ok
+test_equipment_can_map_multiple_exercises_and_never_creates_a_set (test_coaching.CoachingJourneyTests) ... ok
+test_library_filters_favorites_private_custom_and_media_guard (test_coaching.CoachingJourneyTests) ... ok
+test_long_workout_partial_skips_and_quantity_validation (test_coaching.CoachingJourneyTests) ... ok
+test_new_member_template_rebase_review_comment_and_isolation (test_coaching.CoachingJourneyTests) ... ok
+test_personal_plans_hidden_from_facility_coaches_and_scheduled_worker_protected (test_coaching.CoachingJourneyTests) ... ok
+test_prepared_future_workout_refresh_is_explicit_idempotent_and_preserves_actuals (test_coaching.CoachingJourneyTests) ... ok
+test_recorded_clock_excludes_pauses_and_completed_snapshot_survives_revision (test_coaching.CoachingJourneyTests) ... ok
+test_revoked_membership_prevents_new_workout_commands (test_coaching.CoachingJourneyTests) ... ok
+test_weekly_report_deterministic_scope_and_no_invented_volume (test_coaching.CoachingJourneyTests) ... ok
+test_wellness_private_granular_consent_revocation_and_context_messages (test_coaching.CoachingJourneyTests) ... ok
+test_workout_manual_sets_retry_immutable_terminal_and_plan_targets (test_coaching.CoachingJourneyTests) ... ok
+test_empty_draft_publish_validation_and_archive_assignment (test_trainer_planning.TrainerPlanningTests) ... ok
+test_overlap_requires_acknowledgement_and_preserves_independent_copies (test_trainer_planning.TrainerPlanningTests) ... ok
+test_rest_day_conflicts_and_program_range (test_trainer_planning.TrainerPlanningTests) ... ok
+test_workout_template_scopes_idempotency_and_concurrent_edit (test_trainer_planning.TrainerPlanningTests) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 6.931s
+
+OK

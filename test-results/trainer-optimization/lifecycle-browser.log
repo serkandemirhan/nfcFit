@@ -1,0 +1,3 @@
+PASS scheduled member excluded from needs-program; explicit reason/versioned cancellation archives future copy and preserves original member history
+PASS audit actor/reason retained; history loads page 2 from server and selected old record independently; member overview omits full workout JSON
+PASS 375px history/audit without page overflow; no JS errors

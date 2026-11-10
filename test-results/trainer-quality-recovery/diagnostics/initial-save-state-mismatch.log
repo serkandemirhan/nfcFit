@@ -1,0 +1,21 @@
+
+> nfc-task-tracker@0.0.0 test:trainer-quality
+> node tests/trainer-quality.browser.cjs
+
+PASS Trainer authorization remains scoped; ordinary member receives 403
+SHOT 01-unsaved-program
+PASS 1 Create program: unsaved state is explicit and no phantom persistence exists
+SHOT 02-focused-exercise-targets
+PASS 2–4 Add workout/exercises and configure sets/reps with continuous focus and Turkish search
+SHOT 03-template-save-failed
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('.tp-save-state[data-save-state=saved]') to be visible[22m
+
+    at state (/Users/user/NFCFit/web/tests/trainer-quality.browser.cjs:10:96)
+    at /Users/user/NFCFit/web/tests/trainer-quality.browser.cjs:26:334 {
+  log: [
+    "  - waiting for locator('.tp-save-state[data-save-state=saved]') to be visible"
+  ],
+  name: 'TimeoutError'
+}

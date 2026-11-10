@@ -1,0 +1,68 @@
+
+> nfc-task-tracker@0.0.0 test:trainer-browser
+> node tests/trainer-planning.browser.cjs
+
+PASS Trainer login UI with test auth provider and real trainer authorization
+PASS Member denied trainer dashboard
+SCREENSHOT 01-trainer-dashboard-desktop.png
+PASS Create program and configure duration
+PASS Unsaved-change navigation guard retains draft when dismissed
+SCREENSHOT 18-publish-validation.png
+PASS Publish empty program validation
+PASS Configure weighted and bodyweight targets without required weight
+PASS Accessible exercise reorder
+SCREENSHOT 04-workout-builder-desktop.png
+SCREENSHOT 05-exercise-editor-desktop.png
+SCREENSHOT 23-retryable-save-error.png
+PASS Failed request preserves workout edits and allows retry
+PASS Save reusable workout template
+PASS Duplicate entire training day
+PASS Copy complete week
+PASS Edit second week independently
+PASS Rest day distinguished from unconfigured day
+PASS Reuse saved workout template and move session between days
+PASS Persist draft
+SCREENSHOT 24-publication-coverage-review.png
+PASS Incomplete publication lists empty weeks, requires acknowledgement and returns to selected week without publishing
+PASS Publish valid program
+SCREENSHOT 03-program-builder-desktop.png
+SCREENSHOT 19-member-schedule-preview.png
+PASS Member schedule preview
+SCREENSHOT 02-program-library-desktop.png
+PASS Program library search
+SCREENSHOT 06-assign-program-desktop.png
+PASS Assign published program to authorized member
+SCREENSHOT 20-overlap-warning.png
+PASS Overlap blocked without explicit acknowledgement
+PASS Member receives correct dated assignment through real API
+PASS Record completed workout and an extra set through existing member commands
+SCREENSHOT 07-member-progress-desktop.png
+SCREENSHOT 16-trainer-completed-workout.png
+SCREENSHOT 17-trainer-extra-sets.png
+PASS Trainer progress shows recorded planned, completed and extra sets
+PASS Selected member view hides other member cards and opens that member's future plan directly
+PASS Future plan modification preserves completed workout snapshot and actuals
+SCREENSHOT 15-member-assigned-program.png
+PASS Member program and Today render persisted schedule in UI
+PASS Responsive workflows 1440×900
+PASS Responsive workflows 1280×800
+PASS Responsive workflows 1024×768
+SCREENSHOT 08-trainer-home-mobile.png
+SCREENSHOT 09-program-list-mobile.png
+SCREENSHOT 10-program-builder-mobile.png
+SCREENSHOT 25-publication-review-mobile.png
+SCREENSHOT 26-workout-templates-mobile.png
+PASS Mobile publication review and on-demand settings/templates remain accessible
+SCREENSHOT 11-workout-editor-mobile.png
+SCREENSHOT 12-exercise-selection-mobile.png
+SCREENSHOT 21-mobile-focused-numeric-input.png
+PASS Reduced-height viewport keeps focused numeric input and both save actions visible
+SCREENSHOT 13-assign-program-mobile.png
+SCREENSHOT 22-assignment-confirmation-mobile.png
+SCREENSHOT 14-member-progress-mobile.png
+PASS Responsive workflows 390×844
+PASS Responsive workflows 375×667
+PASS Responsive workflows 412×915
+SCREENSHOT 27-complete-week-published.png
+PASS Fully configured training/rest schedule publishes without an unnecessary gap warning
+PASS No uncaught browser errors

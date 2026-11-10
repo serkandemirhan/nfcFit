@@ -1164,7 +1164,7 @@ const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: Reac
     // State for manual card entry modal
     const [isCardModalOpen, setIsCardModalOpen] = useState(false);
     const [cardId, setCardId] = useState('');
-    const [secretCode, setSecretCode] = useState('');
+    const [secretcode, setSecretCode] = useState('');
 
     // State for NFC scan and add modal
     const [isScanModalOpen, setIsScanModalOpen] = useState(false);
@@ -1195,7 +1195,7 @@ const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: Reac
     };
 
     const handleSaveCard = () => {
-        if (!cardId || !secretCode) {
+        if (!cardId || !secretcode) {
             alert('Kart ID ve Özel Kod alanları zorunludur.');
             return;
         }
@@ -1205,7 +1205,8 @@ const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: Reac
         }
         const newCard: NfcCard = {
             id: cardId,
-            secretCode,
+            alias: cardId,
+            secretcode,
             assignedLocationId: null,
         };
         setNfcCards(prevCards => [...prevCards, newCard]);
@@ -1304,16 +1305,16 @@ const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: Reac
                      return;
                 }
                 
-                const secretCode = foundSecretCode.trim();
+                const secretcode = foundSecretCode.trim();
 
-                if (cards.some(c => c.secretCode === secretCode)) {
+                if (cards.some(c => c.secretcode === secretcode)) {
                     setScanStatus('error');
                     setScanError('Bu özel koda sahip bir kart zaten sisteme kayıtlı.');
                     return;
                 }
                 
                 setScannedUid(serialNumber);
-                setScannedSecretCode(secretCode);
+                setScannedSecretCode(secretcode);
                 setScanStatus('scanned');
                 setScannedCardId(`NFC${String(cards.length + 1).padStart(3, '0')}`);
                 scanAbortController.current?.abort();
@@ -1352,7 +1353,8 @@ const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: Reac
         }
         const newCard: NfcCard = {
             id: scannedCardId,
-            secretCode: scannedSecretCode,
+            alias: scannedCardId,
+            secretcode: scannedSecretCode,
             uid: scannedUid || undefined,
             assignedLocationId: null,
         };
@@ -1401,7 +1403,7 @@ const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: Reac
                             <tr key={card.id} className="bg-gray-800 border-b border-gray-700 hover:bg-gray-700/50">
                                 <td className="px-6 py-4 font-mono text-white">{card.id}</td>
                                 <td className="px-6 py-4 font-mono text-gray-400">{card.uid || t('cards.table.notAvailable')}</td>
-                                <td className="px-6 py-4 font-mono text-cyan-400">{card.secretCode}</td>
+                                <td className="px-6 py-4 font-mono text-cyan-400">{card.secretcode}</td>
                                 <td className="px-6 py-4">{findLocationName(card.assignedLocationId)}</td>
                             </tr>
                         ))}
@@ -1415,8 +1417,8 @@ const CardsPage: FC<{ cards: NfcCard[], locations: Location[], setNfcCards: Reac
                         <input type="text" id="cardId" value={cardId} onChange={e => setCardId(e.target.value.toUpperCase())} className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="NFC006" required />
                     </div>
                     <div>
-                        <label htmlFor="secretCode" className="block mb-2 text-sm font-medium text-gray-300">Özel Kod</label>
-                        <input type="text" id="secretCode" value={secretCode} onChange={e => setSecretCode(e.target.value)} className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="a1b2c3d4" required />
+                        <label htmlFor="secretcode" className="block mb-2 text-sm font-medium text-gray-300">Özel Kod</label>
+                        <input type="text" id="secretcode" value={secretcode} onChange={e => setSecretCode(e.target.value)} className="bg-gray-700 border border-gray-600 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="a1b2c3d4" required />
                     </div>
                      <div className="flex justify-end items-center pt-2 space-x-2">
                         <button onClick={() => setIsCardModalOpen(false)} className="text-gray-300 bg-gray-600 hover:bg-gray-500 font-medium rounded-lg text-sm px-5 py-2.5">{t('btn.cancel')}</button>
@@ -1687,8 +1689,8 @@ const MobileUserView: FC<{
                 for (const record of event.message.records) {
                     if (record.data) {
                         try {
-                            const secretCode = decoder.decode(record.data).trim();
-                            const foundCard = nfcCards.find(c => c.secretCode === secretCode && c.uid === scannedUid);
+                            const secretcode = decoder.decode(record.data).trim();
+                            const foundCard = nfcCards.find(c => c.secretcode === secretcode && c.uid === scannedUid);
 
                             if (foundCard && foundCard.assignedLocationId) {
                                 const location = locations.find(l => l.id === foundCard.assignedLocationId);

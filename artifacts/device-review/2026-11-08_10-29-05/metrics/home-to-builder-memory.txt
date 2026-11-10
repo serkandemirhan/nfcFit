@@ -1,0 +1,70 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 261550189 Realtime: 951816676
+
+** MEMINFO in pid 18363 [com.serkandemirhan.nfcfit] **
+                   Pss  Private  Private  SwapPss      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    54632    54592       12       25    55808    66172    51868     9997
+  Dalvik Heap    17647    13112     4292       16    19168    33798     9222    24576
+ Dalvik Other     1854     1536       28        0     2656                           
+        Stack     1732     1732        0        0     1740                           
+       Ashmem       61        0        0        0      572                           
+    Other dev       99        0       16        0      932                           
+     .so mmap    12682      156    10548       33    42668                           
+    .jar mmap     2735        0      568        0    36964                           
+    .apk mmap    23531     1092    20268        0    28664                           
+    .ttf mmap     1190        0      968        0     1424                           
+    .dex mmap    18774        4    18756        0    19544                           
+    .oat mmap      756        0      148        0    12516                           
+    .art mmap     7984     5568     1688       65    22132                           
+   Other mmap      586       24      424        0     1904                           
+   EGL mtrack    22037    22037        0        0    22037                           
+    GL mtrack    23364    23364        0        0    23364                           
+      Unknown    25041    24772      260        4    25632                           
+        TOTAL   214848   147989    57976      143   317725    99970    61090    34573
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:    20368                          41300
+         Native Heap:    54592                          55808
+                Code:    52528                         142360
+               Stack:     1732                           1740
+            Graphics:    45401                          45401
+       Private Other:    31344
+              System:     8883
+             Unknown:                                   31116
+ 
+           TOTAL PSS:   214848            TOTAL RSS:   317725       TOTAL SWAP PSS:      143
+ 
+ Objects
+               Views:      297         ViewRootImpl:        1
+         AppContexts:        5           Activities:        1
+              Assets:       32        AssetManagers:        0
+       Local Binders:       26        Proxy Binders:       64
+       Parcel memory:       13         Parcel count:       45
+    Death Recipients:        0             WebViews:        0
+ 
+ Native Allocations
+                         Count                       Total(kB)
+                        ------                         ------
+    Other (malloced):     1841                            174
+ Other (nonmalloced):       98                             71
+   Bitmap (malloced):        6                            310
+ 
+ SQL
+         MEMORY_USED:      474
+  PAGECACHE_OVERFLOW:      151          MALLOC_SIZE:       46
+ 
+ DATABASES
+      pgsz     dbsz   Lookaside(b) cache hits cache misses cache size  Dbname
+PER CONNECTION STATS
+         4       20             36    76    34     3  /data/user/0/com.serkandemirhan.nfcfit/databases/RKStorage
+         4      104             56    54    96    25  /data/user/0/com.serkandemirhan.nfcfit/no_backup/androidx.work.workdb
+         4        8                    0     0     0    (attached) temp
+         4      104             25     4    17     2  /data/user/0/com.serkandemirhan.nfcfit/no_backup/androidx.work.workdb (2)
+POOL STATS
+     cache hits  cache misses    cache size  Dbname
+             76            35           111  /data/user/0/com.serkandemirhan.nfcfit/databases/RKStorage
+             60           129           189  /data/user/0/com.serkandemirhan.nfcfit/no_backup/androidx.work.workdb

@@ -1,3 +1,8 @@
+import { OfflineSyncStatus } from '@/components/offline-sync-status';
+import { MemberWeeklyTrend } from '@/components/member-weekly-trend';
+import { useMemberFitness } from '@/hooks/use-member-fitness';
+import { MemberTenantGoals } from '@/components/member-tenant-goals';
+import { combineMemberExerciseLogs, recordedMinutes, summarizeMemberExercises } from '@/lib/member-activity';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
@@ -10,6 +15,7 @@ import { getSurfaceColors } from '@/constants/tasks';
 import { useAuth } from '@/hooks/use-auth';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { fetchExerciseLogs, fetchExerciseTypes, fetchUserExercises } from '@/lib/api';
+import { tenantConsoleConfigured } from '@/lib/tenant-console';
 
 export default function FitnessScreen() {
   const surface = getSurfaceColors(useColorScheme());
@@ -19,6 +25,7 @@ export default function FitnessScreen() {
   const logsQuery = useQuery({ queryKey: ['exercise_logs', userId], queryFn: () => fetchExerciseLogs(userId) });
   const typesQuery = useQuery({ queryKey: ['exercise_types'], queryFn: fetchExerciseTypes });
   const userExercisesQuery = useQuery({ queryKey: ['user_exercises', userId], queryFn: () => fetchUserExercises(userId) });
+  const tenantActivitiesQuery = useMemberFitness();
   const selectedIds = useMemo(
     () => new Set((userExercisesQuery.data ?? []).filter((item) => item.active !== false).map((item) => item.exercise_type_id)),
     [userExercisesQuery.data]
@@ -28,21 +35,18 @@ export default function FitnessScreen() {
     [selectedIds, typesQuery.data]
   );
   const start = getPeriodStart(period);
-  const periodLogs = (logsQuery.data ?? []).filter((log) => new Date(log.createdat) >= start);
-  const rows = selectedExercises.map((exercise) => {
-    const logs = periodLogs.filter((log) => log.exercise_type_id === exercise.id);
-    return {
-      exercise,
-      count: logs.length,
-      quantity: logs.reduce((sum, log) => sum + Number(log.quantity ?? 0), 0),
-      calories: logs.reduce((sum, log) => sum + Number(log.calorie_estimate ?? 0), 0),
-    };
-  });
-  const totalWorkouts = periodLogs.length;
-  const totalCalories = rows.reduce((sum, row) => sum + row.calories, 0);
-  const totalQuantity = rows.reduce((sum, row) => sum + row.quantity, 0);
-  const activeMinutes = totalWorkouts * 15;
-  const refreshing = logsQuery.isRefetching || typesQuery.isRefetching || userExercisesQuery.isRefetching;
+  const periodLogs = combineMemberExerciseLogs(logsQuery.data ?? [], [], userId)
+    .filter(log => new Date(log.createdat) >= start);
+  const tenantRows = (tenantActivitiesQuery.data?.exercises ?? []).filter(row => row[period].count > 0).map(row => ({
+    key: `tenant:${row.tenant_id}:${row.exercise_id}:${row.unit}`, name: row.name, unit: row.unit,
+    count: row[period].count, quantity: row[period].quantity, calories: null, tenant_name: row.tenant_name,
+  }));
+  const rows = [...summarizeMemberExercises(periodLogs, selectedExercises), ...tenantRows].sort((a, b) => b.count - a.count);
+  const totalWorkouts = rows.reduce((sum, row) => sum + row.count, 0);
+  const totalCalories = periodLogs.reduce((sum, log) => sum + Number(log.calorie_estimate ?? 0), 0);
+  const hasUnknownCalories = tenantRows.length > 0 || periodLogs.some(log => log.calorie_estimate == null);
+  const activeMinutes = recordedMinutes(periodLogs) + tenantRows.reduce((sum, row) => sum + (row.unit === 'seconds' ? row.quantity / 60 : row.unit === 'minutes' ? row.quantity : 0), 0);
+  const refreshing = logsQuery.isRefetching || typesQuery.isRefetching || userExercisesQuery.isRefetching || tenantActivitiesQuery.isRefetching;
 
   return (
     <ThemedView style={[styles.container, { backgroundColor: surface.background }]}>
@@ -52,11 +56,14 @@ export default function FitnessScreen() {
           logsQuery.refetch();
           typesQuery.refetch();
           userExercisesQuery.refetch();
+          if (tenantConsoleConfigured) tenantActivitiesQuery.refetch();
         }} />}>
         <View style={styles.header}>
-          <ThemedText style={[styles.eyebrow, { color: surface.green }]}>Activity</ThemedText>
-          <ThemedText style={styles.title}>Fitness</ThemedText>
+          <ThemedText style={[styles.eyebrow, { color: surface.green }]}>Aktivite</ThemedText>
+          <ThemedText style={styles.title}>Egzersizler</ThemedText>
         </View>
+
+        <MemberWeeklyTrend personal={logsQuery.data ?? []} />
 
         <View style={[styles.segment, { backgroundColor: surface.card, borderColor: surface.border }]}>
           {(['day', 'week', 'month'] as const).map((value) => (
@@ -68,42 +75,47 @@ export default function FitnessScreen() {
           ))}
         </View>
 
+        {tenantActivitiesQuery.isLoading && <ThemedText>Salon aktiviteleri yükleniyor…</ThemedText>}
+        {tenantActivitiesQuery.isError && <ThemedText style={{ color: '#ef4444' }}>Salon aktiviteleri yüklenemedi. Yenilemek için aşağı çekin.</ThemedText>}
+        {hasUnknownCalories && <ThemedText style={{ color: surface.mutedText }}>Salon aktivitelerinde kalori bilgisi bulunmuyor.</ThemedText>}
         <View style={[styles.activityCard, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <ThemedText style={styles.sectionTitle}>Activity</ThemedText>
+          <ThemedText style={styles.sectionTitle}>Aktivite</ThemedText>
           <View style={styles.activityBody}>
             <View style={styles.donutOuter}>
               <View style={[styles.donutMiddle, { backgroundColor: surface.card }]}>
-                <ThemedText style={styles.donutValue}>{Math.round(totalCalories)}</ThemedText>
+                <ThemedText style={styles.donutValue}>{hasUnknownCalories ? '—' : Math.round(totalCalories)}</ThemedText>
                 <ThemedText style={styles.donutLabel}>kcal</ThemedText>
               </View>
             </View>
             <View style={styles.legend}>
-              <LegendDot color={surface.green} label="Workouts" value={`${totalWorkouts}`} />
-              <LegendDot color={surface.green} label="Active Time" value={`${activeMinutes} min`} />
-              <LegendDot color={surface.mutedText} label="Volume" value={String(Math.round(totalQuantity))} />
+              <LegendDot color={surface.green} label="Egzersiz kayıtları" value={`${totalWorkouts}`} />
+              <LegendDot color={surface.green} label="Kayıtlı süre" value={`${activeMinutes.toLocaleString('tr-TR', { maximumFractionDigits: 1 })} dk`} />
+              <LegendDot color={surface.mutedText} label="Egzersiz çeşidi" value={String(rows.filter(row => row.count > 0).length)} />
             </View>
           </View>
         </View>
 
         <View style={[styles.section, { backgroundColor: surface.card, borderColor: surface.border }]}>
-          <ThemedText style={styles.sectionTitle}>Top Exercises</ThemedText>
+          <ThemedText style={styles.sectionTitle}>Egzersiz raporum</ThemedText>
           {rows.length === 0 ? (
-            <ThemedText style={{ color: surface.mutedText }}>Önce Egzersizler ekranından egzersiz seç.</ThemedText>
+            <ThemedText style={{ color: surface.mutedText }}>Bu dönemde egzersiz kaydı yok.</ThemedText>
           ) : (
-            rows.slice().sort((a, b) => b.quantity - a.quantity).map((row) => (
-              <View key={row.exercise.id} style={styles.row}>
+            rows.map((row) => (
+              <View key={row.key} style={styles.row}>
                 <Ionicons name="fitness-outline" size={22} color={surface.green} />
                 <View style={{ flex: 1 }}>
-                  <ThemedText style={styles.rowTitle}>{row.exercise.name}</ThemedText>
+                  <ThemedText style={styles.rowTitle}>{row.name}</ThemedText>
                   <ThemedText style={[styles.rowMeta, { color: surface.mutedText }]}>
-                    {row.count} kayıt · {formatQuantity(row.quantity, row.exercise.unit)}
+                    {row.tenant_name ? `${row.tenant_name} · ` : ''}{row.count} kayıt · {formatQuantity(row.quantity, row.unit)}
                   </ThemedText>
                 </View>
-                <ThemedText style={[styles.kcal, { color: surface.green }]}>{Math.round(row.calories)} kcal</ThemedText>
+                <ThemedText style={[styles.kcal, { color: surface.green }]}>{row.calories == null ? '—' : `${Math.round(row.calories)} kcal`}</ThemedText>
               </View>
             ))
           )}
         </View>
+        <MemberTenantGoals />
+        <OfflineSyncStatus />
       </ScrollView>
       <AppBottomNav />
     </ThemedView>

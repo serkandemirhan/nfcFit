@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: legacy endpoints never construct a service client without a bearer identity
+ok 1 - legacy endpoints never construct a service client without a bearer identity
+  ---
+  duration_ms: 1032.744094
+  type: 'test'
+  ...
+# Subtest: verified requests use the public key plus caller JWT so database RLS remains active
+ok 2 - verified requests use the public key plus caller JWT so database RLS remains active
+  ---
+  duration_ms: 157.895863
+  type: 'test'
+  ...
+# Subtest: invalid and unverified sessions cannot reach protected legacy records
+ok 3 - invalid and unverified sessions cannot reach protected legacy records
+  ---
+  duration_ms: 298.654003
+  type: 'test'
+  ...
+# Subtest: every protected legacy route stops before database or password mutation when session validation fails
+ok 4 - every protected legacy route stops before database or password mutation when session validation fails
+  ---
+  duration_ms: 1763.290823
+  type: 'test'
+  ...
+# Subtest: compiled legacy task handlers load in Node ESM and deny requests before querying data
+ok 5 - compiled legacy task handlers load in Node ESM and deny requests before querying data
+  ---
+  duration_ms: 2167.991197
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7617.769676

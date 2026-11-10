@@ -1,0 +1,67 @@
+test_account_timezone_is_validated_private_and_used_by_report_worker (test_club_roles.CanonicalCoachingTests) ... ok
+test_assignment_independent_snapshots_revision_conflict_and_review (test_club_roles.CanonicalCoachingTests) ... ok
+test_coach_dashboard_requires_explicit_active_staff_not_ordinary_membership (test_club_roles.CanonicalCoachingTests) ... ok
+test_cron_authentication_and_idempotent_generation (test_club_roles.CanonicalCoachingTests) ... ok
+test_daily_reminders_are_authorized_deduplicated_and_stop_after_revocation (test_club_roles.CanonicalCoachingTests) ... ok
+test_equipment_can_map_multiple_exercises_and_never_creates_a_set (test_club_roles.CanonicalCoachingTests) ... ok
+test_library_filters_favorites_private_custom_and_media_guard (test_club_roles.CanonicalCoachingTests) ... ok
+test_long_workout_partial_skips_and_quantity_validation (test_club_roles.CanonicalCoachingTests) ... ok
+test_new_member_template_rebase_review_comment_and_isolation (test_club_roles.CanonicalCoachingTests) ... ok
+test_overview_query_count_does_not_grow_per_plan (test_club_roles.CanonicalCoachingTests) ... ok
+test_personal_plans_hidden_from_facility_coaches_and_scheduled_worker_protected (test_club_roles.CanonicalCoachingTests) ... ok
+test_prepared_future_workout_refresh_is_explicit_idempotent_and_preserves_actuals (test_club_roles.CanonicalCoachingTests) ... ok
+test_recorded_clock_excludes_pauses_and_completed_snapshot_survives_revision (test_club_roles.CanonicalCoachingTests) ... ok
+test_revoked_membership_prevents_new_workout_commands (test_club_roles.CanonicalCoachingTests) ... ok
+test_role_demotion_blocks_existing_templates_and_trainer_performance (test_club_roles.CanonicalCoachingTests) ... ok
+test_weekly_report_deterministic_scope_and_no_invented_volume (test_club_roles.CanonicalCoachingTests) ... ok
+test_wellness_private_granular_consent_revocation_and_context_messages (test_club_roles.CanonicalCoachingTests) ... ok
+test_workout_manual_sets_retry_immutable_terminal_and_plan_targets (test_club_roles.CanonicalCoachingTests) ... ok
+test_admin_only_subscription_settings_and_audit (test_club_roles.ClubRoleTests) ... ok
+test_billing_profile_and_platform_subscription_review (test_club_roles.ClubRoleTests) ... ok
+test_canonical_and_legacy_identity_roles_and_legacy_rows_are_not_rewritten (test_club_roles.ClubRoleTests) ... ok
+test_catalog_equipment_and_assignment_mutations_match_role_matrix (test_club_roles.ClubRoleTests) ... ok
+test_manager_can_invite_trainers_but_no_higher_roles_or_self_promotion (test_club_roles.ClubRoleTests) ... ok
+test_members_cards_and_audit_are_tenant_scoped (test_club_roles.ClubRoleTests) ... ok
+test_no_independent_athlete_plan_creation (test_club_roles.ClubRoleTests) ... ok
+test_operational_reads_for_every_role_and_cross_club (test_club_roles.ClubRoleTests) ... ok
+test_platform_admin_needs_explicit_club_grant (test_club_roles.ClubRoleTests) ... ok
+test_unverified_account_cannot_be_promoted_to_admin (test_club_roles.ClubRoleTests) ... ok
+test_verified_promotion_last_admin_and_history_preserving_removal (test_club_roles.ClubRoleTests) ... ok
+test_account_timezone_is_validated_private_and_used_by_report_worker (test_coaching.CoachingJourneyTests) ... ok
+test_assignment_independent_snapshots_revision_conflict_and_review (test_coaching.CoachingJourneyTests) ... ok
+test_coach_dashboard_requires_explicit_active_staff_not_ordinary_membership (test_coaching.CoachingJourneyTests) ... ok
+test_cron_authentication_and_idempotent_generation (test_coaching.CoachingJourneyTests) ... ok
+test_daily_reminders_are_authorized_deduplicated_and_stop_after_revocation (test_coaching.CoachingJourneyTests) ... ok
+test_equipment_can_map_multiple_exercises_and_never_creates_a_set (test_coaching.CoachingJourneyTests) ... ok
+test_library_filters_favorites_private_custom_and_media_guard (test_coaching.CoachingJourneyTests) ... ok
+test_long_workout_partial_skips_and_quantity_validation (test_coaching.CoachingJourneyTests) ... ok
+test_new_member_template_rebase_review_comment_and_isolation (test_coaching.CoachingJourneyTests) ... ok
+test_personal_plans_hidden_from_facility_coaches_and_scheduled_worker_protected (test_coaching.CoachingJourneyTests) ... ok
+test_prepared_future_workout_refresh_is_explicit_idempotent_and_preserves_actuals (test_coaching.CoachingJourneyTests) ... ok
+test_recorded_clock_excludes_pauses_and_completed_snapshot_survives_revision (test_coaching.CoachingJourneyTests) ... ok
+test_revoked_membership_prevents_new_workout_commands (test_coaching.CoachingJourneyTests) ... ok
+test_weekly_report_deterministic_scope_and_no_invented_volume (test_coaching.CoachingJourneyTests) ... ok
+test_wellness_private_granular_consent_revocation_and_context_messages (test_coaching.CoachingJourneyTests) ... ok
+test_workout_manual_sets_retry_immutable_terminal_and_plan_targets (test_coaching.CoachingJourneyTests) ... ok
+test_concurrent_admin_removal_keeps_one_active_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_five_club_roles_database_boundaries_and_last_admin (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_role_migration_preserves_data_and_rejects_unknown_policy (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_scoped_reads_wellness_consent_and_client_write_denial (test_coaching_rls.PostgreSQLCoachingRLSTests) ... skipped 'Set isolated NFCFIT_RLS_TEST_URL using scripts/test_rls.py'
+test_private_or_credential_urls_rejected (test_exercise_media.ExerciseMediaTests) ... ok
+test_verified_bytes_rights_and_scope_required (test_exercise_media.ExerciseMediaTests) ... ok
+test_email_already_linked_to_another_supabase_user_is_rejected (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_existing_console_accounts_table_gets_supabase_link_column (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_offline_catalog_deltas_record_replay_conflicts_and_history_pagination (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_postgres_urls_select_the_installed_psycopg_driver (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_supabase_auth_endpoint_identity_response_is_normalized (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_supabase_identity_lookup_requires_bearer_token (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_tenant_join_approval_nfc_record_and_isolation (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_uid_formats_preserve_hex_bytes_and_synthetic_identifiers (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unassigned_tag_can_be_assigned_detached_and_deleted_without_losing_activity (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unchanged_linked_identity_does_not_commit_or_refresh_account (test_tenant_console.TenantConsoleFlowTests) ... ok
+test_unverified_supabase_email_cannot_link_or_create_account (test_tenant_console.TenantConsoleFlowTests) ... ok
+
+----------------------------------------------------------------------
+Ran 62 tests in 44.811s
+
+OK (skipped=4)

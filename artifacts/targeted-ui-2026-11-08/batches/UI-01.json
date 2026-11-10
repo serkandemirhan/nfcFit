@@ -1,0 +1,11 @@
+{
+  "implementation": "PASS",
+  "focused_tests": 51,
+  "device_acceptance": "BLOCKED",
+  "changes": [
+    "Ended result card uses existing compact padding/gap.",
+    "Long explanatory paragraph replaced by concise secondary line.",
+    "Same todaySessions, sessionDisplayName, workoutProgress, date handling and result route; no calculation changed.",
+    "Component regression retains Pazar · Tüm Vücut, Kısmen tamamlandı, 2/8, result action and separate 15 November upcoming workout without mutating data."
+  ]
+}

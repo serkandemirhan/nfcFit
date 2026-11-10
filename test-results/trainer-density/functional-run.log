@@ -1,0 +1,9 @@
+PASS Overview bounded to five members, secondary content explicitly expandable
+PASS 36-member pagination,10/25 page sizes, search from later page resets pagination
+PASS Program list search/pagination, history and cancelable archive retain source data
+PASS Program duplicate/editor and assignment member search remain reachable from list
+PASS Crowded template search, size filter, empty state and persisted target editor
+PASS Member detail retains independent Ada5/4(+1) and Emre4/4 records
+PASS 375px mobile program row/menu/editor/search remains usable, reduced viewport does not cover Set
+PASS Same-section navigation respects cancel/discard; shared header creates program and workout on mobile
+PASS Authorization and tenant boundary unchanged; no uncaught page errors

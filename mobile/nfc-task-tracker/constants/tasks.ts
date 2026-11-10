@@ -41,9 +41,9 @@ export function getStatusBadgeColors(status: TaskStatus, scheme?: ColorSchemeNam
 export function getSurfaceColors(scheme?: ColorSchemeName | null) {
   const isDark = resolveScheme(scheme) === 'dark';
   return {
-    background: isDark ? '#030B16' : '#F4F7F5',
-    card: isDark ? '#071827' : '#FFFFFF',
-    cardRaised: isDark ? '#0B1F32' : '#F5F8F6',
+    background: isDark ? '#10191F' : '#F4F7F5',
+    card: isDark ? '#19272F' : '#FFFFFF',
+    cardRaised: isDark ? '#22343F' : '#F5F8F6',
     border: isDark ? 'rgba(148,163,184,0.20)' : '#DFE8E1',
     mutedText: isDark ? '#8EA0B8' : '#64736A',
     text: isDark ? '#F8FAFC' : '#17251C',

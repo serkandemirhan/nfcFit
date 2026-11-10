@@ -1,0 +1,221 @@
+{
+  "environment": "deployed production/test tenant API",
+  "mode": "read-only metadata; no records, passwords or tokens queried",
+  "table_rls": [
+    {
+      "table": "console_accounts",
+      "rls_enabled": true
+    },
+    {
+      "table": "console_audit_logs",
+      "rls_enabled": true
+    },
+    {
+      "table": "console_club_billing_profiles",
+      "rls_enabled": true
+    },
+    {
+      "table": "console_coaching_plans",
+      "rls_enabled": true
+    },
+    {
+      "table": "console_memberships",
+      "rls_enabled": true
+    },
+    {
+      "table": "console_nfc_tags",
+      "rls_enabled": true
+    },
+    {
+      "table": "console_subscription_requests",
+      "rls_enabled": true
+    },
+    {
+      "table": "console_tenant_staff",
+      "rls_enabled": true
+    },
+    {
+      "table": "exercise_tags",
+      "rls_enabled": true
+    },
+    {
+      "table": "users",
+      "rls_enabled": true
+    }
+  ],
+  "stored_role_counts": [
+    {
+      "role": "coach",
+      "count": 1
+    },
+    {
+      "role": "owner",
+      "count": 1
+    }
+  ],
+  "policy_inventory": [
+    {
+      "table": "console_accounts",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_activities",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_audit_logs",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_club_billing_profiles",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_coach_links",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_coach_reviews",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_coaching_messages",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_coaching_notifications",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_coaching_plans",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_equipment",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_exercise_favorites",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_exercises",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_library_exercises",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_member_exercise_goals",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_memberships",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_nfc_tags",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_plan_versions",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_private_wellness",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_report_snapshots",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_subscription_requests",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_tenant_staff",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_tenants",
+      "policy": "nfcfit_club_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_weekly_reports",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_wellness_consent",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_wellness_preferences",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_workout_events",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "console_workouts",
+      "policy": "nfcfit_scoped_read",
+      "command": "SELECT"
+    },
+    {
+      "table": "exercise_tags",
+      "policy": "exercise_tags_manage_own",
+      "command": "ALL"
+    },
+    {
+      "table": "exercise_tags",
+      "policy": "exercise_tags_visible_to_owner",
+      "command": "SELECT"
+    },
+    {
+      "table": "users",
+      "policy": "users_read_own_profile",
+      "command": "SELECT"
+    },
+    {
+      "table": "users",
+      "policy": "users_update_own_profile",
+      "command": "UPDATE"
+    }
+  ],
+  "new_club_roles_migration_deployed": true,
+  "database_metadata_check": "PASS",
+  "auth": {
+    "email_confirmation_required": true,
+    "signup_disabled": false,
+    "admin_provisioning_key_available": false,
+    "fresh_real_sessions": "BLOCKED: requires verified test-account sign-in; no password reset or existing token extraction performed"
+  }
+}

@@ -1,0 +1,193 @@
+[Appium] Welcome to Appium v2.19.0
+[Appium] Non-default server args:
+[Appium] { address: '127.0.0.1' }
+[Appium] The APPIUM_HOME environment variable: /tmp/nfcfit-ios-test/home
+[Appium] Attempting to load driver xcuitest...
+[Appium] Requiring driver at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/build/index.js
+[Appium] XCUITestDriver has been successfully loaded in 8.766s
+[Appium] Appium REST http interface listener started on http://127.0.0.1:4723
+[Appium] Available drivers:
+[Appium]   - xcuitest@7.35.1 (automationName 'XCUITest')
+[Appium] No plugins have been installed. Use the "appium plugin" command to install the one(s) you want to use.
+[HTTP] --> GET /status {}
+[AppiumDriver@70a3] Calling AppiumDriver.getStatus() with args: []
+[AppiumDriver@70a3] Responding to client with driver.getStatus() result: {"ready":true,"message":"The server is ready to accept new connections","build":{"version":"2.19.0"}}
+[HTTP] <-- GET /status 200 5 ms - 111 
+[HTTP] --> POST /session {"capabilities":{"alwaysMatch":{"platformName":"iOS","appium:automationName":"XCUITest","appium:bundleId":"com.apple.mobilesafari","appium:udid":"3C063355-7F11-423F-A1AE-1D0B483A6864","appium:deviceName":"iPhone SE (3rd generation)","appium:platformVersion":"17.2","appium:usePreinstalledWDA":true,"appium:prebuiltWDAPath":"/tmp/nfcfit-ios-test/panel-preinstalled-wda.app","appium:skipLogCapture":true,"appium:noReset":true,"appium:autoWebview":false,"appium:connectHardwareKeyboard":false,"appium:forceSimulatorSoftwareKeyboardPresence":true,"appium:newCommandTimeout":600,"appium:wdaLaunchTimeout":120000}}}
+[AppiumDriver@70a3] Calling AppiumDriver.createSession() with args: [null,null,{"alwaysMatch":{"platformName":"iOS","appium:automationName":"XCUITest","appium:bundleId":"com.apple.mobilesafari","appium:udid":"3C063355-7F11-423F-A1AE-1D0B483A6864","appium:deviceName":"iPhone SE (3rd generation)","appium:platformVersion":"17.2","appium:usePreinstalledWDA":true,"appium:prebuiltWDAPath":"/tmp/nfcfit-ios-test/panel-preinstalled-wda.app","appium:skipLogCapture":true,"appium:noReset":true,"appium:autoWebview":false,"appium:connectHardwareKeyboard":false,"appium:forceSimulatorSoftwareKeyboardPresence":true,"appium:newCommandTimeout":600,"appium:wdaLaunchTimeout":120000}}]
+[AppiumDriver@70a3] Event 'newSessionRequested' logged at 1794236409380 (18:00:09 GMT+0300 (GMT+03:00))
+[Appium] Attempting to find matching driver for automationName 'XCUITest' and platformName 'iOS'
+[Appium] The 'xcuitest' driver was installed and matched caps.
+[Appium] Will require it at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver
+[Appium] Requiring driver at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/build/index.js
+[AppiumDriver@70a3] Appium v2.19.0 creating new XCUITestDriver (v7.35.1) session
+[AppiumDriver@70a3] Checking BaseDriver versions for Appium and XCUITestDriver
+[AppiumDriver@70a3] Appium's BaseDriver version is 9.18.0
+[AppiumDriver@70a3] XCUITestDriver's BaseDriver version is 9.18.0
+[XCUITestDriver@ad93] 
+[XCUITestDriver@ad93] Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "iOS",
+    "appium:automationName": "XCUITest",
+    "appium:bundleId": "com.apple.mobilesafari",
+    "appium:udid": "3C063355-7F11-423F-A1AE-1D0B483A6864",
+    "appium:deviceName": "iPhone SE (3rd generation)",
+    "appium:platformVersion": "17.2",
+    "appium:usePreinstalledWDA": true,
+    "appium:prebuiltWDAPath": "/tmp/nfcfit-ios-test/panel-preinstalled-wda.app",
+    "appium:skipLogCapture": true,
+    "appium:noReset": true,
+    "appium:autoWebview": false,
+    "appium:connectHardwareKeyboard": false,
+    "appium:forceSimulatorSoftwareKeyboardPresence": true,
+    "appium:newCommandTimeout": 600,
+    "appium:wdaLaunchTimeout": 120000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[6338dfa3][XCUITestDriver@ad93] Session created with session id: 6338dfa3-3f39-44c2-8db9-71379dda9da2
+[6338dfa3][XCUITest] Current user: 'user'
+[6338dfa3][XCUITestDriver@ad93] Available real devices: 
+[6338dfa3][XCUITestDriver@ad93] Constructing iOS simulator for Xcode version 15.2 with udid '3C063355-7F11-423F-A1AE-1D0B483A6864'
+[6338dfa3][XCUITestDriver@ad93] Determining device to run tests on: udid: '3C063355-7F11-423F-A1AE-1D0B483A6864', real device: false
+[6338dfa3][XCUITestDriver@ad93] Event 'xcodeDetailsRetrieved' logged at 1794236532126 (18:02:12 GMT+0300 (GMT+03:00))
+[6338dfa3][XCUITestDriver@ad93] Event 'appConfigured' logged at 1794236532129 (18:02:12 GMT+0300 (GMT+03:00))
+[6338dfa3][XCUITestDriver@ad93] Event 'resetStarted' logged at 1794236532129 (18:02:12 GMT+0300 (GMT+03:00))
+[6338dfa3][XCUITestDriver@ad93] Reset: noReset is on. Leaving simulator as is
+[6338dfa3][XCUITestDriver@ad93] Event 'resetComplete' logged at 1794236532131 (18:02:12 GMT+0300 (GMT+03:00))
+[6338dfa3][XCUITestDriver@ad93] Using WDA path: '/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent'
+[6338dfa3][XCUITestDriver@ad93] Using WDA agent: '/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj'
+[6338dfa3][XCUITestDriver@ad93] 'skipLogCapture' is set. Skipping starting logs such as crash, system, safari console and safari network.
+[6338dfa3][XCUITestDriver@ad93] Setting up simulator
+[6338dfa3][XCUITestDriver@ad93] Setting preferences of 3C063355-7F11-423F-A1AE-1D0B483A6864 Simulator to {"ConnectHardwareKeyboard":false}
+[6338dfa3][XCUITestDriver@ad93] Setting common Simulator preferences to {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false}
+[6338dfa3][XCUITestDriver@ad93] Updated 3C063355-7F11-423F-A1AE-1D0B483A6864 Simulator preferences at '/Users/user/Library/Preferences/com.apple.iphonesimulator.plist' with {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false,"DevicePreferences":{"3C063355-7F11-423F-A1AE-1D0B483A6864":{"SimulatorExternalDisplay":2114,"ConnectHardwareKeyboard":false,"SimulatorWindowRotationAngle":0,"SimulatorWindowOrientation":"Portrait","SimulatorWindowGeometry":{"412BE359-687C-42F4-9ADD-1312645E5063":{"WindowCenter":"{3096.5, 808.5}","WindowScale":1},"D3D4D0E1-3DB0-455A-807B-A91BAC51AA42":{"WindowCenter":"{719.5, 442.5}","WindowScale":0.8875140607424072}},"ChromeTint":""}}}
+[6338dfa3][XCUITestDriver@ad93] Got Simulator UI client PID: 19927
+[6338dfa3][XCUITestDriver@ad93] Both Simulator with UDID '3C063355-7F11-423F-A1AE-1D0B483A6864' and the UI client are currently running
+[6338dfa3][XCUITestDriver@ad93] Event 'simStarted' logged at 1794236537184 (18:02:17 GMT+0300 (GMT+03:00))
+[6338dfa3][simctl] Error running 'get_app_container': 2026-11-09 18:02:19.026 simctl[69763:470824] CoreSimulatorService connection interrupted.  Resubscribing to notifications.
+2026-11-09 18:02:19.038 simctl[69763:470827] Logging connection interrupted: <OS_xpc_error: <dictionary: 0x7ff850247610> { count = 1, transaction: 0, voucher = 0x0, contents =
+	"XPCErrorDescription" => <string: 0x7ff850247800> { length = 22, contents = "Connection interrupted" }
+}>
+An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):
+Invalid device state
+Underlying error (domain=NSMachErrorDomain, code=-308):
+	The operation couldn’t be completed. (Mach error -308 - (ipc/mig) server died)
+[6338dfa3][simctl] Error running 'spawn': 2026-11-09 18:02:19.026 simctl[69762:470826] CoreSimulatorService connection interrupted.  Resubscribing to notifications.
+2026-11-09 18:02:19.039 simctl[69762:470833] Logging connection interrupted: <OS_xpc_error: <dictionary: 0x7ff850247610> { count = 1, transaction: 0, voucher = 0x0, contents =
+	"XPCErrorDescription" => <string: 0x7ff850247800> { length = 22, contents = "Connection interrupted" }
+}>
+An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=89):
+Process spawn via launchd failed.
+Operation canceled
+Underlying error (domain=NSPOSIXErrorDomain, code=89):
+	The operation couldn’t be completed. Operation canceled
+	Operation canceled
+[6338dfa3][XCUITestDriver@ad93] Cannot disable Simulator keyboard introduction. Original error: Error running 'spawn': 2026-11-09 18:02:19.026 simctl[69762:470826] CoreSimulatorService connection interrupted.  Resubscribing to notifications.
+2026-11-09 18:02:19.039 simctl[69762:470833] Logging connection interrupted: <OS_xpc_error: <dictionary: 0x7ff850247610> { count = 1, transaction: 0, voucher = 0x0, contents =
+	"XPCErrorDescription" => <string: 0x7ff850247800> { length = 22, contents = "Connection interrupted" }
+}>
+An error was encountered processing the command (domain=NSPOSIXErrorDomain, code=89):
+Process spawn via launchd failed.
+Operation canceled
+Underlying error (domain=NSPOSIXErrorDomain, code=89):
+	The operation couldn’t be completed. Operation canceled
+	Operation canceled
+[6338dfa3][XCUITestDriver@ad93] No obsolete cached processes from previous WDA sessions listening on port 8100 have been found
+[6338dfa3][DevCon Factory] Requesting connection for device 3C063355-7F11-423F-A1AE-1D0B483A6864 on local port 8100
+[6338dfa3][DevCon Factory] Cached connections count: 0
+[6338dfa3][DevCon Factory] Successfully requested the connection for 3C063355-7F11-423F-A1AE-1D0B483A6864:8100
+[6338dfa3][XCUITestDriver@ad93] Starting WebDriverAgent initialization with the synchronization key 'XCUITestDriver'
+[6338dfa3][XCUITestDriver@ad93] Trying to start WebDriverAgent once since at least one of webDriverAgentUrl,usePreinstalledWDA capabilities is provided
+[6338dfa3][XCUITestDriver@ad93] Event 'wdaStartAttempted' logged at 1794236550026 (18:02:30 GMT+0300 (GMT+03:00))
+[6338dfa3][XCUITestDriver@ad93] Caching the manifest for com.facebook.WebDriverAgentRunner.xctrunner app from a file source using the key '2978692fb4f7e7b6bf0445ca8b9dba6def19b54a'
+[6338dfa3][XCUITestDriver@ad93] CFBundleIdentifier: "com.facebook.WebDriverAgentRunner.xctrunner"
+[6338dfa3][XCUITestDriver@ad93] Installing prebuilt WDA at '/tmp/nfcfit-ios-test/panel-preinstalled-wda.app'. Bundle identifier: com.facebook.WebDriverAgentRunner.xctrunner.
+[6338dfa3][simctl] Error running 'get_app_container': An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):
+Unable to lookup in current state: Shutdown
+[6338dfa3][XCUITestDriver@ad93] Installing '/tmp/nfcfit-ios-test/panel-preinstalled-wda.app' on Simulator with UUID '3C063355-7F11-423F-A1AE-1D0B483A6864'...
+[6338dfa3][simctl] Error running 'install': An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):
+Unable to lookup in current state: Shutdown
+[6338dfa3][XCUITestDriver@ad93] Event 'wdaStartFailed' logged at 1794236551054 (18:02:31 GMT+0300 (GMT+03:00))
+[6338dfa3][XCUITestDriver@ad93] Error: Error running 'install': An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):
+Unable to lookup in current state: Shutdown
+    at ChildProcess.<anonymous> (/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/teen_process/lib/exec.js:110:19)
+    at ChildProcess.emit (node:events:519:28)
+    at maybeClose (node:internal/child_process:1101:16)
+    at Socket.<anonymous> (node:internal/child_process:456:11)
+    at Socket.emit (node:events:519:28)
+    at Pipe.<anonymous> (node:net:346:12)
+    at Pipe.callbackTrampoline (node:internal/async_hooks:130:17)
+[6338dfa3][XCUITestDriver@ad93] {}
+[6338dfa3][DevCon Factory] Releasing connections for 3C063355-7F11-423F-A1AE-1D0B483A6864 device on any port number
+[6338dfa3][DevCon Factory] Found cached connections to release: ["3C063355-7F11-423F-A1AE-1D0B483A6864:8100"]
+[6338dfa3][DevCon Factory] Cached connections count: 0
+[6338dfa3][AppiumDriver@70a3] Event 'newSessionStarted' logged at 1794236551105 (18:02:31 GMT+0300 (GMT+03:00))
+[6338dfa3][AppiumDriver@70a3] Encountered internal error running command: Error: Unable to launch WebDriverAgent. Original error: Error running 'install': An error was encountered processing the command (domain=com.apple.CoreSimulator.SimError, code=405):
+Unable to lookup in current state: Shutdown. Make sure the application com.facebook.WebDriverAgentRunner.xctrunner exists and it is launchable.
+    at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/lib/driver.js:868:19
+    at wrapped (/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/asyncbox/lib/asyncbox.js:93:13)
+    at retry (/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/asyncbox/lib/asyncbox.js:66:13)
+    at retryInterval (/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/asyncbox/lib/asyncbox.js:103:10)
+    at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/lib/driver.js:835:7
+[6338dfa3][HTTP] <-- POST /session 500 141864 ms - 1126 
+[HTTP] --> POST /session {"capabilities":{"alwaysMatch":{"platformName":"iOS","appium:automationName":"XCUITest","appium:bundleId":"com.apple.mobilesafari","appium:udid":"72CE2E4C-8A6F-476F-87A0-FACE6BF4B933","appium:deviceName":"iPhone SE (3rd generation)","appium:platformVersion":"17.2","appium:usePreinstalledWDA":true,"appium:prebuiltWDAPath":"/tmp/nfcfit-ios-test/panel-preinstalled-wda.app","appium:skipLogCapture":true,"appium:noReset":true,"appium:autoWebview":false,"appium:connectHardwareKeyboard":false,"appium:forceSimulatorSoftwareKeyboardPresence":true,"appium:newCommandTimeout":600,"appium:wdaLaunchTimeout":120000}}}
+[AppiumDriver@70a3] Calling AppiumDriver.createSession() with args: [null,null,{"alwaysMatch":{"platformName":"iOS","appium:automationName":"XCUITest","appium:bundleId":"com.apple.mobilesafari","appium:udid":"72CE2E4C-8A6F-476F-87A0-FACE6BF4B933","appium:deviceName":"iPhone SE (3rd generation)","appium:platformVersion":"17.2","appium:usePreinstalledWDA":true,"appium:prebuiltWDAPath":"/tmp/nfcfit-ios-test/panel-preinstalled-wda.app","appium:skipLogCapture":true,"appium:noReset":true,"appium:autoWebview":false,"appium:connectHardwareKeyboard":false,"appium:forceSimulatorSoftwareKeyboardPresence":true,"appium:newCommandTimeout":600,"appium:wdaLaunchTimeout":120000}}]
+[AppiumDriver@70a3] Event 'newSessionRequested' logged at 1794236724800 (18:05:24 GMT+0300 (GMT+03:00))
+[Appium] Attempting to find matching driver for automationName 'XCUITest' and platformName 'iOS'
+[Appium] The 'xcuitest' driver was installed and matched caps.
+[Appium] Will require it at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver
+[Appium] Requiring driver at /private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/build/index.js
+[AppiumDriver@70a3] Appium v2.19.0 creating new XCUITestDriver (v7.35.1) session
+[AppiumDriver@70a3] Checking BaseDriver versions for Appium and XCUITestDriver
+[AppiumDriver@70a3] Appium's BaseDriver version is 9.18.0
+[AppiumDriver@70a3] XCUITestDriver's BaseDriver version is 9.18.0
+[XCUITestDriver@5651] 
+[XCUITestDriver@5651] Creating session with W3C capabilities: {
+  "alwaysMatch": {
+    "platformName": "iOS",
+    "appium:automationName": "XCUITest",
+    "appium:bundleId": "com.apple.mobilesafari",
+    "appium:udid": "72CE2E4C-8A6F-476F-87A0-FACE6BF4B933",
+    "appium:deviceName": "iPhone SE (3rd generation)",
+    "appium:platformVersion": "17.2",
+    "appium:usePreinstalledWDA": true,
+    "appium:prebuiltWDAPath": "/tmp/nfcfit-ios-test/panel-preinstalled-wda.app",
+    "appium:skipLogCapture": true,
+    "appium:noReset": true,
+    "appium:autoWebview": false,
+    "appium:connectHardwareKeyboard": false,
+    "appium:forceSimulatorSoftwareKeyboardPresence": true,
+    "appium:newCommandTimeout": 600,
+    "appium:wdaLaunchTimeout": 120000
+  },
+  "firstMatch": [
+    {}
+  ]
+}
+[1e93f3a7][XCUITestDriver@5651] Session created with session id: 1e93f3a7-4f20-4c5e-889d-69ce1c979675
+[1e93f3a7][XCUITest] Current user: 'user'
+[1e93f3a7][XCUITestDriver@5651] Available real devices: 
+[1e93f3a7][XCUITestDriver@5651] Constructing iOS simulator for Xcode version 15.2 with udid '72CE2E4C-8A6F-476F-87A0-FACE6BF4B933'
+[1e93f3a7][XCUITestDriver@5651] Determining device to run tests on: udid: '72CE2E4C-8A6F-476F-87A0-FACE6BF4B933', real device: false
+[1e93f3a7][XCUITestDriver@5651] Event 'xcodeDetailsRetrieved' logged at 1794236731063 (18:05:31 GMT+0300 (GMT+03:00))
+[1e93f3a7][XCUITestDriver@5651] Event 'appConfigured' logged at 1794236731064 (18:05:31 GMT+0300 (GMT+03:00))
+[1e93f3a7][XCUITestDriver@5651] Event 'resetStarted' logged at 1794236731064 (18:05:31 GMT+0300 (GMT+03:00))
+[1e93f3a7][XCUITestDriver@5651] Reset: noReset is on. Leaving simulator as is
+[1e93f3a7][XCUITestDriver@5651] Event 'resetComplete' logged at 1794236731065 (18:05:31 GMT+0300 (GMT+03:00))
+[1e93f3a7][XCUITestDriver@5651] Using WDA path: '/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent'
+[1e93f3a7][XCUITestDriver@5651] Using WDA agent: '/private/tmp/nfcfit-ios-test/home/node_modules/appium-xcuitest-driver/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj'
+[1e93f3a7][XCUITestDriver@5651] 'skipLogCapture' is set. Skipping starting logs such as crash, system, safari console and safari network.
+[1e93f3a7][XCUITestDriver@5651] Setting up simulator
+[1e93f3a7][XCUITestDriver@5651] Setting preferences of 72CE2E4C-8A6F-476F-87A0-FACE6BF4B933 Simulator to {"ConnectHardwareKeyboard":false}
+[1e93f3a7][XCUITestDriver@5651] Setting common Simulator preferences to {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false}
+[1e93f3a7][XCUITestDriver@5651] Updated 72CE2E4C-8A6F-476F-87A0-FACE6BF4B933 Simulator preferences at '/Users/user/Library/Preferences/com.apple.iphonesimulator.plist' with {"RotateWindowWhenSignaledByGuest":true,"StartLastDeviceOnLaunch":false,"DetachOnWindowClose":false,"AttachBootedOnStart":true,"ConnectHardwareKeyboard":false,"PasteboardAutomaticSync":false,"DevicePreferences":{"72CE2E4C-8A6F-476F-87A0-FACE6BF4B933":{"SimulatorExternalDisplay":2114,"ChromeTint":"","ConnectHardwareKeyboard":false}}}
+[1e93f3a7][XCUITestDriver@5651] Got Simulator UI client PID: 19927
+[1e93f3a7][XCUITestDriver@5651] Both Simulator with UDID '72CE2E4C-8A6F-476F-87A0-FACE6BF4B933' and the UI client are currently running
+[1e93f3a7][XCUITestDriver@5651] Event 'simStarted' logged at 1794236772016 (18:06:12 GMT+0300 (GMT+03:00))
+[Appium] Received SIGTERM - shutting down
+[AppiumDriver@70a3] There are no active sessions for cleanup
+[HTTP] Closing Appium HTTP server
+[HTTP] Not all active connections have been closed within 5000ms. This timeout might be customized by the --shutdown-timeout command line argument. Closing the server anyway.

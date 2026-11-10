@@ -1,0 +1,6 @@
+{
+  "status": "NOT_VERIFIED",
+  "reason": "CoreSimulator/Appium startup did not produce a usable native session: repeated setup timeouts, failed data migration and preinstalled WDA initialization failure. No native keyboard application test is counted as passed.",
+  "browser_reduced_viewport": "PASS:375x450 input above save bar, saved targets survive reload",
+  "physical_devices_tested": false
+}

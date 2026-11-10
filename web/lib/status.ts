@@ -1,4 +1,4 @@
-import { TaskStatus } from '../types';
+import { TaskStatus } from '../types.js';
 
 const STATUS_ALIASES: Record<string, TaskStatus> = {
   'not_started': TaskStatus.ToDo,

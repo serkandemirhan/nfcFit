@@ -1,6 +1,6 @@
 import { getSupabase, readJson, ok, err, ApiRequest, ApiResponse, ensureOriginAllowed } from '../_supabase.js';
-import { TaskStatus } from '../../types';
-import { normalizeStatus } from '../../lib/status';
+import { TaskStatus } from '../../types.js';
+import { normalizeStatus } from '../../lib/status.js';
 
 const normalizeTask = (row: any) => ({
   id: row.id,
@@ -28,7 +28,8 @@ const toDbRepeat = (repeat: any) => {
 
 export default async function handler(req: ApiRequest, res: ApiResponse) {
   if (!ensureOriginAllowed(req, res)) return;
-  const supabase = getSupabase();
+  const supabase = await getSupabase(req, res);
+  if (!supabase) return;
 
   if (req.method === 'GET') {
     const { data, error } = await supabase.from('tasks').select('*').order('createdat', { ascending: false });

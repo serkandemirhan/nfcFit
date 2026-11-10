@@ -1,0 +1,686 @@
+--- before/app/coaching-sync.tsx
++++ after/app/coaching-sync.tsx
+@@ -1,4 +1,5 @@
+-import { readableSyncError } from "@/lib/console-transport";
++import { createManualSync, syncFailure, syncRecordCounts, type SyncNotice } from "@/lib/manual-sync-status";
++import { hasConnection } from "@/lib/offline-sync";
+ import { coachingJobKeys } from "@/lib/coaching-query-keys";
+ import {
+   CoachText as Text,
+@@ -7,7 +8,7 @@
+   CoachShell,
+   coachStyle,
+ } from "@/components/coaching-ui";
+-import { useState } from "react";
++import { useEffect, useMemo, useRef, useState } from "react";
+ import { Share } from "react-native";
+ import { useQuery } from "@tanstack/react-query";
+ import { useAuth } from "@/hooks/use-auth";
+@@ -15,7 +16,12 @@
+ import { offlineStore } from "@/lib/offline-store";
+ export default function CoachingSync() {
+   const { user } = useAuth();
+-  const [busy, setBusy] = useState(false);
++  const userId=user?.id??"";
++  const [attempt, setAttempt] = useState<SyncNotice | {kind:"idle"|"syncing";message:string}>({kind:"idle",message:""});
++  const generation=useRef(0);
++  useEffect(()=>{const token=++generation.current;setAttempt({kind:"idle",message:""});return()=>{generation.current=token+1;};},[userId]);
++  const manual=useMemo(()=>createManualSync({online:hasConnection,read:async()=>({jobs:await coachingStore.jobs(userId),error:await offlineStore.getDoc<string>(userId,"coaching-error"),last:await coachingStore.lastSync(userId)}),sync:()=>syncCoaching(userId)}),[userId]);
++  const busy=attempt.kind==="syncing";
+   const [error, setError] = useState("");
+   const query = useQuery({
+     queryKey: coachingJobKeys.details(user?.id),
+@@ -29,6 +35,16 @@
+     networkMode: "always",
+   });
+   const data = query.data;
++  const counts=data?syncRecordCounts(data.jobs):null;
++  const notice=attempt.kind!=="idle"?attempt:data?.error?syncFailure(data.error):null;
++  const run=async()=>{
++    if(!user||manual.running)return;
++    const token=generation.current;setAttempt({kind:"syncing",message:"Sunucuyla eşitleniyor..."});
++    const result=await manual.run();
++    if(token!==generation.current)return;
++    setAttempt(result);
++    void query.refetch();
++  };
+   return (
+     <CoachShell title="Antrenman eşitlemesi">
+       {error !== "" && (
+@@ -36,30 +52,20 @@
+           {error}
+         </Text>
+       )}
+-      {data?.error && <Text style={coachStyle.error}>{readableSyncError(data.error)}</Text>}
++      {notice && <Text accessibilityLiveRegion="polite" accessibilityRole={notice.kind==="success"||busy?undefined:"alert"} style={notice.kind==="success"?coachStyle.text:busy?coachStyle.muted:coachStyle.error}>{notice.message}</Text>}
+       <Text style={coachStyle.muted}>
+         Son başarılı eşitleme:{" "}
+         {data?.last ? new Date(data.last).toLocaleString("tr-TR") : "Henüz yok"}
+       </Text>
+       <CoachButton
+-        title={busy ? "Eşitleniyor…" : "Şimdi eşitle"}
+-        disabled={busy}
+-        onPress={() => {
+-          setBusy(true);
+-          setError("");
+-          void syncCoaching(user!.id)
+-            .then(() => query.refetch())
+-            .catch((e) => setError(readableSyncError(e)))
+-            .finally(() => setBusy(false));
+-        }}
++        title={busy ? "Eşitleniyor..." : notice&&notice.kind!=="success" ? "Yeniden eşitle" : "Şimdi eşitle"}
++        disabled={busy||!user}
++        onPress={()=>void run()}
+       />
+-      <Text style={coachStyle.muted}>
+-        Gönderim hataları güvenli biçimde tekrar denenir. Program/üyelik
+-        çakışmaları otomatik olarak üzerine yazılmaz. Çakışan kayıtları
+-        paylaşabilir ve antrenörünle uzlaştırabilirsin.
+-      </Text>
++      {counts&&<Text style={coachStyle.text}>{counts.pending} kayıt bekliyor · {counts.failed} kayıt inceleme gerektiriyor</Text>}
++      <Text style={coachStyle.muted}>Çakışan kayıtlar silinmez. İnceleme gereken kaydı antrenörünle paylaşabilirsin.</Text>
+       {query.isPending && <Text style={coachStyle.muted}>Telefondaki kayıtlar kontrol ediliyor…</Text>}
+-      {query.error && <Text accessibilityRole="alert" style={coachStyle.error}>{readableSyncError(query.error)}</Text>}
++      {query.error && <Text accessibilityRole="alert" style={coachStyle.error}>{syncFailure(query.error).message}</Text>}
+       {data && !data.jobs.length && (
+         <Text style={coachStyle.text}>Bekleyen kayıt yok.</Text>
+       )}
+@@ -83,7 +89,7 @@
+                   ? "İnceleme gerekli"
+                   : "Arşivlendi / sunucu sürümü kullanılıyor"}
+             </Text>
+-            {j.error && <Text style={coachStyle.error}>{j.error}</Text>}
++            {j.error && <Text style={coachStyle.error}>{syncFailure(j.error).message}</Text>}
+             {value.actual_set && (
+               <Text style={coachStyle.muted}>
+                 Set {value.actual_set.set_number} ·{" "}
+@@ -102,7 +108,7 @@
+                     null,
+                     2,
+                   ),
+-                }).catch((e) => setError(readableSyncError(e)))
++                }).catch(() => setError("Paylaşım açılamadı. Yeniden dene."))
+               }
+             />
+           </CoachCard>
+@@ -119,7 +125,7 @@
+             onPress={() =>
+               void Share.share({
+                 message: JSON.stringify(a.workout, null, 2),
+-              }).catch((e) => setError(readableSyncError(e)))
++              }).catch(() => setError("Paylaşım açılamadı. Yeniden dene."))
+             }
+           />
+         </CoachCard>
+
+--- before/lib/manual-sync-status.ts
++++ after/lib/manual-sync-status.ts
+@@ -0,0 +1,39 @@
++/** Presentation only: does not retry, acknowledge or change queued records. */
++export type SyncSnapshot = { last: string | null; error: string | null; jobs: {state:string}[] };
++export type SyncNotice = { kind: 'success'|'offline'|'network'|'cancelled'|'timeout'|'server'|'session'|'interrupted'|'unconfirmed'|'busy'; message:string; at?:string };
++export function syncFailure(error: unknown): SyncNotice {
++  const value=error as {kind?:string;status?:number;name?:string;message?:string}|null;
++  const message=typeof error==='string'?error:value?.message??'';
++  if(value?.kind==='cancelled')return {kind:'cancelled',message:'Eşitleme iptal edildi. Kayıtların telefonunda korunuyor; yeniden deneyebilirsin.'};
++  if(value?.kind==='timeout'||/zamanında|zaman aşımı/i.test(message))return {kind:'timeout',message:'Sunucu zamanında yanıt vermedi. Kayıtların korunuyor; yeniden eşitle.'};
++  if(value?.kind==='network'||/network request failed|failed to fetch|sunucuya ulaşılamadı/i.test(message))return {kind:'network',message:'Sunucuya ulaşılamadı. Bağlantını kontrol edip yeniden eşitle.'};
++  if(value?.status===401||/yeniden giriş/i.test(message))return {kind:'session',message:'Oturum doğrulanamadı. Kayıtların korunuyor; yeniden giriş yaptıktan sonra eşitle.'};
++  if(value?.status&&value.status>=500)return {kind:'server',message:'Sunucu eşitlemeyi tamamlayamadı. Kayıtların korunuyor; biraz sonra yeniden dene.'};
++  if(value?.name==='AbortError'||/^aborted$/i.test(message.trim()))return {kind:'interrupted',message:'Önceki eşitleme isteği kesildi. Kayıtların korunuyor; yeniden eşitle.'};
++  return {kind:'server',message:'Eşitleme tamamlanamadı. Telefonundaki kayıtlar korunuyor; yeniden dene.'};
++}
++export function syncRecordCounts(jobs: {state:string}[]) {
++  return {pending:jobs.filter(j=>j.state==='pending').length,failed:jobs.filter(j=>j.state==='rejected').length};
++}
++export function createManualSync(deps: {online:()=>Promise<boolean>;read:()=>Promise<SyncSnapshot>;sync:()=>Promise<void>}) {
++  let running=false;
++  return {
++    get running(){return running;},
++    async run():Promise<SyncNotice> {
++      if(running)return {kind:'busy',message:'Eşitleme zaten sürüyor.'};
++      running=true;
++      try {
++        if(!await deps.online())return {kind:'offline',message:'İnternet bağlantısı yok. Kayıtların telefonunda; bağlantı geldiğinde yeniden eşitle.'};
++        const before=await deps.read();
++        await deps.sync();
++        const after=await deps.read();
++        if(after.error)return syncFailure(after.error);
++        // A no-op (offline/another process owns the lease) is never a successful sync.
++        if(!after.last||after.last===before.last)return {kind:'unconfirmed',message:'Eşitleme sonucu henüz doğrulanmadı. Biraz sonra yeniden dene.'};
++        const counts=syncRecordCounts(after.jobs);
++        return {kind:'success',at:after.last,message:counts.failed||counts.pending?'Sunucudan güncel bilgiler alındı. Bekleyen ve inceleme gereken kayıtları aşağıdan kontrol et.':'Sunucuyla eşitleme tamamlandı. Bekleyen kayıt yok.'};
++      }catch(error){return syncFailure(error);}
++      finally{running=false;}
++    },
++  };
++}
+
+--- before/lib/coaching.ts
++++ after/lib/coaching.ts
+@@ -80,6 +80,8 @@
+         await offlineStore.putDoc(user, "coaching-library-at", Date.now());
+       }
+       await offlineStore.putDoc(user, "coaching-error", null);
++      // Report success only after the entire worker, including the library pull, succeeds.
++      await coachingStore.markSynced(user);
+     } catch (error) {
+       await offlineStore.putDoc(
+         user,
+
+--- before/lib/coaching-store-core.ts
++++ after/lib/coaching-store-core.ts
+@@ -133,7 +133,6 @@
+       for (const w of value.workouts)
+         if (!protectedIds.has(w.id))
+           await saveWorkout(tx, user, { ...w, sync_state: "synced" });
+-      await put(tx, user, "coaching-last-sync", new Date().toISOString());
+     });
+   }
+   async function createWorkout(
+@@ -436,6 +435,7 @@
+     library: (user: string) => doc<Exercise[]>(db, user, "coaching-library"),
+     saveLibrary: (user: string, values: Exercise[]) =>
+       db.transaction((tx) => put(tx, user, "coaching-library", values)),
++    markSynced: (user: string) => db.transaction((tx) => put(tx, user, "coaching-last-sync", new Date().toISOString())),
+     lastSync: (user: string) => doc<string>(db, user, "coaching-last-sync"),
+     async resolveWithServer(user: string, id: string, server: Workout) {
+       await db.transaction(async (tx) => {
+
+--- before/app/plan-builder.tsx
++++ after/app/plan-builder.tsx
+@@ -1,4 +1,5 @@
+-import { initialPlanTenant, planTemplateTenants, planDraftError } from "@/lib/plan-draft";
++import { builderDayLabels, builderNameError, dayForWeekday } from "@/lib/plan-day-selector";
++import { initialPlanTenant, planTemplateTenants, planDraftError, validCalendarDate } from "@/lib/plan-draft";
+ import { KeyboardFrame } from "@/components/keyboard-frame";
+ import { fullWeekdays, sessionDisplayName } from "@/lib/session-presentation";
+ import { starterPrograms, starterTargets } from "@/lib/starter-programs";
+@@ -17,7 +18,7 @@
+ } from "@/components/coaching-ui";
+ import { useEffect, useRef, useState } from "react";
+ import { useHeaderHeight } from "@react-navigation/elements";
+-import { Alert, FlatList, ScrollView, View } from "react-native";
++import { Alert, FlatList, Pressable, ScrollView, View } from "react-native";
+ import { SafeAreaView } from "react-native-safe-area-context";
+ import { router, Stack, useLocalSearchParams } from "expo-router";
+ import { useCoaching, useCoachingLibrary } from "@/hooks/use-coaching";
+@@ -34,7 +35,6 @@
+   Target,
+ } from "@/lib/coaching-types";
+ import { ExerciseSelector } from "@/components/exercise-selector";
+-const dayLabels = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
+ function datesFor(start: string, weeks: number, weekday: number) {
+   const dates: string[] = [];
+   const dt = new Date(start + "T12:00:00Z");
+@@ -103,7 +103,6 @@
+   const [busy, setBusy] = useState(false);
+   const [error, setError] = useState("");
+   const [settingsExpanded, setSettingsExpanded] = useState(false);
+-  const [addingDay, setAddingDay] = useState(false);
+   const [preview, setPreview] = useState(false);
+   const [expandedTarget,setExpandedTarget]=useState("");
+   const [targetNotes,setTargetNotes]=useState("");
+@@ -239,6 +238,8 @@
+     setBusy(true);
+     setError("");
+     try {
++      const nameError=builderNameError(name);
++      if(nameError)throw new Error(nameError);
+       if (
+         !/^\d{4}-\d{2}-\d{2}$/.test(start) ||
+         !Number.isInteger(Number(weeks))
+@@ -311,7 +312,7 @@
+       />
+       {settingsExpanded && (
+         <View style={{ gap: 10 }}>
+-          <CoachField compact label="Amaç" value={goal} onChange={setGoal} />
++          <CoachField compact label="Amaç" placeholder="Örn. Haftada 3 gün kuvvet kazanmak" value={goal} onChange={setGoal} />
+           <View style={coachStyle.row}>
+             <View style={{ flex: 1 }}>
+               <CoachField
+@@ -365,48 +366,36 @@
+           </View>
+         </>
+       )}
+-      <CoachCard compact title="Antrenman günleri">
++      <View style={{gap:8}}>
++        <Text style={coachStyle.sub}>Antrenman günleri</Text>
+         <Text style={coachStyle.muted}>
+           Gün seç. Seans adı ve tarihler aşağıdan düzenlenebilir.
+         </Text>
+-        {!!days.length && (
+-          <CoachButton
+-            title={
+-              addingDay ? "Gün seçeneklerini gizle" : "Antrenman günü ekle"
+-            }
+-            secondary
+-            onPress={() => setAddingDay((v) => !v)}
+-          />
+-        )}
+-        {(!days.length || addingDay) && (
+-          <View style={coachStyle.row}>
+-            {dayLabels.map((label, index) => (
+-              <CoachButton
+-                key={label}
+-                title={label + " ekle"}
+-                secondary
+-                onPress={() => {
+-                  const key = localUuid();
+-                  const dates = datesFor(start, Number(weeks), index);
+-                  if (!dates.length) {
+-                    setError("Geçerli başlangıç ve hafta sayısı gir.");
+-                    return;
+-                  }
+-                  setDays((d) => [
+-                    ...d,
+-                    {
+-                      id: key,
+-                      name: fullWeekdays[index] + " · Antrenman",
+-                      dates,
+-                      exercises: [],
+-                    },
+-                  ]);
+-                  setSelected(key);
+-                }}
+-              />
+-            ))}
+-          </View>
+-        )}
++        <View accessibilityLabel="Haftanın antrenman günleri" style={{flexDirection:"row",flexWrap:"wrap",gap:2}}>
++          {builderDayLabels.map((label,index)=>{
++            const existing=dayForWeekday(days,index,selected);
++            const included=!!existing;
++            return <Pressable
++              key={label}
++              accessibilityRole="button"
++              accessibilityLabel={`${label} · ${included?"eklendi, seansı düzenle":"antrenman günü ekle"}`}
++              accessibilityState={{selected:included}}
++              style={{flexGrow:1,flexBasis:38,minWidth:44,minHeight:48,alignItems:"center",justifyContent:"center",borderRadius:10,borderWidth:existing?.id===selected?2:1,borderColor:included?brand.lime:brand.line,backgroundColor:included?brand.lime:brand.raised}}
++              onPress={()=>{
++                if(existing){setSelected(existing.id);return;}
++                const count=Number(weeks);
++                if(!validCalendarDate(start)||!Number.isInteger(count)||count<1||count>52){setError("Geçerli başlangıç ve 1–52 hafta sayısı gir.");return;}
++                const dates=datesFor(start,count,index);
++                if(!dates.length){setError("Geçerli başlangıç ve hafta sayısı gir.");return;}
++                const key=localUuid();
++                setDays(values=>[...values,{id:key,name:fullWeekdays[index]+" · Antrenman",dates,exercises:[]}]);
++                setSelected(key);
++              }}>
++              <Text style={{color:included?brand.background:brand.text,fontSize:13,fontWeight:"800"}}>{label}</Text>
++              {included&&<Text style={{color:brand.background,fontSize:10}}>✓</Text>}
++            </Pressable>;
++          })}
++        </View>
+         <ScrollView
+           horizontal
+           contentContainerStyle={[coachStyle.row, { flexWrap: "nowrap" }]}
+@@ -420,7 +409,7 @@
+             />
+           ))}
+         </ScrollView>
+-      </CoachCard>
++      </View>
+       {day && (
+         <>
+           <CoachField
+
+--- before/lib/plan-day-selector.ts
++++ after/lib/plan-day-selector.ts
+@@ -0,0 +1,14 @@
++import type { PlanDay } from './coaching-types';
++export const builderDayLabels=['Pzt','Sal','Çar','Per','Cum','Cmt','Paz'] as const;
++/** Uses the plan's existing date-only values; does not rewrite dates or session IDs. */
++export function dayForWeekday(days:PlanDay[],weekday:number,currentId?:string):PlanDay|undefined {
++  const matches=(day:PlanDay)=>day.dates.some(date=>{
++    if(!/^\d{4}-\d{2}-\d{2}$/.test(date))return false;
++    const value=new Date(date+'T12:00:00Z');
++    return Number.isFinite(value.getTime())&&value.toISOString().slice(0,10)===date&&(value.getUTCDay()+6)%7===weekday;
++  });
++  return days.find(day=>day.id===currentId&&matches(day))??days.find(matches);
++}
++export function builderNameError(name:string):string|null {
++  return name.trim()?null:'Program adını girin.';
++}
+
+--- before/components/coaching-ui.tsx
++++ after/components/coaching-ui.tsx
+@@ -121,6 +121,7 @@
+   numeric = false,
+   multiline = false,
+   compact = false,
++  placeholder,
+ }: {
+   label: string;
+   value: string;
+@@ -128,6 +129,7 @@
+   numeric?: boolean;
+   multiline?: boolean;
+   compact?: boolean;
++  placeholder?: string;
+ }) {
+   return (
+     <View style={{ gap: 6 }}>
+@@ -136,6 +138,7 @@
+         accessibilityLabel={label}
+         value={value}
+         onChangeText={onChange}
++        placeholder={placeholder}
+         placeholderTextColor={brand.muted}
+         keyboardType={numeric ? "decimal-pad" : "default"}
+         multiline={multiline}
+
+--- before/components/activity-trends.tsx
++++ after/components/activity-trends.tsx
+@@ -46,6 +46,7 @@
+         timezone,
+       )
+     : null;
++  const sparse = data.count < 3;
+   const max = Math.max(1, ...data.bins.map((b) => b.count));
+   return (
+     <FitCard compact>
+@@ -60,8 +61,29 @@
+           />
+         ))}
+       </View>
++      <View
++        style={[f.row, { flexWrap: "wrap", justifyContent: "space-between" }]}
++      >
++        <View>
++          <Text style={f.heading}>{data.count}</Text>
++          <Text style={f.muted}>Sonlandırılan seans</Text>
++        </View>
++        <View>
++          <Text style={f.heading}>{data.activeDays}</Text>
++          <Text style={f.muted}>Aktif gün</Text>
++        </View>
++        <View>
++          <Text style={f.heading}>{durationLabel(data.seconds)}</Text>
++          <Text style={f.muted}>Aktif dk:sn</Text>
++        </View>
++      </View>
++      <Text style={f.body}>
++        {data.sets} set kaydedildi · Önceki aynı döneme göre{" "}
++        {data.count - previous.count > 0 ? "+" : ""}
++        {data.count - previous.count} antrenman
++      </Text>
+       <Text style={f.muted}>
+-        Bitirilen seanslar · Gerçek bitiş tarihine göre
++        Sonlandırılan seanslar · Gerçek bitiş tarihine göre
+       </Text>
+       {summary && (
+         <View style={{ gap: 4 }}>
+@@ -78,7 +100,7 @@
+           {explanation && <Text style={f.muted}>Tamamlanan: seans bitirildi. Kısmi: bazı setler yapıldı. Kaçırılan: plan tarihi geçti, seans başlamadı. Yaklaşan seanslar kaçırılan sayılmaz; kısmi setler korunur.</Text>}
+         </View>
+       )}
+-      <View style={[f.row, { alignItems: "flex-end", height: 104, gap: 6 }]}>
++      {data.count>0&&<View accessibilityLabel="Dönemin sonlandırılan seans grafiği" style={[f.row, { alignItems: "flex-end", minHeight: sparse ? 80 : 104, gap: 6 }]}>
+         {data.bins.map((b) => (
+           <View
+             key={b.date}
+@@ -94,7 +116,7 @@
+             <Text style={f.muted}>{b.count}</Text>
+             <View
+               style={{
+-                height: Math.max(4, (b.count / max) * 60),
++                height: Math.max(4, (b.count / max) * (sparse ? 28 : 60)),
+                 width: "70%",
+                 borderRadius: 5,
+                 backgroundColor: b.count ? fit.lime : fit.line,
+@@ -113,31 +135,10 @@
+             </Text>
+           </View>
+         ))}
+-      </View>
+-      <View
+-        style={[f.row, { flexWrap: "wrap", justifyContent: "space-between" }]}
+-      >
+-        <View>
+-          <Text style={f.heading}>{data.count}</Text>
+-          <Text style={f.muted}>Bitirilen seans</Text>
+-        </View>
+-        <View>
+-          <Text style={f.heading}>{data.activeDays}</Text>
+-          <Text style={f.muted}>Aktif gün</Text>
+-        </View>
+-        <View>
+-          <Text style={f.heading}>{durationLabel(data.seconds)}</Text>
+-          <Text style={f.muted}>Aktif dk:sn</Text>
+-        </View>
+-      </View>
+-      <Text style={f.body}>
+-        {data.sets} set kaydedildi · Önceki aynı döneme göre{" "}
+-        {data.count - previous.count > 0 ? "+" : ""}
+-        {data.count - previous.count} antrenman
+-      </Text>
++      </View>}
+       {!data.count && (
+         <Text style={f.muted}>
+-          İlk antrenmanını tamamladığında grafiğin burada oluşacak.
++          Bu dönemde sonlandırılan seans yok. Kayıt ekledikçe grafik oluşur.
+         </Text>
+       )}
+     </FitCard>
+
+--- before/app/goals.tsx
++++ after/app/goals.tsx
+@@ -1,4 +1,5 @@
+ import { useSessionClock } from "@/hooks/use-session-clock";
++import { Pressable, View } from "react-native";
+ import { router } from "expo-router";
+ import {
+   CoachShell,
+@@ -29,10 +30,9 @@
+     : [];
+   return (
+     <CoachShell title="Hedeflerim" bottom compact>
++      <MemberTenantGoals focused />
++      <View style={{gap:4}}><Text style={f.sectionTitle}>Program seansları</Text><Text style={f.muted}>Her seansın hedef setleri ayrı izlenir.</Text></View>
+       <CoachQueryState pending={query.isPending} error={query.error} onRetry={()=>void query.refetch()}/>
+-      <Text style={f.muted}>
+-        Seans hedefleri ve günlük egzersiz hedefleri ayrı ilerler.
+-      </Text>
+       {!!data && !entries.length && (
+         <Text style={f.muted}>
+           Planlı seansın yok. Programım bölümünden plan oluşturabilirsin.
+@@ -74,9 +74,6 @@
+             {entry.workout && (
+               <Text style={f.muted}>{workoutLabels[entry.workout.state]}</Text>
+             )}
+-            {ended && (
+-              <Text style={f.muted}>Bu sonuç yalnızca bu seansa aittir.</Text>
+-            )}
+           </FitCard>
+         );
+       })}
+@@ -86,13 +83,7 @@
+         icon="calendar-outline"
+         onPress={() => router.push("/(drawer)/plans" as never)}
+       />
+-      <MemberTenantGoals />
+-      <FitButton
+-        title="Diğer kişisel hedefler ve önceki kayıtlar"
+-        secondary
+-        icon="options-outline"
+-        onPress={() => router.push("/(drawer)/personal-goals" as never)}
+-      />
++      <Pressable accessibilityRole="link" style={{minHeight:44,justifyContent:"center"}} onPress={()=>router.push("/(drawer)/personal-goals" as never)}><Text style={f.muted}>Diğer kişisel hedefler ve önceki kayıtlar</Text></Pressable>
+     </CoachShell>
+   );
+ }
+
+--- before/components/member-tenant-goals.tsx
++++ after/components/member-tenant-goals.tsx
+@@ -24,14 +24,14 @@
+   tenantConsoleConfigured,
+ } from "@/lib/tenant-console";
+ 
+-export function MemberTenantGoals() {
++export function MemberTenantGoals({focused=false}:{focused?:boolean}={}) {
+   const now = useSessionClock();
+   const query = useMemberFitness();
+   if (!tenantConsoleConfigured) return null;
+   return (
+     <Card
+       title="Günlük egzersiz hedefleri"
+-      hint={`Bugün · ${calendarLabel(zonedDate(now, sessionTimezone()))} · Günlük kart/egzersiz kayıtlarıyla ilerler.`}
++      hint={`Bugün · ${calendarLabel(zonedDate(now, sessionTimezone()))}${focused?"":" · Günlük kart/egzersiz kayıtlarıyla ilerler."}`}
+     >
+       {query.isLoading && <ActivityIndicator />}
+       {query.error && (
+@@ -50,6 +50,7 @@
+         <GoalRow
+           key={`${row.exercise_id}:${row.unit}`}
+           row={row}
++          focused={focused}
+           queryKey={query.fitnessKey}
+         />
+       ))}
+@@ -68,9 +69,11 @@
+ function GoalRow({
+   row,
+   queryKey,
++  focused=false,
+ }: {
+   row: MemberFitnessExercise;
+   queryKey: readonly unknown[];
++  focused?:boolean;
+ }) {
+   const palette = {
+     border: fit.line,
+@@ -152,11 +155,13 @@
+         )}
+       </View>
+       <ThemedText style={[ui.hint, { color: palette.mutedText }]}>
++        {focused ? `${row.tenant_name} · Hedef ${row.target_quantity==null?'—':row.target_quantity.toLocaleString("tr-TR")} ${unit} · Yapılan ${row.day.quantity.toLocaleString("tr-TR")} ${unit}` : <>
+         {row.tenant_name} · Bugün {row.day.quantity.toLocaleString("tr-TR")}{" "}
+         {unit}
+         {row.target_quantity
+           ? ` / ${row.target_quantity.toLocaleString("tr-TR")} ${unit}`
+           : ""}
++        </>}
+       </ThemedText>
+       {row.target_quantity != null && (
+         <View
+@@ -179,7 +184,7 @@
+       )}
+       {row.target_quantity != null && (
+         <ThemedText style={{ color: palette.green }}>
+-          {guidance.complete
++          {focused ? `Kalan ${guidance.remaining.toLocaleString("tr-TR")} ${unit} · %${guidance.percent}${guidance.complete?" ✓":""}` : guidance.complete
+             ? "Hedef tamamlandı ✓"
+             : `${guidance.remaining.toLocaleString("tr-TR")} ${unit} kaldı · %${guidance.percent}`}
+         </ThemedText>
+
+--- before/components/today-program.tsx
++++ after/components/today-program.tsx
+@@ -78,7 +78,7 @@
+   return (
+     <View style={{ gap: 12 }}>
+       {query.error && <CoachQueryState pending={false} error={query.error} onRetry={()=>void query.refetch()}/>}
+-      <FitCard accent>
++      <FitCard accent compact={ended}>
+         <Text style={f.eyebrow}>
+           {view ? `BUGÜN · ${calendarLabel(view.today)}` : "BUGÜN"}
+         </Text>
+@@ -117,8 +117,7 @@
+             />
+             {ended && (
+               <Text style={f.muted}>
+-                Bu seansın sonucu korunur. Seansı bitirmek, tüm program
+-                hedeflerinin tamamlandığı anlamına gelmez.
++                Seans sonucu, tüm programın tamamlandığını göstermez.
+               </Text>
+             )}
+             {workout?.sync_state === "pending" && (
+
+--- before/tests/coaching-sync.test.cjs
++++ after/tests/coaching-sync.test.cjs
+@@ -8,3 +8,4 @@
+ test('coaching offline worker performs zero HTTP requests',async t=>{let calls=0;const f=await setup(t,async()=>{calls++;},false);const e=f.engine();await e.coachingStore.queueEntry('u','message','/coaching/messages',{id:'message',body:'hello'});await e.syncCoaching('u');assert.equal(calls,0);assert.equal((await e.coachingStore.jobs('u')).length,1);});
+ test('a lost set acknowledgement replays its stable ID and merges one actual set after restart',async t=>{let server=JSON.parse(JSON.stringify(base));const receipts=new Map();let lost=false;let actualWrites=0;const f=await setup(t,async(user,path,payload)=>{if(path==='/overview')return {...overview,workouts:[server]};if(path==='/library')return [];if(path.endsWith('/commands')){if(receipts.has(payload.request_id))return receipts.get(payload.request_id);server=reduceWorkout(server,payload);receipts.set(payload.request_id,JSON.parse(JSON.stringify(server)));if(payload.action==='set'){actualWrites++;if(!lost){lost=true;throw new Error('response lost');}}return server;}throw new Error(path);});const e=f.engine();await e.coachingStore.saveOverview('u',{...overview,workouts:[server]});await e.coachingStore.command('u','workout',{request_id:'start',expected_version:1,action:'start'});await e.coachingStore.command('u','workout',{request_id:'set',expected_version:2,action:'set',actual_set:{id:'actual',exercise_key:'exercise',set_number:1,reps:9,kg:35,method:'nfc',status:'completed',occurred_at:'2026-11-07T11:00:00Z',notes:''}});await assert.rejects(e.syncCoaching('u'),/response lost/);assert.equal((await e.coachingStore.jobs('u')).length,1);const reopened=f.engine();await reopened.syncCoaching('u');assert.equal(actualWrites,1);assert.equal((await reopened.coachingStore.jobs('u')).length,0);const w=await reopened.coachingStore.workout('u','workout');assert.equal(w.actual.sets.length,1);assert.equal(w.actual.sets[0].occurred_at,'2026-11-07T11:00:00Z');assert.equal(w.sync_state,'synced');});
+ test('separate runtimes acquire one persistent coaching lease before uploading',async t=>{let release,entered;const started=new Promise(r=>entered=r);let calls=0;const f=await setup(t,async(user,path)=>{calls++;if(path==='/overview'){entered();return new Promise(r=>release=()=>r(overview));}if(path==='/library')return [];});const foreground=f.engine(),background=f.engine();const running=foreground.syncCoaching('u');await started;await background.syncCoaching('u');assert.equal(calls,1);release();await running;assert.equal(calls,2);});
++test('UI-03 only a fully successful worker advances last success; an overview followed by library failure preserves it',async t=>{let fail=true;const f=await setup(t,async(user,path)=>{if(path==='/overview')return overview;if(path==='/library'){if(fail)throw new Error('Aborted');return [];}throw new Error(path);});const e=f.engine();const before='2026-11-08T10:00:00.000Z';await f.store.putDoc('u','coaching-last-sync',before);await e.coachingStore.saveOverview('u',overview);assert.equal(await e.coachingStore.lastSync('u'),before);await assert.rejects(e.syncCoaching('u'),/Aborted/);assert.equal(await e.coachingStore.lastSync('u'),before);assert.equal((await e.coachingStore.jobs('u')).length,0);fail=false;await e.syncCoaching('u');assert.notEqual(await e.coachingStore.lastSync('u'),before);assert.equal(await f.store.getDoc('u','coaching-error'),null);});
+
+--- before/tests/targeted-ui.test.cjs
++++ after/tests/targeted-ui.test.cjs
+@@ -0,0 +1,11 @@
++const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),Module=require('node:module'),ts=require('typescript');
++const cache=new Map();function load(name){if(cache.has(name))return cache.get(name).exports;const file=path.resolve(__dirname,'../lib',name+'.ts'),mod=new Module(file,module);cache.set(name,mod);mod.require=id=>id.startsWith('./')?load(id.slice(2)):require(id);mod._compile(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,file);return mod.exports;}
++const {createManualSync,syncFailure,syncRecordCounts}=load('manual-sync-status');
++const snapshot=(last='2026-11-08T10:00:00Z',jobs=[])=>({last,error:null,jobs});
++test('UI-03 offline and no-op lease returns never produce a false success',async()=>{let requests=0;const offline=createManualSync({online:async()=>false,read:async()=>snapshot(),sync:async()=>{requests++;}});assert.equal((await offline.run()).kind,'offline');assert.equal(requests,0);const locked=createManualSync({online:async()=>true,read:async()=>snapshot(),sync:async()=>{requests++;}});assert.equal((await locked.run()).kind,'unconfirmed');assert.equal(requests,1);});
++test('UI-03 immediate repeated taps launch only one real worker and release the UI lock',async()=>{let release,calls=0,last='before';const entered=new Promise(r=>release=r);const runner=createManualSync({online:async()=>true,read:async()=>snapshot(last),sync:async()=>{calls++;await entered;last='confirmed';}});const first=runner.run();assert.equal(runner.running,true);assert.equal((await runner.run()).kind,'busy');release();const done=await first;assert.equal(done.kind,'success');assert.equal(done.at,'confirmed');assert.equal(calls,1);assert.equal(runner.running,false);});
++test('UI-03 success requires a new confirmed stamp with no retained error; rejected records stay visible',async()=>{let reads=0;const runner=createManualSync({online:async()=>true,read:async()=>snapshot(++reads===1?'before':'after',[{state:'pending'},{state:'rejected'},{state:'archived'}]),sync:async()=>{}});const result=await runner.run();assert.equal(result.kind,'success');assert.doesNotMatch(result.message,/Bekleyen kayıt yok/);assert.deepEqual(syncRecordCounts([{state:'pending'},{state:'rejected'},{state:'archived'}]),{pending:1,failed:1});const failed=createManualSync({online:async()=>true,read:async()=>({...snapshot('same'),error:'Aborted'}),sync:async()=>{}});assert.equal((await failed.run()).kind,'interrupted');});
++test('UI-03 cancellation, timeout, offline network, authentication and server errors get distinct safe primary text',()=>{for(const [error,kind] of [[{kind:'cancelled'},'cancelled'],[{kind:'timeout'},'timeout'],[{kind:'network'},'network'],[{status:401},'session'],[{status:503,message:'SQL SECRET'},'server'],[new Error('Aborted'),'interrupted']]){const notice=syncFailure(error);assert.equal(notice.kind,kind);assert.doesNotMatch(notice.message,/Aborted|SQL SECRET/);}});
++const {builderDayLabels,builderNameError,dayForWeekday}=load('plan-day-selector');
++test('UI-02 all weekdays resolve existing session IDs after names or dates are edited without deleting or mutating them',()=>{const days=[{id:'sun',name:'Pazar · Tüm Vücut',dates:['2026-11-08','2026-11-15'],exercises:[{id:'set'}]},{id:'custom',name:'Özel kuvvet',dates:['2026-11-10'],exercises:[]}];const before=JSON.stringify(days);assert.deepEqual(builderDayLabels,['Pzt','Sal','Çar','Per','Cum','Cmt','Paz']);assert.equal(dayForWeekday(days,6).id,'sun');assert.equal(dayForWeekday(days,1).id,'custom');assert.equal(dayForWeekday(days,0),undefined);for(let i=0;i<7;i++)dayForWeekday(days,i);assert.equal(JSON.stringify(days),before);});
++test('UI-02 multiple sessions on a weekday keep the open session; blank names have a specific Turkish error',()=>{const days=[{id:'first',dates:['2026-11-08']},{id:'second',dates:['2026-11-15']}];assert.equal(dayForWeekday(days,6,'second').id,'second');assert.equal(builderNameError(' \t '),'Program adını girin.');assert.equal(builderNameError('Tüm Vücut'),null);assert.equal(dayForWeekday([{id:'invalid',dates:['2026-02-31','2026-11-']}],0),undefined);});
+
+--- before/tests/targeted-ui-render.test.cjs
++++ after/tests/targeted-ui-render.test.cjs
+@@ -0,0 +1,27 @@
++// Source-component tests with host/hook adapters. These are not Android rendering acceptance.
++const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),Module=require('node:module'),ts=require('typescript'),React=require('react');
++const cache=new Map();function pure(name){if(cache.has(name))return cache.get(name).exports;const file=path.resolve(__dirname,'../lib',name+'.ts'),mod=new Module(file,module);cache.set(name,mod);mod.require=id=>id.startsWith('./')?pure(id.slice(2)):require(id);mod._compile(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText,file);return mod.exports;}
++const now=new Date('2026-11-08T09:00:00Z');
++function harness(relative,extra={}){
++ let cursor=0;const slots=[];
++ const fakeReact={...React,useEffect:()=>{},useState(initial){const i=cursor++;if(!(i in slots))slots[i]=typeof initial==='function'?initial():initial;return [slots[i],next=>{slots[i]=typeof next==='function'?next(slots[i]):next;}];},useRef(initial){const i=cursor++;if(!(i in slots))slots[i]={current:initial};return slots[i];},useMemo(fn){const i=cursor++;if(!(i in slots))slots[i]=fn();return slots[i];}};
++ const ui={CoachText:'Text',CoachButton:'Button',CoachCard:'Card',CoachField:'Field',CoachShell:'Shell',CoachQueryState:'QueryState',workoutLabels:{partial:'Kısmen tamamlandı',completed:'Tamamlandı'},coachStyle:{},brand:{lime:'lime',line:'line',background:'bg',text:'text',raised:'raised'},localDate:()=> '2026-11-08'};
++ const stubs={react:fakeReact,'react-native':{View:'View',TextInput:'Input',ActivityIndicator:'Spinner',Pressable:'Pressable',FlatList:'FlatList',ScrollView:'ScrollView',Alert:{alert(){throw new Error('Unexpected destructive action');}}},'@/hooks/use-session-clock':{useSessionClock:()=>now},'./coaching-ui':ui,'@/components/coaching-ui':ui,'./fitness-ui':{FitCard:'Card',FitChip:'Chip',FitButton:'Button',ProgressBar:'Progress',f:{},fit:{}},'@/components/fitness-ui':{FitCard:'Card',FitChip:'Chip',FitButton:'Button',ProgressBar:'Progress',f:{},fit:{}},...extra};
++ const file=path.resolve(__dirname,'..',relative),mod=new Module(file,module);
++ mod.require=id=>Object.hasOwn(stubs,id)?stubs[id]:id.startsWith('@/lib/')?pure(id.slice(6)):require(id);
++ mod._compile(ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX,esModuleInterop:true}}).outputText,file);
++ return {render(name,props={}){cursor=0;return mod.exports[name](props);},renderChild(element){cursor=0;return element.type(element.props);}};
++}
++function nodes(value){if(!value)return [];if(Array.isArray(value))return value.flatMap(nodes);if(!React.isValidElement(value))return [];return [value,...nodes(value.props.children),...nodes(value.props.ListHeaderComponent),...nodes(value.props.ListFooterComponent)];}
++function text(value){if(value==null||typeof value==='boolean')return '';if(Array.isArray(value))return value.map(text).join('');if(React.isValidElement(value))return text(value.props.children)+text(value.props.ListHeaderComponent)+text(value.props.ListFooterComponent);return String(value);}
++function fixture(){const day={id:'sun',name:'Paz',dates:['2026-11-08','2026-11-15'],exercises:[{id:'squat',exercise_id:'lib-bodyweight-squat',sets:4},{id:'push',exercise_id:'lib-knee-push-up',sets:4}]};const plan={id:'plan',athlete_id:'self',owner_id:'trainer',tenant_id:'club',content:{name:'Program',timezone:'Europe/Istanbul',days:[day]}};const workout={id:'actual',plan_id:'plan',athlete_id:'self',session_key:'sun',scheduled_date:'2026-11-08',state:'partial',snapshot:structuredClone(day),actual:{active_seconds:241,finished_at:'2026-11-08T08:30:00Z',started_at:'2026-11-08T08:00:00Z',added:[],sets:[1,2].map(n=>({id:'set'+n,exercise_key:'squat',set_number:n,status:'completed',occurred_at:'2026-11-08T08:10:00Z'}))}};return {account_id:'self',athlete_id:'self',timezone:'Europe/Istanbul',plans:[plan],workouts:[workout]};}
++const graphLabel='Dönemin sonlandırılan seans grafiği';
++test('UI-05 sparse chart keeps 4:01, two actual sets and separate partial/completed/missed counts above its compact chart',()=>{const data=fixture(),before=JSON.stringify(data),h=harness('components/activity-trends.tsx');const tree=h.render('ActivityTrends',{workouts:data.workouts,overview:data,timezone:data.timezone}),items=nodes(tree),chart=items.find(n=>n.props.accessibilityLabel===graphLabel),copy=text(tree);assert.match(copy,/0 tamamlanan · 1 kısmi · 0 kaçırılan/);assert.match(copy,/4:01/);assert.match(copy,/2 set kaydedildi/);assert.match(copy,/Sonlandırılan seans/);assert.doesNotMatch(copy,/Bitirilen seans/);assert.equal(chart.props.style[1].minHeight,80);assert.ok(items.findIndex(n=>text(n)==='4:01')<items.indexOf(chart));assert.equal(JSON.stringify(data),before);});
++test('UI-05 empty and populated charts plus 7/30/90 selectors use existing trend data without mutating workouts',()=>{const data=fixture(),h=harness('components/activity-trends.tsx');let tree=h.render('ActivityTrends',{workouts:[],timezone:data.timezone});assert.equal(nodes(tree).some(n=>n.props.accessibilityLabel===graphLabel),false);assert.match(text(tree),/Bu dönemde sonlandırılan seans yok/);const workouts=Array.from({length:3},(_,i)=>({...structuredClone(data.workouts[0]),id:'w'+i})),before=JSON.stringify(workouts);for(const period of ['Haftalık','30 gün','90 gün']){tree=h.render('ActivityTrends',{workouts,timezone:data.timezone});const chip=nodes(tree).find(n=>n.type==='Chip'&&n.props.label===period);chip.props.onPress();tree=h.render('ActivityTrends',{workouts,timezone:data.timezone});const chart=nodes(tree).find(n=>n.props.accessibilityLabel===graphLabel);assert.equal(chart.props.style[1].minHeight,104);assert.equal(nodes(tree).find(n=>n.type==='Chip'&&n.props.label===period).props.active,true);const bins=nodes(chart).filter(n=>n.props.accessible===true);assert.equal(bins.reduce((sum,n)=>sum+Number(n.props.accessibilityLabel.match(/ · (\d+) antrenman/)[1]),0),3);}assert.equal(JSON.stringify(workouts),before);});
++module.exports={harness,nodes,text,fixture,pure};
++test('UI-04 daily goals precede program sessions and preserve dated 2/8 actual versus 0/8 upcoming',()=>{const data=fixture(),before=JSON.stringify(data);const h=harness('app/goals.tsx',{'@/hooks/use-coaching':{useCoaching:()=>({data,isPending:false,error:null}),useCoachingLibrary:()=>({data:[]})},'@/components/member-tenant-goals':{MemberTenantGoals:'DailyGoals'},'expo-router':{router:{push(){}}}});const tree=h.render('default'),items=nodes(tree),copy=text(tree);assert.equal(items.find(n=>n.type==='DailyGoals').props.focused,true);assert.ok(items.findIndex(n=>n.type==='DailyGoals')<items.findIndex(n=>text(n)==='Program seansları'));assert.match(copy,/8 Kasım/);assert.match(copy,/15 Kasım/);assert.match(copy,/2\/8 hedef set/);assert.match(copy,/0\/8 hedef set/);assert.equal(items.filter(n=>n.type==='Button').length,1);assert.equal(JSON.stringify(data),before);});
++function goalHarness(exercises,extra={}){return harness('components/member-tenant-goals.tsx',{'@/lib/offline-store':{offlineStore:{}},'@/lib/offline-sync':{offlineChanged(){},syncOffline:async()=>{}},'@/hooks/use-auth':{useAuth:()=>({user:{id:'u'}})},'@tanstack/react-query':{useMutation:()=>({isPending:false,isSuccess:false}),useQueryClient:()=>({})},'./management-ui':{ManagementMessage:'Message',ui:{},unitLabels:{seconds:'saniye',reps:'tekrar'},errorMessage:e=>e.message},'@/hooks/use-member-fitness':{useMemberFitness:()=>({data:{exercises},fitnessKey:['fitness','u'],isLoading:false})},'@/lib/tenant-console':{tenantConsoleConfigured:true},...extra});}
++test('UI-04 Plank and push-up quantities stay separate from program sets with explicit target, actual, remaining and progress',()=>{const rows=[{exercise_id:'plank',name:'Plank',tenant_name:'Salon',unit:'seconds',target_quantity:60,day:{quantity:0},can_edit:true},{exercise_id:'push',name:'Şınav',tenant_name:'Salon',unit:'reps',target_quantity:50,day:{quantity:30},can_edit:true}];for(const row of rows){const h=goalHarness([row]);const root=h.render('MemberTenantGoals',{focused:true});const child=nodes(root).find(n=>n.type?.name==='GoalRow'),tree=h.renderChild(child),copy=text(tree);assert.match(copy,new RegExp(`Hedef ${row.target_quantity}`));assert.match(copy,new RegExp(`Yapılan ${row.day.quantity}`));assert.match(copy,new RegExp(`Kalan ${row.target_quantity-row.day.quantity}`));assert.match(copy,row.unit==='reps'?/%60/:/%0/);assert.equal(nodes(tree).find(n=>n.type==='Pressable').props.accessibilityLabel,`${row.name} günlük hedefini düzenle`);}});
++test('UI-04 edit still saves a goal through the existing durable SQLite path',async t=>{const {fixture,packet}=require('./offline-fixture.cjs');const f=await fixture(t);await f.store.applyPull('u',packet());await f.store.saveGoal('u','plank','seconds',60);let row=(await f.store.fitness('u')).exercises[0];const client={getQueryCache:()=>({find:()=>undefined}),invalidateQueries:async()=>{}};const h=goalHarness([row],{'@/lib/offline-store':{offlineStore:f.store},'@tanstack/react-query':{useQueryClient:()=>client,useMutation:options=>({isPending:false,isSuccess:false,mutate:async()=>{const result=await options.mutationFn();await options.onSuccess(result);}})}});let element=nodes(h.render('MemberTenantGoals',{focused:true})).find(n=>n.type?.name==='GoalRow');let tree=h.renderChild(element);nodes(tree).find(n=>n.type==='Pressable').props.onPress();tree=h.renderChild(element);const input=nodes(tree).find(n=>n.props.accessibilityLabel?.includes('günlük hedef ('));assert.ok(input);input.props.onChangeText('90');tree=h.renderChild(element);await nodes(tree).find(n=>n.type==='Button'&&n.props.title==='Kaydet').props.onPress();row=(await f.store.fitness('u')).exercises[0];assert.equal(row.target_quantity,90);assert.ok((await f.store.outbox('u')).some(j=>j.kind==='goal'));});
++test('UI-01 compact result keeps Pazar, partial 2/8, outcome action and separate 15 November future without touching history',()=>{const data=fixture(),before=JSON.stringify(data),routes=[];const h=harness('components/today-program.tsx',{'@/hooks/use-tenant-identity':{useTenantIdentity:()=>({data:{memberships:[{status:'active'}]}})},'@/hooks/use-auth':{useAuth:()=>({user:{id:'self'}})},'@/hooks/use-coaching':{useCoaching:()=>({data,isPending:false,error:null}),useCoachingLibrary:()=>({data:[]})},'@/lib/coaching':{coachingStore:{},syncCoaching:async()=>{}},'@/lib/offline-store':{localUuid:()=> 'unused'},'@/lib/offline-sync':{offlineChanged(){}},'expo-router':{router:{push:route=>routes.push(route)}}});const tree=h.render('TodayProgram'),items=nodes(tree),copy=text(tree);assert.match(copy,/Pazar · Tüm Vücut/);assert.match(copy,/Kısmen tamamlandı/);assert.match(copy,/2\/8 hedef set/);assert.match(copy,/15 Kasım/);assert.ok(copy.indexOf('2/8')<copy.indexOf('15 Kasım'));assert.doesNotMatch(copy,/Bu seansın sonucu korunur/);assert.equal(items.find(n=>n.type==='Card'&&n.props.accent).props.compact,true);items.find(n=>n.type==='Button'&&n.props.title==='Seans sonucunu gör').props.onPress();assert.deepEqual(routes,['/workout/actual']);assert.equal(JSON.stringify(data),before);});
++test('UI-02 real builder handlers add once, reopen selected days, preserve renamed/redated sessions and keep save outside the scrolling list',()=>{let sequence=0,requests=0;const data=fixture();const h=harness('app/plan-builder.tsx',{'@/components/keyboard-frame':{KeyboardFrame:'KeyboardFrame'},'@/components/staff-area':{StaffArea:'StaffArea'},'@/lib/offline-sync':{offlineChanged(){}},'@tanstack/react-query':{useQueryClient:()=>({})},'@react-navigation/elements':{useHeaderHeight:()=>56},'react-native-safe-area-context':{SafeAreaView:'SafeArea'},'expo-router':{router:{replace(){}},Stack:{Screen:'Screen'},useLocalSearchParams:()=>({})},'@/hooks/use-coaching':{useCoaching:()=>({data}),useCoachingLibrary:()=>({data:[]})},'@/hooks/use-auth':{useAuth:()=>({user:{id:'self'}})},'@/hooks/use-tenant-identity':{useTenantIdentity:()=>({data:{staff:[],memberships:[{status:'active'}]}})},'@/lib/tenant-console':{coachingRequest:async()=>{requests++;}},'@/lib/offline-store':{localUuid:()=> 'id'+(++sequence)},'@/lib/coaching':{coachingStore:{},syncCoaching:async()=>{}},'@/components/exercise-selector':{ExerciseSelector:'ExerciseSelector'}});const render=()=>h.renderChild(h.render('default'));let tree=render(),items=nodes(tree);const weekday=(list,label)=>list.find(n=>n.type==='Pressable'&&n.props.accessibilityLabel.startsWith(label+' ·'));assert.equal(items.filter(n=>n.type==='Pressable'&&n.props.accessibilityLabel.includes('antrenman günü ekle')).length,7);weekday(items,'Paz').props.onPress();tree=render();items=nodes(tree);const session=items.find(n=>n.type==='Field'&&n.props.label==='Seans adı');assert.ok(session);const dates=items.find(n=>n.type==='Field'&&n.props.label.startsWith('Tarihler')).props.value;assert.equal(weekday(items,'Paz').props.accessibilityState.selected,true);weekday(items,'Paz').props.onPress();tree=render();items=nodes(tree);assert.equal(items.filter(n=>n.type==='Field'&&n.props.label==='Seans adı').length,1);assert.equal(items.find(n=>n.type==='Field'&&n.props.label.startsWith('Tarihler')).props.value,dates);items.find(n=>n.type==='Field'&&n.props.label==='Seans adı').props.onChange('Özel güç');tree=render();nodes(tree).find(n=>n.type==='Field'&&n.props.label.startsWith('Tarihler')).props.onChange('2026-11-09,2026-11-16');tree=render();items=nodes(tree);assert.equal(weekday(items,'Pzt').props.accessibilityState.selected,true);weekday(items,'Pzt').props.onPress();tree=render();items=nodes(tree);assert.equal(items.find(n=>n.type==='Field'&&n.props.label==='Seans adı').props.value,'Özel güç');assert.equal(items.filter(n=>n.type==='Button'&&n.props.title?.endsWith('(0)')).length,1);items.find(n=>n.type==='Button'&&n.props.title==='Amaç, takvim ve seviye').props.onPress();tree=render();items=nodes(tree);assert.match(items.find(n=>n.type==='Field'&&n.props.label==='Amaç').props.placeholder,/Örn\./);const frame=items.find(n=>n.type==='KeyboardFrame');assert.ok(nodes(frame.props.children.at(-1)).some(n=>n.type==='Button'&&n.props.title==='Programı kaydet'));items.find(n=>n.type==='Button'&&n.props.title==='Programı kaydet').props.onPress();assert.match(text(render()),/Program adını girin\./);assert.equal(requests,0);});
+
+--- before/app.json
++++ after/app.json
+@@ -3,7 +3,7 @@
+     "name": "NFCFit",
+     "slug": "nfcfit",
+     "owner": "sdemirhan",
+-    "version": "1.0.21",
++    "version": "1.0.22",
+     "orientation": "portrait",
+     "icon": "./assets/images/icon.png",
+     "scheme": "nfcfit",
+@@ -26,7 +26,7 @@
+       }
+     },
+     "android": {
+-      "versionCode": 22,
++      "versionCode": 23,
+       "intentFilters": [
+         {
+           "action": "VIEW",
+
+--- before/android/app/build.gradle
++++ after/android/app/build.gradle
+@@ -92,8 +92,8 @@
+         applicationId 'com.serkandemirhan.nfcfit'
+         minSdkVersion rootProject.ext.minSdkVersion
+         targetSdkVersion rootProject.ext.targetSdkVersion
+-        versionCode 22
+-        versionName "1.0.21"
++        versionCode 23
++        versionName "1.0.22"
+ 
+         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
+     }
