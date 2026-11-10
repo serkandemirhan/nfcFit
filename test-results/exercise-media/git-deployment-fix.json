@@ -1,0 +1,41 @@
+{
+  "failed_deployment": "dpl_56uc3u7WnSmkAvVYV7rf9SUWKgjL",
+  "error": "FASTAPI_ENTRYPOINT_NOT_FOUND",
+  "root_directory_before": null,
+  "root_directory_after": "backend",
+  "commit": "b649c77",
+  "git_triggered_deployment": "dpl_A98zUk9h97GsswgAkD9tTQG1N4ir",
+  "deployment_state": "READY",
+  "checks": [
+    {
+      "path": "/health",
+      "status": 200,
+      "expected": 200
+    },
+    {
+      "path": "/api/console/coaching/library",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "path": "/api/console/auth/me",
+      "status": 401,
+      "expected": 401
+    },
+    {
+      "path": "/api/tasks",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "path": "/api/users",
+      "status": 404,
+      "expected": 404
+    },
+    {
+      "path": "/fixture-auth/auth/v1/token",
+      "status": 404,
+      "expected": 404
+    }
+  ]
+}

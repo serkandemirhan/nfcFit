@@ -17,3 +17,9 @@ The first API rollout failed on some cold starts with duplicate psycopg prepared
 Limits: this is a 10-exercise pilot, not full 102-exercise media coverage. Images are position illustrations, not full motion demonstrations. Production sign-in/member edits were not exercised with real account credentials. Native source is ready for rebuilding; no new signed APK/IPA, OTA update or store publication was performed.
 
 Evidence: `live-checks.json`, `production-browser-results.json`, deployment/inspection logs, `TEST_REPORT.md`, `SCREENSHOT_INDEX.md`.
+
+## GitHub automatic API deployment correction
+
+A later Git-triggered API deployment (`dpl_56uc3u7WnSmkAvVYV7rf9SUWKgjL`, commit `5ef3e13`) failed with `FASTAPI_ENTRYPOINT_NOT_FOUND`: the Vercel API project's Root Directory was unset, so it searched the repository root. The earlier CLI deployment was healthy because it uploaded the backend directory directly. This distinction was missed in the first release verification.
+
+The Vercel project Root Directory is now `backend`. Commit `b649c77` also adds backend production exclusions to the root `.vercelignore` and documents the monorepo deployment setup. Its actual Git-triggered production deployment `dpl_A98zUk9h97GsswgAkD9tTQG1N4ir` reached READY. Public checks confirm health 200, protected tenant/auth routes 401, and legacy `/api/tasks`, `/api/users` plus fixture auth routes 404. No environment values, account credentials or member data were changed. Evidence: `git-deployment-fix.json`.
