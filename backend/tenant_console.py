@@ -35,7 +35,13 @@ console_engine = create_engine(
     echo=False,
     future=True,
     pool_pre_ping=True,
-    connect_args={"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {},
+    # Supabase transaction pooling can switch backend sessions between
+    # transactions. Session-local prepared statement names must not be reused.
+    connect_args=(
+        {"check_same_thread": False} if DATABASE_URL.startswith("sqlite")
+        else {"prepare_threshold": None} if DATABASE_URL.startswith("postgresql+psycopg://")
+        else {}
+    ),
 )
 ConsoleSession = sessionmaker(bind=console_engine, autoflush=False, expire_on_commit=False)
 
