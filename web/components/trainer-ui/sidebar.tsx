@@ -9,6 +9,8 @@ const SidebarContext = React.createContext<null | {
   state: "expanded" | "collapsed";
   isMobile: boolean;
   openMobile: boolean;
+  sidebarId: string;
+  triggerRef: React.RefObject<HTMLButtonElement | null>;
   setOpenMobile: (v: boolean) => void;
   toggleSidebar: () => void;
 }>(null);
@@ -17,8 +19,13 @@ export function useSidebar() {
   if (!value) throw new Error("SidebarProvider required");
   return value;
 }
-export function SidebarProvider({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = React.useState(true),
+export function SidebarProvider({ children, storageKey = "nfcfit:trainer:sidebar", className = "" }: { children: React.ReactNode; storageKey?: string; className?: string }) {
+  const sidebarId = React.useId();
+  const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const [open, setOpen] = React.useState(() => {
+    try { return localStorage.getItem(storageKey) !== "collapsed"; }
+    catch { return true; }
+  }),
     [openMobile, setOpenMobile] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(
     () => matchMedia("(max-width: 1023px)").matches,
@@ -37,8 +44,14 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     [isMobile],
   );
   React.useEffect(() => {
+    try { localStorage.setItem(storageKey, open ? "expanded" : "collapsed"); }
+    catch { /* Navigation remains usable when storage is unavailable. */ }
+  }, [open, storageKey]);
+  React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "b" && (e.metaKey || e.ctrlKey)) {
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [contenteditable=true]")) return;
+      if (!e.repeat && e.key.toLowerCase() === "b" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         toggleSidebar();
       }
@@ -53,6 +66,8 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
         state: open ? "expanded" : "collapsed",
         isMobile,
         openMobile,
+        sidebarId,
+        triggerRef,
         setOpenMobile,
         toggleSidebar,
       }}
@@ -61,7 +76,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
         <div
           data-slot="sidebar-wrapper"
           data-state={open ? "expanded" : "collapsed"}
-          className="nfc-admin nfc-admin-layout"
+          className={`nfc-admin nfc-admin-layout ${className}`}
         >
           {children}
         </div>
@@ -69,30 +84,39 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     </SidebarContext.Provider>
   );
 }
-export function Sidebar({ children }: { children: React.ReactNode }) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+export function Sidebar({ children, title = "Antrenör menüsü" }: { children: React.ReactNode; title?: string }) {
+  const { isMobile, state, openMobile, setOpenMobile, sidebarId, triggerRef } = useSidebar();
   return isMobile ? (
     <Sheet
-      title="Antrenör menüsü"
+      title={title}
       open={openMobile}
       onOpenChange={setOpenMobile}
+      onCloseAutoFocus={(event) => {
+        if (triggerRef.current?.isConnected) {
+          event.preventDefault();
+          triggerRef.current.focus();
+        }
+      }}
     >
-      <aside data-slot="sidebar" data-mobile="true">
+      <aside id={sidebarId} data-slot="sidebar" data-mobile="true">
         {children}
       </aside>
     </Sheet>
   ) : (
-    <aside data-slot="sidebar" data-state={state}>
+    <aside id={sidebarId} data-slot="sidebar" data-state={state}>
       {children}
     </aside>
   );
 }
 export function SidebarTrigger() {
-  const { toggleSidebar, open, isMobile } = useSidebar();
+  const { toggleSidebar, open, isMobile, openMobile, sidebarId, triggerRef } = useSidebar();
   return (
     <Button
       variant="ghost"
       size="icon"
+      ref={triggerRef}
+      aria-expanded={isMobile ? openMobile : open}
+      aria-controls={sidebarId}
       aria-label={
         isMobile ? "Menüyü aç" : open ? "Menüyü daralt" : "Menüyü genişlet"
       }

@@ -106,15 +106,17 @@ export function Sheet({
   open,
   onOpenChange,
   children,
+  onCloseAutoFocus,
 }: {
   title: string;
   open: boolean;
   onOpenChange: (v: boolean) => void;
   children: React.ReactNode;
+  onCloseAutoFocus?: React.ComponentProps<typeof DialogContent>["onCloseAutoFocus"];
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="nfc-sheet" aria-describedby={undefined}>
+      <DialogContent className="nfc-sheet" aria-describedby={undefined} onCloseAutoFocus={onCloseAutoFocus}>
         <div className="nfc-sheet-heading">
           <DialogTitle>{title}</DialogTitle>
           <DialogClose asChild>

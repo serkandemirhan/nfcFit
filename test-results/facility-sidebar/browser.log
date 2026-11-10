@@ -1,0 +1,8 @@
+PASS Facility collapse gains content width and persists across navigation/reload
+PASS Existing role-allowed sections and controls remain reachable
+PASS Trainer menu also remembers its independent collapse preference
+PASS Facility and trainer collapse preferences are independent
+PASS 375px drawer closes on selection/Escape, restores focus and has no page overflow
+PASS Keyboard collapse works without stealing shortcuts from form inputs
+PASS Manager navigation keeps role restrictions; admin settings API remains forbidden
+PASS No uncaught browser errors

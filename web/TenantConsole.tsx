@@ -1,9 +1,11 @@
 import MemberProgramSchedule from "./MemberProgramSchedule";
+import type { WorkspaceAction } from "./FacilityAdminLayout";
 import { createActivityWorkflow, type PendingActivity, type ActivityIntent } from "../mobile/nfc-task-tracker/lib/activity-workflow";
 import { consoleTransport } from "../mobile/nfc-task-tracker/lib/console-transport";
 import { canonicalRole, isClubAdmin, isClubOperator, isClubTrainer } from "./club-roles";
 import React, { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 const CoachingConsole = React.lazy(() => import('./CoachingConsole'));
+const FacilityAdminLayout = React.lazy(() => import('./FacilityAdminLayout'));
 import { supabase } from './supabaseClient';
 
 type Account = { id: string; email: string; name: string; is_platform_admin: boolean };
@@ -201,28 +203,33 @@ export default function TenantConsoleApp() {
   const isOperator = Boolean(staff && isClubOperator(staff.role));
   const isTrainer = Boolean(staff && isClubTrainer(staff.role));
   const platformWorkspace = isPlatformAdmin && (workspace === 'platform' || !isStaff);
+  const facilityWorkspace = !platformWorkspace && isOperator && (workspace === 'facility' || !isTrainer);
+  const workspaceActions: WorkspaceAction[] = (isPlatformAdmin || (isOperator && isTrainer)) ? [
+    ...(isPlatformAdmin ? [{ id: 'platform' as const, label: 'Platform', active: workspace === 'platform', onSelect: () => setWorkspace('platform') }] : []),
+    ...(isOperator ? [{ id: 'facility' as const, label: 'Tesis yönetimi', active: workspace === 'facility', onSelect: () => setWorkspace('facility') }] : []),
+    ...(isTrainer ? [{ id: 'coaching' as const, label: 'Antrenör alanı', active: workspace === 'coaching', onSelect: () => setWorkspace('coaching') }] : []),
+  ] : [];
+  const accountControls = <div className="flex items-center gap-3">
+    {isStaff && staffTenants.length > 1 && <select className={inputClass} value={tenantId} onChange={event => setTenantId(event.target.value)} aria-label="Select sports center">{staffTenants.map(item => <option key={item.tenant_id} value={item.tenant_id}>{item.tenant_name}</option>)}</select>}
+    <div className="hidden text-right sm:block"><p className="text-sm font-bold text-white">{account.name}</p><p className="text-xs capitalize text-slate-400">{platformWorkspace ? 'Platform yöneticisi' : staff ? roleName(staff.role) : 'Üye'}</p></div>
+    <button className={secondaryButtonClass} onClick={signOut}>Çıkış yap</button>
+  </div>;
+  const messages = <>{error && <Notice kind="error">{error}</Notice>}{notice && <Notice kind="success">{notice}</Notice>}</>;
   return (
-    <ConsoleShell trainer={isTrainer && !platformWorkspace}>
-      <header className="mb-6 flex flex-wrap items-center justify-between gap-4">
+    <ConsoleShell trainer={isTrainer && !platformWorkspace} facility={facilityWorkspace}>
+      {!facilityWorkspace && <><header className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">NFCFit · {platformWorkspace ? 'Platform' : isStaff ? 'Kulüp' : 'Üye'}</p>
           <h1 className="mt-1 text-2xl font-black text-white">{platformWorkspace ? 'Platform yönetimi' : isTrainer && !isOperator ? 'Antrenör paneli' : isStaff ? 'Kulüp yönetimi' : 'Kulüplerim'}</h1>
         </div>
-        <div className="flex items-center gap-3">
-          {isStaff && staffTenants.length > 1 && <select className={inputClass} value={tenantId} onChange={event => setTenantId(event.target.value)} aria-label="Select sports center">{staffTenants.map(item => <option key={item.tenant_id} value={item.tenant_id}>{item.tenant_name}</option>)}</select>}
-          <div className="hidden text-right sm:block"><p className="text-sm font-bold text-white">{account.name}</p><p className="text-xs capitalize text-slate-400">{platformWorkspace ? 'Platform yöneticisi' : staff ? roleName(staff.role) : 'Üye'}</p></div>
-          <button className={secondaryButtonClass} onClick={signOut}>Çıkış yap</button>
-        </div>
+        {accountControls}
       </header>
-      {error && <Notice kind="error">{error}</Notice>}
-      {notice && <Notice kind="success">{notice}</Notice>}
-      {(isPlatformAdmin || (isOperator && isTrainer)) && <nav className="mb-5 flex flex-wrap gap-3" aria-label="Çalışma alanı">
-        {isPlatformAdmin && <button className={workspace==='platform'?buttonClass:secondaryButtonClass} onClick={()=>setWorkspace('platform')}>Platform</button>}
-        {isOperator && <button className={workspace==='facility'?buttonClass:secondaryButtonClass} onClick={()=>setWorkspace('facility')}>Tesis yönetimi</button>}
-        {isTrainer && <button className={workspace==='coaching'?buttonClass:secondaryButtonClass} onClick={()=>setWorkspace('coaching')}>Antrenör alanı</button>}
-      </nav>}
+      {messages}
+      {!!workspaceActions.length && <nav className="mb-5 flex flex-wrap gap-3" aria-label="Çalışma alanı">
+        {workspaceActions.map(action => <button key={action.id} className={action.active ? buttonClass : secondaryButtonClass} onClick={action.onSelect}>{action.label}</button>)}
+      </nav>}</>}
       {isPlatformAdmin && (workspace==='platform' || !isStaff) ? <PlatformConsole token={token}/> :
-        isOperator && (workspace==='facility' || !isTrainer) ? <ClubConsole key={`${account.id}-${tenantId}-${staff?.role}`} token={token} tenantId={tenantId} role={staff!.role} onError={setError} onNotice={setNotice}/> :
+        isOperator && (workspace==='facility' || !isTrainer) ? <React.Suspense fallback={<p role="status">Tesis yönetimi yükleniyor…</p>}><ClubConsole key={`${account.id}-${tenantId}-${staff?.role}`} token={token} tenantId={tenantId} role={staff!.role} onError={setError} onNotice={setNotice} accountControls={accountControls} workspaces={workspaceActions} messages={messages}/></React.Suspense> :
         isTrainer ? <React.Suspense fallback={<p role="status">Antrenör alanı yükleniyor…</p>}><CoachingConsole key={`${account.id}-${tenantId}`} token={token} tenantId={tenantId}/></React.Suspense> :
         <MemberConsole key={account.id} accountId={account.id} token={token} memberships={memberTenants} onError={setError} onNotice={setNotice}/>}
 
@@ -230,8 +237,8 @@ export default function TenantConsoleApp() {
   );
 }
 
-function ConsoleShell({ children, trainer = false }: { children: React.ReactNode; trainer?: boolean }) {
-  return <main className="min-h-screen bg-[#030B16] px-4 py-6 text-slate-100 sm:px-7 lg:px-10"><div className={trainer ? "trainer-shell mx-auto" : "mx-auto max-w-7xl"}>{children}</div></main>;
+function ConsoleShell({ children, trainer = false, facility = false }: { children: React.ReactNode; trainer?: boolean; facility?: boolean }) {
+  return <main className={facility ? "facility-shell-root" : "min-h-screen bg-[#030B16] px-4 py-6 text-slate-100 sm:px-7 lg:px-10"}><div className={facility ? "facility-shell" : trainer ? "trainer-shell mx-auto" : "mx-auto max-w-7xl"}>{children}</div></main>;
 }
 
 function PlatformConsole({ token }: { token: string }) {
@@ -326,7 +333,7 @@ function PlatformConsole({ token }: { token: string }) {
 
 type ClubTab = 'equipment' | 'administration' | 'overview' | 'members' | 'tags' | 'exercises' | 'staff' | 'activity';
 
-function ClubConsole({ token, tenantId, role, onError, onNotice }: { token: string; tenantId: string; role: string; onError: (value: string) => void; onNotice: (value: string) => void }) {
+function ClubConsole({ token, tenantId, role, onError, onNotice, accountControls, workspaces, messages }: { token: string; tenantId: string; role: string; onError: (value: string) => void; onNotice: (value: string) => void; accountControls: React.ReactNode; workspaces: WorkspaceAction[]; messages: React.ReactNode }) {
   const [tab, setTab] = useState<ClubTab>('overview');
   const [dashboard, setDashboard] = useState<{ tenant: Tenant; activities_today: number; inactive_members: number } | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
@@ -421,16 +428,13 @@ function ClubConsole({ token, tenantId, role, onError, onNotice }: { token: stri
 
   const filteredMembers = useMemo(() => members.filter(member => `${member.name} ${member.email}`.toLowerCase().includes(filter.toLowerCase())), [filter, members]);
   const pending = members.filter(member => member.status === 'pending');
-  if(!dashboard) return <Panel title="Tesis bilgileri"><p role="status">{loading ? 'Yükleniyor…' : 'Bilgiler alınamadı.'}</p><button className={buttonClass} disabled={loading} onClick={()=>void refreshAll()}>Yeniden dene</button></Panel>;
+  if(!dashboard) return <FacilityAdminLayout sections={tabs} selected={tab} navigate={id => { setTab(id as ClubTab); void refreshAll(); }} tenantName="Tesis yönetimi" summary={loading ? 'Bilgiler yükleniyor…' : 'Bilgiler alınamadı'} accountControls={accountControls} workspaces={workspaces} messages={messages}>
+    <Panel title="Tesis bilgileri"><p role="status">{loading ? 'Yükleniyor…' : 'Bilgiler alınamadı.'}</p><button className={buttonClass} disabled={loading} onClick={()=>void refreshAll()}>Yeniden dene</button></Panel>
+  </FacilityAdminLayout>;
 
-  return <div className="space-y-5">
-    <div className="flex flex-wrap items-end justify-between gap-3">
-      <div><h2 className="text-xl font-black text-white">{dashboard?.tenant.name ?? 'Kulüp'}</h2><p className="mt-1 text-sm text-slate-400">{dashboard?.tenant.plan} · {roleName(role)}</p></div>
-      <div className="text-xs text-slate-400">{dashboard?.tenant.active_members ?? 0}/{dashboard?.tenant.member_limit ?? '—'} üye · {dashboard?.tenant.cards ?? 0}/{dashboard?.tenant.card_limit ?? '—'} NFC kartı</div>
-    </div>
-    <nav className="flex gap-2 overflow-x-auto rounded-2xl border border-slate-800 bg-slate-900/70 p-2" aria-label="Sports center sections">
-      {tabs.map(item => <button key={item.id} className={`shrink-0 rounded-xl px-4 py-2.5 text-sm font-bold ${tab === item.id ? 'bg-[#16803C] text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`} onClick={() => { setTab(item.id); onError(''); void refreshAll(); }}>{item.label}</button>)}
-    </nav>
+  return <FacilityAdminLayout sections={tabs} selected={tab} navigate={id => { setTab(id as ClubTab); onError(''); void refreshAll(); }} tenantName={dashboard.tenant.name}
+    summary={`${dashboard.tenant.plan} · ${dashboard.tenant.active_members}/${dashboard.tenant.member_limit} üye · ${dashboard.tenant.cards}/${dashboard.tenant.card_limit} NFC kartı`}
+    accountControls={accountControls} workspaces={workspaces} messages={messages}>
 
     {tab === 'overview' && <div className="space-y-5">
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -446,7 +450,7 @@ function ClubConsole({ token, tenantId, role, onError, onNotice }: { token: stri
     </div>}
 
     {tab === 'members' && <Panel title="Üyeler" subtitle="Üyeleri arayın ve katılım başvurularını değerlendirin">
-      <input className={`${inputClass} mb-4 max-w-sm`} value={filter} onChange={event => setFilter(event.target.value)} placeholder="Ad veya e-posta ara" />
+      <input className={`${inputClass} mb-4 max-w-sm`} aria-label="Üye ara" value={filter} onChange={event => setFilter(event.target.value)} placeholder="Ad veya e-posta ara" />
       <form className="mb-4 grid gap-3 sm:grid-cols-3" onSubmit={event=>void submit(event,`/tenants/${tenantId}/members`)}><input className={inputClass} name="name" placeholder="Üye adı" aria-label="Üye adı" required/><input className={inputClass} type="email" name="email" placeholder="E-posta" aria-label="Üye e-postası" required/><button className={buttonClass} disabled={busy}>Üye ekle</button></form>
       <MemberTable members={filteredMembers} canManage={canManage} onReview={review} onStatus={setMemberStatus} onRemove={member=>{if(window.confirm('Üyelik kaldırılsın mı? Geçmiş kayıtlar korunur.')) void request(`/tenants/${tenantId}/members/${member.id}`,token,{method:'DELETE'}).then(refreshAll).catch(e=>onError(e.message));}} />
     </Panel>}
@@ -502,7 +506,7 @@ function ClubConsole({ token, tenantId, role, onError, onNotice }: { token: stri
     {tab === 'equipment' && canManage && <ClubEquipment token={token} tenantId={tenantId} tags={tags}/>}
     {tab === 'administration' && isClubAdmin(role) && <ClubAdministration token={token} tenantId={tenantId} onError={onError} />}
     {tab === 'activity' && <Panel title="Üye aktiviteleri" subtitle="Bu kulüpte kartla ve elle kaydedilen aktiviteler"><ActivityTable activities={activities} /></Panel>}
-  </div>;
+  </FacilityAdminLayout>;
 }
 
 function MemberTable({ members, canManage, onReview, onStatus, onRemove }: { members: Member[]; canManage: boolean; onReview: (member: Member, decision: 'approve' | 'reject') => void; onStatus?: (member: Member) => void; onRemove?: (member:Member)=>void }) {

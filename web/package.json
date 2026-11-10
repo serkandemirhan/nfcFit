@@ -15,7 +15,8 @@
     "test:trainer-panel": "node tests/trainer-panel.browser.cjs",
     "test:trainer-panel-ui": "node tests/trainer-panel.admin.cjs",
     "trainer:styles": "tailwindcss -c trainer.tailwind.config.cjs -i trainer-tailwind.input.css -o trainer-utilities.css --minify",
-    "test:trainer-density": "node tests/trainer-density.browser.cjs"
+    "test:trainer-density": "node tests/trainer-density.browser.cjs",
+    "test:facility-sidebar": "node tests/facility-sidebar.browser.cjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.3.1",

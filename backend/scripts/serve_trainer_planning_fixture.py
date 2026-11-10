@@ -17,7 +17,7 @@ import tenant_console as tc
 from coaching import CoachLink,seed_catalog
 from fastapi import HTTPException
 from sqlalchemy import select
-PEOPLE={'trainer@planning.test':'Deniz Kaya','member@planning.test':'Ada Yılmaz','second@planning.test':'Emre Demir','outsider@planning.test':'Unassigned Member'}
+PEOPLE={'trainer@planning.test':'Deniz Kaya','member@planning.test':'Ada Yılmaz','second@planning.test':'Emre Demir','outsider@planning.test':'Unassigned Member','owner@planning.test':'Selin Yönetici','manager@planning.test':'Can Operasyon'}
 def identity(token):
     try: email=json.loads(base64.urlsafe_b64decode(token.split('.')[1]+'=='))['email']
     except Exception: raise HTTPException(401,'Invalid fixture identity')
@@ -39,6 +39,11 @@ with tc.ConsoleSession.begin() as db:
             db.add(tc.Membership(tenant_id='planning-club',account_id=str(uuid5(NAMESPACE_URL,email)),status='active'))
         for email in ['member@planning.test','second@planning.test']:
             db.add(CoachLink(tenant_id='planning-club',trainer_id=str(uuid5(NAMESPACE_URL,'trainer@planning.test')),athlete_id=str(uuid5(NAMESPACE_URL,email))))
+    # UI-only role fixtures; never reset memberships, workouts or trainer access.
+    for email, role in [('owner@planning.test', 'CLUB_ADMIN'), ('manager@planning.test', 'CLUB_MANAGER')]:
+        account_id = str(uuid5(NAMESPACE_URL, email))
+        if not db.scalar(select(tc.TenantStaff).where(tc.TenantStaff.tenant_id == 'planning-club', tc.TenantStaff.account_id == account_id)):
+            db.add(tc.TenantStaff(tenant_id='planning-club', account_id=account_id, role=role))
 # Test-only provider for Safari/OS-keyboard tests. Never mounted by production entrypoints.
 from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware

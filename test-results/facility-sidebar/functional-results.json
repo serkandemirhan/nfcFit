@@ -1,0 +1,42 @@
+{
+  "checks": [
+    {
+      "name": "Facility collapse gains content width and persists across navigation/reload",
+      "details": {
+        "expanded": 1674,
+        "collapsed": 1822,
+        "gained": 148
+      },
+      "status": "PASS"
+    },
+    {
+      "name": "Existing role-allowed sections and controls remain reachable",
+      "status": "PASS"
+    },
+    {
+      "name": "Trainer menu also remembers its independent collapse preference",
+      "status": "PASS"
+    },
+    {
+      "name": "Facility and trainer collapse preferences are independent",
+      "status": "PASS"
+    },
+    {
+      "name": "375px drawer closes on selection/Escape, restores focus and has no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Keyboard collapse works without stealing shortcuts from form inputs",
+      "status": "PASS"
+    },
+    {
+      "name": "Manager navigation keeps role restrictions; admin settings API remains forbidden",
+      "status": "PASS"
+    },
+    {
+      "name": "No uncaught browser errors",
+      "status": "PASS"
+    }
+  ],
+  "errors": []
+}
