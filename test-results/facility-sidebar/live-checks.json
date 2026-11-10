@@ -1,0 +1,27 @@
+{
+  "console_status": 200,
+  "facility_shell_in_live_bundle": true,
+  "facility_chunks": [
+    "FacilityAdminLayout-Dv-zmiga.js"
+  ],
+  "facility_preference_key_in_live_chunk": true,
+  "api_checks": [
+    {
+      "path": "/health",
+      "status": 200
+    },
+    {
+      "path": "/api/console/coaching/library",
+      "status": 401
+    },
+    {
+      "path": "/api/tasks",
+      "status": 404
+    },
+    {
+      "path": "/fixture-auth/auth/v1/token",
+      "status": 404
+    }
+  ],
+  "authenticated_production_facility_session_tested": false
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "nfc-fit",
+    "uid": "dpl_8uJstvNP8fw6EJpyBAsuML8iJ6iH",
+    "state": "READY",
+    "url": "nfc-c5qcntl86-serkan-demirhans-projects.vercel.app",
+    "commit": "0d336b47eb6be0e74f6f004f29a50f6fe91cae9f"
+  },
+  {
+    "name": "nfcfit-tenant-api",
+    "uid": "dpl_CRz3ryzLAZcJSg7W7dwzczqhgdyu",
+    "state": "READY",
+    "url": "nfcfit-tenant-7nn2yj0e7-serkan-demirhans-projects.vercel.app",
+    "commit": "0d336b47eb6be0e74f6f004f29a50f6fe91cae9f"
+  }
+]

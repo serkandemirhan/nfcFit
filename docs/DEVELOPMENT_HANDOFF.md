@@ -56,6 +56,8 @@ VITE_SUPABASE_URL=http://127.0.0.1:8000/fixture-auth VITE_SUPABASE_ANON_KEY=fixt
 
 `http://127.0.0.1:3000/console` adresinde `trainer@planning.test` / `PlanningTestOnly!26` ile giriş yapın. Bu parola yalnızca depodaki izole test sağlayıcısına aittir; canlı hesaplarda geçerli değildir. Fixture sunucusunu internete açmayın.
 
+Tesis menüsünü aynı yerel fixture üzerinde `owner@planning.test` (kulüp yöneticisi) veya `manager@planning.test` (operasyon yöneticisi) ile deneyebilirsiniz; fixture parolası aynıdır. Tesis ve antrenör menülerinin daraltma tercihleri bu tarayıcıda ayrı saklanır.
+
 Yerel SQLite verisi GitHub'a aktarılmaz. Seed araçları demo üyelerini ve Berk'in geçmiş kayıtlarını oluşturur; bu bilgisayarda elle oluşturulmuş bütün programları veya tarayıcıdaki kurtarma taslaklarını taşımaz.
 
 ## Gerçek backend ve mobil geliştirme

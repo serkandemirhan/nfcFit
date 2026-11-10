@@ -22,4 +22,4 @@ Implemented in the running React/Vite panel, preserving existing sections, APIs,
 - In-app Browser was unavailable (empty browser list); existing standalone Playwright tooling was used.
 - Isolated fixture: owner@planning.test and manager@planning.test use the existing fixture-only password. They are added idempotently to the disposable planning club; existing trainer memberships/workouts are retained. The fixture server is excluded from production deployment.
 
-Screenshots are actual UI captures with synthetic local data. Publication details will be recorded separately after GitHub-triggered deployments complete.
+Screenshots are actual UI captures with synthetic local data. Published to https://nfc-fit.vercel.app/console. Both GitHub-triggered web/API deployments for feature commit `0d336b4` reached READY. Live console and new facility bundle return 200; API health is 200, protected library is 401, legacy and fixture routes are 404. Authenticated facility screenshots/workflow tests use isolated local accounts; no real production credentials were used. See `DEPLOYMENT.md`, `deployments.json` and `live-checks.json`.
