@@ -1,5 +1,5 @@
 import MemberProgramSchedule from "./MemberProgramSchedule";
-import type { WorkspaceAction } from "./FacilityAdminLayout";
+import WorkspaceSwitcher, { type WorkspaceAction } from "./WorkspaceSwitcher";
 import { createActivityWorkflow, type PendingActivity, type ActivityIntent } from "../mobile/nfc-task-tracker/lib/activity-workflow";
 import { consoleTransport } from "../mobile/nfc-task-tracker/lib/console-transport";
 import { canonicalRole, isClubAdmin, isClubOperator, isClubTrainer } from "./club-roles";
@@ -217,6 +217,7 @@ export default function TenantConsoleApp() {
   const messages = <>{error && <Notice kind="error">{error}</Notice>}{notice && <Notice kind="success">{notice}</Notice>}</>;
   return (
     <ConsoleShell trainer={isTrainer && !platformWorkspace} facility={facilityWorkspace}>
+      <WorkspaceSwitcher actions={workspaceActions} />
       {!facilityWorkspace && <><header className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-400">NFCFit · {platformWorkspace ? 'Platform' : isStaff ? 'Kulüp' : 'Üye'}</p>
@@ -225,11 +226,9 @@ export default function TenantConsoleApp() {
         {accountControls}
       </header>
       {messages}
-      {!!workspaceActions.length && <nav className="mb-5 flex flex-wrap gap-3" aria-label="Çalışma alanı">
-        {workspaceActions.map(action => <button key={action.id} className={action.active ? buttonClass : secondaryButtonClass} onClick={action.onSelect}>{action.label}</button>)}
-      </nav>}</>}
+      </>}
       {isPlatformAdmin && (workspace==='platform' || !isStaff) ? <PlatformConsole token={token}/> :
-        isOperator && (workspace==='facility' || !isTrainer) ? <React.Suspense fallback={<p role="status">Tesis yönetimi yükleniyor…</p>}><ClubConsole key={`${account.id}-${tenantId}-${staff?.role}`} token={token} tenantId={tenantId} role={staff!.role} onError={setError} onNotice={setNotice} accountControls={accountControls} workspaces={workspaceActions} messages={messages}/></React.Suspense> :
+        isOperator && (workspace==='facility' || !isTrainer) ? <React.Suspense fallback={<p role="status">Tesis yönetimi yükleniyor…</p>}><ClubConsole key={`${account.id}-${tenantId}-${staff?.role}`} token={token} tenantId={tenantId} role={staff!.role} onError={setError} onNotice={setNotice} accountControls={accountControls} messages={messages}/></React.Suspense> :
         isTrainer ? <React.Suspense fallback={<p role="status">Antrenör alanı yükleniyor…</p>}><CoachingConsole key={`${account.id}-${tenantId}`} token={token} tenantId={tenantId}/></React.Suspense> :
         <MemberConsole key={account.id} accountId={account.id} token={token} memberships={memberTenants} onError={setError} onNotice={setNotice}/>}
 
@@ -333,7 +332,7 @@ function PlatformConsole({ token }: { token: string }) {
 
 type ClubTab = 'equipment' | 'administration' | 'overview' | 'members' | 'tags' | 'exercises' | 'staff' | 'activity';
 
-function ClubConsole({ token, tenantId, role, onError, onNotice, accountControls, workspaces, messages }: { token: string; tenantId: string; role: string; onError: (value: string) => void; onNotice: (value: string) => void; accountControls: React.ReactNode; workspaces: WorkspaceAction[]; messages: React.ReactNode }) {
+function ClubConsole({ token, tenantId, role, onError, onNotice, accountControls, messages }: { token: string; tenantId: string; role: string; onError: (value: string) => void; onNotice: (value: string) => void; accountControls: React.ReactNode; messages: React.ReactNode }) {
   const [tab, setTab] = useState<ClubTab>('overview');
   const [dashboard, setDashboard] = useState<{ tenant: Tenant; activities_today: number; inactive_members: number } | null>(null);
   const [members, setMembers] = useState<Member[]>([]);
@@ -428,13 +427,13 @@ function ClubConsole({ token, tenantId, role, onError, onNotice, accountControls
 
   const filteredMembers = useMemo(() => members.filter(member => `${member.name} ${member.email}`.toLowerCase().includes(filter.toLowerCase())), [filter, members]);
   const pending = members.filter(member => member.status === 'pending');
-  if(!dashboard) return <FacilityAdminLayout sections={tabs} selected={tab} navigate={id => { setTab(id as ClubTab); void refreshAll(); }} tenantName="Tesis yönetimi" summary={loading ? 'Bilgiler yükleniyor…' : 'Bilgiler alınamadı'} accountControls={accountControls} workspaces={workspaces} messages={messages}>
+  if(!dashboard) return <FacilityAdminLayout sections={tabs} selected={tab} navigate={id => { setTab(id as ClubTab); void refreshAll(); }} tenantName="Tesis yönetimi" summary={loading ? 'Bilgiler yükleniyor…' : 'Bilgiler alınamadı'} accountControls={accountControls} messages={messages}>
     <Panel title="Tesis bilgileri"><p role="status">{loading ? 'Yükleniyor…' : 'Bilgiler alınamadı.'}</p><button className={buttonClass} disabled={loading} onClick={()=>void refreshAll()}>Yeniden dene</button></Panel>
   </FacilityAdminLayout>;
 
   return <FacilityAdminLayout sections={tabs} selected={tab} navigate={id => { setTab(id as ClubTab); onError(''); void refreshAll(); }} tenantName={dashboard.tenant.name}
     summary={`${dashboard.tenant.plan} · ${dashboard.tenant.active_members}/${dashboard.tenant.member_limit} üye · ${dashboard.tenant.cards}/${dashboard.tenant.card_limit} NFC kartı`}
-    accountControls={accountControls} workspaces={workspaces} messages={messages}>
+    accountControls={accountControls} messages={messages}>
 
     {tab === 'overview' && <div className="space-y-5">
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

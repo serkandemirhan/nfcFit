@@ -1,21 +1,19 @@
 import React from "react";
-import { Activity, Building2, CalendarDays, CreditCard, Dumbbell, LayoutDashboard, Library, Settings, ShieldCheck, Users, UsersRound } from "lucide-react";
+import { Activity, Building2, CreditCard, Dumbbell, LayoutDashboard, Library, Settings, Users, UsersRound } from "lucide-react";
 import { Sidebar, SidebarMenuButton, SidebarProvider, SidebarTrigger } from "./components/trainer-ui/sidebar";
 import "./trainer-admin.css";
 import "./facility-admin.css";
 
 export type FacilitySection = { id: string; label: string };
-export type WorkspaceAction = { id: "platform" | "facility" | "coaching"; label: string; active: boolean; onSelect: () => void };
 const icons: Record<string, typeof Users> = {
   overview: LayoutDashboard, members: Users, tags: CreditCard, equipment: Dumbbell,
   exercises: Library, staff: UsersRound, activity: Activity, administration: Settings,
-  platform: ShieldCheck, facility: Building2, coaching: CalendarDays,
 };
 
-export default function FacilityAdminLayout({ sections, selected, navigate, tenantName, summary, accountControls, workspaces, messages, children }: {
+export default function FacilityAdminLayout({ sections, selected, navigate, tenantName, summary, accountControls, messages, children }: {
   sections: FacilitySection[]; selected: string; navigate: (id: string) => void;
   tenantName: string; summary: string; accountControls: React.ReactNode;
-  workspaces: WorkspaceAction[]; messages: React.ReactNode; children: React.ReactNode;
+  messages: React.ReactNode; children: React.ReactNode;
 }) {
   const current = sections.find((section) => section.id === selected);
   return <SidebarProvider storageKey="nfcfit:facility:sidebar" className="nfc-facility">
@@ -31,10 +29,6 @@ export default function FacilityAdminLayout({ sections, selected, navigate, tena
           return <SidebarMenuButton key={section.id} label={section.label} active={selected === section.id} onClick={() => navigate(section.id)}><Icon size={19} /></SidebarMenuButton>;
         })}</nav>
       </div>
-      {!!workspaces.length && <div className="nfc-sidebar-footer facility-workspaces"><nav aria-label="Çalışma alanı">{workspaces.map((workspace) => {
-        const Icon = icons[workspace.id];
-        return <SidebarMenuButton key={workspace.id} label={workspace.label} active={workspace.active} onClick={workspace.onSelect}><Icon size={19} /></SidebarMenuButton>;
-      })}</nav></div>}
     </Sidebar>
     <div className="nfc-admin-main">
       <header className="nfc-page-header facility-header">

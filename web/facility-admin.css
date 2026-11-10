@@ -6,9 +6,6 @@
 .nfc-facility .nfc-sidebar-brand{min-height:72px}
 .nfc-facility .nfc-sidebar-brand>div{min-width:0}
 .nfc-facility .nfc-sidebar-brand small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:140px}
-.nfc-facility .facility-workspaces{display:block;padding:12px 0 0;margin:12px}
-.nfc-sheet .facility-workspaces{display:block}
-.nfc-sheet .facility-workspaces nav{width:100%}
 .nfc-admin.nfc-sheet:has(nav[aria-label="Tesis bölümleri"]){--nfc-accent:#6ee7b7}
 .nfc-facility .facility-header{min-height:64px;flex-wrap:wrap;padding:8px 16px}
 .nfc-facility .facility-account-controls{margin-left:auto;min-width:0}
@@ -23,3 +20,7 @@
 .nfc-facility .facility-content [role=alert]{margin-bottom:12px}
 @media(max-width:1023px){.nfc-facility{min-height:calc(100dvh - 24px)}}
 @media(max-width:600px){.facility-shell-root{padding:0}.nfc-facility{min-height:100dvh}.nfc-facility .facility-header{padding:6px 10px;gap:8px}.nfc-facility .facility-content{padding:14px 12px}.nfc-facility .facility-page-title h1{font-size:22px}.nfc-facility .facility-account-controls select{max-width:130px}.nfc-facility .facility-page-title{gap:6px}}
+
+.facility-shell:has(>.workspace-switcher) .nfc-facility{min-height:calc(100dvh - 84px)}
+.facility-shell:has(>.workspace-switcher) .nfc-facility [data-slot=sidebar]{height:calc(100dvh - 84px)}
+@media(max-width:600px){.facility-shell:has(>.workspace-switcher) .nfc-facility{min-height:calc(100dvh - 60px)}}

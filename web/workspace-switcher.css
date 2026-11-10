@@ -1,0 +1,7 @@
+.workspace-switcher{display:flex;justify-content:center;min-width:0;margin:0 0 12px;padding:0 8px}
+.workspace-switcher-control{display:flex;justify-content:center;max-width:100%;padding:3px;gap:3px;background:#0b1728;border:1px solid #26364a;border-radius:12px}
+.workspace-switcher button{min-width:0;min-height:40px;padding:8px 20px;border:1px solid transparent;border-radius:8px;background:transparent;color:#94a3b8;font-size:13px;font-weight:700;line-height:20px;cursor:pointer;transition:background .15s,color .15s}
+.workspace-switcher button:hover{background:#17283c;color:#f1f5f9}
+.workspace-switcher button[aria-pressed=true]{background:#174438;border-color:#2a6853;color:#a7f3d0}
+.workspace-switcher button:focus-visible{outline:2px solid #6ee7b7;outline-offset:2px}
+@media(max-width:600px){.workspace-switcher{padding-top:6px;margin-bottom:6px}.workspace-switcher button{padding:8px 10px;font-size:12px}.workspace-switcher-control{border-radius:10px}}
